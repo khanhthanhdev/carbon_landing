@@ -1,0 +1,342 @@
+{
+  "navigation": {
+    "brand": "Carbon Market",
+    "recommendedBook": "Home",
+    "books": "Books",
+    "search": "Search",
+    "allQuestions": "All Questions",
+    "commonQuestions": "Common Questions",
+    "contact": "Contact",
+    "askAI": "Ask AI"
+  },
+  "hero": {
+    "badge": "100+ Questions About Carbon Markets",
+    "title": "Your Complete Guide to Carbon Markets",
+    "description": "Explore comprehensive question-and-answer pairs about carbon trading, sustainability practices, and green initiatives. Start with our recommended book for foundational understanding.",
+    "readBook": "Read Recommended Book",
+    "browseQuestions": "Browse All Questions",
+    "askAI": "Ask AI",
+    "stats": {
+      "questions": "Q&A Pairs",
+      "categories": "Categories",
+      "support": "Powered Support"
+    }
+  },
+  "footer": {
+    "brand": {
+      "description": "Empowering SMEs with the knowledge and tools to lead in carbon reduction and sustainability."
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "about": "About Us",
+      "training": "Training Programs",
+      "resources": "Resources",
+      "successStories": "Success Stories",
+      "blog": "Blog"
+    },
+    "services": {
+      "title": "Services",
+      "carbonAssessment": "Carbon Assessment",
+      "tradingConsultation": "Trading Consultation",
+      "certificationSupport": "Certification Support",
+      "customTraining": "Custom Training",
+      "ongoingSupport": "Ongoing Support"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "email": "info@carbonlearn.com",
+      "phone": "+1 (234) 567-890",
+      "address": "123 Green Street, Sustainability City, SC 12345"
+    },
+    "bottom": {
+      "copyright": "© 2025 CarbonLearn. All rights reserved.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    }
+  },
+  "search": {
+    "title": "Find Answers to Your Carbon Market Questions",
+    "subtitle": "Search through our comprehensive collection of 100+ questions and answers",
+    "placeholder": "Search for carbon trading, emissions, sustainability...",
+    "searchButton": "Search Questions",
+    "askAI": "Ask AI",
+    "backToHome": "Back to Home",
+    "searching": "Searching for relevant answers...",
+    "errorTitle": "Search Error",
+    "errorMessage": "We couldn't complete your search. Please try again.",
+    "tryAgain": "Try Again",
+    "enterQuery": "Enter at least 3 characters to start searching",
+    "noResultsHint": "Try different keywords or browse all questions",
+    "resultsCount": "Found {count} relevant results",
+    "paginationPlaceholder": "More results coming soon",
+    "filters": {
+      "title": "Filters",
+      "searchType": "Search Type",
+      "category": "Category",
+      "allCategories": "All Categories",
+      "clearAll": "Clear all",
+      "clear": "Clear",
+      "clearAllFilters": "Clear All Filters",
+      "hybrid": "Hybrid",
+      "semantic": "Semantic",
+      "keyword": "Keyword"
+    },
+    "relevanceScore": "Score: {score}%",
+    "semantic": "Semantic",
+    "keyword": "Keyword",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "sources": "{count, plural, =1 {Source} other {Sources}} ({count})",
+    "sourceType": "Source type"
+  },
+  "aiAssistant": {
+    "title": "CarbonLearn AI Assistant",
+    "description": "Powered by Google Gemini to deliver concise, SME-focused insights.",
+    "promptLabel": "What would you like to learn?",
+    "promptPlaceholder": "Describe your question about carbon markets...",
+    "askButton": "Generate Answer",
+    "loading": "Thinking...",
+    "generating": "Generating answer...",
+    "error": "We couldn't generate an answer right now. Please try again soon.",
+    "answerTitle": "AI Recommendation",
+    "sourcesTitle": "Supporting Sources",
+    "emptyPrompt": "Enter a question to ask the assistant.",
+    "welcomeMessage": "Hello! I'm your AI assistant for carbon markets. Ask me anything about carbon trading, sustainability, or emissions.",
+    "relevance": "relevance",
+    "citedExcerpts": "Cited excerpts",
+    "viewFullAnswer": "View full answer",
+    "hideFullAnswer": "Hide full answer",
+    "generatedIn": "Generated in",
+    "sourcesUsed": "sources used"
+  },
+  "bookRecommendation": {
+    "badge": "Essential Reading",
+    "title": "Start with the Fundamentals",
+    "description": "Before diving into specific questions, we highly recommend reading this comprehensive guide to build a strong foundation in carbon markets.",
+    "rating": "Rated 4.8/5 from 1,200+ reviews",
+    "author": "by {author}",
+    "details": {
+      "pages": "Pages",
+      "publisher": "Publisher",
+      "year": "Year"
+    },
+    "cta": {
+      "note": "Already familiar with the basics? Jump straight to our question collection.",
+      "button": "Browse All 100+ Questions"
+    }
+  },
+  "commonQuestions": {
+    "title": "5 Most Common Questions",
+    "description": "Start with these frequently asked questions to understand the essentials of carbon markets",
+    "sourcesCount": "{count} sources",
+    "sourcesTitle": "Related Sources",
+    "askAI": "Ask AI About This",
+    "noSources": "No external sources were provided for this answer",
+    "viewAll": "View All 100+ Questions"
+  },
+  "knowledgeOverview": {
+    "spotlight": "Knowledge Highlights",
+    "title": "Explore the Carbon Knowledge Base",
+    "subtitle": "Dive into structured sections covering regulations, project development, finance, and best practices tailored for Vietnamese enterprises.",
+    "totalSections": "{count} sections",
+    "totalQuestions": "{count} questions",
+    "sectionCta": "Open section",
+    "cta": "Browse the full library"
+  },
+  "bookFlip": {
+    "title": "Your Journey to Carbon Literacy",
+    "description": "Scroll through these essential questions to understand how carbon trading can transform your business",
+    "resourcesTitle": "Related Resources",
+    "progress": "Question {index} of {total}",
+    "askAI": "Ask AI",
+    "pages": {
+      "carbonTrading": {
+        "question": "What is Carbon Trading?",
+        "answer": "Carbon trading is a market-based approach to controlling pollution by providing economic incentives for reducing emissions. Companies can buy and sell permits to emit carbon dioxide, creating a financial motivation to reduce their carbon footprint."
+      },
+      "whySMEs": {
+        "question": "Why Should SMEs Care?",
+        "answer": "SMEs account for a significant portion of global emissions. By participating in carbon trading and reduction programs, small businesses can reduce costs, improve brand reputation, access new markets, and contribute to global sustainability goals."
+      },
+      "businessImpact": {
+        "question": "How Does It Impact Your Business?",
+        "answer": "Carbon trading can open new revenue streams through carbon credits, reduce operational costs through efficiency improvements, enhance your competitive advantage, and ensure compliance with evolving environmental regulations."
+      },
+      "trainingScope": {
+        "question": "What Will You Learn?",
+        "answer": "Our comprehensive training covers carbon accounting, emissions measurement, trading mechanisms, sustainability strategies, regulatory compliance, and practical implementation steps tailored specifically for SME operations."
+      },
+      "callToAction": {
+        "question": "Ready to Make a Difference?",
+        "answer": "Join hundreds of SMEs already benefiting from carbon training. Start your journey towards sustainability, cost savings, and environmental leadership. Together, we can create a greener future for business and the planet."
+      }
+    }
+  },
+  "training": {
+    "badge": "Comprehensive Curriculum",
+    "title": "Training Program Details",
+    "description": "A structured learning path designed to take your business from carbon awareness to carbon leadership",
+    "modules": {
+      "items": [
+        {
+          "title": "Carbon Fundamentals",
+          "duration": "4 weeks",
+          "topics": [
+            "Carbon footprint basics",
+            "Greenhouse gas protocols",
+            "Measurement methodologies",
+            "Industry benchmarks"
+          ]
+        },
+        {
+          "title": "Trading Mechanisms",
+          "duration": "3 weeks",
+          "topics": [
+            "Carbon markets overview",
+            "Credit systems",
+            "Pricing strategies",
+            "Compliance requirements"
+          ]
+        },
+        {
+          "title": "Implementation Strategies",
+          "duration": "5 weeks",
+          "topics": [
+            "Reduction planning",
+            "Technology solutions",
+            "Stakeholder engagement",
+            "ROI analysis"
+          ]
+        },
+        {
+          "title": "Certification & Reporting",
+          "duration": "2 weeks",
+          "topics": [
+            "Reporting standards",
+            "Verification processes",
+            "Certification pathways",
+            "Continuous improvement"
+          ]
+        }
+      ]
+    },
+    "benefits": {
+      "title": "What Makes Our Training Different?",
+      "items": [
+        "Expert-led interactive sessions",
+        "Real-world case studies from SMEs",
+        "Practical tools and templates",
+        "Ongoing support community",
+        "Industry-recognized certification",
+        "Flexible online learning"
+      ]
+    },
+    "imageAlt": "Training session",
+    "badgeCard": {
+      "title": "Certified",
+      "subtitle": "Upon completion"
+    },
+    "stats": {
+      "items": [
+        {
+          "icon": "users",
+          "value": "14 Weeks",
+          "description": "Complete program duration"
+        },
+        {
+          "icon": "book",
+          "value": "50+ Hours",
+          "description": "Of expert instruction"
+        },
+        {
+          "icon": "award",
+          "value": "Lifetime",
+          "description": "Access to materials"
+        }
+      ]
+    },
+    "cta": {
+      "button": "Enroll in Training Program",
+      "note": "Next cohort starts in 2 weeks • Limited spots available"
+    }
+  },
+  "questions": {
+    "title": "Complete Carbon Market Q&A Collection",
+    "description": "Browse our comprehensive collection of {total}+ questions and answers about carbon trading, sustainability, and green initiatives",
+    "searchPlaceholder": "Search questions and answers...",
+    "askAI": "Ask AI",
+    "filterLabel": "Filter by category:",
+    "filters": {
+      "all": "All"
+    },
+    "resultsCount": "Showing {count} of {total} questions",
+    "sourcesHeading": "Sources ({count})",
+    "noResults": "No questions found matching your search.",
+    "clearSearch": "Clear Search",
+    "aiHighlights": {
+      "title": "AI highlights for your search",
+      "loading": "Generating AI insights...",
+      "score": "Match {value}"
+    }
+  },
+  "questionRequest": {
+    "title": "Question Not Found?",
+    "subtitle": "We'll research your question and email you the answer when it's ready",
+    "fields": {
+      "name": {
+        "label": "Your Name",
+        "placeholder": "John Doe"
+      },
+      "email": {
+        "label": "Your Email",
+        "placeholder": "john@example.com"
+      },
+      "question": {
+        "label": "Your Question",
+        "placeholder": "What would you like to know about carbon markets?"
+      }
+    },
+    "actions": {
+      "submit": "Request Answer",
+      "submitting": "Submitting..."
+    },
+    "success": {
+      "title": "Request Submitted!",
+      "description": "We'll research your question and send the answer to {email} once available.",
+      "cta": "Search Again"
+    }
+  },
+  "feedback": {
+    "trigger": "Share feedback",
+    "title": "Share Your Feedback",
+    "description": "Help us improve by sharing your experience",
+    "fields": {
+      "rating": {
+        "label": "Your Rating",
+        "option": "Rate {value} out of 5"
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your@email.com"
+      },
+      "comment": {
+        "label": "Comments",
+        "placeholder": "Share your thoughts..."
+      }
+    },
+    "actions": {
+      "submit": "Submit Feedback",
+      "submitting": "Submitting...",
+      "close": "Close"
+    },
+    "success": {
+      "title": "Thank You!",
+      "message": "Your feedback has been submitted successfully."
+    }
+  }
+}

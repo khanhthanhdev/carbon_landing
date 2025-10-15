@@ -1,0 +1,342 @@
+{
+  "navigation": {
+    "brand": "Thị trường Carbon",
+    "recommendedBook": "Trang chủ",
+    "books": "Sách",
+    "search": "Tìm Kiếm",
+    "allQuestions": "Tất Cả Câu Hỏi",
+    "commonQuestions": "Câu Hỏi Thường Gặp",
+    "contact": "Liên Hệ",
+    "askAI": "Hỏi AI"
+  },
+  "hero": {
+    "badge": "100+ Câu Hỏi Về Thị Trường Carbon",
+    "title": "Hướng Dẫn Hoàn Chỉnh Về Thị Trường Carbon",
+    "description": "Khám phá các cặp câu hỏi và trả lời toàn diện về giao dịch carbon, thực hành bền vững và các sáng kiến xanh. Bắt đầu với cuốn sách được khuyến nghị để hiểu nền tảng.",
+    "readBook": "Đọc Sách Khuyến Nghị",
+    "browseQuestions": "Xem Tất Cả Câu Hỏi",
+    "askAI": "Hỏi AI",
+    "stats": {
+      "questions": "Cặp Hỏi Đáp",
+      "categories": "Danh Mục",
+      "support": "Hỗ Trợ Bởi AI"
+    }
+  },
+  "footer": {
+    "brand": {
+      "description": "Trao quyền cho các doanh nghiệp SME với kiến thức và công cụ để dẫn dắt trong việc giảm carbon và bền vững."
+    },
+    "quickLinks": {
+      "title": "Liên Kết Nhanh",
+      "about": "Về Chúng Tôi",
+      "training": "Chương Trình Đào Tạo",
+      "resources": "Tài Nguyên",
+      "successStories": "Câu Chuyện Thành Công",
+      "blog": "Blog"
+    },
+    "services": {
+      "title": "Dịch Vụ",
+      "carbonAssessment": "Đánh Giá Carbon",
+      "tradingConsultation": "Tư Vấn Giao Dịch",
+      "certificationSupport": "Hỗ Trợ Chứng Nhận",
+      "customTraining": "Đào Tạo Tùy Chỉnh",
+      "ongoingSupport": "Hỗ Trợ Liên Tục"
+    },
+    "contact": {
+      "title": "Liên Hệ Chúng Tôi",
+      "email": "info@carbonlearn.com",
+      "phone": "+1 (234) 567-890",
+      "address": "123 Đường Xanh, Thành Phố Bền Vững, SC 12345"
+    },
+    "bottom": {
+      "copyright": "© 2025 CarbonLearn. Tất cả quyền được bảo lưu.",
+      "privacy": "Chính Sách Bảo Mật",
+      "terms": "Điều Khoản Dịch Vụ",
+      "cookies": "Chính Sách Cookie"
+    }
+  },
+  "search": {
+    "title": "Tìm Kiếm Câu Hỏi Về Thị Trường Carbon",
+    "subtitle": "Tìm kiếm trong bộ sưu tập hơn 100 câu hỏi và câu trả lời của chúng tôi",
+    "placeholder": "Tìm kiếm giao dịch carbon, phát thải, bền vững...",
+    "searchButton": "Tìm Kiếm Câu Hỏi",
+    "askAI": "Hỏi AI",
+    "backToHome": "Về Trang Chủ",
+    "searching": "Đang tìm kiếm câu trả lời phù hợp...",
+    "errorTitle": "Lỗi Tìm Kiếm",
+    "errorMessage": "Không thể hoàn tất tìm kiếm. Vui lòng thử lại.",
+    "tryAgain": "Thử Lại",
+    "enterQuery": "Nhập ít nhất 3 ký tự để bắt đầu tìm kiếm",
+    "noResultsHint": "Thử từ khóa khác hoặc duyệt tất cả câu hỏi",
+    "resultsCount": "Tìm thấy {count} kết quả phù hợp",
+    "paginationPlaceholder": "Thêm kết quả sẽ sớm có",
+    "filters": {
+      "title": "Bộ Lọc",
+      "searchType": "Loại Tìm Kiếm",
+      "category": "Danh Mục",
+      "allCategories": "Tất Cả Danh Mục",
+      "clearAll": "Xóa tất cả",
+      "clear": "Xóa",
+      "clearAllFilters": "Xóa Tất Cả Bộ Lọc",
+      "hybrid": "Kết Hợp",
+      "semantic": "Ngữ Nghĩa",
+      "keyword": "Từ Khóa"
+    },
+    "relevanceScore": "Điểm: {score}%",
+    "semantic": "Ngữ Nghĩa",
+    "keyword": "Từ Khóa",
+    "showMore": "Xem thêm",
+    "showLess": "Thu gọn",
+    "sources": "{count, plural, =1 {Nguồn} other {Nguồn}} ({count})",
+    "sourceType": "Loại nguồn"
+  },
+  "aiAssistant": {
+    "title": "Trợ Lý AI CarbonLearn",
+    "description": "Được hỗ trợ bởi Google Gemini để mang đến gợi ý ngắn gọn cho doanh nghiệp SME.",
+    "promptLabel": "Bạn muốn tìm hiểu điều gì?",
+    "promptPlaceholder": "Mô tả câu hỏi của bạn về thị trường carbon...",
+    "askButton": "Tạo câu trả lời",
+    "loading": "Đang suy nghĩ...",
+    "generating": "Đang tạo câu trả lời...",
+    "error": "Hiện không thể tạo câu trả lời, vui lòng thử lại sau.",
+    "answerTitle": "Gợi ý từ AI",
+    "sourcesTitle": "Nguồn tham chiếu",
+    "emptyPrompt": "Hãy nhập câu hỏi để hỏi trợ lý.",
+    "welcomeMessage": "Xin chào! Tôi là trợ lý AI về thị trường carbon. Hãy hỏi tôi bất cứ điều gì về giao dịch carbon, bền vững, hoặc phát thải.",
+    "relevance": "độ liên quan",
+    "citedExcerpts": "Trích dẫn",
+    "viewFullAnswer": "Xem câu trả lời đầy đủ",
+    "hideFullAnswer": "Ẩn câu trả lời đầy đủ",
+    "generatedIn": "Tạo trong",
+    "sourcesUsed": "nguồn được sử dụng"
+  },
+  "bookRecommendation": {
+    "badge": "Tài Liệu Nên Đọc",
+    "title": "Bắt Đầu Với Kiến Thức Nền Tảng",
+    "description": "Trước khi đi sâu vào từng câu hỏi, chúng tôi khuyến nghị bạn đọc cuốn cẩm nang toàn diện này để xây dựng nền tảng vững chắc về thị trường carbon.",
+    "rating": "Được đánh giá 4.8/5 từ hơn 1.200 phản hồi",
+    "author": "tác giả {author}",
+    "details": {
+      "pages": "Số Trang",
+      "publisher": "Nhà Xuất Bản",
+      "year": "Năm"
+    },
+    "cta": {
+      "note": "Đã nắm được kiến thức cơ bản? Hãy chuyển ngay tới bộ sưu tập câu hỏi của chúng tôi.",
+      "button": "Xem Tất Cả 50+ Câu Hỏi"
+    }
+  },
+  "commonQuestions": {
+    "title": "5 Câu Hỏi Phổ Biến Nhất",
+    "description": "Bắt đầu với những câu hỏi thường gặp này để hiểu những điểm cốt lõi của thị trường carbon",
+    "sourcesCount": "{count} nguồn tham khảo",
+    "sourcesTitle": "Nguồn tham khảo liên quan",
+    "askAI": "Hỏi AI về câu này",
+    "noSources": "Chưa có nguồn tham khảo nào được cung cấp cho câu trả lời này",
+    "viewAll": "Xem Toàn Bộ 50+ Câu Hỏi"
+  },
+  "knowledgeOverview": {
+    "spotlight": "Chủ đề nổi bật",
+    "title": "Khám phá thư viện kiến thức carbon",
+    "subtitle": "Các chuyên mục được sắp xếp về chính sách, phát triển dự án, tài chính và thực hành tốt dành riêng cho doanh nghiệp Việt Nam.",
+    "totalSections": "{count} chuyên mục",
+    "totalQuestions": "{count} câu hỏi",
+    "sectionCta": "Xem chuyên mục",
+    "cta": "Xem toàn bộ thư viện"
+  },
+  "bookFlip": {
+    "title": "Hành Trình Trở Thành Người Am Hiểu Carbon",
+    "description": "Lướt qua những câu hỏi trọng yếu để thấy giao dịch carbon có thể thay đổi doanh nghiệp của bạn như thế nào",
+    "resourcesTitle": "Nguồn tham khảo",
+    "progress": "Câu hỏi {index} trên {total}",
+    "askAI": "Hỏi AI",
+    "pages": {
+      "carbonTrading": {
+        "question": "Carbon Trading là gì?",
+        "answer": "Carbon trading là cách tiếp cận dựa trên thị trường nhằm kiểm soát ô nhiễm bằng cách tạo ra các khuyến khích kinh tế để giảm phát thải. Doanh nghiệp có thể mua và bán giấy phép phát thải CO₂, từ đó hình thành động lực tài chính để cắt giảm dấu chân carbon của mình."
+      },
+      "whySMEs": {
+        "question": "Vì sao doanh nghiệp SME nên quan tâm?",
+        "answer": "Các SME chiếm tỷ trọng lớn trong tổng phát thải. Tham gia chương trình giao dịch và giảm carbon giúp doanh nghiệp tiết kiệm chi phí, nâng cao uy tín thương hiệu, mở rộng thị trường và đóng góp cho các mục tiêu phát triển bền vững toàn cầu."
+      },
+      "businessImpact": {
+        "question": "Ảnh hưởng đến doanh nghiệp của bạn ra sao?",
+        "answer": "Giao dịch carbon mở ra nguồn thu mới thông qua tín chỉ carbon, giảm chi phí vận hành nhờ tối ưu hiệu suất, gia tăng lợi thế cạnh tranh và bảo đảm tuân thủ các quy định môi trường đang thay đổi."
+      },
+      "trainingScope": {
+        "question": "Bạn sẽ học được gì?",
+        "answer": "Chương trình đào tạo toàn diện của chúng tôi bao gồm kế toán carbon, đo lường phát thải, cơ chế giao dịch, chiến lược bền vững, tuân thủ pháp lý và các bước triển khai thực tế dành riêng cho SME."
+      },
+      "callToAction": {
+        "question": "Sẵn sàng tạo ra khác biệt?",
+        "answer": "Hàng trăm SME đã hưởng lợi từ đào tạo về carbon. Hãy bắt đầu hành trình hướng tới bền vững, tiết kiệm chi phí và dẫn đầu môi trường. Cùng nhau chúng ta tạo nên tương lai xanh cho doanh nghiệp và hành tinh."
+      }
+    }
+  },
+  "training": {
+    "badge": "Chương Trình Toàn Diện",
+    "title": "Chi Tiết Chương Trình Đào Tạo",
+    "description": "Lộ trình học tập được thiết kế để đưa doanh nghiệp từ nhận thức carbon đến vị thế dẫn đầu",
+    "modules": {
+      "items": [
+        {
+          "title": "Kiến Thức Cơ Bản Về Carbon",
+          "duration": "4 tuần",
+          "topics": [
+            "Khái niệm về dấu chân carbon",
+            "Chuẩn mực khí nhà kính",
+            "Phương pháp đo lường",
+            "Chuẩn tham chiếu ngành"
+          ]
+        },
+        {
+          "title": "Cơ Chế Giao Dịch",
+          "duration": "3 tuần",
+          "topics": [
+            "Tổng quan thị trường carbon",
+            "Hệ thống tín chỉ",
+            "Chiến lược định giá",
+            "Yêu cầu tuân thủ"
+          ]
+        },
+        {
+          "title": "Chiến Lược Triển Khai",
+          "duration": "5 tuần",
+          "topics": [
+            "Lập kế hoạch cắt giảm",
+            "Giải pháp công nghệ",
+            "Gắn kết các bên liên quan",
+            "Phân tích ROI"
+          ]
+        },
+        {
+          "title": "Chứng Nhận & Báo Cáo",
+          "duration": "2 tuần",
+          "topics": [
+            "Chuẩn mực báo cáo",
+            "Quy trình thẩm định",
+            "Lộ trình chứng nhận",
+            "Cải tiến liên tục"
+          ]
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Điều Gì Khiến Chương Trình Của Chúng Tôi Khác Biệt?",
+      "items": [
+        "Phiên học tương tác cùng chuyên gia",
+        "Tình huống thực tế từ SME",
+        "Công cụ và biểu mẫu thực hành",
+        "Cộng đồng hỗ trợ liên tục",
+        "Chứng nhận được công nhận trong ngành",
+        "Học trực tuyến linh hoạt"
+      ]
+    },
+    "imageAlt": "Buổi đào tạo",
+    "badgeCard": {
+      "title": "Chứng nhận",
+      "subtitle": "Sau khi hoàn thành"
+    },
+    "stats": {
+      "items": [
+        {
+          "icon": "users",
+          "value": "14 Tuần",
+          "description": "Tổng thời lượng chương trình"
+        },
+        {
+          "icon": "book",
+          "value": "50+ Giờ",
+          "description": "Giờ học với chuyên gia"
+        },
+        {
+          "icon": "award",
+          "value": "Trọn Đời",
+          "description": "Truy cập tài liệu"
+        }
+      ]
+    },
+    "cta": {
+      "button": "Đăng Ký Chương Trình Đào Tạo",
+      "note": "Lớp tiếp theo bắt đầu trong 2 tuần • Số lượng có hạn"
+    }
+  },
+  "questions": {
+    "title": "Bộ Sưu Tập Hỏi Đáp Về Thị Trường Carbon",
+    "description": "Khám phá bộ sưu tập {total}+ câu hỏi và câu trả lời về giao dịch carbon, bền vững và các sáng kiến xanh",
+    "searchPlaceholder": "Tìm kiếm câu hỏi và câu trả lời...",
+    "askAI": "Hỏi AI",
+    "filterLabel": "Lọc theo danh mục:",
+    "filters": {
+      "all": "Tất cả"
+    },
+    "resultsCount": "Hiển thị {count}/{total} câu hỏi",
+    "sourcesHeading": "Nguồn tham khảo ({count})",
+    "aiHighlights": {
+      "title": "Gợi ý từ AI cho tìm kiếm của bạn",
+      "loading": "AI đang phân tích thông tin...",
+      "score": "Mức phù hợp {value}"
+    },
+    "noResults": "Không tìm thấy câu hỏi phù hợp với tìm kiếm của bạn.",
+    "clearSearch": "Xóa tìm kiếm"
+  },
+  "questionRequest": {
+    "title": "Không Tìm Thấy Câu Hỏi?",
+    "subtitle": "Chúng tôi sẽ tìm hiểu câu hỏi của bạn và gửi câu trả lời qua email khi sẵn sàng",
+    "fields": {
+      "name": {
+        "label": "Tên của bạn",
+        "placeholder": "Nguyễn Văn A"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "ban@example.com"
+      },
+      "question": {
+        "label": "Câu hỏi của bạn",
+        "placeholder": "Bạn muốn biết gì về thị trường carbon?"
+      }
+    },
+    "actions": {
+      "submit": "Gửi yêu cầu",
+      "submitting": "Đang gửi..."
+    },
+    "success": {
+      "title": "Đã nhận yêu cầu!",
+      "description": "Chúng tôi sẽ tìm hiểu câu hỏi của bạn và gửi câu trả lời đến {email} khi sẵn sàng.",
+      "cta": "Tìm kiếm lại"
+    }
+  },
+  "feedback": {
+    "trigger": "Gửi phản hồi",
+    "title": "Chia Sẻ Phản Hồi Của Bạn",
+    "description": "Hỗ trợ chúng tôi cải thiện bằng cách chia sẻ trải nghiệm của bạn",
+    "fields": {
+      "rating": {
+        "label": "Đánh Giá Của Bạn",
+        "option": "Đánh giá {value}/5"
+      },
+      "name": {
+        "label": "Tên",
+        "placeholder": "Tên của bạn"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "ban@email.com"
+      },
+      "comment": {
+        "label": "Nhận Xét",
+        "placeholder": "Chia sẻ suy nghĩ của bạn..."
+      }
+    },
+    "actions": {
+      "submit": "Gửi phản hồi",
+      "submitting": "Đang gửi...",
+      "close": "Đóng"
+    },
+    "success": {
+      "title": "Cảm Ơn!",
+      "message": "Phản hồi của bạn đã được gửi thành công."
+    }
+  }
+}
