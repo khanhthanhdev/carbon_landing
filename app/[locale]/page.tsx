@@ -1,3 +1,4 @@
+import { buildPageMetadata } from "@/lib/seo";
 import { Navigation } from "@/components/navigation";
 import { Hero } from "@/components/hero";
 import { MainSearchSection } from "@/components/main-search-section";
@@ -9,6 +10,14 @@ import { TrainingDetails } from "@/components/training-details";
 import { Footer } from "@/components/footer";
 import { FeedbackForm } from "@/components/feedback-form";
 import { FeedbackSection } from "@/components/feedback-section";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  return buildPageMetadata("home", params?.locale);
+}
 
 export default function HomePage() {
   return (

@@ -1,2 +1,2 @@
-export { metadata } from "./[locale]/layout";
+export { generateMetadata, generateStaticParams } from "./[locale]/layout";
 export { default } from "./[locale]/layout";

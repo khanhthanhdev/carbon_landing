@@ -2,7 +2,13 @@
 
 import { Card } from "@/components/ui/card"
 import { ExternalLink, FileText, BookOpen } from "lucide-react"
-import type { Citation } from "@/app/[locale]/ask-ai/page"
+interface Citation {
+  id: number
+  text?: string
+  source: string
+  page?: string
+  url?: string
+}
 
 interface CitationPanelProps {
   citations: Citation[]

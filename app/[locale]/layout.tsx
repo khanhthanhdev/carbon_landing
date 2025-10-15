@@ -1,5 +1,4 @@
 import type React from "react";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { NextIntlClientProvider } from "next-intl";
@@ -8,18 +7,20 @@ import { Suspense } from "react";
 import "../globals.css";
 import { locales } from "@/i18n/request";
 import { Providers } from "@/app/providers";
+import { buildPageMetadata } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
   variable: "--font-inter",
 });
 
-export const metadata: Metadata = {
-  title: "CarbonLearn - Carbon Training for SMEs",
-  description:
-    "Comprehensive carbon trading and sustainability training programs designed specifically for SME companies",
-  generator: "VinUni & British Council",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  return buildPageMetadata("home", params?.locale);
+}
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -30,9 +31,9 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }>) {
-  const { locale } = await params;
+  const { locale } = params;
   const resolvedLocale = locales.includes(locale as (typeof locales)[number]) ? locale : "vi";
 
   setRequestLocale(resolvedLocale);
