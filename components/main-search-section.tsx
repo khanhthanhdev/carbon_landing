@@ -9,10 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MessageSquare } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { AiAssistantDialog } from "@/components/ai-assistant-dialog";
+import { AIChatDialog } from "@/components/ai-chat-dialog";
 
 export function MainSearchSection() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("search");
@@ -21,7 +22,9 @@ export function MainSearchSection() {
     event.preventDefault();
     const trimmedQuery = searchQuery.trim();
     if (trimmedQuery.length > 0) {
-      router.push(`/${locale}/search?q=${encodeURIComponent(trimmedQuery)}`);
+      const params = new URLSearchParams();
+      params.set("q", trimmedQuery);
+      router.push(`/${locale}/search?${params.toString()}`);
     }
   };
 
@@ -60,25 +63,27 @@ export function MainSearchSection() {
                   <Search className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   {t("searchButton")}
                 </Button>
-                <AiAssistantDialog
-                  initialPrompt={searchQuery}
-                  trigger={
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="lg"
-                      className="flex-1 h-11 sm:h-12 text-sm sm:text-base bg-transparent"
-                    >
-                      <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                      {t("askAI")}
-                    </Button>
-                  }
-                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                  className="flex-1 h-11 sm:h-12 text-sm sm:text-base bg-transparent"
+                  onClick={() => setIsAIDialogOpen(true)}
+                >
+                  <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                  {t("askAI")}
+                </Button>
               </div>
             </form>
           </Card>
         </div>
       </div>
+
+      <AIChatDialog
+        isOpen={isAIDialogOpen}
+        onClose={() => setIsAIDialogOpen(false)}
+        initialContext={searchQuery || undefined}
+      />
     </section>
   );
 }

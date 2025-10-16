@@ -366,6 +366,26 @@
       "placeholder": "Hỏi một câu hỏi về thị trường carbon...",
       "inputHelp": "Enter để gửi • Shift + Enter để xuống dòng"
     },
+    "dialog": {
+      "title": "Trợ Lý AI Thị Trường Carbon",
+      "subtitle": "Hỏi tôi bất cứ điều gì về thị trường carbon",
+      "loading": "Đang tải cuộc trò chuyện...",
+      "welcomeTitle": "Trợ Lý AI Thị Trường Carbon",
+      "contextualDescription": "Hỏi tôi bất cứ điều gì về: \"{context}\"",
+      "defaultDescription": "Hỏi tôi bất cứ điều gì về thị trường carbon, bền vững và hành động khí hậu.",
+      "suggestedHeader": "💡 Hãy thử hỏi:",
+      "contextualQuestion1": "Kể cho tôi thêm về chủ đề này",
+      "contextualQuestion2": "Những khái niệm chính là gì?",
+      "contextualQuestion3": "Nó hoạt động như thế nào trong thực tế?",
+      "generalQuestion1": "Tín chỉ carbon là gì?",
+      "generalQuestion2": "Thị trường carbon hoạt động như thế nào?",
+      "generalQuestion3": "Các loại dự án bù đắp carbon",
+      "generalQuestion4": "Công ty có thể tham gia như thế nào?",
+      "thinking": "Đang suy nghĩ...",
+      "errorMessage": "Không thể gửi tin nhắn. Vui lòng thử lại.",
+      "inputPlaceholder": "Nhập câu hỏi của bạn ở đây...",
+      "inputHelp": "Nhấn Enter để gửi"
+    },
     "messages": {
       "copyMessage": "Sao chép tin nhắn",
       "editMessage": "Chỉnh sửa tin nhắn",

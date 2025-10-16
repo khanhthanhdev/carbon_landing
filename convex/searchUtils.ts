@@ -133,6 +133,139 @@ export function mergeWithRRF(
   return mergedResults;
 }
 
+const interpolateScore = (index: number, total: number, top: number, bottom: number) => {
+  if (total <= 1) {
+    return top;
+  }
+  const ratio = index / (total - 1);
+  return top - (top - bottom) * ratio;
+};
+
+/**
+ * Merges search results while prioritising keyword (full-text) hits before vector hits.
+ *
+ * The algorithm keeps all full-text results in their original order at the top of the list,
+ * then appends unique vector-only results. Scores are normalised to the [0, 1] range with
+ * full-text results occupying the upper band so they are surfaced first in the UI.
+ *
+ * @param vectorResults - Results from vector search.
+ * @param textResults - Results from full-text search.
+ * @param query - Raw search query used to evaluate exact matches.
+ * @param alpha - Optional weight that controls how much vector matches boost keyword hits.
+ * @returns Merged results with keyword hits first and hybrid scores in a friendly range.
+ */
+export function mergeWithKeywordPriority(
+  vectorResults: SearchResult[],
+  textResults: SearchResult[],
+  query: string,
+  alpha: number = 0.6
+): MergedSearchResult[] {
+  const resultsMap = new Map<
+    string,
+    {
+      doc: SearchResult;
+      score: number;
+      reasons: Set<string>;
+      textRank?: number;
+      vectorRank?: number;
+    }
+  >();
+
+  const hasTextResults = textResults.length > 0;
+  const normalizedQuery = normalizeForMatch(query);
+  const hasQuery = normalizedQuery.length > 0;
+
+  const TEXT_TOP = 1;
+  const TEXT_BOTTOM = hasTextResults ? 0.6 : 0.5;
+  const VECTOR_TOP = hasTextResults ? 0.55 : 1;
+  const VECTOR_BOTTOM = hasTextResults ? 0.2 : 0.3;
+
+  textResults.forEach((doc, index) => {
+    const score = interpolateScore(index, textResults.length, TEXT_TOP, TEXT_BOTTOM);
+    resultsMap.set(doc._id, {
+      doc: {
+        ...doc,
+        textScore: doc.textScore,
+      },
+      score,
+      reasons: new Set<string>(["fts"]),
+      textRank: index,
+    });
+  });
+
+  vectorResults.forEach((doc, index) => {
+    const baseVectorScore = interpolateScore(index, vectorResults.length, VECTOR_TOP, VECTOR_BOTTOM);
+    const existing = resultsMap.get(doc._id);
+
+    if (existing) {
+      existing.reasons.add("vector");
+      existing.doc = {
+        ...existing.doc,
+        vectorScore: doc.vectorScore,
+      };
+      const boost = baseVectorScore * Math.min(1, Math.max(alpha, 0)) * 0.25;
+      existing.score = Math.min(TEXT_TOP, existing.score + boost);
+      existing.vectorRank = index;
+    } else {
+      resultsMap.set(doc._id, {
+        doc: {
+          ...doc,
+          vectorScore: doc.vectorScore,
+        },
+        score: baseVectorScore,
+        reasons: new Set<string>(["vector"]),
+        vectorRank: index,
+      });
+    }
+  });
+
+  const entries = Array.from(resultsMap.values());
+
+  if (hasQuery) {
+    entries.forEach((entry) => {
+      const { doc, reasons } = entry;
+      const normalizedQuestion = normalizeForMatch(doc.question);
+
+      if (normalizedQuestion === normalizedQuery) {
+        entry.score = TEXT_TOP;
+        reasons.add("exact-question");
+        return;
+      }
+
+      const answerMatch = doc.answer
+        ? normalizeForMatch(doc.answer).includes(normalizedQuery)
+        : false;
+
+      if (answerMatch) {
+        entry.score = Math.max(entry.score, 0.9);
+        reasons.add("answer-match");
+      }
+    });
+  }
+
+  return entries
+    .map(({ doc, score, reasons }) => ({
+      ...doc,
+      hybridScore: Number(Math.min(1, Math.max(0, score)).toFixed(6)),
+      reasons: Array.from(reasons),
+    }))
+    .sort((a, b) => {
+      if (b.hybridScore !== a.hybridScore) {
+        return b.hybridScore - a.hybridScore;
+      }
+      return a._id.localeCompare(b._id);
+    });
+}
+
+function normalizeForMatch(value: string | undefined): string {
+  if (!value) return "";
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
 /**
  * Normalizes scores to 0-1 range for display purposes
  * 

@@ -366,6 +366,26 @@
       "placeholder": "Ask a question about carbon markets...",
       "inputHelp": "Enter to send • Shift + Enter for new line"
     },
+    "dialog": {
+      "title": "Carbon Market AI Assistant",
+      "subtitle": "Ask me anything about carbon markets",
+      "loading": "Loading chat...",
+      "welcomeTitle": "Carbon Market AI Assistant",
+      "contextualDescription": "Ask me anything about: \"{context}\"",
+      "defaultDescription": "Ask me anything about carbon markets, sustainability, and climate action.",
+      "suggestedHeader": "💡 Try asking:",
+      "contextualQuestion1": "Tell me more about this topic",
+      "contextualQuestion2": "What are the key concepts?",
+      "contextualQuestion3": "How does it work in practice?",
+      "generalQuestion1": "What is a carbon credit?",
+      "generalQuestion2": "How do carbon markets work?",
+      "generalQuestion3": "Types of carbon offset projects",
+      "generalQuestion4": "How can companies participate?",
+      "thinking": "Thinking...",
+      "errorMessage": "Failed to send message. Please try again.",
+      "inputPlaceholder": "Type your question here...",
+      "inputHelp": "Press Enter to send"
+    },
     "messages": {
       "copyMessage": "Copy message",
       "editMessage": "Edit message",

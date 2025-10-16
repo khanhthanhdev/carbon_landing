@@ -71,16 +71,16 @@ export function SearchResults({
 
       {/* Error State */}
       {error && (
-        <Card className="p-8 sm:p-12 text-center border-2 border-destructive/50 bg-destructive/5">
-          <AlertCircle className="h-8 w-8 mx-auto mb-4 text-destructive" />
-          <h3 className="text-lg font-semibold text-foreground mb-2">
+        <Card className="p-6 sm:p-8 md:p-12 text-center border-2 border-destructive/50 bg-destructive/5">
+          <AlertCircle className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-3 sm:mb-4 text-destructive" />
+          <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">
             {t("errorTitle")}
           </h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
             {error instanceof Error ? error.message : t("errorMessage")}
           </p>
           {onRetry && (
-            <Button variant="outline" onClick={onRetry}>
+            <Button variant="outline" size="sm" onClick={onRetry}>
               {t("tryAgain")}
             </Button>
           )}
@@ -89,9 +89,9 @@ export function SearchResults({
 
       {/* Initial State */}
       {showInitialState && !error && (
-        <Card className="p-8 sm:p-12 text-center border-2">
-          <Search className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-          <p className="text-base sm:text-lg text-muted-foreground">
+        <Card className="p-6 sm:p-8 md:p-12 text-center border-2">
+          <Search className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 text-muted-foreground" />
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground">
             {t("enterQuery")}
           </p>
         </Card>
@@ -99,15 +99,15 @@ export function SearchResults({
 
       {/* No Results */}
       {showNoResults && (
-        <Card className="p-8 sm:p-12 text-center border-2">
-          <p className="text-base sm:text-lg text-muted-foreground mb-4">
+        <Card className="p-6 sm:p-8 md:p-12 text-center border-2">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-3 sm:mb-4">
             {tQuestions("noResults")}
           </p>
-          <p className="text-sm text-muted-foreground mb-6">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
             {t("noResultsHint")}
           </p>
           {onClearSearch && (
-            <Button variant="outline" onClick={onClearSearch}>
+            <Button variant="outline" size="sm" onClick={onClearSearch}>
               {tQuestions("clearSearch")}
             </Button>
           )}
@@ -116,12 +116,12 @@ export function SearchResults({
 
       {/* Search Results */}
       {hasResults && !isLoading && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Results Header */}
           <SearchResultsHeader results={results} metadata={metadata} />
 
           {/* Results List */}
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
             {results.map((result) => (
               <ResultCard key={result._id} result={result} />
             ))}
@@ -129,8 +129,8 @@ export function SearchResults({
 
           {/* Pagination Placeholder */}
           {results.length >= 10 && (
-            <div className="flex justify-center pt-6">
-              <p className="text-sm text-muted-foreground">
+            <div className="flex justify-center pt-4 sm:pt-6">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Showing top {results.length} results
               </p>
             </div>
@@ -154,17 +154,17 @@ function SearchResultsHeader({
   const t = useTranslations("search");
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="flex flex-col gap-2 sm:gap-4">
       <div className="flex flex-col gap-1">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs sm:text-sm text-muted-foreground">
           {t("resultsCount", { count: results.length })}
         </p>
         {metadata && (
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <span>Search type: {metadata.searchType}</span>
-            <span>Time: {metadata.latencyMs}ms</span>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground">
+            <span className="truncate">Search type: {metadata.searchType}</span>
+            <span className="whitespace-nowrap">Time: {metadata.latencyMs}ms</span>
             {metadata.usedCache && (
-              <Badge variant="secondary" className="text-xs">
+              <Badge variant="secondary" className="text-[10px] sm:text-xs">
                 Cached
               </Badge>
             )}
@@ -182,29 +182,29 @@ function SearchResultsHeader({
  */
 function SearchResultsSkeleton() {
   return (
-    <Card className="p-8 sm:p-12 text-center border-2">
-      <div className="animate-pulse space-y-6">
+    <Card className="p-6 sm:p-8 md:p-12 text-center border-2">
+      <div className="animate-pulse space-y-4 sm:space-y-6">
         {/* Header skeleton */}
         <div className="space-y-2">
-          <div className="h-4 bg-muted rounded w-1/4 mx-auto" />
-          <div className="h-3 bg-muted rounded w-1/3 mx-auto" />
+          <div className="h-3 sm:h-4 bg-muted rounded w-1/3 sm:w-1/4 mx-auto" />
+          <div className="h-2.5 sm:h-3 bg-muted rounded w-1/2 sm:w-1/3 mx-auto" />
         </div>
         
         {/* Results skeleton */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="border rounded-lg p-6 space-y-4">
+            <div key={i} className="border rounded-lg p-4 sm:p-6 space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <div className="h-5 bg-muted rounded w-3/4" />
-                <div className="flex gap-2">
-                  <div className="h-6 bg-muted rounded w-20" />
-                  <div className="h-6 bg-muted rounded w-16" />
+                <div className="h-4 sm:h-5 bg-muted rounded w-full sm:w-3/4" />
+                <div className="flex gap-1.5 sm:gap-2">
+                  <div className="h-5 sm:h-6 bg-muted rounded w-16 sm:w-20" />
+                  <div className="h-5 sm:h-6 bg-muted rounded w-12 sm:w-16" />
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="h-4 bg-muted rounded w-full" />
-                <div className="h-4 bg-muted rounded w-5/6" />
-                <div className="h-4 bg-muted rounded w-4/6" />
+                <div className="h-3.5 sm:h-4 bg-muted rounded w-full" />
+                <div className="h-3.5 sm:h-4 bg-muted rounded w-11/12 sm:w-5/6" />
+                <div className="h-3.5 sm:h-4 bg-muted rounded w-3/4 sm:w-4/6" />
               </div>
             </div>
           ))}

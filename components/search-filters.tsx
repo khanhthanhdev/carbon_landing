@@ -32,15 +32,15 @@ export function SearchFilters({
 
   return (
     <div className={cn("flex justify-center", className)}>
-      <Tabs value={searchType} onValueChange={onSearchTypeChange} className="w-auto">
-        <TabsList className="grid grid-cols-3 h-8">
-          <TabsTrigger value="hybrid" className="text-xs px-3">
+      <Tabs value={searchType} onValueChange={onSearchTypeChange} className="w-full sm:w-auto">
+        <TabsList className="grid grid-cols-3 h-9 sm:h-10 w-full sm:w-auto">
+          <TabsTrigger value="hybrid" className="text-xs sm:text-sm px-2 sm:px-4">
             {t("hybrid")}
           </TabsTrigger>
-          <TabsTrigger value="vector" className="text-xs px-3">
+          <TabsTrigger value="vector" className="text-xs sm:text-sm px-2 sm:px-4">
             {t("semantic")}
           </TabsTrigger>
-          <TabsTrigger value="fulltext" className="text-xs px-3">
+          <TabsTrigger value="fulltext" className="text-xs sm:text-sm px-2 sm:px-4">
             {t("keyword")}
           </TabsTrigger>
         </TabsList>

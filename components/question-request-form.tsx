@@ -59,15 +59,15 @@ export function QuestionRequestForm({ searchQuery }: QuestionRequestFormProps) {
 
   if (isSubmitted) {
     return (
-      <Card className="p-6 sm:p-8 lg:p-10 border-2 text-center">
-        <div className="bg-primary/10 text-primary rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-          <Mail className="h-8 w-8" />
+      <Card className="p-4 sm:p-6 md:p-8 lg:p-10 border-2 text-center">
+        <div className="bg-primary/10 text-primary rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+          <Mail className="h-6 w-6 sm:h-8 sm:w-8" />
         </div>
-        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">{t("success.title")}</h3>
-        <p className="text-sm sm:text-base text-muted-foreground mb-4">
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-2 sm:mb-3">{t("success.title")}</h3>
+        <p className="text-xs sm:text-sm md:text-base text-muted-foreground mb-3 sm:mb-4 px-2">
           {t("success.description", { email })}
         </p>
-        <Button variant="outline" onClick={() => window.location.reload()}>
+        <Button variant="outline" size="sm" onClick={() => window.location.reload()}>
           {t("success.cta")}
         </Button>
       </Card>
@@ -75,26 +75,26 @@ export function QuestionRequestForm({ searchQuery }: QuestionRequestFormProps) {
   }
 
   return (
-    <Card className="p-6 sm:p-8 lg:p-10 border-2">
-      <div className="text-center mb-6">
-        <div className="bg-muted rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-          <HelpCircle className="h-8 w-8 text-muted-foreground" />
+    <Card className="p-4 sm:p-6 md:p-8 lg:p-10 border-2">
+      <div className="text-center mb-4 sm:mb-6">
+        <div className="bg-muted rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+          <HelpCircle className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground" />
         </div>
-        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2">{t("title")}</h3>
-        <p className="text-sm sm:text-base text-muted-foreground">{t("subtitle")}</p>
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-2">{t("title")}</h3>
+        <p className="text-xs sm:text-sm md:text-base text-muted-foreground px-2">{t("subtitle")}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
         {error && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription className="text-xs sm:text-sm">{error}</AlertDescription>
           </Alert>
         )}
 
         <div>
-          <label htmlFor="request-name" className="block text-sm font-medium text-foreground mb-2">
-            <User className="h-4 w-4 inline mr-1" />
+          <label htmlFor="request-name" className="block text-xs sm:text-sm font-medium text-foreground mb-1.5 sm:mb-2">
+            <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 inline mr-1" />
             {t("fields.name.label")}
           </label>
           <Input
@@ -104,13 +104,13 @@ export function QuestionRequestForm({ searchQuery }: QuestionRequestFormProps) {
             onChange={(event) => setName(event.target.value)}
             required
             placeholder={t("fields.name.placeholder")}
-            className="h-11 sm:h-12"
+            className="h-10 sm:h-11 md:h-12 text-sm sm:text-base"
           />
         </div>
 
         <div>
-          <label htmlFor="request-email" className="block text-sm font-medium text-foreground mb-2">
-            <Mail className="h-4 w-4 inline mr-1" />
+          <label htmlFor="request-email" className="block text-xs sm:text-sm font-medium text-foreground mb-1.5 sm:mb-2">
+            <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 inline mr-1" />
             {t("fields.email.label")}
           </label>
           <Input
@@ -120,13 +120,13 @@ export function QuestionRequestForm({ searchQuery }: QuestionRequestFormProps) {
             onChange={(event) => setEmail(event.target.value)}
             required
             placeholder={t("fields.email.placeholder")}
-            className="h-11 sm:h-12"
+            className="h-10 sm:h-11 md:h-12 text-sm sm:text-base"
           />
         </div>
 
         <div>
-          <label htmlFor="request-question" className="block text-sm font-medium text-foreground mb-2">
-            <HelpCircle className="h-4 w-4 inline mr-1" />
+          <label htmlFor="request-question" className="block text-xs sm:text-sm font-medium text-foreground mb-1.5 sm:mb-2">
+            <HelpCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 inline mr-1" />
             {t("fields.question.label")}
           </label>
           <Textarea
@@ -136,10 +136,11 @@ export function QuestionRequestForm({ searchQuery }: QuestionRequestFormProps) {
             required
             placeholder={t("fields.question.placeholder")}
             rows={4}
+            className="text-sm sm:text-base resize-none"
           />
         </div>
 
-        <Button type="submit" className="w-full h-11 sm:h-12" disabled={isSubmitting}>
+        <Button type="submit" className="w-full h-10 sm:h-11 md:h-12 text-sm sm:text-base" disabled={isSubmitting}>
           {isSubmitting ? t("actions.submitting") : t("actions.submit")}
         </Button>
       </form>

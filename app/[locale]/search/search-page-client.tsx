@@ -211,14 +211,46 @@ function SearchResultsContent() {
 
   // Initialize state from URL parameters
   useEffect(() => {
-    const query = searchParams.get("q");
-    const type = searchParams.get("type") as SearchType;
+    const resolveQueryFromParams = () => {
+      const directQuery =
+        searchParams.get("q") ??
+        searchParams.get("query") ??
+        searchParams.get("keyword");
 
-    if (query) {
-      setSearchQuery(query);
+      if (directQuery && directQuery.length > 0) {
+        return directQuery;
+      }
+
+      // Handle malformed URLs like /search?=keyword (empty key with value)
+      const unnamedQuery = searchParams.get("");
+      if (unnamedQuery && unnamedQuery.length > 0) {
+        return unnamedQuery;
+      }
+
+      // As a final fallback, if there's exactly one entry with an empty key, use its value
+      const firstEntry = searchParams.entries().next().value as
+        | [string, string]
+        | undefined;
+      if (firstEntry && firstEntry[0] === "" && firstEntry[1]) {
+        return firstEntry[1];
+      }
+
+      return undefined;
+    };
+
+    const nextQuery = resolveQueryFromParams();
+    const typeParam = searchParams.get("type") as SearchType | null;
+
+    if (typeof nextQuery === "string") {
+      setSearchQuery((prev) => (prev === nextQuery ? prev : nextQuery));
+    } else if (nextQuery === undefined) {
+      setSearchQuery((prev) => (prev === "" ? prev : ""));
     }
-    if (type && ["hybrid", "vector", "fulltext"].includes(type)) {
-      setSearchType(type);
+
+    if (typeParam && ["hybrid", "vector", "fulltext"].includes(typeParam)) {
+      setSearchType((prev) => (prev === typeParam ? prev : typeParam));
+    } else if (!typeParam) {
+      setSearchType((prev) => (prev === "hybrid" ? prev : "hybrid"));
     }
   }, [searchParams]);
 
@@ -272,45 +304,46 @@ function SearchResultsContent() {
     <main className="min-h-screen bg-background">
       <Navigation />
 
-      <section className="pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20">
+      <section className="pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-8 sm:pb-12 md:pb-16 lg:pb-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             {/* Back Button */}
             <Button
               variant="ghost"
               onClick={handleBack}
-              className="mb-6 -ml-2"
+              className="mb-4 sm:mb-6 -ml-2 text-xs sm:text-sm"
+              size="sm"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
               {t("backToHome")}
             </Button>
 
             {/* Search Header */}
-            <div className="text-center mb-8 sm:mb-12">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 text-balance">
+            <div className="text-center mb-6 sm:mb-8 md:mb-12">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 sm:mb-4 md:mb-6 text-balance px-2">
                 {t("title")}
               </h1>
-              <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 text-pretty">
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 md:mb-8 text-pretty px-2">
                 {t("subtitle")}
               </p>
 
               {/* Search Bar */}
-              <form onSubmit={handleSearch} className="mb-6">
+              <form onSubmit={handleSearch} className="mb-4 sm:mb-6">
                 <div className="relative">
-                  <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+                  <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground pointer-events-none" />
                   <Input
                     type="text"
                     placeholder={t("placeholder")}
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
-                    className="pl-10 sm:pl-12 h-12 sm:h-14 text-sm sm:text-base"
+                    className="pl-9 sm:pl-12 pr-3 sm:pr-4 h-11 sm:h-12 md:h-14 text-sm sm:text-base"
                     autoFocus
                   />
                 </div>
               </form>
 
               {/* Search Filters Component */}
-              <div className="mb-4">
+              <div className="mb-3 sm:mb-4">
                 <SearchFilters
                   searchType={searchType}
                   onSearchTypeChange={handleSearchTypeChange}
@@ -322,26 +355,24 @@ function SearchResultsContent() {
             <div className="w-full">
 
               {/* Search Results Component */}
-              {!showQuestionRequestForm && (
-                <SearchResults
-                  results={combinedResults}
-                  metadata={combinedMetadata}
-                  query={trimmedQuery}
-                  isLoading={isLoadingResults}
-                  error={normalizedError}
-                  onRetry={() => refetch()}
-                  onClearSearch={() => setSearchQuery("")}
-                />
-              )}
+              <SearchResults
+                results={combinedResults}
+                metadata={combinedMetadata}
+                query={trimmedQuery}
+                isLoading={isLoadingResults}
+                error={normalizedError}
+                onRetry={() => refetch()}
+                onClearSearch={() => setSearchQuery("")}
+              />
 
               {/* Show Question Request Form when no results, error, or low relevance */}
               {showQuestionRequestForm && (
-                <div className="mt-8">
-                  <div className="text-center mb-6">
-                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                <div className={`mt-6 sm:mt-8 ${hasResults ? "border border-dashed border-muted rounded-lg p-4 sm:p-6 md:p-8" : ""}`}>
+                  <div className="text-center mb-4 sm:mb-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">
                       {tQuestionRequest("title")}
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground px-2">
                       {normalizedError 
                         ? t("errorMessage") + " " + tQuestionRequest("subtitle")
                         : hasLowRelevanceScores

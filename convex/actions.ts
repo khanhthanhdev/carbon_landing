@@ -2461,16 +2461,43 @@ export const hybridSearch = action({
       queryHash,
       locale: lang ?? "vi",
     });
+
+    const shouldUseCache = (() => {
+      if (!cached || cached.questionIds.length === 0) {
+        return false;
+      }
+
+      const cachedScores = cached.scores ?? [];
+      if (cachedScores.length === 0) {
+        return false;
+      }
+
+      const maxCachedScore = Math.max(...cachedScores);
+      if (!Number.isFinite(maxCachedScore)) {
+        return false;
+      }
+
+      // Legacy cache entries from the previous RRF merge produced scores < 0.02.
+      // These make the UI think results are low-quality, so we refresh instead
+      // of returning stale data.
+      if (maxCachedScore < 0.3) {
+        console.log("Skipping legacy cached search result; recomputing with updated scoring.");
+        return false;
+      }
+
+      return true;
+    })();
     
-    if (cached && cached.questionIds.length > 0) {
+    if (shouldUseCache && cached) {
+      const cacheRecord = cached;
       // Cache hit - update access statistics
       await ctx.runMutation(api.search.updateCacheAccessStats, {
-        cacheId: cached.id,
+        cacheId: cacheRecord.id,
       });
       
       // Fetch full question data
       const questions = await Promise.all(
-        cached.questionIds.slice(0, topK).map(id => 
+        cacheRecord.questionIds.slice(0, topK).map(id => 
           ctx.runQuery(api.queries.qa.get, { id })
         )
       );
@@ -2484,7 +2511,7 @@ export const hybridSearch = action({
           answer: q.answer,
           category: q.category,
           sources: q.sources,
-          hybridScore: cached.scores?.[index] ?? 0,
+          hybridScore: cacheRecord.scores?.[index] ?? 0,
           reasons: ["cached"] as string[],
         }));
       
@@ -2810,8 +2837,8 @@ export const hybridSearch = action({
     }
     
     // Merge results using RRF
-    const { mergeWithRRF } = await import("./searchUtils");
-    let mergedResults = mergeWithRRF(vectorResults, textResults, alpha, 60);
+    const { mergeWithKeywordPriority } = await import("./searchUtils");
+    let mergedResults = mergeWithKeywordPriority(vectorResults, textResults, query, alpha);
     
     // Limit to topK results
     mergedResults = mergedResults.slice(0, topK);
