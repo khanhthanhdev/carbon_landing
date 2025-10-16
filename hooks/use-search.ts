@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { convexQuery } from "@convex-dev/react-query";
+import { useAction, useQuery as useConvexQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 export type SearchType = "hybrid" | "vector" | "fulltext";
@@ -92,6 +92,8 @@ export function useSearch({
     enabled = true,
 }: UseSearchOptions) {
     const trimmedQuery = query.trim();
+    // Use type assertion to access hybridSearch action
+    const hybridSearchAction = useAction((api as any).actions.hybridSearch);
 
     return useQuery<SearchResponse>({
         queryKey: [
@@ -105,44 +107,28 @@ export function useSearch({
         ],
         queryFn: async (): Promise<SearchResponse> => {
             try {
-                // Call the search API route
-                const response = await fetch("/api/search", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        query: trimmedQuery,
-                        searchType,
-                        category: filters.category,
-                        lang: filters.lang,
-                        topK,
-                        alpha,
-                    }),
+                // Call Convex action directly
+                const result = await hybridSearchAction({
+                    query: trimmedQuery,
+                    searchType,
+                    category: filters.category,
+                    lang: filters.lang,
+                    topK,
+                    alpha,
                 });
 
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    
-                    // If it's a service unavailable error, provide a more user-friendly message
-                    if (response.status === 503 || response.status === 404) {
-                        throw new Error(
-                            errorData.details || "Search service is temporarily unavailable. Please try the question request form below."
-                        );
-                    }
-                    
-                    throw new Error(
-                        errorData.error || `Search failed with status ${response.status}`
-                    );
-                }
-
-                return (await response.json()) as SearchResponse;
+                return result as SearchResponse;
             } catch (error) {
-                // Handle network errors or other fetch failures
-                if (error instanceof TypeError && error.message.includes('fetch')) {
-                    throw new Error("Unable to connect to search service. Please check your internet connection and try again.");
+                // Handle Convex errors
+                if (error instanceof Error) {
+                    // Provide user-friendly error messages
+                    if (error.message.includes('Not found') || error.message.includes('unavailable')) {
+                        throw new Error("Search service is temporarily unavailable. Please try the question request form below.");
+                    }
+                    throw error;
                 }
                 
-                // Re-throw other errors as-is
-                throw error;
+                throw new Error("Search failed. Please try again.");
             }
         },
         enabled: enabled && trimmedQuery.length >= 2,
@@ -186,15 +172,11 @@ export function useSearch({
  * ```
  */
 export function useCategories() {
-    return useQuery<string[]>({
-        ...convexQuery(api.queries.search.getCategories, {}),
-        staleTime: Infinity, // Categories rarely change, so cache indefinitely
-        gcTime: Infinity, // Keep in cache indefinitely
-        retry: (failureCount: number, error: Error) => {
-            // Retry up to 3 times for network errors
-            if (failureCount >= 3) return false;
-            return true;
-        },
-        retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    });
+    const categories = useConvexQuery(api.queries.search.getCategories, {});
+    
+    return {
+        data: categories,
+        isLoading: categories === undefined,
+        error: null,
+    };
 }

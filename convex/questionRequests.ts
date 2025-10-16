@@ -1,4 +1,5 @@
-import { mutation, query } from "./_generated/server";
+import { mutation, query, action } from "./_generated/server";
+import { api } from "./_generated/api";
 import { v } from "convex/values";
 
 export const create = mutation({
@@ -18,6 +19,25 @@ export const create = mutation({
       status: "pending",
       sourceQuery: args.sourceQuery,
       createdAt,
+    });
+  },
+});
+
+export const createAction = action({
+  args: {
+    name: v.string(),
+    email: v.string(),
+    question: v.string(),
+    sourceQuery: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const createdAt = Date.now();
+
+    return await ctx.runMutation(api.questionRequests.create, {
+      name: args.name,
+      email: args.email,
+      question: args.question,
+      sourceQuery: args.sourceQuery,
     });
   },
 });

@@ -14,9 +14,10 @@ import { FeedbackSection } from "@/components/feedback-section";
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  return buildPageMetadata("home", params?.locale);
+  const { locale } = await params;
+  return buildPageMetadata("home", locale);
 }
 
 export default function HomePage() {

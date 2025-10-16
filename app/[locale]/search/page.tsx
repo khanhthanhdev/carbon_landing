@@ -4,9 +4,10 @@ import SearchPageClient from "./search-page-client";
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  return buildPageMetadata("search", params?.locale);
+  const { locale } = await params;
+  return buildPageMetadata("search", locale);
 }
 
 export default function SearchPage() {

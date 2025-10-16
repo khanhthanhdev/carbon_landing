@@ -4,9 +4,10 @@ import AskAiPageClient from "./ask-ai-page-client";
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  return buildPageMetadata("askAi", params?.locale);
+  const { locale } = await params;
+  return buildPageMetadata("askAi", locale);
 }
 
 export default function AskAiPage() {

@@ -1,7 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, MessageSquare, Info } from "lucide-react"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { ChevronLeft, ChevronRight, MessageSquare, Info, Zap, Lock } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 interface AIChatSidebarProps {
@@ -15,7 +16,7 @@ export function AIChatSidebar({
   onToggle,
   sessionId,
 }: AIChatSidebarProps) {
-  const t = useTranslations()
+  const t = useTranslations("aiChat.sidebar")
 
   return (
     <>
@@ -23,77 +24,103 @@ export function AIChatSidebar({
       <Button
         variant="outline"
         size="icon"
-        className="fixed left-4 top-24 z-40 lg:hidden bg-background"
+        className="fixed left-4 top-24 z-40 lg:hidden bg-background border-border hover:bg-accent"
         onClick={onToggle}
       >
         {isOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
       </Button>
 
-      {/* Sidebar */}
+      {/* Sidebar - Fixed on desktop, overlay on mobile */}
       <aside
-        className={`fixed lg:relative inset-y-0 left-0 z-30 w-80 bg-sidebar border-r border-sidebar-border transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0 lg:w-0 lg:border-0"
+        className={`fixed lg:fixed inset-y-0 left-0 z-30 w-72 bg-sidebar border-r border-sidebar-border transition-transform duration-300 top-16 lg:top-16 h-[calc(100vh-64px)] lg:h-[calc(100vh-80px)] flex flex-col ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="h-full flex flex-col pt-16 lg:pt-0">
-          {/* Header */}
-          <div className="p-4 border-b border-sidebar-border">
-            <div className="flex items-center gap-2 mb-2">
-              <MessageSquare className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-semibold text-sidebar-foreground">AI Assistant</h2>
+        {/* Header - Sticky */}
+        <div className="flex-shrink-0 p-4 border-b border-sidebar-border bg-sidebar">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <MessageSquare className="h-4 w-4 text-primary" />
             </div>
-            <p className="text-xs text-sidebar-foreground/60">
-              Ask questions about carbon markets and sustainability
-            </p>
+            <div>
+              <h2 className="text-sm font-semibold text-sidebar-foreground">{t("title")}</h2>
+              <p className="text-xs text-sidebar-foreground/60">{t("subtitle")}</p>
+            </div>
           </div>
+        </div>
 
-          {/* Info Section */}
-          <div className="flex-1 p-4 space-y-4">
-            <div className="bg-sidebar-accent rounded-lg p-4 space-y-2">
+        {/* Scrollable Content */}
+        <ScrollArea className="flex-1 overflow-hidden">
+          <div className="p-4 space-y-4">
+            {/* How it works */}
+            <div className="bg-sidebar-accent/50 rounded-lg p-3 border border-sidebar-border/50 space-y-2">
               <div className="flex items-start gap-2">
-                <Info className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                <div className="space-y-1">
-                  <h3 className="text-sm font-medium text-sidebar-foreground">How it works</h3>
-                  <p className="text-xs text-sidebar-foreground/70">
-                    This AI assistant uses RAG (Retrieval-Augmented Generation) to provide accurate answers based on our carbon markets knowledge base.
+                <Zap className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                <div className="space-y-1 flex-1">
+                  <h3 className="text-xs font-semibold text-sidebar-foreground">{t("poweredBy")}</h3>
+                  <p className="text-xs text-sidebar-foreground/70 leading-relaxed">
+                    {t("poweredByDescription")}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-sidebar-foreground">Features</h3>
-              <ul className="space-y-2 text-xs text-sidebar-foreground/70">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>Answers based on verified sources</span>
+            {/* Features */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-semibold text-sidebar-foreground uppercase tracking-wide px-1">
+                {t("features")}
+              </h3>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2 text-xs text-sidebar-foreground/70 px-1">
+                  <span className="text-primary mt-1 font-bold">✓</span>
+                  <span>{t("verifiedSources")}</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>Citations for transparency</span>
+                <li className="flex items-start gap-2 text-xs text-sidebar-foreground/70 px-1">
+                  <span className="text-primary mt-1 font-bold">✓</span>
+                  <span>{t("multilingual")}</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>Multilingual support (EN/VI)</span>
+                <li className="flex items-start gap-2 text-xs text-sidebar-foreground/70 px-1">
+                  <span className="text-primary mt-1 font-bold">✓</span>
+                  <span>{t("contextAware")}</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>Context-aware responses</span>
+                <li className="flex items-start gap-2 text-xs text-sidebar-foreground/70 px-1">
+                  <span className="text-primary mt-1 font-bold">✓</span>
+                  <span>{t("realTimeAccuracy")}</span>
                 </li>
               </ul>
             </div>
 
-            <div className="pt-4 border-t border-sidebar-border">
-              <p className="text-xs text-sidebar-foreground/50">
-                Session ID: {sessionId.substring(0, 20)}...
-              </p>
+            {/* Privacy Note */}
+            <div className="bg-sidebar-accent/30 rounded-lg p-3 border border-sidebar-border/50 space-y-2">
+              <div className="flex items-start gap-2">
+                <Lock className="h-4 w-4 text-sidebar-foreground/60 flex-shrink-0 mt-0.5" />
+                <div className="space-y-1 flex-1">
+                  <h3 className="text-xs font-semibold text-sidebar-foreground">{t("privacy")}</h3>
+                  <p className="text-xs text-sidebar-foreground/60 leading-relaxed">
+                    {t("privacyDescription")}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+        </ScrollArea>
+
+        {/* Footer - Sticky */}
+        <div className="flex-shrink-0 p-4 border-t border-sidebar-border bg-sidebar">
+          <p className="text-xs text-sidebar-foreground/50 break-all font-mono">
+            {sessionId.substring(0, 16)}...
+          </p>
+          <p className="text-xs text-sidebar-foreground/40 mt-1">{t("sessionId")}</p>
         </div>
       </aside>
 
       {/* Overlay for mobile */}
-      {isOpen && <div className="fixed inset-0 bg-black/50 z-20 lg:hidden" onClick={onToggle} />}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+          onClick={onToggle}
+        />
+      )}
     </>
   )
 }

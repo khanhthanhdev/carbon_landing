@@ -163,6 +163,19 @@ function SearchResultsContent() {
   const hasResults = combinedResults.length > 0;
   const hasActiveFilters = searchType !== "hybrid";
 
+  // Check if all results have low relevance scores (< 20%)
+  const hasLowRelevanceScores = useMemo(() => {
+    if (combinedResults.length === 0) return false;
+    
+    // Check if all results have hybridScore < 0.2 (20%)
+    const allLowScores = combinedResults.every(result => {
+      const score = result.hybridScore ?? result.vectorScore ?? result.textScore ?? 0;
+      return score < 0.2;
+    });
+    
+    return allLowScores;
+  }, [combinedResults]);
+
   const searchError = hasResults ? null : isError ? error : null;
   const normalizedError = useMemo(
     () => (searchError ? (searchError instanceof Error ? searchError : new Error(String(searchError))) : null),
@@ -173,11 +186,14 @@ function SearchResultsContent() {
   // Show question request form when:
   // 1. Not loading
   // 2. Query is long enough (>= 2 chars)
-  // 3. No results found (either no results or error occurred)
+  // 3. One of:
+  //    - No results found
+  //    - Error occurred
+  //    - All results have low relevance scores (< 20%)
   const showQuestionRequestForm =
     !isLoadingResults && 
     trimmedQuery.length >= 2 && 
-    (combinedResults.length === 0 || normalizedError);
+    (combinedResults.length === 0 || normalizedError || hasLowRelevanceScores);
 
   // Debug logging for search state
   console.log("Search state:", {
@@ -187,8 +203,10 @@ function SearchResultsContent() {
     localResultsCount: localResults.length,
     combinedResultsCount: combinedResults.length,
     hasError: !!normalizedError,
+    hasLowRelevanceScores,
     showQuestionRequestForm,
-    errorMessage: normalizedError?.message
+    errorMessage: normalizedError?.message,
+    topScore: combinedResults.length > 0 ? combinedResults[0]?.hybridScore : null
   });
 
   // Initialize state from URL parameters
@@ -316,7 +334,7 @@ function SearchResultsContent() {
                 />
               )}
 
-              {/* Show Question Request Form when no results or error */}
+              {/* Show Question Request Form when no results, error, or low relevance */}
               {showQuestionRequestForm && (
                 <div className="mt-8">
                   <div className="text-center mb-6">
@@ -326,6 +344,8 @@ function SearchResultsContent() {
                     <p className="text-muted-foreground">
                       {normalizedError 
                         ? t("errorMessage") + " " + tQuestionRequest("subtitle")
+                        : hasLowRelevanceScores
+                        ? t("lowRelevanceMessage")
                         : tQuestionRequest("subtitle")
                       }
                     </p>

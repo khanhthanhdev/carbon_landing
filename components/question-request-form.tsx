@@ -2,13 +2,16 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, User, HelpCircle } from "lucide-react";
+import { Mail, User, HelpCircle, AlertCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface QuestionRequestFormProps {
   searchQuery: string;
@@ -21,23 +24,34 @@ export function QuestionRequestForm({ searchQuery }: QuestionRequestFormProps) {
   const [question, setQuestion] = useState(searchQuery);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const submitQuestionRequest = useMutation(api.questionRequests.create);
+
+  // Keep the question field in sync when the search query changes
+  useEffect(() => {
+    setQuestion((previous) => (previous.trim().length === 0 ? searchQuery : previous));
+  }, [searchQuery]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!question.trim()) {
+      return;
+    }
+
     setIsSubmitting(true);
+    setError(null);
 
     try {
-      const response = await fetch("/api/question-request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, question, sourceQuery: searchQuery }),
+      await submitQuestionRequest({
+        name: name.trim(),
+        email: email.trim(),
+        question: question.trim(),
+        sourceQuery: searchQuery.trim() ? searchQuery.trim() : undefined,
       });
-
-      if (response.ok) {
-        setIsSubmitted(true);
-      }
-    } catch (error) {
-      console.error("Error submitting question request:", error);
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error("Error submitting question request:", err);
+      setError(err instanceof Error ? err.message : "Failed to submit question request");
     } finally {
       setIsSubmitting(false);
     }
@@ -71,6 +85,13 @@ export function QuestionRequestForm({ searchQuery }: QuestionRequestFormProps) {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         <div>
           <label htmlFor="request-name" className="block text-sm font-medium text-foreground mb-2">
             <User className="h-4 w-4 inline mr-1" />

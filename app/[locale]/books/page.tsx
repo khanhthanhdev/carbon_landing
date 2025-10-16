@@ -4,9 +4,10 @@ import BooksPageClient from "./books-page-client";
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  return buildPageMetadata("books", params?.locale);
+  const { locale } = await params;
+  return buildPageMetadata("books", locale);
 }
 
 export default function BooksPage() {

@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageSquare, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export function FeedbackSection() {
   const t = useTranslations("feedback");
@@ -19,28 +21,26 @@ export function FeedbackSection() {
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const submitFeedback = useMutation(api.feedback.submit);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (rating === 0) {
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, rating, comment, locale }),
-      });
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setRating(0);
-          setName("");
-          setEmail("");
-          setComment("");
-        }, 3000);
-      }
+      await submitFeedback({ name, email, rating, comment, locale });
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setRating(0);
+        setName("");
+        setEmail("");
+        setComment("");
+      }, 3000);
     } catch (error) {
       console.error("Error submitting feedback:", error);
     } finally {

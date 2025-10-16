@@ -5,10 +5,11 @@ import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, Sparkles, AlertCircle, Loader2 } from "lucide-react"
-import { AIMessageWithCitations } from "@/components/ai-message-with-citations"
+import { Send, Sparkles, AlertCircle, Loader2, ArrowDown } from "lucide-react"
+import AIMessageWithCitations  from "@/components/ai-message-with-citations"
 import type { ChatMessage } from "@/hooks/use-ai-chat"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useTranslations } from "next-intl"
 
 interface AIChatInterfaceProps {
   messages: ChatMessage[]
@@ -30,8 +31,11 @@ export function AIChatInterface({
   isSidebarOpen 
 }: AIChatInterfaceProps) {
   const [inputValue, setInputValue] = useState("")
+  const [showScrollButton, setShowScrollButton] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const t = useTranslations("aiChat.interface")
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -40,6 +44,12 @@ export function AIChatInterface({
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.currentTarget
+    const isNearBottom = element.scrollHeight - element.scrollTop - element.clientHeight < 100
+    setShowScrollButton(!isNearBottom && messages.length > 0)
+  }
 
   const handleSend = async () => {
     if (!inputValue.trim() || isSending) return
@@ -64,102 +74,139 @@ export function AIChatInterface({
   }
 
   return (
-    <main className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarOpen ? "lg:ml-0" : "ml-0"}`}>
+    <main className="flex-1 flex flex-col bg-background relative overflow-hidden">
       {/* Messages Area */}
-      <ScrollArea className="flex-1 p-4 lg:p-6">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {isLoading && messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
-              <Loader2 className="h-10 w-10 text-primary animate-spin mb-4" />
-              <p className="text-muted-foreground">Loading conversation...</p>
-            </div>
-          ) : messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
-              <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <Sparkles className="h-10 w-10 text-primary" />
+      <ScrollArea 
+        ref={scrollAreaRef}
+        className="flex-1 overflow-hidden relative"
+        onScroll={handleScroll}
+      >
+        <div className="px-4 lg:px-8 py-6 space-y-0 min-h-full">
+          <div className="max-w-4xl mx-auto">
+            {isLoading && messages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-[calc(100vh-350px)] text-center">
+                <Loader2 className="h-10 w-10 text-primary animate-spin mb-4" />
+                <p className="text-muted-foreground">{t("loading")}</p>
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-2">Start a Conversation</h2>
-              <p className="text-muted-foreground max-w-md">
-                Ask me anything about carbon markets, sustainability, emissions trading, or environmental policies.
-                I'm here to help!
-              </p>
-            </div>
-          ) : (
-            <>
-              {messages.map((message, index) => {
-                const messageId = `${message.timestamp}-${index}`;
-                return (
-                  <AIMessageWithCitations
-                    key={messageId}
-                    message={{
-                      id: messageId,
-                      role: message.role,
-                      content: message.content,
-                      timestamp: new Date(message.timestamp),
-                      citations: message.sources?.map((source, idx) => ({
-                        id: idx + 1,
-                        text: source.citedSentences?.join(" ") || source.question,
-                        source: `${source.questionNumber}: ${source.question}`,
-                        page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
-                      })),
-                    }}
-                    onFeedback={onFeedback}
-                    onReference={() => {}}
-                  />
-                );
-              })}
-              {isSending && (
-                <div className="flex items-start gap-3">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                      <span className="text-sm text-muted-foreground">Thinking...</span>
+            ) : messages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-[calc(100vh-350px)] text-center px-4">
+                <div className="h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6">
+                  <Sparkles className="h-10 w-10 text-primary" />
+                </div>
+                <h2 className="text-2xl font-bold text-foreground mb-3">{t("welcome")}</h2>
+                <p className="text-muted-foreground max-w-md mb-8 leading-relaxed">
+                  {t("welcomeDescription")}
+                </p>
+                
+                {/* Suggested Questions */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 w-full max-w-md">
+                  <button 
+                    onClick={() => setInputValue(t("suggestedQuestion1"))}
+                    className="p-3 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-sm font-medium text-foreground"
+                  >
+                    {t("suggestedQuestion1")}
+                  </button>
+                  <button 
+                    onClick={() => setInputValue(t("suggestedQuestion2"))}
+                    className="p-3 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-sm font-medium text-foreground"
+                  >
+                    {t("suggestedQuestion2")}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-6 py-4">
+                {messages.map((message, index) => {
+                  const messageId = `${message.timestamp}-${index}`;
+                  return (
+                    <AIMessageWithCitations
+                      key={messageId}
+                      message={{
+                        id: messageId,
+                        role: message.role,
+                        content: message.content,
+                        timestamp: new Date(message.timestamp),
+                        citations: message.sources?.map((source, idx) => ({
+                          id: idx + 1,
+                          text: source.citedSentences?.join(" ") || source.question,
+                          source: `${source.questionNumber}: ${source.question}`,
+                          page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
+                        })),
+                      }}
+                      onFeedback={onFeedback}
+                      onReference={() => {}}
+                    />
+                  );
+                })}
+                {isSending && (
+                  <div className="flex gap-3 py-4">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                        <span className="text-sm text-muted-foreground font-medium">{t("thinking")}</span>
+                      </div>
+                      <div className="flex gap-1">
+                        <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" />
+                        <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: "0.2s" }} />
+                        <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: "0.4s" }} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </>
-          )}
-          <div ref={messagesEndRef} />
+                )}
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
       </ScrollArea>
 
+      {/* Scroll to bottom button */}
+      {showScrollButton && (
+        <button
+          onClick={scrollToBottom}
+          className="absolute bottom-32 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground rounded-full p-2 shadow-lg hover:bg-primary/90 transition-colors z-10"
+          aria-label="Scroll to bottom"
+        >
+          <ArrowDown className="h-4 w-4" />
+        </button>
+      )}
+
       {/* Error Display */}
       {error && (
-        <div className="px-4 lg:px-6 pb-2">
+        <div className="px-4 lg:px-6 py-2 border-t border-border bg-destructive/5">
           <div className="max-w-4xl mx-auto">
-            <Alert variant="destructive">
+            <Alert variant="destructive" className="py-2">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {error.message || "An error occurred. Please try again."}
+              <AlertDescription className="text-xs sm:text-sm">
+                {error.message || t("errorMessage")}
               </AlertDescription>
             </Alert>
           </div>
         </div>
       )}
 
-      {/* Input Area */}
-      <div className="border-t border-border bg-muted/30 p-4 lg:p-6">
+      {/* Input Area - Fixed at bottom */}
+      <div className="border-t border-border bg-background/95 backdrop-blur-sm p-4 lg:p-6 flex-shrink-0">
         <div className="max-w-4xl mx-auto">
-          <div className="flex gap-3">
+          <div className="flex gap-2 sm:gap-3">
             <textarea
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask a question about carbon markets..."
+              placeholder={t("placeholder")}
               disabled={isSending}
-              className="flex-1 px-4 py-3 rounded-xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm resize-none min-h-[56px] max-h-[200px] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-3 rounded-lg border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm resize-none min-h-[48px] max-h-[200px] disabled:opacity-50 disabled:cursor-not-allowed placeholder:text-muted-foreground/60"
               rows={1}
             />
             <Button
               size="icon"
               onClick={handleSend}
               disabled={!inputValue.trim() || isSending}
-              className="rounded-xl h-14 w-14 flex-shrink-0"
+              className="rounded-lg h-12 w-12 sm:h-12 sm:w-12 flex-shrink-0 flex items-center justify-center"
             >
               {isSending ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -169,7 +216,7 @@ export function AIChatInterface({
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-2 text-center">
-            Press Enter to send, Shift + Enter for new line
+            {t("inputHelp")}
           </p>
         </div>
       </div>

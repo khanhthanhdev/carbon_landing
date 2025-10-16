@@ -70,6 +70,7 @@
     "noResultsHint": "Try different keywords or browse all questions",
     "resultsCount": "Found {count} relevant results",
     "paginationPlaceholder": "More results coming soon",
+    "lowRelevanceMessage": "We found some results, but they may not be what you're looking for. Please submit your question below for a more accurate answer.",
     "filters": {
       "title": "Filters",
       "searchType": "Search Type",
@@ -337,6 +338,39 @@
     "success": {
       "title": "Thank You!",
       "message": "Your feedback has been submitted successfully."
+    }
+  },
+  "aiChat": {
+    "sidebar": {
+      "title": "AI Assistant",
+      "subtitle": "Carbon Markets Expert",
+      "poweredBy": "Powered by RAG",
+      "poweredByDescription": "Retrieval-Augmented Generation provides accurate answers from verified sources",
+      "features": "Features",
+      "verifiedSources": "Verified sources & citations",
+      "multilingual": "Multilingual (EN/VI)",
+      "contextAware": "Context-aware responses",
+      "realTimeAccuracy": "Real-time accuracy",
+      "privacy": "Privacy",
+      "privacyDescription": "Your conversations are secure and not stored",
+      "sessionId": "Session ID"
+    },
+    "interface": {
+      "loading": "Loading conversation...",
+      "welcome": "Welcome to AI Assistant",
+      "welcomeDescription": "Ask me anything about carbon markets, sustainability, emissions trading, or environmental policies. I'll provide accurate, cited answers.",
+      "suggestedQuestion1": "What is carbon trading?",
+      "suggestedQuestion2": "How do carbon credits work?",
+      "thinking": "Thinking...",
+      "errorMessage": "An error occurred. Please try again.",
+      "placeholder": "Ask a question about carbon markets...",
+      "inputHelp": "Enter to send • Shift + Enter for new line"
+    },
+    "messages": {
+      "copyMessage": "Copy message",
+      "editMessage": "Edit message",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   }
 }

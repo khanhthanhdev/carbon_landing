@@ -17,9 +17,10 @@ const inter = Inter({
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  return buildPageMetadata("home", params?.locale);
+  const { locale } = await params;
+  return buildPageMetadata("home", locale);
 }
 
 export async function generateStaticParams() {
@@ -31,9 +32,9 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
-  const { locale } = params;
+  const { locale } = await params;
   const resolvedLocale = locales.includes(locale as (typeof locales)[number]) ? locale : "vi";
 
   setRequestLocale(resolvedLocale);

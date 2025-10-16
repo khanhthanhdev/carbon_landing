@@ -47,15 +47,17 @@ export default function AskAiPageClient() {
           onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
           sessionId={sessionId}
         />
-        <AIChatInterface
-          messages={messages}
-          isLoading={isLoading}
-          isSending={isSending}
-          error={error}
-          onSendMessage={handleSendMessage}
-          onFeedback={handleFeedback}
-          isSidebarOpen={isSidebarOpen}
-        />
+        <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'lg:ml-72' : 'lg:ml-0'}`}>
+          <AIChatInterface
+            messages={messages}
+            isLoading={isLoading}
+            isSending={isSending}
+            error={error}
+            onSendMessage={handleSendMessage}
+            onFeedback={handleFeedback}
+            isSidebarOpen={isSidebarOpen}
+          />
+        </div>
       </div>
     </div>
   )

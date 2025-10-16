@@ -3,10 +3,11 @@
 import React, { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Bot, User, ThumbsUp, MessageSquareQuote, ExternalLink, FileText } from "lucide-react"
+import { Bot, User, ThumbsUp, MessageSquareQuote, ExternalLink, FileText, Copy, Edit3, Check, X } from "lucide-react"
 import { CitationPanel } from "@/components/citation-panel"
 import { ChatFeedback } from "@/components/chat-feedback"
 import { RichTextRenderer } from "@/components/rich-text-renderer"
+import { useTranslations } from "next-intl"
 
 // Import markdown processing functions
 const HTML_DETECTION_REGEX = /<\/?[a-z][\s\S]*>/i
@@ -71,10 +72,12 @@ interface AIMessageWithCitationsProps {
   onReference: (message: Message) => void
 }
 
-export function AIMessageWithCitations({ message, onFeedback, onReference }: AIMessageWithCitationsProps) {
+export default function AIMessageWithCitations({ message, onFeedback, onReference }: AIMessageWithCitationsProps) {
+  const [showCitations, setShowCitations] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
-  const [tooltipCitation, setTooltipCitation] = useState<Citation | null>(null)
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 })
+  const [tooltipCitation, setTooltipCitation] = useState<Citation | null>(null)
+  const t = useTranslations("aiChat.messages")
 
   // Parse content to highlight citations with colored markers
   const renderContentWithCitations = (content: string) => {
@@ -127,16 +130,103 @@ export function AIMessageWithCitations({ message, onFeedback, onReference }: AIM
   }
 
   if (message.role === "user") {
+    const [isEditing, setIsEditing] = useState(false)
+    const [editContent, setEditContent] = useState(message.content)
+
+    const handleCopy = async () => {
+      try {
+        await navigator.clipboard.writeText(message.content)
+        // You could add a toast notification here
+      } catch (err) {
+        console.error('Failed to copy text: ', err)
+      }
+    }
+
+    const handleEdit = () => {
+      setIsEditing(true)
+      setEditContent(message.content)
+    }
+
+    const handleSaveEdit = () => {
+      // For now, just update the local state. In a real app, you'd send this to the backend
+      setIsEditing(false)
+      // You could call an onEdit callback here if needed
+    }
+
+    const handleCancelEdit = () => {
+      setIsEditing(false)
+      setEditContent(message.content)
+    }
+
     return (
-      <div className="flex gap-3 justify-end">
-        <Card className="max-w-[80%] bg-primary text-primary-foreground p-4 rounded-2xl rounded-tr-sm">
-          <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
-          <p className="text-xs opacity-70 mt-2">
+      <div className="flex gap-3 justify-end group">
+        <div className="flex flex-col items-end gap-1 max-w-[80%]">
+          <Card className="bg-primary text-primary-foreground px-3 py-2 rounded-2xl rounded-tr-sm relative shadow-sm">
+            {isEditing ? (
+              <div className="space-y-2">
+                <textarea
+                  value={editContent}
+                  onChange={(e) => setEditContent(e.target.value)}
+                  className="w-full bg-primary-foreground/10 text-primary-foreground rounded-lg px-2 py-1 text-sm resize-none min-h-[40px] border border-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
+                  rows={2}
+                />
+                <div className="flex gap-1 justify-end">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={handleCancelEdit}
+                    className="h-6 px-2 text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10 text-xs"
+                  >
+                    <X className="h-3 w-3 mr-1" />
+                    {t("cancel")}
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleSaveEdit}
+                    className="h-6 px-2 bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 text-xs"
+                  >
+                    <Check className="h-3 w-3 mr-1" />
+                    {t("save")}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+            )}
+          </Card>
+
+          {/* Action buttons below the message */}
+          {!isEditing && (
+            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={handleCopy}
+                className="h-6 px-2 text-muted-foreground hover:text-foreground hover:bg-muted text-xs"
+                title={t("copyMessage")}
+              >
+                <Copy className="h-3 w-3 mr-1" />
+                {t("copyMessage")}
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={handleEdit}
+                className="h-6 px-2 text-muted-foreground hover:text-foreground hover:bg-muted text-xs"
+                title={t("editMessage")}
+              >
+                <Edit3 className="h-3 w-3 mr-1" />
+                {t("editMessage")}
+              </Button>
+            </div>
+          )}
+
+          <p className="text-xs text-muted-foreground">
             {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
           </p>
-        </Card>
-        <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-          <User className="h-5 w-5 text-primary-foreground" />
+        </div>
+        <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 mt-1">
+          <User className="h-4 w-4 text-primary-foreground" />
         </div>
       </div>
     )
@@ -144,25 +234,25 @@ export function AIMessageWithCitations({ message, onFeedback, onReference }: AIM
 
   return (
     <div className="flex gap-3 justify-start">
-      <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-        <Bot className="h-5 w-5 text-primary" />
+      <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-1">
+        <Bot className="h-4 w-4 text-primary" />
       </div>
       <div className="flex-1 max-w-[85%]">
-        <Card className="bg-card p-4 rounded-2xl rounded-tl-sm">
+        <Card className="bg-card px-3 py-2 rounded-2xl rounded-tl-sm shadow-sm">
           <div className="prose prose-sm max-w-none">
             {renderContentWithCitations(message.content)}
           </div>
-          <p className="text-xs text-muted-foreground mt-3">
+          <p className="text-xs text-muted-foreground mt-2">
             {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
           </p>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border">
-            <Button variant="ghost" size="sm" className="text-xs" onClick={() => onReference(message)}>
+          <div className="flex items-center gap-1 mt-3 pt-2 border-t border-border">
+            <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => onReference(message)}>
               <MessageSquareQuote className="h-3 w-3 mr-1" />
               Ask Follow-up
             </Button>
-            <Button variant="ghost" size="sm" className="text-xs" onClick={() => setShowFeedback(!showFeedback)}>
+            <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => setShowFeedback(!showFeedback)}>
               {message.feedback ? (
                 <>
                   <ThumbsUp className="h-3 w-3 mr-1 fill-primary text-primary" />
@@ -177,9 +267,6 @@ export function AIMessageWithCitations({ message, onFeedback, onReference }: AIM
             </Button>
           </div>
         </Card>
-
-        {/* Citations Panel */}
-        {message.citations && message.citations.length > 0 && <CitationPanel citations={message.citations} />}
 
         {/* Feedback Form */}
         {showFeedback && !message.feedback && (
@@ -212,6 +299,9 @@ export function AIMessageWithCitations({ message, onFeedback, onReference }: AIM
             {message.feedback.comment && <p className="text-xs text-muted-foreground">{message.feedback.comment}</p>}
           </Card>
         )}
+
+        {/* Citations Panel */}
+        {message.citations && message.citations.length > 0 && <CitationPanel citations={message.citations} />}
 
         {/* Citation Tooltip */}
         {tooltipCitation && (
