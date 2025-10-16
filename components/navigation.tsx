@@ -51,6 +51,9 @@ export function Navigation() {
             <Link href="/ask-ai" className="text-foreground hover:text-primary transition-colors">
               {t("askAI")}
             </Link>
+            <Link href="/about-us" className="text-foreground hover:text-primary transition-colors">
+              {t("about")}
+            </Link>
             <Link href="/#common" className="text-foreground hover:text-primary transition-colors">
               {t("commonQuestions")}
             </Link>
@@ -79,6 +82,9 @@ export function Navigation() {
               </Link>
               <Link href="/ask-ai" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
                 {t("askAI")}
+              </Link>
+              <Link href="/about-us" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+                {t("about")}
               </Link>
               <Link href="/#common" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
                 {t("commonQuestions")}

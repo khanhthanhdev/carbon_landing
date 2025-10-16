@@ -10,6 +10,7 @@ import { TrainingDetails } from "@/components/training-details";
 import { Footer } from "@/components/footer";
 import { FeedbackForm } from "@/components/feedback-form";
 import { FeedbackSection } from "@/components/feedback-section";
+import { SponsorsSection } from "@/components/sponsors-section";
 
 export async function generateMetadata({
   params,
@@ -26,13 +27,15 @@ export default function HomePage() {
       <Navigation />
       <main className="bg-background">
         <Hero />
-        <MainSearchSection />
-        <KnowledgeOverview />
         <BookRecommendation />
+        <KnowledgeOverview />
+        <MainSearchSection />
+
         <CommonQuestionsSection />
         {/* <BookFlipSection />
         <TrainingDetails /> */}
         <FeedbackSection />
+        <SponsorsSection />
       </main>
       <Footer />
     </>

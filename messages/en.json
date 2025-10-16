@@ -7,7 +7,88 @@
     "allQuestions": "All Questions",
     "commonQuestions": "Common Questions",
     "contact": "Contact",
-    "askAI": "Ask AI"
+    "askAI": "Ask AI",
+    "about": "About Us"
+  },
+  "aboutUs": {
+    "title": "About the Team",
+    "subtitle": "Meet the experts behind the Carbon Markets Starter Guide",
+    "coChairs": {
+      "title": "Co-Chairs and Editors",
+      "members": [
+        {
+          "name": "Dr. Lê Duy Anh",
+          "credentials": "PhD",
+          "institute": "Vin University",
+          "image": "/duy_anh.png",
+          "link": "https://vinuni.edu.vn/faculty/dr-le-duy-anh"
+        },
+        {
+          "name": "Prof. Dr. Vũ Anh Dũng",
+          "credentials": "Associate Professor, PhD",
+          "institute": "Vin University",
+          "image": "/vu_anh_dung.jpg",
+          "link": "https://vinuni.edu.vn/faculty/prof-dr-vu-anh-dung"
+        },
+        {
+          "name": "Dr. Trương Thu Hà",
+          "credentials": "PhD",
+          "institute": "Vin University",
+          "image": "/placeholder-user.jpg",
+          "link": "https://vinuni.edu.vn/faculty/dr-truong-thu-ha"
+        }
+      ]
+    },
+    "participants": {
+      "title": "Contributors",
+      "members": [
+        {
+          "name": "Dr. Trần Diệu Anh",
+          "credentials": "PhD Candidate",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/dr-tran-dieu-anh"
+        },
+        {
+          "name": "Dr. Trần Anh Khoa",
+          "credentials": "PhD Candidate",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/dr-tran-anh-khoa"
+        },
+        {
+          "name": "Nguyễn Minh Khuê",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/nguyen-minh-khue"
+        },
+        {
+          "name": "Trần Thị Hồng Phúc",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/tran-thi-hong-phuc"
+        },
+        {
+          "name": "Lê Thiên Hà Ngân",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/le-thien-ha-ngan"
+        }
+      ]
+    },
+    "organizations": {
+      "title": "Organizing Institutions",
+      "members": [
+        {
+          "name": "Vin University",
+          "description": "Leading private university in Vietnam",
+          "image": "/placeholder-logo.png"
+        },
+        {
+          "name": "British Council",
+          "description": "UK's international organization for cultural relations",
+          "image": "/placeholder-logo.png"
+        }
+      ]
+    }
   },
   "hero": {
     "badge": "100+ Questions About Carbon Markets",
@@ -115,7 +196,7 @@
     "badge": "Essential Reading",
     "title": "Start with the Fundamentals",
     "description": "Before diving into specific questions, we highly recommend reading this comprehensive guide to build a strong foundation in carbon markets.",
-    "rating": "Rated 4.8/5 from 1,200+ reviews",
+    "rating": "",
     "author": "by {author}",
     "details": {
       "pages": "Pages",
@@ -125,6 +206,16 @@
     "cta": {
       "note": "Already familiar with the basics? Jump straight to our question collection.",
       "button": "Browse All 100+ Questions"
+    },
+    "fallback": {
+      "title": "Carbon Markets Starter Guide",
+      "author": "Carbon Training Lab",
+      "description": "A practical field manual that translates complex carbon market policies into plain language for SME teams. Learn how credits are generated, traded, and verified with real-world examples from Vietnamese enterprises.",
+      "publisher": "Carbon Market Institute",
+      "retailers": {
+        "exploreChapters": "Vietnamese Version",
+        "searchAnswers": "Comming soon"
+      }
     }
   },
   "commonQuestions": {

@@ -7,7 +7,88 @@
     "allQuestions": "Tất Cả Câu Hỏi",
     "commonQuestions": "Câu Hỏi Thường Gặp",
     "contact": "Liên Hệ",
-    "askAI": "Hỏi AI"
+    "askAI": "Hỏi AI",
+    "about": "Về Chúng Tôi"
+  },
+  "aboutUs": {
+    "title": "Về Chúng Tôi",
+    "subtitle": "Đội ngũ các chuyên gia, giảng viên từ Trường Đại học Vin University",
+    "coChairs": {
+      "title": "Đồng Chủ Trì và Biên Tập",
+      "members": [
+        {
+          "name": "TS. Lê Duy Anh",
+          "credentials": "Giám đốc chương trình, Giảng Viên Chương trình Kinh tế học",
+          "institute": "Vin University",
+          "image": "/duy_anh.png",
+          "link": "https://vinuni.edu.vn/vi/people/ts-le-duy-anh/"
+        },
+        {
+          "name": "PGS.TS Vũ Anh Dũng",
+          "credentials": "Viện trưởng sáng lập Viện Khoa học và Giáo dục Khai phóng",
+          "institute": "Vin University",
+          "image": "/vu_anh_dung.jpg",
+          "link": "https://vinuni.edu.vn/vi/people/pgs-ts-vu-anh-dzung/"
+        },
+        {
+          "name": "TS. Trương Thu Hà",
+          "credentials": "Giảng viên Bộ môn Chính sách công",
+          "institute": "Trường Đại học Kinh tế",
+          "image": "/truong_thu_ha.png",
+          "link": "https://ueb.edu.vn/Don-Vi-Giang-Vien/UEB/TS-TRUONG-THU-HA-/1873/1931/31354"
+        }
+      ]
+    },
+    "participants": {
+      "title": "Tham Gia",
+      "members": [
+        {
+          "name": "ThS. Trần Diệu Anh",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/ths-tran-dieu-anh"
+        },
+        {
+          "name": "ThS.Trần Anh Khoa",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/ths-tran-anh-khoa"
+        },
+        {
+          "name": "Nguyễn Minh Khuê",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/nguyen-minh-khue"
+        },
+        {
+          "name": "Trần Thị Hồng Phúc",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/tran-thi-hong-phuc"
+        },
+        {
+          "name": "Lê Thiên Hà Ngân",
+          "credentials": "",
+          "institute": "Vin University",
+          "link": "https://vinuni.edu.vn/faculty/le-thien-ha-ngan"
+        }
+      ]
+    },
+    "organizations": {
+      "title": "Đơn Vị Thực Hiện, Tổ Chức",
+      "members": [
+        {
+          "name": "Vin University",
+          "description": "Trường đại học tư thục hàng đầu Việt Nam",
+          "image": "/vin_uni.png"
+        },
+        {
+          "name": "British Council",
+          "description": "Tổ chức quốc tế của Vương quốc Anh về quan hệ văn hóa",
+          "image": "/britishcouncil.jpg"
+        }
+      ]
+    }
   },
   "hero": {
     "badge": "100+ Câu Hỏi Về Thị Trường Carbon",
@@ -115,7 +196,7 @@
     "badge": "Tài Liệu Nên Đọc",
     "title": "Bắt Đầu Với Kiến Thức Nền Tảng",
     "description": "Trước khi đi sâu vào từng câu hỏi, chúng tôi khuyến nghị bạn đọc cuốn cẩm nang toàn diện này để xây dựng nền tảng vững chắc về thị trường carbon.",
-    "rating": "Được đánh giá 4.8/5 từ hơn 1.200 phản hồi",
+    "rating": "",
     "author": "tác giả {author}",
     "details": {
       "pages": "Số Trang",
@@ -125,6 +206,16 @@
     "cta": {
       "note": "Đã nắm được kiến thức cơ bản? Hãy chuyển ngay tới bộ sưu tập câu hỏi của chúng tôi.",
       "button": "Xem Tất Cả 50+ Câu Hỏi"
+    },
+    "fallback": {
+      "title": "Sổ tay HỎI - ĐÁP về thị trường Carbon tại Việt Nam, hướng tới 2030",
+      "author": "TS. Lê Duy Anh, PGS.TS Vũ Anh Dũng, TS. Trương Thu Hà",
+      "description": "Sổ tay thực hành dịch các chính sách thị trường carbon phức tạp thành ngôn ngữ đơn giản cho các đội ngũ SME. Học cách tín chỉ được tạo ra, giao dịch và xác minh với các ví dụ thực tế từ doanh nghiệp Việt Nam.",
+      "publisher": "Viện Thị Trường Carbon",
+      "retailers": {
+        "exploreChapters": "Bản tiếng Việt",
+        "searchAnswers": "Comming soon"
+      }
     }
   },
   "commonQuestions": {

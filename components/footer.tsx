@@ -9,7 +9,7 @@ export function Footer() {
   return (
     <footer className="bg-foreground text-background py-8 sm:py-12 lg:py-16" id="contact">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
@@ -21,79 +21,6 @@ export function Footer() {
             <p className="text-background/80 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
               {t('brand.description')}
             </p>
-            <div className="flex gap-2 sm:gap-3">
-              <Link href="#" className="bg-background/10 hover:bg-background/20 p-2 rounded-lg transition-colors">
-                <Facebook className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Link>
-
-              <Link href="#" className="bg-background/10 hover:bg-background/20 p-2 rounded-lg transition-colors">
-                <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">{t('quickLinks.title')}</h3>
-            <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
-              <li>
-                <Link href="#about" className="text-background/80 hover:text-background transition-colors">
-                  {t('quickLinks.about')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#training" className="text-background/80 hover:text-background transition-colors">
-                  {t('quickLinks.training')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#resources" className="text-background/80 hover:text-background transition-colors">
-                  {t('quickLinks.resources')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-background/80 hover:text-background transition-colors">
-                  {t('quickLinks.successStories')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-background/80 hover:text-background transition-colors">
-                  {t('quickLinks.blog')}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">{t('services.title')}</h3>
-            <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
-              <li>
-                <Link href="#" className="text-background/80 hover:text-background transition-colors">
-                  {t('services.carbonAssessment')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-background/80 hover:text-background transition-colors">
-                  {t('services.tradingConsultation')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-background/80 hover:text-background transition-colors">
-                  {t('services.certificationSupport')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-background/80 hover:text-background transition-colors">
-                  {t('services.customTraining')}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-background/80 hover:text-background transition-colors">
-                  {t('services.ongoingSupport')}
-                </Link>
-              </li>
-            </ul>
           </div>
 
           {/* Contact */}
@@ -106,7 +33,7 @@ export function Footer() {
                   href="mailto:info@carbonlearn.com"
                   className="text-background/80 hover:text-background transition-colors break-all"
                 >
-                  info@carbonlearn.com
+                  Email: anh.ld@vinuni.edu.vn
                 </a>
               </li>
               <li className="flex items-start gap-2">
@@ -117,7 +44,7 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 mt-0.5 text-background/80" />
-                <span className="text-background/80">123 Green Street, Sustainability City, SC 12345</span>
+                <span className="text-background/80">Vin University, Ocean Park, Gia Lam, Ha Noi</span>
               </li>
             </ul>
           </div>

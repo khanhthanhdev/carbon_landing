@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 type SupportedLocale = "en" | "vi";
-type PageKey = "home" | "search" | "books" | "askAi";
+type PageKey = "home" | "search" | "books" | "askAi" | "aboutUs";
 
 const SUPPORTED_LOCALES: SupportedLocale[] = ["en", "vi"];
 const DEFAULT_LOCALE: SupportedLocale = "vi";
@@ -15,6 +15,7 @@ const routePath: Record<PageKey, string> = {
   search: "/search",
   books: "/books",
   askAi: "/ask-ai",
+  aboutUs: "/about-us",
 };
 
 const openGraphImages: Record<PageKey, string> = {
@@ -22,6 +23,7 @@ const openGraphImages: Record<PageKey, string> = {
   search: "/carbon-markets-book-cover-with-green-leaf-design.jpg",
   books: "/book-cover-carbon-markets.jpg",
   askAi: "/diverse-business-professionals-learning-sustainabi.jpg",
+  aboutUs: "/lush-green-forest-canopy-aerial-view-sustainabilit.jpg",
 };
 
 const titles: Record<PageKey, Record<SupportedLocale, string>> = {
@@ -41,6 +43,10 @@ const titles: Record<PageKey, Record<SupportedLocale, string>> = {
     en: "Ask the Carbon AI Advisor",
     vi: "Trợ lý AI giải đáp về thị trường carbon",
   },
+  aboutUs: {
+    en: "About the CarbonLearn Team",
+    vi: "Về đội ngũ CarbonLearn",
+  },
 };
 
 const descriptions: Record<PageKey, Record<SupportedLocale, string>> = {
@@ -57,8 +63,12 @@ const descriptions: Record<PageKey, Record<SupportedLocale, string>> = {
     vi: "Tiếp cận bài học, phân tích chính sách và tình huống thực tế giúp bạn hiểu rõ thị trường carbon tại Việt Nam.",
   },
   askAi: {
-    en: "Chat with an AI mentor trained on Vietnam’s carbon regulations and SME best practices.",
+    en: "Chat with an AI mentor trained on Vietnam's carbon regulations and SME best practices.",
     vi: "Trò chuyện với trợ lý AI am hiểu quy định carbon của Việt Nam và kinh nghiệm triển khai cho SME.",
+  },
+  aboutUs: {
+    en: "Meet the expert team behind CarbonLearn's comprehensive carbon market training and resources for Vietnamese SMEs.",
+    vi: "Gặp gỡ đội ngũ chuyên gia đằng sau chương trình đào tạo và tài nguyên toàn diện về thị trường carbon của CarbonLearn dành cho doanh nghiệp SME Việt Nam.",
   },
 };
 
