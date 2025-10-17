@@ -38,7 +38,10 @@ export const setRecommendedBook = mutation({
   args: {
     locale: v.string(),
     title: v.string(),
-    author: v.optional(v.string()),
+    authors: v.optional(v.array(v.object({
+      name: v.string(),
+      link: v.string(),
+    }))),
     description: v.optional(v.string()),
     coverImage: v.optional(v.string()),
     pages: v.optional(v.number()),
@@ -63,7 +66,7 @@ export const setRecommendedBook = mutation({
 
     const payload = {
       title: args.title,
-      author: args.author,
+      authors: args.authors,
       description: args.description,
       coverImage: args.coverImage,
       pages: args.pages,

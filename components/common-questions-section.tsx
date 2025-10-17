@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, FileText, MessageSquare, ChevronRight } from "lucide-react";
 import { RichTextRenderer } from "@/components/rich-text-renderer";
-import { AiAssistantDialog } from "@/components/ai-assistant-dialog";
+import { AIChatDialog } from "@/components/ai-chat-dialog";
 import qaData from "@/data/qa_new.json";
 
 type QASection = (typeof qaData.sections)[number];
@@ -33,6 +33,8 @@ function createPreview(answer: string, limit = 700) {
 export function CommonQuestionsSection() {
   const t = useTranslations("commonQuestions");
   const locale = useLocale();
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState<string>("");
 
   const featuredQuestions = useMemo(() => {
     const sections: QASection[] = qaData.sections ?? [];
@@ -117,15 +119,18 @@ export function CommonQuestionsSection() {
                   </div>
                 )}
 
-                <AiAssistantDialog
-                  initialPrompt={question.question}
-                  trigger={
-                    <Button className="w-full sm:w-auto gap-2 bg-transparent text-sm" variant="outline" size="sm">
-                      <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
-                      {t("askAI")}
-                    </Button>
-                  }
-                />
+                <Button
+                  onClick={() => {
+                    setCurrentQuestion(question.question);
+                    setIsChatOpen(true);
+                  }}
+                  className="w-full sm:w-auto gap-2 bg-transparent text-sm"
+                  variant="outline"
+                  size="sm"
+                >
+                  <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
+                  {t("askAI")}
+                </Button>
               </div>
             </Card>
           ))}
@@ -144,6 +149,12 @@ export function CommonQuestionsSection() {
           </Button>
         </div>
       </div>
+
+      <AIChatDialog
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        initialContext={currentQuestion}
+      />
     </section>
   );
 }

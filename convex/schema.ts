@@ -183,7 +183,10 @@ export default defineSchema({
     locale: v.string(),
     payload: v.object({
       title: v.string(),
-      author: v.optional(v.string()),
+      authors: v.optional(v.array(v.object({
+        name: v.string(),
+        link: v.string(),
+      }))),
       description: v.optional(v.string()),
       coverImage: v.optional(v.string()),
       pages: v.optional(v.number()),

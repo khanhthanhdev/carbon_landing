@@ -1,7 +1,8 @@
 "use client"
 
 import { Card } from "@/components/ui/card"
-import { ExternalLink, FileText, BookOpen } from "lucide-react"
+import { ExternalLink, FileText, BookOpen, ChevronDown, ChevronUp } from "lucide-react"
+import { useState } from "react"
 interface Citation {
   id: number
   text?: string
@@ -15,14 +16,39 @@ interface CitationPanelProps {
 }
 
 export function CitationPanel({ citations }: CitationPanelProps) {
+  const [expanded, setExpanded] = useState(false)
+  const shouldTruncate = citations.length > 3 && !expanded
+  const displayed = shouldTruncate ? citations.slice(0, 3) : citations
   return (
     <Card className="mt-3 p-3 bg-muted/30 border-l-4 border-l-primary">
-      <div className="flex items-center gap-2 mb-2">
-        <BookOpen className="h-3 w-3 text-primary" />
-        <h4 className="text-xs font-semibold text-foreground">Sources</h4>
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2">
+          <BookOpen className="h-3 w-3 text-primary" />
+          <h4 className="text-xs font-semibold text-foreground">Sources</h4>
+        </div>
+        {citations.length > 3 && (
+          <button
+            aria-expanded={expanded}
+            onClick={() => setExpanded(!expanded)}
+            className="text-xs text-primary inline-flex items-center gap-1 hover:underline"
+          >
+            {expanded ? (
+              <>
+                <ChevronUp className="h-3 w-3" />
+                Close
+              </>
+            ) : (
+              <>
+                <ChevronDown className="h-3 w-3" />
+                Expand
+              </>
+            )}
+          </button>
+        )}
       </div>
-      <div className="flex flex-wrap gap-2">
-        {citations.map((citation) => (
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        {displayed.map((citation) => (
           <div
             key={citation.id}
             className="flex items-center gap-2 p-2 bg-background rounded-md border border-border hover:border-primary/50 transition-colors text-xs"
@@ -33,11 +59,11 @@ export function CitationPanel({ citations }: CitationPanelProps) {
               </div>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-foreground truncate max-w-[200px]" title={citation.source}>
+              <p className="text-xs text-foreground truncate" title={citation.source}>
                 {citation.source}
               </p>
               {citation.page && (
-                <p className="text-xs text-muted-foreground truncate max-w-[200px]" title={citation.page}>
+                <p className="text-xs text-muted-foreground truncate" title={citation.page}>
                   {citation.page}
                 </p>
               )}

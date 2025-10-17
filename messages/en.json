@@ -197,7 +197,6 @@
     "title": "Start with the Fundamentals",
     "description": "Before diving into specific questions, we highly recommend reading this comprehensive guide to build a strong foundation in carbon markets.",
     "rating": "",
-    "author": "by {author}",
     "details": {
       "pages": "Pages",
       "publisher": "Publisher",
@@ -209,12 +208,15 @@
     },
     "fallback": {
       "title": "Carbon Markets Starter Guide",
-      "author": "Carbon Training Lab",
       "description": "A practical field manual that translates complex carbon market policies into plain language for SME teams. Learn how credits are generated, traded, and verified with real-world examples from Vietnamese enterprises.",
       "publisher": "Carbon Market Institute",
       "retailers": {
         "exploreChapters": "Vietnamese Version",
         "searchAnswers": "Comming soon"
+      },
+      "googleDriveLinks": {
+        "exploreChapters": "https://drive.google.com/file/d/1EXAMPLE_LINK_1_EN/view?usp=sharing",
+        "searchAnswers": "https://drive.google.com/file/d/1EXAMPLE_LINK_2_EN/view?usp=sharing"
       }
     }
   },

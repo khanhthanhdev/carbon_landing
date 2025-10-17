@@ -26,23 +26,23 @@ export function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Link href="/#book">
+            <Link href="/#book" className="w-full sm:flex-1 sm:max-w-[240px]">
               <Button
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base group min-w-[200px]"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base group"
               >
                 <BookOpen className="mr-2 h-5 w-5" />
                 {t("readBook")}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link href="/questions">
-              <Button size="lg" variant="outline" className="px-8 py-6 text-base border-2 min-w-[200px] bg-transparent">
+            <Link href="/questions" className="w-full sm:flex-1 sm:max-w-[240px]">
+              <Button size="lg" variant="outline" className="w-full px-8 py-6 text-base border-2 bg-transparent">
                 {t("browseQuestions")}
               </Button>
             </Link>
-            <Link href="/ask-ai">
-              <Button size="lg" className="px-8 py-6 text-base bg-secondary text-secondary-foreground min-w-[200px]">
+            <Link href="/ask-ai" className="w-full sm:flex-1 sm:max-w-[240px]">
+              <Button size="lg" className="w-full px-8 py-6 text-base bg-secondary text-secondary-foreground">
                 {t("askAI")}
               </Button>
             </Link>

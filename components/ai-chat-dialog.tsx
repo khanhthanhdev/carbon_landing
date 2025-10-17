@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { X, Send, Bot, User, Loader2, AlertCircle } from "lucide-react"
 import { RichTextRenderer } from "@/components/rich-text-renderer"
+import { Textarea } from "@/components/ui/textarea"
 import { useAIChat, useGenerateSessionId } from "@/hooks/use-ai-chat"
 import { useLocale } from "next-intl"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -24,7 +25,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
   const sessionId = useGenerateSessionId()
   const [inputValue, setInputValue] = useState("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   const {
     messages,
@@ -50,7 +51,8 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
 
   useEffect(() => {
     if (isOpen) {
-      inputRef.current?.focus()
+      // focus the textarea when opening the dialog
+      setTimeout(() => inputRef.current?.focus(), 50)
       if (initialContext) {
         setInputValue(initialContext)
       }
@@ -72,7 +74,8 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
     }
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Enter to send, Shift+Enter for newline
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
       handleSend()
@@ -87,26 +90,17 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm">
-      <Card className="w-full max-w-5xl h-[90vh] sm:h-[85vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-        {/* Header */}
-        <div className="flex items-center justify-between p-3 sm:p-4 border-b bg-gradient-to-r from-primary/10 to-primary/5 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary/20 flex items-center justify-center">
-              <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-            </div>
-            <div>
-              <h2 className="text-lg sm:text-xl font-bold text-foreground">{t("title")}</h2>
-              <p className="text-xs text-muted-foreground">{t("subtitle")}</p>
-            </div>
-          </div>
-          <Button variant="ghost" size="icon" onClick={onClose} className="hover:bg-destructive/10 h-8 w-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" role="dialog" aria-modal="true">
+  <Card className="relative w-full max-w-5xl h-[90vh] sm:h-[85vh] flex flex-col shadow-2xl rounded-lg overflow-hidden bg-white">
+        {/* Close button (moved into main dialog) */}
+        <div className="absolute right-3 top-3 z-30">
+          <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
             <X className="h-4 w-4" />
           </Button>
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 min-h-0">
+  {/* Messages */}
+  <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3 min-h-0 bg-white">
           {isLoading && messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <Loader2 className="h-12 w-12 sm:h-16 sm:w-16 text-primary animate-spin mb-4" />
@@ -117,16 +111,16 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
               <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6">
                 <Bot className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">{t("welcomeTitle")}</h3>
-              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl leading-relaxed mb-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2">{t("welcomeTitle")}</h3>
+              <p className="text-muted-foreground text-sm sm:text-base max-w-2xl leading-relaxed mb-6">
                 {initialContext 
                   ? t("contextualDescription", { context: initialContext })
                   : t("defaultDescription")}
               </p>
               
               {/* Suggested Questions */}
-              <div className="w-full max-w-3xl space-y-3">
-                <p className="text-sm font-medium text-muted-foreground mb-4">{t("suggestedHeader")}</p>
+              <div className="w-full max-w-3xl space-y-2">
+                <p className="text-sm font-medium text-muted-foreground mb-3">{t("suggestedHeader")}</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {initialContext ? (
                     <>
@@ -134,7 +128,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
                         onClick={() => setInputValue(`Tell me more about: ${initialContext}`)}
                         className="p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                       >
-                        <div className="text-2xl mb-2">📖</div>
+                        
                         <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {t("contextualQuestion1")}
                         </div>
@@ -143,7 +137,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
                         onClick={() => setInputValue(`What are the key concepts related to ${initialContext}?`)}
                         className="p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                       >
-                        <div className="text-2xl mb-2">💡</div>
+                        
                         <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {t("contextualQuestion2")}
                         </div>
@@ -152,7 +146,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
                         onClick={() => setInputValue(`How does ${initialContext} work in practice?`)}
                         className="p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group sm:col-span-2"
                       >
-                        <div className="text-2xl mb-2">⚙️</div>
+                        
                         <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {t("contextualQuestion3")}
                         </div>
@@ -164,7 +158,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
                         onClick={() => setInputValue("What is a carbon credit?")}
                         className="p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                       >
-                        <div className="text-2xl mb-2">💰</div>
+                        
                         <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {t("generalQuestion1")}
                         </div>
@@ -173,7 +167,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
                         onClick={() => setInputValue("How do carbon markets work?")}
                         className="p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                       >
-                        <div className="text-2xl mb-2">🌍</div>
+                        
                         <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {t("generalQuestion2")}
                         </div>
@@ -182,7 +176,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
                         onClick={() => setInputValue("What are the different types of carbon offset projects?")}
                         className="p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                       >
-                        <div className="text-2xl mb-2">🌱</div>
+                        
                         <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {t("generalQuestion3")}
                         </div>
@@ -191,7 +185,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
                         onClick={() => setInputValue("How can companies participate in carbon markets?")}
                         className="p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                       >
-                        <div className="text-2xl mb-2">🏢</div>
+                        <div className="text-2xl mb-2"></div>
                         <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                           {t("generalQuestion4")}
                         </div>
@@ -202,7 +196,7 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
               </div>
             </div>
           ) : (
-            <div className="space-y-6 max-w-4xl mx-auto">
+            <div className="space-y-3 max-w-3xl mx-auto">
               {messages.map((message, index) => {
                 const messageId = `${message.timestamp}-${index}`;
                 return (
@@ -262,36 +256,36 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
           </div>
         )}
 
-        {/* Input */}
-        <div className="p-4 sm:p-6 lg:p-8 border-t bg-muted/30 flex-shrink-0">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex gap-2 sm:gap-3">
-              <input
+  {/* Input */}
+  <div className="px-3 py-2 border-t bg-white flex-shrink-0">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex gap-2 items-center">
+              <Textarea
                 ref={inputRef}
-                type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder={t("inputPlaceholder")}
-                className="flex-1 px-4 sm:px-5 py-3 sm:py-4 rounded-full border-2 border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="min-h-[36px] max-h-36 resize-none transition-all flex-1"
                 disabled={isSending}
+                rows={2}
               />
-              <Button
-                size="icon"
-                onClick={handleSend}
-                disabled={!inputValue.trim() || isSending}
-                className="rounded-full h-12 w-12 sm:h-14 sm:w-14 flex-shrink-0 transition-all hover:scale-105"
-              >
-                {isSending ? (
-                  <Loader2 className="h-5 w-5 sm:h-6 sm:w-6 animate-spin" />
-                ) : (
-                  <Send className="h-5 w-5 sm:h-6 sm:w-6" />
-                )}
-              </Button>
+              <div className="flex items-center">
+                <Button
+                  size="icon"
+                  onClick={handleSend}
+                  disabled={!inputValue.trim() || isSending}
+                  className="h-9 w-9"
+                  aria-label="Send message"
+                >
+                  {isSending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
             </div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-3 text-center">
-              {t("inputHelp")}
-            </p>
           </div>
         </div>
       </Card>

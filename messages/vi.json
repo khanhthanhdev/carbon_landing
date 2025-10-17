@@ -32,8 +32,8 @@
         },
         {
           "name": "TS. Trương Thu Hà",
-          "credentials": "Giảng viên Bộ môn Chính sách công",
-          "institute": "Trường Đại học Kinh tế",
+          "credentials": "Giảng viên Bộ môn Chính sách công, Trường Đại học Kinh tế",
+          "institute": "Đại học Quốc gia Hà Nội",
           "image": "/truong_thu_ha.png",
           "link": "https://ueb.edu.vn/Don-Vi-Giang-Vien/UEB/TS-TRUONG-THU-HA-/1873/1931/31354"
         }
@@ -197,7 +197,6 @@
     "title": "Bắt Đầu Với Kiến Thức Nền Tảng",
     "description": "Trước khi đi sâu vào từng câu hỏi, chúng tôi khuyến nghị bạn đọc cuốn cẩm nang toàn diện này để xây dựng nền tảng vững chắc về thị trường carbon.",
     "rating": "",
-    "author": "tác giả {author}",
     "details": {
       "pages": "Số Trang",
       "publisher": "Nhà Xuất Bản",
@@ -208,13 +207,16 @@
       "button": "Xem Tất Cả 50+ Câu Hỏi"
     },
     "fallback": {
-      "title": "Sổ tay HỎI - ĐÁP về thị trường Carbon tại Việt Nam, hướng tới 2030",
-      "author": "TS. Lê Duy Anh, PGS.TS Vũ Anh Dũng, TS. Trương Thu Hà",
+      "title": "SỔ TAY HỎI ĐÁP CHO DOANH NGHIỆP VỪA VÀ NHỎ VỀ THỊ TRƯỜNG CARBON TẠI VIỆT NAM, HƯỚNG TỚI 20230",
       "description": "Sổ tay thực hành dịch các chính sách thị trường carbon phức tạp thành ngôn ngữ đơn giản cho các đội ngũ SME. Học cách tín chỉ được tạo ra, giao dịch và xác minh với các ví dụ thực tế từ doanh nghiệp Việt Nam.",
       "publisher": "Viện Thị Trường Carbon",
       "retailers": {
         "exploreChapters": "Bản tiếng Việt",
         "searchAnswers": "Comming soon"
+      },
+      "googleDriveLinks": {
+        "exploreChapters": "https://drive.google.com/file/d/1EXAMPLE_LINK_1/view?usp=sharing",
+        "searchAnswers": "https://drive.google.com/file/d/1EXAMPLE_LINK_2/view?usp=sharing"
       }
     }
   },

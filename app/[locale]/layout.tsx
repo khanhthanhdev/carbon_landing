@@ -9,6 +9,7 @@ import { locales } from "@/i18n/request";
 import { Providers } from "@/app/providers";
 import { buildPageMetadata } from "@/lib/seo";
 
+
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
   variable: "--font-inter",
