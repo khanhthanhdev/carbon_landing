@@ -29,7 +29,7 @@ export function MainSearchSection() {
   };
 
   return (
-    <section className="py-8 sm:py-12 lg:py-16 xl:py-20 bg-gradient-to-b from-background to-muted/30">
+    <section className="pt-16 sm:pt-0 py-8 sm:py-12 lg:py-16 xl:py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <Card className="p-4 sm:p-6 lg:p-8 xl:p-10 border-2 shadow-lg">

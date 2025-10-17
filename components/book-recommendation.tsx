@@ -75,7 +75,7 @@ export function BookRecommendation() {
 
   if (showLoadingState) {
     return (
-      <section className="py-6 sm:py-8 md:py-10 lg:py-8 xl:py-10 bg-muted/20" id="book">
+      <section className="pt-16 sm:pt-0 py-6 sm:py-8 md:py-10 lg:py-8 xl:py-10 bg-muted/20" id="book">
         <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center mb-4 sm:mb-6 md:mb-8 lg:mb-6 xl:mb-8">
             <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-primary/10 text-primary px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-full mb-3 sm:mb-4 md:mb-6">
@@ -124,7 +124,7 @@ export function BookRecommendation() {
     );
   }
   return (
-    <section className="py-6 sm:py-8 md:py-10 lg:py-8 xl:py-10 bg-muted/20" id="book">
+    <section className="pt-16 sm:pt-0 py-6 sm:py-8 md:py-10 lg:py-8 xl:py-10 bg-muted/20" id="book">
       <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center mb-4 sm:mb-6 md:mb-8 lg:mb-6 xl:mb-8">
             <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-primary/10 text-primary px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-full mb-3 sm:mb-4 md:mb-6">

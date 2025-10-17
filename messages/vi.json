@@ -12,21 +12,21 @@
   },
   "aboutUs": {
     "title": "Về Chúng Tôi",
-    "subtitle": "Đội ngũ các chuyên gia, giảng viên từ Trường Đại học Vin University",
+    "subtitle": "Đội ngũ các chuyên gia, giảng viên từ Trường Đại học VinUniversity và Trường Đại học Kinh tế, Đại học Quốc gia Hà Nội",
     "coChairs": {
       "title": "Đồng Chủ Trì và Biên Tập",
       "members": [
         {
           "name": "TS. Lê Duy Anh",
           "credentials": "Giám đốc chương trình, Giảng Viên Chương trình Kinh tế học",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "image": "/duy_anh.png",
           "link": "https://vinuni.edu.vn/vi/people/ts-le-duy-anh/"
         },
         {
           "name": "PGS.TS Vũ Anh Dũng",
           "credentials": "Viện trưởng sáng lập Viện Khoa học và Giáo dục Khai phóng",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "image": "/vu_anh_dung.jpg",
           "link": "https://vinuni.edu.vn/vi/people/pgs-ts-vu-anh-dzung/"
         },
@@ -45,31 +45,31 @@
         {
           "name": "ThS. Trần Diệu Anh",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/ths-tran-dieu-anh"
         },
         {
           "name": "ThS.Trần Anh Khoa",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/ths-tran-anh-khoa"
         },
         {
           "name": "Nguyễn Minh Khuê",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/nguyen-minh-khue"
         },
         {
           "name": "Trần Thị Hồng Phúc",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/tran-thi-hong-phuc"
         },
         {
           "name": "Lê Thiên Hà Ngân",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/le-thien-ha-ngan"
         }
       ]
@@ -78,7 +78,7 @@
       "title": "Đơn Vị Thực Hiện, Tổ Chức",
       "members": [
         {
-          "name": "Vin University",
+          "name": "VinUniversity",
           "description": "Trường đại học tư thục hàng đầu Việt Nam",
           "image": "/vin_uni.png"
         },

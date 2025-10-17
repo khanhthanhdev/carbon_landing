@@ -19,21 +19,21 @@
         {
           "name": "Dr. Lê Duy Anh",
           "credentials": "PhD",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "image": "/duy_anh.png",
           "link": "https://vinuni.edu.vn/faculty/dr-le-duy-anh"
         },
         {
           "name": "Prof. Dr. Vũ Anh Dũng",
           "credentials": "Associate Professor, PhD",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "image": "/vu_anh_dung.jpg",
           "link": "https://vinuni.edu.vn/faculty/prof-dr-vu-anh-dung"
         },
         {
           "name": "Dr. Trương Thu Hà",
           "credentials": "PhD",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "image": "/placeholder-user.jpg",
           "link": "https://vinuni.edu.vn/faculty/dr-truong-thu-ha"
         }
@@ -45,31 +45,31 @@
         {
           "name": "Dr. Trần Diệu Anh",
           "credentials": "PhD Candidate",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/dr-tran-dieu-anh"
         },
         {
           "name": "Dr. Trần Anh Khoa",
           "credentials": "PhD Candidate",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/dr-tran-anh-khoa"
         },
         {
           "name": "Nguyễn Minh Khuê",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/nguyen-minh-khue"
         },
         {
           "name": "Trần Thị Hồng Phúc",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/tran-thi-hong-phuc"
         },
         {
           "name": "Lê Thiên Hà Ngân",
           "credentials": "",
-          "institute": "Vin University",
+          "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/le-thien-ha-ngan"
         }
       ]
@@ -78,7 +78,7 @@
       "title": "Organizing Institutions",
       "members": [
         {
-          "name": "Vin University",
+          "name": "VinUniversity",
           "description": "Leading private university in Vietnam",
           "image": "/placeholder-logo.png"
         },

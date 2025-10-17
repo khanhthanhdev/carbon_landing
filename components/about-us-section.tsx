@@ -15,20 +15,20 @@ export function AboutUsSection() {
   const organizations = t.raw("organizations.members") as Array<{ name: string; description: string; image?: string }>;
 
   return (
-    <section className="py-8 sm:py-12 lg:py-20 bg-background">
+    <section className="pt-16 sm:pt-0 py-8 sm:py-12 lg:py-16 xl:py-12 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 sm:mb-4 text-balance">
+        <div className="text-center mb-4 sm:mb-8 lg:mb-12 xl:mb-8">
+          <h1 className="text-3xl sm:text-4xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-foreground mb-3 sm:mb-4 text-balance">
             {t("title")}
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto text-pretty px-4">
+          <p className="text-base sm:text-lg md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty px-4">
             {t("subtitle")}
           </p>
         </div>
 
         {/* Co-Chairs and Editors */}
-        <div className="mb-12 lg:mb-16">
+        <div className="mb-8 lg:mb-10 xl:mb-8">
           <div className="text-center mb-8 lg:mb-10">
             <Badge variant="secondary" className="mb-3 px-3 py-1.5 text-lg font-medium">
               <Users className="h-4 w-4 mr-2" />

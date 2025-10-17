@@ -44,7 +44,7 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 mt-0.5 text-background/80" />
-                <span className="text-background/80">Vin University, Ocean Park, Gia Lam, Ha Noi</span>
+                <span className="text-background/80">VinUniversity, Ocean Park, Gia Lam, Ha Noi</span>
               </li>
             </ul>
           </div>
