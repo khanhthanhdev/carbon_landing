@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -74,7 +74,7 @@ export function CommonQuestionsSection() {
                 <div className="bg-primary/10 text-primary rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center font-bold flex-shrink-0 text-sm sm:text-base">
                   {index + 1}
                 </div>
-                <Link href={`/${locale}/books#${question.id}`}>
+                <Link href={`/books#${question.id}`}>
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-2 sm:mb-3 w-full hover:text-primary transition-colors cursor-pointer">
                     {question.question}
                   </h3>
@@ -142,7 +142,7 @@ export function CommonQuestionsSection() {
             size="lg"
             className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2 w-full sm:w-auto"
           >
-            <Link href={`/${locale}/books`}>
+            <Link href="/books">
               {t("viewAll")}
               <ChevronRight className="h-5 w-5" />
             </Link>

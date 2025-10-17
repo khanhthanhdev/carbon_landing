@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ArrowRight, BookOpen } from "lucide-react"
-import Link from "next/link"
+import { Link } from "@/lib/navigation"
 import { useTranslations } from "next-intl"
 
 export function Hero() {

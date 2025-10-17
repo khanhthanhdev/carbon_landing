@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useLocale } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
 import { usePathname } from "next/navigation";
 import { locales } from "@/i18n/request";
 
@@ -33,7 +33,7 @@ export function LocaleSwitcher() {
         return (
           <Link
             key={locale}
-            href={`/${locale}${normalizedPath}`}
+            href={normalizedPath}
             className={`rounded-full px-2 py-1 transition-colors ${
               isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
             }`}

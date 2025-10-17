@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -84,7 +84,7 @@ export function KnowledgeOverview() {
                     variant="outline"
                     className="w-full justify-between text-base py-3 group-hover:border-primary/50 transition-colors"
                   >
-                    <Link href={`/${locale}/books#${section.id}`}>
+                    <Link href={`/books#${section.id}`}>
                       {t("sectionCta")}
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
@@ -101,7 +101,7 @@ export function KnowledgeOverview() {
             size="lg"
             className="bg-primary text-primary-foreground hover:bg-primary/90 gap-3 px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
           >
-            <Link href={`/${locale}/books`}>
+            <Link href="/books">
               {t("cta")}
               <ArrowRight className="h-5 w-5" />
             </Link>

@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, ExternalLink, ShoppingCart, Star, FileText, Calendar } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
 import { useRecommendedBook } from "@/hooks/use-recommended-book";
 
 // Authors data - moved out of translations since next-intl doesn't support arrays
@@ -247,7 +247,7 @@ export function BookRecommendation() {
             className="w-full sm:w-auto bg-transparent text-sm sm:text-base"
             asChild
           >
-            <Link href={`/${locale}/questions`}>
+            <Link href="/questions">
               {t("cta.button")}
               <ExternalLink className="h-2.5 w-2.5 sm:h-3 sm:w-3 ml-2" />
             </Link>
