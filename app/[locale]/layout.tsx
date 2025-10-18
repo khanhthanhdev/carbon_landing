@@ -43,6 +43,14 @@ export default async function RootLayout({
 
   return (
     <html lang={resolvedLocale} className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className={`font-sans ${inter.variable}`}>
         <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
           <Providers>

@@ -6,6 +6,7 @@ import { BookOpen, ExternalLink, ShoppingCart, Star, FileText, Calendar } from "
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/lib/navigation";
 import { useRecommendedBook } from "@/hooks/use-recommended-book";
+import Image from "next/image";
 
 // Authors data - moved out of translations since next-intl doesn't support arrays
 const AUTHORS_DATA = {
@@ -143,13 +144,16 @@ export function BookRecommendation() {
           <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-8 xl:gap-10 min-h-[400px] md:min-h-[450px] lg:min-h-[500px]">
             <div className="flex items-center justify-center md:justify-start order-1 h-full">
               <div className="relative group flex justify-center">
-                <img
+                <Image
                   src={
                     bookData.coverImage ??
                     "/carbon-markets-book-cover-with-green-leaf-design.jpg"
                   }
                   alt={bookData.title}
+                  width={550}
+                  height={700}
                   className="relative rounded-lg shadow-xl w-full max-w-[280px] sm:max-w-[340px] md:max-w-[400px] lg:max-w-[480px] xl:max-w-[550px] group-hover:scale-105 transition-transform duration-300"
+                  priority
                 />
               </div>
             </div>
@@ -247,7 +251,7 @@ export function BookRecommendation() {
             className="w-full sm:w-auto bg-transparent text-sm sm:text-base"
             asChild
           >
-            <Link href="/questions">
+            <Link href="/books">
               {t("cta.button")}
               <ExternalLink className="h-2.5 w-2.5 sm:h-3 sm:w-3 ml-2" />
             </Link>

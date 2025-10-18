@@ -36,7 +36,7 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link href="/questions" className="w-full sm:flex-1 sm:max-w-[240px]">
+            <Link href="/books" className="w-full sm:flex-1 sm:max-w-[240px]">
               <Button size="lg" variant="outline" className="w-full px-8 py-6 text-base border-2 bg-transparent">
                 {t("browseQuestions")}
               </Button>
