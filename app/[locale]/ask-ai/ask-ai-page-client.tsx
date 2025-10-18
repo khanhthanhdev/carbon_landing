@@ -29,13 +29,12 @@ export default function AskAiPageClient() {
     try {
       await sendMessage(content)
     } catch (error) {
-      console.error("Failed to send message:", error)
+      // Error handled silently
     }
   }
 
   const handleFeedback = (messageId: string, rating: number, comment: string) => {
     // TODO: Implement feedback mutation
-    console.log("Feedback:", { messageId, rating, comment })
   }
 
   return (

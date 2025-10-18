@@ -20,11 +20,7 @@ export function Hero() {
   }, [])
 
   return (
-    <>
-      <UserGuideDialog
-        open={isUserGuideOpen}
-        onOpenChange={setIsUserGuideOpen}
-      />
+
       <section className="relative min-h-screen flex items-center justify-center pt-16">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-muted/20" />
 
@@ -84,6 +80,5 @@ export function Hero() {
         </div>
       </div>
     </section>
-    </>
   )
 }

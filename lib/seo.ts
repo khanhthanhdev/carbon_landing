@@ -6,7 +6,7 @@ type PageKey = "home" | "search" | "books" | "askAi" | "aboutUs";
 const SUPPORTED_LOCALES: SupportedLocale[] = ["en", "vi"];
 const DEFAULT_LOCALE: SupportedLocale = "vi";
 const SITE_NAME = "CarbonLearn";
-const DEFAULT_SITE_URL = "https://carbonmarketvietnam.com";
+const DEFAULT_SITE_URL = "https://www.carbonmarketvietnam.com";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE_URL;
 

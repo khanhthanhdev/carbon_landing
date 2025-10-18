@@ -60,7 +60,6 @@ export function AIChatInterface({
     try {
       await onSendMessage(messageContent)
     } catch (error) {
-      console.error("Failed to send message:", error)
       // Restore input value on error
       setInputValue(messageContent)
     }
