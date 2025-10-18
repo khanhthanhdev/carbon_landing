@@ -4,14 +4,31 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, BookOpen } from "lucide-react"
 import { Link } from "@/lib/navigation"
 import { useTranslations } from "next-intl"
+import { useState, useEffect } from "react"
+import { UserGuideDialog } from "./user-guide-dialog"
 
 export function Hero() {
   const t = useTranslations("hero")
-  return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-muted/20" />
+  const [isUserGuideOpen, setIsUserGuideOpen] = useState(false)
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 sm:py-20">
+  useEffect(() => {
+    const hasVisited = localStorage.getItem("hasVisited")
+    if (!hasVisited) {
+      setIsUserGuideOpen(true)
+      localStorage.setItem("hasVisited", "true")
+    }
+  }, [])
+
+  return (
+    <>
+      <UserGuideDialog
+        open={isUserGuideOpen}
+        onOpenChange={setIsUserGuideOpen}
+      />
+      <section className="relative min-h-screen flex items-center justify-center pt-16">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-muted/20" />
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 sm:py-20">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 border border-primary/20 text-foreground px-4 py-2 rounded-full mb-8 text-sm font-medium">
             {t("badge")}
@@ -67,5 +84,6 @@ export function Hero() {
         </div>
       </div>
     </section>
+    </>
   )
 }

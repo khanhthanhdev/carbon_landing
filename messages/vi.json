@@ -485,5 +485,17 @@
       "save": "Lưu",
       "cancel": "Hủy"
     }
+  },
+  "userGuide": {
+    "title": "Chào mừng bạn đến với trang web của chúng tôi!",
+    "description": "Đây là hướng dẫn nhanh để giúp bạn bắt đầu:",
+    "items": {
+      "softCopy": "Link bản mềm của sách",
+      "questionList": "Danh sách câu hỏi",
+      "askAI": "Hỏi AI về các câu hỏi liên quan đến thị trường carbon",
+      "aiAssistant": "Trợ lý AI ở góc",
+      "aboutAuthors": "Về các tác giả",
+      "surveyForm": "Form khảo sát"
+    }
   }
 }
