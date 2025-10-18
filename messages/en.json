@@ -485,5 +485,17 @@
       "save": "Save",
       "cancel": "Cancel"
     }
+  },
+    "userGuide": {
+    "title": "Welcome to our website!",
+    "description": "Here is a quick guide to help you get started:",
+    "items": {
+      "softCopy": "Link to the soft copy of the book",
+      "questionList": "List of questions",
+      "askAI": "Ask AI about carbon market questions",
+      "aiAssistant": "AI assistant in the corner",
+      "aboutAuthors": "About the authors",
+      "surveyForm": "Survey form"
+    }
   }
 }
