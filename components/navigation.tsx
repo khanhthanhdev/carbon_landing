@@ -7,10 +7,17 @@ import { Leaf, Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import Image from "next/image";
+
 export function Navigation() {
   const t = useTranslations("navigation");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Ensure component is mounted on client
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +29,11 @@ export function Navigation() {
   }, []);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  // Don't render until mounted to avoid hydration issues
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <nav
@@ -38,6 +50,7 @@ export function Navigation() {
                 alt="CarbonLearn Logo"
                 fill
                 className="object-contain rounded-lg"
+                sizes=""
               />
             </div>
             <span className="text-xl font-bold text-foreground">{t("brand")}</span>

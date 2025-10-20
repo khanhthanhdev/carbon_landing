@@ -138,6 +138,24 @@ export default defineSchema({
     rating: v.number(),
     comment: v.string(),
     locale: v.optional(v.string()),
+    // Detailed ratings - each section has sub-questions (1-5 scale)
+    // 1️⃣ Nội dung thông tin
+    contentAccuracy: v.optional(v.number()), // Thông tin có chính xác, dễ hiểu không?
+    contentRelevance: v.optional(v.number()), // Có phù hợp với thực tế doanh nghiệp Việt Nam?
+    contentFreshness: v.optional(v.number()), // Có được cập nhật thường xuyên không?
+    // 2️⃣ Dễ sử dụng
+    interfaceSimplicity: v.optional(v.number()), // Giao diện có đơn giản, dễ tìm kiếm thông tin không?
+    languageSupport: v.optional(v.number()), // Có hỗ trợ tiếng Việt rõ ràng, dễ đọc không?
+    // 3️⃣ Công cụ và tính năng hỗ trợ
+    toolsAvailability: v.optional(v.number()), // Có tính năng tra cứu nhanh, đặt câu hỏi?
+    // 4️⃣ Kết nối và chia sẻ
+    networkingCapability: v.optional(v.number()), // Có thể kết nối, học hỏi từ doanh nghiệp khác?
+    knowledgeSharing: v.optional(v.number()), // Có cơ chế cập nhật câu hỏi và câu trả lời?
+    // 5️⃣ Giá trị và tác động
+    understandingImprovement: v.optional(v.number()), // Giúp hiểu rõ hơn về thị trường carbon?
+    practicalApplication: v.optional(v.number()), // Áp dụng được vào hoạt động thực tế?
+    // 6️⃣ Sự hài lòng chung
+    overallSatisfaction: v.optional(v.number()),
     createdAt: v.number(),
   }).index("byRating", ["rating"]),
 

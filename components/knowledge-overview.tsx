@@ -36,9 +36,9 @@ export function KnowledgeOverview() {
             <Layers className="h-4 w-4" />
             <span className="text-sm font-medium uppercase tracking-wide">{t("spotlight")}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 text-balance leading-tight">
+          {/* <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 text-balance leading-tight">
             {t("title")}
-          </h2>
+          </h2> */}
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty leading-relaxed">
             {t("subtitle")}
           </p>

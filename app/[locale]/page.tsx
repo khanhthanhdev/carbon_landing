@@ -12,6 +12,7 @@ import { FeedbackForm } from "@/components/feedback-form";
 import { FeedbackSection } from "@/components/feedback-section";
 import { SponsorsSection } from "@/components/sponsors-section";
 import { SurveySection } from "@/components/survey-section";
+import { FutureSection } from "@/components/future-section";
 
 export async function generateMetadata({
   params,
@@ -28,6 +29,7 @@ export default function HomePage() {
       <Navigation />
       <main className="bg-background">
         <Hero />
+        <FutureSection />
         <BookRecommendation />
         <KnowledgeOverview />
         <MainSearchSection />
@@ -36,8 +38,9 @@ export default function HomePage() {
         {/* <BookFlipSection />
         <TrainingDetails /> */}
         <FeedbackSection />
-        <SponsorsSection />
         <SurveySection />
+        <SponsorsSection />
+        
       </main>
       <Footer />
     </>

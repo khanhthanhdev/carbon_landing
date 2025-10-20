@@ -196,6 +196,8 @@
     "badge": "Essential Reading",
     "title": "Start with the Fundamentals",
     "description": "Before diving into specific questions, we highly recommend reading this comprehensive guide to build a strong foundation in carbon markets.",
+    "showMore": "Show more",
+    "showLess": "Show less",
     "rating": "",
     "details": {
       "pages": "Pages",
@@ -403,12 +405,41 @@
   },
   "feedback": {
     "trigger": "Share feedback",
-    "title": "Share Your Feedback",
-    "description": "Help us improve by sharing your experience",
+    "title": "Carbon Knowledge Platform Evaluation",
+    "description": "Help us improve by sharing your evaluation of the platform",
     "fields": {
       "rating": {
-        "label": "Your Rating",
+        "label": "Overall Rating",
         "option": "Rate {value} out of 5"
+      },
+      "section1": {
+        "title": "1️⃣ Content Quality",
+        "contentAccuracy": "Is the information accurate and easy to understand?",
+        "contentRelevance": "Is it relevant to Vietnamese SMEs (regulations, examples, practical guidance)?",
+        "contentFreshness": "Is it regularly updated?"
+      },
+      "section2": {
+        "title": "2️⃣ Ease of Use",
+        "interfaceSimplicity": "Is the interface simple and easy to search?",
+        "languageSupport": "Is Vietnamese support clear and readable on phone and computer?"
+      },
+      "section3": {
+        "title": "3️⃣ Tools & Features",
+        "toolsAvailability": "Are there quick search, Q&A, or expert consultation features?"
+      },
+      "section4": {
+        "title": "4️⃣ Connection & Sharing",
+        "networkingCapability": "Can businesses connect and learn from other businesses or experts?",
+        "knowledgeSharing": "Is there a mechanism for updating Q&A and sharing experiences?"
+      },
+      "section5": {
+        "title": "5️⃣ Value & Impact",
+        "understandingImprovement": "Does the platform help businesses better understand carbon markets?",
+        "practicalApplication": "Can businesses apply the information to practical activities?"
+      },
+      "section6": {
+        "title": "6️⃣ Overall Satisfaction",
+        "overallSatisfaction": "Your overall satisfaction level with the platform"
       },
       "name": {
         "label": "Name",
@@ -419,8 +450,8 @@
         "placeholder": "your@email.com"
       },
       "comment": {
-        "label": "Comments",
-        "placeholder": "Share your thoughts..."
+        "label": "Comments & Suggestions",
+        "placeholder": "Share your feedback and suggestions for improvement..."
       }
     },
     "actions": {
@@ -513,6 +544,27 @@
       "aboutAuthors": "About the authors",
       "surveyForm": "Survey form"
     }
+  },
+  "futureSection": {
+    "badge": "Future Features",
+    "title": "Coming Soon",
+    "subtitle": "We're continuously improving our platform with cutting-edge features to enhance your learning experience",
+    "continuousUpdates": {
+      "title": "Continuously Updated Question Set",
+      "description": "Our knowledge base is regularly updated with the latest carbon market developments, regulations, and best practices",
+      "buttonText": "Explore Questions"
+    },
+    "semanticSearch": {
+      "title": "Semantic Search",
+      "description": "Advanced search capabilities that understand the meaning behind your queries, not just keywords",
+      "buttonText": "Try Search"
+    },
+    "aiAssistant": {
+      "title": "AI Assistant",
+      "description": "Intelligent AI-powered assistant to help you navigate complex carbon market concepts and answer your questions",
+      "buttonText": "Ask AI"
+    },
+    "comingSoon": "Coming Soon"
   },
   "SurveySection": {
     "title": "https://docs.google.com/forms/d/e/1FAIpQLSeXauPOOpCrnnMoH3Y883Gpt5f2kjItQh9u_GdD-DXhUWDsjA/viewform",

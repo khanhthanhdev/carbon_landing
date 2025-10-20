@@ -2,11 +2,13 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, ExternalLink, ShoppingCart, Star, FileText, Calendar } from "lucide-react";
+import { BookOpen, ExternalLink, ShoppingCart, Star, FileText, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/lib/navigation";
 import { useRecommendedBook } from "@/hooks/use-recommended-book";
+import { RichTextRenderer } from "@/components/rich-text-renderer";
 import Image from "next/image";
+import { useState } from "react";
 
 // Authors data - moved out of translations since next-intl doesn't support arrays
 const AUTHORS_DATA = {
@@ -44,6 +46,7 @@ export function BookRecommendation() {
   const t = useTranslations("bookRecommendation");
   const locale = useLocale();
   const { data: book, isLoading, isError } = useRecommendedBook();
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   const handleLinkClick = (url: string) => {
     window.open(url, "_blank");
@@ -191,9 +194,37 @@ export function BookRecommendation() {
                 )}
 
               {bookData.description && (
-                <p className="text-sm sm:text-base md:text-lg text-foreground leading-relaxed text-pretty text-justify md:text-left">
-                  {bookData.description}
-                </p>
+                <div className="space-y-3">
+                  <div className={`relative ${!isDescriptionExpanded ? 'max-h-48 overflow-hidden' : ''}`}>
+                    <RichTextRenderer
+                      content={bookData.description}
+                      className="text-sm sm:text-base md:text-lg text-foreground leading-relaxed text-pretty text-justify md:text-left prose prose-sm sm:prose-base md:prose-lg max-w-none"
+                    />
+                    {!isDescriptionExpanded && (
+                      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+                    )}
+                  </div>
+                  {bookData.description.length > 200 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                      className="text-primary hover:text-primary/80 p-0 h-auto font-medium text-sm"
+                    >
+                      {isDescriptionExpanded ? (
+                        <>
+                          {t("showLess", { defaultValue: "Show less" })}
+                          <ChevronUp className="h-4 w-4 ml-1" />
+                        </>
+                      ) : (
+                        <>
+                          {t("showMore", { defaultValue: "Show more" })}
+                          <ChevronDown className="h-4 w-4 ml-1" />
+                        </>
+                      )}
+                    </Button>
+                  )}
+                </div>
               )}
 
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center md:justify-start mt-4">

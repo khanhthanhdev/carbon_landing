@@ -106,3 +106,23 @@ export const upsertQA = mutation({
     });
   },
 });
+
+export const patchQA = mutation({
+  args: {
+    id: v.id("qa"),
+    embedding_doc: v.optional(v.array(v.float64())),
+    embedding_qa: v.optional(v.array(v.float64())),
+    embedding_fact: v.optional(v.array(v.float64())),
+  },
+  handler: async (ctx, args) => {
+    const { id, ...updates } = args;
+    const now = Date.now();
+    
+    await ctx.db.patch(id, {
+      ...updates,
+      updatedAt: now,
+    });
+    
+    return id;
+  },
+});

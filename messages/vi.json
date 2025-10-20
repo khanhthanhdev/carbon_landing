@@ -91,10 +91,10 @@
     }
   },
   "hero": {
-    "badge": "100+ Câu Hỏi Về Thị Trường Carbon",
-    "title": "Hướng Dẫn Hoàn Chỉnh Về Thị Trường Carbon",
-    "description": "Khám phá các cặp câu hỏi và trả lời toàn diện về giao dịch carbon, thực hành bền vững và các sáng kiến xanh. Bắt đầu với cuốn sách được khuyến nghị để hiểu nền tảng.",
-    "readBook": "Đọc Sách Khuyến Nghị",
+    "badge": "50+ Câu Hỏi Về Thị Trường Carbon",
+    "title": "Khám Phá Thư Viện Kiến Thức Về Thị Trường Carbon",
+    "description": "Khám phá các cặp câu hỏi và trả lời toàn diện về thị trường carbon, phát triển bền vững và các sáng kiến xanh. Bắt đầu với cuốn sách được khuyến nghị để hiểu các khái niệm cơ bản.",
+    "readBook": "Đọc Sổ Tay Câu Hỏi",
     "browseQuestions": "Xem Tất Cả Câu Hỏi",
     "askAI": "Hỏi AI",
     "stats": {
@@ -196,6 +196,8 @@
     "badge": "Tài Liệu Nên Đọc",
     "title": "Bắt Đầu Với Kiến Thức Nền Tảng",
     "description": "Trước khi đi sâu vào từng câu hỏi, chúng tôi khuyến nghị bạn đọc cuốn cẩm nang toàn diện này để xây dựng nền tảng vững chắc về thị trường carbon.",
+    "showMore": "Xem thêm",
+    "showLess": "Thu gọn",
     "rating": "",
     "details": {
       "pages": "Số Trang",
@@ -208,7 +210,7 @@
     },
     "fallback": {
       "title": "SỔ TAY HỎI ĐÁP CHO DOANH NGHIỆP VỪA VÀ NHỎ VỀ THỊ TRƯỜNG CARBON TẠI VIỆT NAM, HƯỚNG TỚI 2030",
-      "description": "Sổ tay thực hành dịch các chính sách thị trường carbon phức tạp thành ngôn ngữ đơn giản cho các đội ngũ SME. Học cách tín chỉ được tạo ra, giao dịch và xác minh với các ví dụ thực tế từ doanh nghiệp Việt Nam.",
+      "description": "Cuốn Sổ tay Hỏi – Đáp cho Doanh nghiệp vừa và nhỏ (SME) về Thị trường Carbon tại Việt Nam, hướng tới 2030 được biên soạn nhằm cung cấp kiến thức nền tảng, hướng dẫn thực hành và công cụ hỗ trợ giúp doanh nghiệp Việt Nam chủ động tham gia quá trình chuyển đổi xanh và hội nhập thị trường carbon trong nước và quốc tế.\n\nNội dung sổ tay được trình bày dưới dạng hỏi – đáp, dễ tra cứu, bao quát sáu nhóm chủ đề trọng tâm:\n\n(1) Các khái niệm và khung pháp lý liên quan đến tín chỉ carbon;\n\n(2) Quy trình tính toán phát thải, thiết kế và triển khai dự án giảm phát thải;\n\n(3) Cơ chế tài chính, tín dụng xanh và lợi ích kinh tế từ tín chỉ carbon;\n\n(4) Công cụ, đào tạo và hỗ trợ kỹ thuật cho doanh nghiệp;\n\n(5) Quản trị rủi ro, minh bạch và thực hành tốt; và\n(\n6) Kinh nghiệm quốc tế và bài học cho Việt Nam.\n\nSổ tay không chỉ tổng hợp quy định pháp luật mới nhất (tính đến năm 2025) như Nghị định 06/2022/NĐ-CP, Nghị định 119/2025/NĐ-CP và lộ trình phát triển sàn giao dịch carbon quốc gia, mà còn cung cấp hướng dẫn cụ thể để SMEs xây dựng hệ thống MRV (đo lường – báo cáo – thẩm định), lựa chọn hệ số phát thải, tiếp cận nguồn vốn xanh, và tham gia các mô hình hợp tác công – tư.\n\nThông qua việc kết hợp kiến thức chuyên môn, ví dụ thực tiễn và công cụ áp dụng, cuốn sổ tay hướng tới hỗ trợ doanh nghiệp Việt Nam nắm bắt cơ hội kinh tế carbon, đồng thời đóng góp vào mục tiêu quốc gia đạt phát thải ròng bằng **\"0\"** vào năm 2050.",
       "publisher": "Viện Thị Trường Carbon",
       "retailers": {
         "exploreChapters": "Bản tiếng Việt",
@@ -403,12 +405,41 @@
   },
   "feedback": {
     "trigger": "Gửi phản hồi",
-    "title": "Chia Sẻ Phản Hồi Của Bạn",
-    "description": "Hỗ trợ chúng tôi cải thiện bằng cách chia sẻ trải nghiệm của bạn",
+    "title": "Đánh Giá Nền Tảng Quản Lý Tri Thức",
+    "description": "Hỗ trợ chúng tôi cải thiện bằng cách chia sẻ đánh giá của bạn về nền tảng",
     "fields": {
       "rating": {
-        "label": "Đánh Giá Của Bạn",
+        "label": "Đánh Giá Tổng Quan",
         "option": "Đánh giá {value}/5"
+      },
+      "section1": {
+        "title": "1️. Nội dung thông tin",
+        "contentAccuracy": "Thông tin có chính xác, dễ hiểu không?",
+        "contentRelevance": "Có phù hợp với thực tế doanh nghiệp Việt Nam (ví dụ, quy định, ví dụ minh họa, hướng dẫn thực hành)?",
+        "contentFreshness": "Có được cập nhật thường xuyên không?"
+      },
+      "section2": {
+        "title": "2️. Dễ sử dụng",
+        "interfaceSimplicity": "Giao diện có đơn giản, dễ tìm kiếm thông tin không?",
+        "languageSupport": "Có hỗ trợ tiếng Việt rõ ràng, dễ đọc trên điện thoại và máy tính không?"
+      },
+      "section3": {
+        "title": "3️. Công cụ và tính năng hỗ trợ",
+        "toolsAvailability": "Có tính năng tra cứu nhanh, đặt câu hỏi hoặc trao đổi với chuyên gia/đơn vị khác không?"
+      },
+      "section4": {
+        "title": "4️. Kết nối và chia sẻ",
+        "networkingCapability": "Doanh nghiệp có thể kết nối, học hỏi từ các doanh nghiệp khác hoặc chuyên gia không?",
+        "knowledgeSharing": "Có cơ chế cập nhật câu hỏi và câu trả lời để cùng trao đổi kinh nghiệm không?"
+      },
+      "section5": {
+        "title": "5️. Giá trị và tác động",
+        "understandingImprovement": "Nền tảng có giúp doanh nghiệp hiểu rõ hơn về thị trường carbon không?",
+        "practicalApplication": "Doanh nghiệp có áp dụng được thông tin từ nền tảng vào hoạt động thực tế không?"
+      },
+      "section6": {
+        "title": "6️. Sự hài lòng chung",
+        "overallSatisfaction": "Mức độ hài lòng tổng thể của bạn với nền tảng"
       },
       "name": {
         "label": "Tên",
@@ -419,8 +450,8 @@
         "placeholder": "ban@email.com"
       },
       "comment": {
-        "label": "Nhận Xét",
-        "placeholder": "Chia sẻ suy nghĩ của bạn..."
+        "label": "Nhận xét và đề xuất",
+        "placeholder": "Chia sẻ ý kiến và đề xuất cải thiện của bạn..."
       }
     },
     "actions": {
@@ -513,6 +544,27 @@
       "aboutAuthors": "Về các tác giả",
       "surveyForm": "Form khảo sát"
     }
+  },
+  "futureSection": {
+    "badge": "Các tính năng",
+    "title": "Tìm hiểu về thị trường carbon",
+    "subtitle": "Các bộ câu hỏi và tính năng liên tục được cập nhật để mang đến các thông tin mới và chính xác nhất. Bạn có thể đặt câu hỏi cho nhóm tác giả hoặc hỏi trợ lý AI.",
+    "continuousUpdates": {
+      "title": "Bộ Câu Hỏi Được Cập Nhật Liên Tục",
+      "description": "Bộ câu hỏi về thị trường carbon của chúng tôi được cập nhật thường xuyên với các phát triển mới nhất về thị trường carbon, quy định và các phương pháp tốt nhất",
+      "buttonText": "Khám Phá Câu Hỏi"
+    },
+    "semanticSearch": {
+      "title": "Tìm Kiếm Theo Ngữ Nghĩa",
+      "description": "Khả năng tìm kiếm nâng cao hiểu được ý nghĩa đằng sau câu hỏi của bạn, không chỉ đơn thuần là từ khóa",
+      "buttonText": "Thử Tìm Kiếm"
+    },
+    "aiAssistant": {
+      "title": "Trợ Lý AI",
+      "description": "Trợ lý thông minh được hỗ trợ bởi AI để giúp bạn điều hướng các khái niệm phức tạp về thị trường carbon và trả lời câu hỏi của bạn. Câu trả lời sẽ sử dụng trực tiếp dữ liệu từ bộ câu hỏi và trích dẫn nguồn, đảm bảo độ chính xác.",
+      "buttonText": "Hỏi AI"
+    },
+    "comingSoon": "Sắp Ra Mắt"
   },
   "SurveySection": {
     "title": "Khảo Sát Mức Độ Sẵn sàng của Doanh nghiệp của bạn về thị trường Carbon",

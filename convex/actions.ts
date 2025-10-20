@@ -1,6 +1,7 @@
 import { action } from "./_generated/server";
 import { api } from "./_generated/api";
 import { v, ConvexError } from "convex/values";
+import type { Id } from "./_generated/dataModel";
 import { questionPayloadValidator } from "./questions";
 import { generateEmbedding, GeminiHelper } from "../lib/ai/gemini";
 import { generateQueryEmbedding } from "./searchUtils";
@@ -517,8 +518,9 @@ const normalizeImportItem = (item: {
 
 /**
  * Import questions with embeddings and comprehensive progress tracking
+ * @deprecated This function is for the old "questions" table. Use importQAWithEmbeddings instead.
  */
-export const importQuestionsWithEmbeddings = action({
+/* export const importQuestionsWithEmbeddings = action({
   args: {
     questions: v.array(questionPayloadValidator),
     embeddingTtlMs: v.optional(v.number()),
@@ -557,13 +559,9 @@ export const importQuestionsWithEmbeddings = action({
         try {
           // Check if question already exists and skip if requested
           if (skipExisting) {
-            const existing = await ctx.runQuery(api.questions.get, {
-              id: question.question_number as any
-            });
-            if (existing) {
-              skipped++;
-              continue;
-            }
+            // Note: Cannot check by question_number directly as qa.get requires qa ID
+            // Skip checking for now - upsertQA will handle duplicates
+            // TODO: Add a proper check if needed
           }
 
           const embeddingInput = sanitizeContentForEmbedding(question.question, question.answer);
@@ -663,12 +661,13 @@ export const importQuestionsWithEmbeddings = action({
     console.log("Import completed:", result);
     return result;
   },
-});
+}); */
 
 /**
  * Migrate Q&A data from JSON format with automatic transformation
+ * @deprecated This function is for the old "questions" table. Use importQAWithEmbeddings instead.
  */
-export const migrateQAData = action({
+/* export const migrateQAData = action({
   args: {
     qaData: v.array(v.object({
       question: v.string(),
@@ -705,7 +704,7 @@ export const migrateQAData = action({
       skipExisting: !replaceExisting,
     });
   },
-});
+}); */
 
 /**
  * Import QA entries by generating embeddings within Convex.
@@ -803,17 +802,16 @@ export const importQAWithEmbeddings = action({
       }
 
       try {
-        let existing = await ctx.db
-          .query("qa")
-          .withIndex("by_category", (q) => q.eq("category", category))
-          .filter((q) => q.eq(q.field("question"), question))
-          .first();
+        // Check if QA already exists by question text
+        const allQAs = await ctx.runQuery(api.queries.qa.listAll, {});
+        let existing = allQAs.find(
+          (qa) => qa.category === category && qa.question === question
+        );
 
         if (!existing && question_number) {
-          existing = await ctx.db
-            .query("qa")
-            .withIndex("by_question_number", (q) => q.eq("question_number", question_number))
-            .first();
+          existing = allQAs.find(
+            (qa) => qa.question_number === question_number
+          );
         }
 
         if (skipExisting && existing) {
@@ -883,7 +881,7 @@ export const reembedQA = action({
   },
   handler: async (ctx, args) => {
     const { categories, lang, limit } = args;
-    const docs = await ctx.db.query("qa").collect();
+    const docs = await ctx.runQuery(api.queries.qa.listAll, {});
 
     const filtered = docs.filter((doc) => {
       if (categories && categories.length > 0 && !categories.includes(doc.category)) {
@@ -952,8 +950,9 @@ export const reembedQA = action({
 
 /**
  * Generate embeddings for existing questions that don't have them
+ * @deprecated This function is for the old "questions" table. Use reembedQA instead.
  */
-export const generateMissingEmbeddings = action({
+/* export const generateMissingEmbeddings = action({
   args: {
     batchSize: v.optional(v.number()),
     embeddingTtlMs: v.optional(v.number()),
@@ -1083,12 +1082,13 @@ export const generateMissingEmbeddings = action({
       rateLimitStatus: null, // Rate limiting handled by simple function
     };
   },
-});
+}); */
 
 /**
  * Get migration progress and statistics
+ * @deprecated This function is for the old "questions" table.
  */
-export const getMigrationStats = action({
+/* export const getMigrationStats = action({
   args: {},
   handler: async (ctx) => {
     const questions = await ctx.runQuery(api.questions.listWithEmbeddings, { limit: 1000 });
@@ -1114,7 +1114,7 @@ export const getMigrationStats = action({
       rateLimitStatus: null, // Rate limiting handled by simple function
     };
   },
-});
+}); */
 
 /**
  * Generate a hash for caching search queries
@@ -1140,8 +1140,9 @@ const generateQueryHash = (query: string, filters?: { category?: string; section
 
 /**
  * Perform semantic search with caching and relevance ranking
+ * @deprecated This function is for the old "questions" table. Use hybridSearch instead.
  */
-export const performSemanticSearch = action({
+/* export const performSemanticSearch = action({
   args: {
     query: v.string(),
     limit: v.optional(v.number()),
@@ -1295,10 +1296,11 @@ export const performSemanticSearch = action({
       filters,
     };
   },
-});
+}); */
 
 /**
  * Bulk embedding action for all questions in the questions table.
+ * @deprecated This function is for the old "questions" table. Use embedAllQA instead for the "qa" table.
  * 
  * This comprehensive bulk processing action generates embeddings for questions using
  * Google's gemini-embedding-001 model with RETRIEVAL_DOCUMENT task type. It processes
@@ -1404,7 +1406,7 @@ export const performSemanticSearch = action({
  * @throws Error if limit is less than or equal to 0
  * @throws Error if both skipExisting and forceReembed are true
  */
-export const embedAllQuestions = action({
+/* export const embedAllQuestions = action({
   args: {
     // Filtering options
     categories: v.optional(v.array(v.string())),
@@ -1814,7 +1816,7 @@ export const embedAllQuestions = action({
       },
     };
   },
-});
+}); */
 
 /**
  * Automatically generates embeddings for a QA document when it's added or updated.
@@ -1888,7 +1890,7 @@ export const autoEmbedQA = action({
     const embeddingTypes = args.embeddingTypes ?? ["doc", "qa", "fact"];
 
     // Fetch QA document by ID
-    const qaDoc = await ctx.db.get(args.qaId);
+    const qaDoc = await ctx.runQuery(api.queries.qa.get, { id: args.qaId });
     
     // Validate document exists
     if (!qaDoc) {
@@ -2042,7 +2044,10 @@ export const autoEmbedQA = action({
 
       // Update the QA document if we have at least one embedding
       if (Object.keys(updatePayload).length > 0) {
-        await ctx.db.patch(args.qaId, updatePayload);
+        await ctx.runMutation(api.mutations.qa.patchQA, {
+          id: args.qaId,
+          ...updatePayload,
+        });
         console.log(
           `Updated QA document ${qaDoc.question_number || args.qaId} with ${Object.keys(updatePayload).length} embedding(s)`
         );
@@ -2849,7 +2854,7 @@ export const hybridSearch = action({
       await ctx.runMutation(api.search.cacheSearchResults, {
         queryHash,
         locale: lang ?? "vi",
-        questionIds: mergedResults.map(r => r._id),
+        questionIds: mergedResults.map(r => r._id as Id<"qa">),
         queryText: query,
         scores: mergedResults.map(r => r.hybridScore),
         embedding,
@@ -2969,21 +2974,22 @@ export const vectorSearch = action({
     // Perform vector search with optional filters
     let results;
     
-    if (category || lang) {
+    // Build filter based on category and lang
+    let filterFn;
+    if (category && lang) {
+      filterFn = (q: any) => q.eq("category", category).eq("lang", lang);
+    } else if (category) {
+      filterFn = (q: any) => q.eq("category", category);
+    } else if (lang) {
+      filterFn = (q: any) => q.eq("lang", lang);
+    }
+    
+    if (filterFn) {
       // Apply filters
       results = await ctx.vectorSearch("qa", "by_embedding_doc", {
         vector: embedding,
         limit: take,
-        filter: (q) => {
-          let filterExpr = q;
-          if (category) {
-            filterExpr = filterExpr.eq("category", category);
-          }
-          if (lang) {
-            filterExpr = filterExpr.eq("lang", lang);
-          }
-          return filterExpr;
-        },
+        filter: filterFn,
       });
     } else {
       // No filters
@@ -3528,7 +3534,7 @@ export const askAI = action({
           content: generatedAnswer,
           locale,
           sources: enrichedSources.map(source => ({
-            questionId: source.questionId,
+            questionId: source.questionId as Id<"qa">,
             questionNumber: source.questionNumber,
             question: source.question,
             relevanceScore: source.relevanceScore,
