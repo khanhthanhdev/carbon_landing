@@ -132,6 +132,22 @@ export default function AIMessageWithCitations({ message, onFeedback, onReferenc
   if (message.role === "user") {
     const [isEditing, setIsEditing] = useState(false)
     const [editContent, setEditContent] = useState(message.content)
+    const textareaRef = React.useRef<HTMLTextAreaElement>(null)
+
+    // Auto-resize textarea to fit content
+    const adjustTextareaHeight = () => {
+      const textarea = textareaRef.current
+      if (textarea) {
+        textarea.style.height = 'auto'
+        textarea.style.height = `${textarea.scrollHeight}px`
+      }
+    }
+
+    React.useEffect(() => {
+      if (isEditing) {
+        adjustTextareaHeight()
+      }
+    }, [isEditing])
 
     const handleCopy = async () => {
       try {
@@ -160,15 +176,19 @@ export default function AIMessageWithCitations({ message, onFeedback, onReferenc
 
     return (
       <div className="flex gap-3 justify-end group">
-        <div className="flex flex-col items-end gap-1 max-w-[80%]">
-          <Card className="bg-primary text-primary-foreground px-3 py-2 rounded-2xl rounded-tr-sm relative shadow-sm">
+        <div className="flex flex-col items-end gap-1 max-w-[80%] min-w-0 flex-1">
+          <Card className="bg-primary text-primary-foreground px-3 py-2 rounded-2xl rounded-tr-sm relative shadow-sm w-full">
             {isEditing ? (
-              <div className="space-y-2">
+              <div className="space-y-2 w-full">
                 <textarea
+                  ref={textareaRef}
                   value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
-                  className="w-full bg-primary-foreground/10 text-primary-foreground rounded-lg px-2 py-1 text-sm resize-none min-h-[40px] border border-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50"
-                  rows={2}
+                  onChange={(e) => {
+                    setEditContent(e.target.value)
+                    adjustTextareaHeight()
+                  }}
+                  className="w-full bg-primary-foreground/10 text-primary-foreground rounded-lg px-2 py-1 text-sm resize-none overflow-hidden border border-primary-foreground/20 focus:outline-none focus:ring-1 focus:ring-primary-foreground/50 leading-relaxed"
+                  style={{ minHeight: '40px' }}
                 />
                 <div className="flex gap-1 justify-end">
                   <Button

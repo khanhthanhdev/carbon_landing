@@ -32,6 +32,7 @@ export const saveConversationMessage = mutation({
       citedSentences: v.optional(v.array(v.string())),
       citationMarkers: v.optional(v.array(v.string())),
     }))),
+    followUpQuestions: v.optional(v.array(v.string())),
     metadata: v.optional(v.object({
       sourcesUsed: v.number(),
       generationTimeMs: v.number(),
@@ -53,6 +54,7 @@ export const saveConversationMessage = mutation({
       content: args.content,
       timestamp: now,
       sources: args.sources,
+      followUpQuestions: args.followUpQuestions,
       metadata: args.metadata,
     };
 

@@ -29,7 +29,7 @@ const openGraphImages: Record<PageKey, string> = {
 const titles: Record<PageKey, Record<SupportedLocale, string>> = {
   home: {
     en: "Carbon Market Training for Vietnamese SMEs",
-    vi: "Đào tạo thị trường carbon dành cho doanh nghiệp SME",
+    vi: "Bộ câu hỏi về thị trường carbon dành cho doanh nghiệp SME",
   },
   search: {
     en: "Search the Carbon Knowledge Base",
@@ -186,7 +186,7 @@ function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPa
     "@type": "Organization",
     name: SITE_NAME,
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`, // Add your logo path
+    logo: `${siteUrl}/logo_carbon.jpg`, // Add your logo path
     description: locale === "vi"
       ? "Nền tảng đào tạo toàn diện về thị trường carbon dành cho doanh nghiệp SME Việt Nam"
       : "Comprehensive carbon market training platform for Vietnamese SMEs",

@@ -22,6 +22,7 @@ export interface ChatMessage {
     citedSentences?: string[];
     citationMarkers?: string[];
   }>;
+  followUpQuestions?: string[]; // Added for follow-up questions functionality
   metadata?: {
     sourcesUsed: number;
     generationTimeMs: number;
@@ -57,6 +58,7 @@ export interface AIResponse {
     citedSentences?: string[];
     citationMarkers?: string[];
   }>;
+  followUpQuestions?: string[]; // Added for follow-up questions functionality
   conversationId: string;
   metadata: {
     sourcesUsed: number;
@@ -79,6 +81,7 @@ export interface UseAIChatOptions {
   locale?: string;
   maxSources?: number;
   enabled?: boolean;
+  focusTopic?: string;
 }
 
 /**
@@ -130,6 +133,7 @@ export function useAIChat({
   locale = "vi",
   maxSources = 5,
   enabled = true,
+  focusTopic = "general",
 }: UseAIChatOptions) {
   const queryClient = useQueryClient();
   const convex = useConvex();
@@ -168,6 +172,7 @@ export function useAIChat({
         sessionId,
         locale,
         maxSources,
+        focusTopic,
       });
 
       return result as AIResponse;
@@ -175,11 +180,14 @@ export function useAIChat({
     onMutate: () => {
       setIsSending(true);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch the conversation to get the latest messages
       queryClient.invalidateQueries({
         queryKey: ["convex", "queries.conversations.getConversation", { sessionId }],
       });
+      
+      // If the response includes follow-up questions, we might want to handle them here
+      // For now, we rely on the conversation refetch to include the follow-up questions
     },
     onError: (error: Error) => {
       console.error("Failed to send message:", error);
@@ -209,6 +217,15 @@ export function useAIChat({
     [sendMessageMutation]
   );
 
+  // Function to handle follow-up questions based on the last message
+  const handleFollowUp = useCallback(
+    async (question: string): Promise<AIResponse> => {
+      // Simply send the follow-up question as a new message
+      return sendMessage(question);
+    },
+    [sendMessage]
+  );
+
   // Helper function to get the latest messages
   const messages = conversation?.messages || [];
 
@@ -217,6 +234,9 @@ export function useAIChat({
 
   // Helper function to get the last message
   const lastMessage = messages.length > 0 ? messages[messages.length - 1] : null;
+
+  // Helper function to get follow-up questions from the last message
+  const lastFollowUpQuestions = lastMessage?.role === "assistant" ? lastMessage.followUpQuestions || [] : [];
 
   // Helper function to clear conversation (for future use)
   const clearConversation = useCallback(() => {
@@ -232,6 +252,9 @@ export function useAIChat({
     hasMessages,
     lastMessage,
 
+    // Follow-up questions
+    lastFollowUpQuestions, // Added for follow-up questions
+
     // Loading states
     isLoading,
     isSending,
@@ -243,6 +266,7 @@ export function useAIChat({
 
     // Functions
     sendMessage,
+    handleFollowUp, // Added for follow-up questions
     refetch,
     clearConversation,
 

@@ -84,8 +84,8 @@
         },
         {
           "name": "British Council",
-          "description": "Tổ chức quốc tế của Vương quốc Anh về quan hệ văn hóa",
-          "image": "/britishcouncil.jpg"
+          "description": "Tổ chức quốc tế về văn hóa và giáo dục",
+          "image": "/british-council.png"
         }
       ]
     }
@@ -207,7 +207,7 @@
       "button": "Xem Tất Cả 50+ Câu Hỏi"
     },
     "fallback": {
-      "title": "SỔ TAY HỎI ĐÁP CHO DOANH NGHIỆP VỪA VÀ NHỎ VỀ THỊ TRƯỜNG CARBON TẠI VIỆT NAM, HƯỚNG TỚI 20230",
+      "title": "SỔ TAY HỎI ĐÁP CHO DOANH NGHIỆP VỪA VÀ NHỎ VỀ THỊ TRƯỜNG CARBON TẠI VIỆT NAM, HƯỚNG TỚI 2030",
       "description": "Sổ tay thực hành dịch các chính sách thị trường carbon phức tạp thành ngôn ngữ đơn giản cho các đội ngũ SME. Học cách tín chỉ được tạo ra, giao dịch và xác minh với các ví dụ thực tế từ doanh nghiệp Việt Nam.",
       "publisher": "Viện Thị Trường Carbon",
       "retailers": {
@@ -446,7 +446,19 @@
       "realTimeAccuracy": "Độ chính xác thời gian thực",
       "privacy": "Quyền riêng tư",
       "privacyDescription": "Cuộc trò chuyện của bạn được bảo mật và không được lưu trữ",
-      "sessionId": "ID phiên"
+      "sessionId": "ID phiên",
+      "topicsTitle": "Chủ Đề Tập Trung",
+      "topicsDescription": "Chọn một chủ đề để nhận phản hồi tập trung hơn",
+      "topics": {
+        "general": "Thị Trường Carbon Tổng Quát",
+        "trading": "Giao Dịch & Tín Chỉ Carbon",
+        "policy": "Chính Sách & Quy Định Khí Hậu",
+        "projects": "Dự Án Bù Đắp Carbon",
+        "accounting": "Kế Toán & Báo Cáo Carbon",
+        "compliance": "Thị Trường Tuân Thủ",
+        "voluntary": "Thị Trường Carbon Tự Nguyện",
+        "technology": "Công Nghệ Thu Giữ Carbon"
+      }
     },
     "interface": {
       "loading": "Đang tải cuộc trò chuyện...",
@@ -457,7 +469,10 @@
       "thinking": "Đang suy nghĩ...",
       "errorMessage": "Đã xảy ra lỗi. Vui lòng thử lại.",
       "placeholder": "Hỏi một câu hỏi về thị trường carbon...",
-      "inputHelp": "Enter để gửi • Shift + Enter để xuống dòng"
+      "inputHelp": "Enter để gửi • Shift + Enter để xuống dòng",
+      "followUpTitle": "Câu hỏi tiếp theo:",
+      "followUpQuestions": "Bạn cũng có thể muốn hỏi:",
+      "topicFocus": "Chủ Đề Tập Trung"
     },
     "dialog": {
       "title": "Trợ Lý AI Thị Trường Carbon",
@@ -477,7 +492,8 @@
       "thinking": "Đang suy nghĩ...",
       "errorMessage": "Không thể gửi tin nhắn. Vui lòng thử lại.",
       "inputPlaceholder": "Nhập câu hỏi của bạn ở đây...",
-      "inputHelp": "Nhấn Enter để gửi"
+      "inputHelp": "Nhấn Enter để gửi",
+      "followUpTitle": "Câu hỏi tiếp theo:"
     },
     "messages": {
       "copyMessage": "Sao chép tin nhắn",
@@ -497,5 +513,10 @@
       "aboutAuthors": "Về các tác giả",
       "surveyForm": "Form khảo sát"
     }
+  },
+  "SurveySection": {
+    "title": "Khảo Sát Mức Độ Sẵn sàng của Doanh nghiệp của bạn về thị trường Carbon",
+    "description": "",
+    "buttonText": "Tham Gia Khảo Sát (Google Form)"
   }
 }

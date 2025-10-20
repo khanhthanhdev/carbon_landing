@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Leaf, Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "@/components/locale-switcher";
-
+import Image from "next/image";
 export function Navigation() {
   const t = useTranslations("navigation");
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,8 +32,13 @@ export function Navigation() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-primary rounded-lg p-2 group-hover:scale-110 transition-transform">
-              <Leaf className="h-6 w-6 text-primary-foreground" />
+            <div className="relative w-10 h-10 group-hover:scale-110 transition-transform">
+              <Image
+                src="/logo_carbon.jpg"
+                alt="CarbonLearn Logo"
+                fill
+                className="object-contain rounded-lg"
+              />
             </div>
             <span className="text-xl font-bold text-foreground">{t("brand")}</span>
           </Link>

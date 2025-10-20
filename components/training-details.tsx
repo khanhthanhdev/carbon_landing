@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Users, Clock, Award, CheckCircle, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 type TrainingModule = {
   title: string;
@@ -77,10 +78,11 @@ export function TrainingDetails() {
               </div>
             </div>
             <div className="relative">
-              <img
+              <Image
                 src="/diverse-business-professionals-learning-sustainabi.jpg"
                 alt={t("imageAlt")}
-                className="rounded-xl shadow-lg"
+                fill
+                className="rounded-xl shadow-lg object-cover"
               />
               <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-6 rounded-xl shadow-lg">
                 <Award className="h-12 w-12 mb-2" />

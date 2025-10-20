@@ -47,8 +47,8 @@ export default async function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="theme-color" content="#000000" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/logo_carbon.jpg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logo_carbon.jpg" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={`font-sans ${inter.variable}`}>

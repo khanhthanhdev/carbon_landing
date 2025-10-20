@@ -171,44 +171,30 @@ export function AboutUsSection() {
             </Badge>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-16 lg:gap-20 max-w-4xl mx-auto">
             {organizations.map((org, index) => (
-              <Card key={index} className="group overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300 bg-white p-0">
-                <div className="relative">
-                  {/* Organization Image */}
-                  <div className="aspect-[16/9] sm:aspect-[21/9] bg-gradient-to-br from-primary/10 to-primary/5 relative overflow-hidden">
-                    {org.image ? (
-                      <Image
-                        fill
-                        src={org.image}
-                        alt={org.name}
-                        className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <>
-                        <div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors duration-300" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Building2 className="h-12 w-12 sm:h-14 sm:w-14 text-primary/60 group-hover:text-primary/80 transition-colors duration-300" />
-                        </div>
-                      </>
-                    )}
-                    {/* Decorative elements */}
-                    <div className="absolute top-3 right-3 w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+              <div key={index} className="flex flex-col items-center text-center group">
+                <div className="relative w-40 h-40 sm:w-44 sm:h-44 lg:w-48 lg:h-48 mb-8 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-100">
+                  {org.image ? (
+                    <Image
+                      fill
+                      src={org.image}
+                      alt={org.name}
+                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-primary/5">
+                      <Building2 className="h-16 w-16 sm:h-18 sm:w-18 lg:h-20 lg:w-20 text-primary/60" />
                     </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4 sm:p-6 text-center">
-                    <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 leading-tight">
-                      {org.name}
-                    </h3>
-                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                      {org.description}
-                    </p>
-                  </div>
+                  )}
                 </div>
-              </Card>
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground mb-3 leading-tight">
+                  {org.name}
+                </h3>
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-md text-center">
+                  {org.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>

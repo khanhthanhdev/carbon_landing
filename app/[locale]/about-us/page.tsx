@@ -2,6 +2,7 @@ import { buildPageMetadata } from "@/lib/seo";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AboutUsSection } from "@/components/about-us-section";
+import { SurveySection } from "@/components/survey-section";
 
 export async function generateMetadata({
   params,
@@ -18,6 +19,7 @@ export default function AboutUsPage() {
       <Navigation />
       <main className="bg-background">
         <AboutUsSection />
+        <SurveySection />
       </main>
       <Footer />
     </>

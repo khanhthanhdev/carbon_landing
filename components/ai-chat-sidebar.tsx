@@ -2,19 +2,24 @@
 
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ChevronLeft, ChevronRight, MessageSquare, Info, Zap, Lock } from "lucide-react"
+import { ChevronLeft, ChevronRight, MessageSquare, Info, Zap, Lock, BookOpen } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { Badge } from "@/components/ui/badge"
 
 interface AIChatSidebarProps {
   isOpen: boolean
   onToggle: () => void
   sessionId: string
+  selectedTopic?: string
+  onTopicChange?: (topic: string) => void
 }
 
 export function AIChatSidebar({
   isOpen,
   onToggle,
   sessionId,
+  selectedTopic = "general",
+  onTopicChange,
 }: AIChatSidebarProps) {
   const t = useTranslations("aiChat.sidebar")
 
@@ -33,7 +38,7 @@ export function AIChatSidebar({
       {/* Sidebar - Fixed on desktop, overlay on mobile */}
       <aside
         className={`fixed lg:fixed inset-y-0 left-0 z-30 w-72 bg-sidebar border-r border-sidebar-border transition-transform duration-300 top-16 lg:top-16 h-[calc(100vh-64px)] lg:h-[calc(100vh-80px)] flex flex-col ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Header - Sticky */}
@@ -52,6 +57,40 @@ export function AIChatSidebar({
         {/* Scrollable Content */}
         <ScrollArea className="flex-1 overflow-hidden">
           <div className="p-4 space-y-4">
+            {/* Topic Selection */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 px-1">
+                <BookOpen className="h-4 w-4 text-primary" />
+                <h3 className="text-xs font-semibold text-sidebar-foreground uppercase tracking-wide">
+                  {t("topicsTitle")}
+                </h3>
+              </div>
+              <p className="text-xs text-sidebar-foreground/60 px-1 leading-relaxed">
+                {t("topicsDescription")}
+              </p>
+              
+              <div className="grid grid-cols-1 gap-2">
+                {(["general", "trading", "policy", "projects", "accounting", "compliance", "voluntary", "technology"] as const).map((topic) => (
+                  <Button
+                    key={topic}
+                    variant={selectedTopic === topic ? "default" : "ghost"}
+                    size="sm"
+                    className={`justify-start text-xs h-auto py-2 px-3 ${
+                      selectedTopic === topic 
+                        ? "bg-primary text-primary-foreground shadow-sm" 
+                        : "hover:bg-sidebar-accent text-sidebar-foreground/80 hover:text-sidebar-foreground"
+                    }`}
+                    onClick={() => onTopicChange?.(topic)}
+                  >
+                    <span className="text-left leading-tight">{t(`topics.${topic}`)}</span>
+                    {selectedTopic === topic && (
+                      <Badge variant="secondary" className="ml-auto text-xs px-1.5 py-0">✓</Badge>
+                    )}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
             {/* How it works */}
             <div className="bg-sidebar-accent/50 rounded-lg p-3 border border-sidebar-border/50 space-y-2">
               <div className="flex items-start gap-2">

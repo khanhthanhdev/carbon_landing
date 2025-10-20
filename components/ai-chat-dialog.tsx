@@ -82,6 +82,17 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
     }
   }
 
+  // Function to handle follow-up questions (set input and send)
+  const handleFollowUpQuestion = async (question: string) => {
+    setInputValue(question);
+    // Wait for the state update to complete before sending
+    setTimeout(() => {
+      handleSend();
+      // Focus on the input to provide visual feedback
+      inputRef.current?.focus();
+    }, 0);
+  }
+
   const handleFeedback = (messageId: string, rating: number, comment: string) => {
     // TODO: Implement feedback mutation
     console.log("Feedback:", { messageId, rating, comment })
@@ -200,23 +211,42 @@ export function AIChatDialog({ isOpen, onClose, initialContext }: AIChatDialogPr
               {messages.map((message, index) => {
                 const messageId = `${message.timestamp}-${index}`;
                 return (
-                  <AIMessageWithCitations
-                    key={messageId}
-                    message={{
-                      id: messageId,
-                      role: message.role,
-                      content: message.content,
-                      timestamp: new Date(message.timestamp),
-                      citations: message.sources?.map((source, idx) => ({
-                        id: idx + 1,
-                        text: source.citedSentences?.join(" ") || source.question,
-                        source: `${source.questionNumber}: ${source.question}`,
-                        page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
-                      })),
-                    }}
-                    onFeedback={handleFeedback}
-                    onReference={() => {}}
-                  />
+                  <div key={messageId} className="space-y-3">
+                    <AIMessageWithCitations
+                      message={{
+                        id: messageId,
+                        role: message.role,
+                        content: message.content,
+                        timestamp: new Date(message.timestamp),
+                        citations: message.sources?.map((source, idx) => ({
+                          id: idx + 1,
+                          text: source.citedSentences?.join(" ") || source.question,
+                          source: `${source.questionNumber}: ${source.question}`,
+                          page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
+                        })),
+                      }}
+                      onFeedback={handleFeedback}
+                      onReference={() => {}}
+                    />
+                    {/* Show follow-up questions if available for assistant messages */}
+                    {message.role === "assistant" && message.followUpQuestions && message.followUpQuestions.length > 0 && (
+                      <div className="ml-10 space-y-2">
+                        <p className="text-xs text-muted-foreground">{t("followUpTitle") || "Follow-up questions:"}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {message.followUpQuestions.map((question, qIndex) => (
+                            <button
+                              key={qIndex}
+                              onClick={() => handleFollowUpQuestion(question)}
+                              disabled={isSending}
+                              className="px-3 py-2 text-xs rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left font-medium text-foreground max-w-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {question}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 );
               })}
               {isSending && (

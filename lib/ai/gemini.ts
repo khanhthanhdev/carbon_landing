@@ -164,7 +164,7 @@ export class GeminiHelper {
 
       const compositePrompt = `${languageInstruction}\n${contextInstruction}\n${sanitizedPrompt}`.trim();
 
-      const response = await this.client.models.generateContent({
+      const requestParams: any = {
         model: this.textModel,
         contents: [
           {
@@ -172,10 +172,93 @@ export class GeminiHelper {
             parts: [{ text: compositePrompt }],
           },
         ],
-        generationConfig: {
-          ...(options?.maxTokens ? { maxOutputTokens: options.maxTokens } : {}),
-        },
+      };
+
+      if (options?.maxTokens) {
+        requestParams.generationConfig = {
+          maxOutputTokens: options.maxTokens,
+        };
+      }
+
+      const response = await this.client.models.generateContent(requestParams);
+
+      const text = response.text;
+      if (!text) {
+        throw new Error("Gemini did not return any text");
+      }
+
+      this.updateRateLimiterState();
+      return text.trim();
+    });
+  }
+
+  /**
+   * Generate text response with conversation history support
+   * Enables multi-turn conversations with context awareness
+   */
+  async generateTextWithHistory(
+    systemPrompt: string,
+    conversationHistory: Array<{ role: "user" | "assistant"; content: string }>,
+    currentPrompt: string,
+    options?: {
+      locale?: string;
+      maxTokens?: number;
+    }
+  ): Promise<string> {
+    const sanitizedPrompt = currentPrompt.trim();
+    if (!sanitizedPrompt) {
+      throw new Error("Prompt must not be empty");
+    }
+
+    return this.executeWithRetry(async () => {
+      await this.checkRateLimit();
+
+      const languageInstruction = options?.locale === "en" 
+        ? "Respond in English." 
+        : "Respond in Vietnamese.";
+
+      // Build conversation contents for Gemini API
+      const contents = [];
+
+      // Add system prompt as first user message
+      contents.push({
+        role: "user" as const,
+        parts: [{ text: `${languageInstruction}\n\n${systemPrompt}` }],
       });
+
+      // Add a dummy assistant acknowledgment
+      contents.push({
+        role: "model" as const,
+        parts: [{ text: "Understood. I will follow these instructions." }],
+      });
+
+      // Add conversation history (limit to last 10 messages to avoid context overflow)
+      const recentHistory = conversationHistory.slice(-10);
+      for (const message of recentHistory) {
+        contents.push({
+          role: message.role === "user" ? "user" as const : "model" as const,
+          parts: [{ text: message.content }],
+        });
+      }
+
+      // Add current prompt
+      contents.push({
+        role: "user" as const,
+        parts: [{ text: sanitizedPrompt }],
+      });
+
+      const requestParams: any = {
+        model: this.textModel,
+        contents,
+      };
+
+      if (options?.maxTokens) {
+        requestParams.generationConfig = {
+          maxOutputTokens: options.maxTokens,
+        };
+      }
+
+      const response = await this.client.models.generateContent(requestParams);
 
       const text = response.text;
       if (!text) {

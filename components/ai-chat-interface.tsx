@@ -19,6 +19,7 @@ interface AIChatInterfaceProps {
   onSendMessage: (content: string) => Promise<void>
   onFeedback: (messageId: string, rating: number, comment: string) => void
   isSidebarOpen: boolean
+  selectedTopic?: string
 }
 
 export function AIChatInterface({ 
@@ -28,7 +29,8 @@ export function AIChatInterface({
   error,
   onSendMessage, 
   onFeedback, 
-  isSidebarOpen 
+  isSidebarOpen,
+  selectedTopic = "general"
 }: AIChatInterfaceProps) {
   const [inputValue, setInputValue] = useState("")
   const [showScrollButton, setShowScrollButton] = useState(false)
@@ -36,6 +38,10 @@ export function AIChatInterface({
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const t = useTranslations("aiChat.interface")
+  const tSidebar = useTranslations("aiChat.sidebar")
+  
+  // Extract follow-up questions from the last message if available
+  const followUpQuestions = messages.length > 0 ? messages[messages.length - 1].followUpQuestions || [] : []
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -72,6 +78,17 @@ export function AIChatInterface({
     }
   }
 
+  // Function to handle follow-up questions (set input and send)
+  const handleFollowUpQuestion = async (question: string) => {
+    setInputValue(question);
+    // Wait for the state update to complete before sending
+    setTimeout(() => {
+      handleSend();
+      // Focus on the input to provide visual feedback
+      inputRef.current?.focus();
+    }, 0);
+  }
+
   return (
     <main className="flex-1 flex flex-col bg-background relative overflow-hidden">
       {/* Messages Area */}
@@ -93,9 +110,18 @@ export function AIChatInterface({
                   <Sparkles className="h-10 w-10 text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold text-foreground mb-3">{t("welcome")}</h2>
-                <p className="text-muted-foreground max-w-md mb-8 leading-relaxed">
+                <p className="text-muted-foreground max-w-md mb-4 leading-relaxed">
                   {t("welcomeDescription")}
                 </p>
+                
+                {/* Active Topic Badge */}
+                {selectedTopic && selectedTopic !== "general" && (
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+                    <span className="text-xs font-medium text-primary">
+                      {t("topicFocus")}: {tSidebar(`topics.${selectedTopic}`)}
+                    </span>
+                  </div>
+                )}
                 
                 {/* Suggested Questions */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 w-full max-w-md">
@@ -118,41 +144,78 @@ export function AIChatInterface({
                 {messages.map((message, index) => {
                   const messageId = `${message.timestamp}-${index}`;
                   return (
-                    <AIMessageWithCitations
-                      key={messageId}
-                      message={{
-                        id: messageId,
-                        role: message.role,
-                        content: message.content,
-                        timestamp: new Date(message.timestamp),
-                        citations: message.sources?.map((source, idx) => ({
-                          id: idx + 1,
-                          text: source.citedSentences?.join(" ") || source.question,
-                          source: `${source.questionNumber}: ${source.question}`,
-                          page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
-                        })),
-                      }}
-                      onFeedback={onFeedback}
-                      onReference={() => {}}
-                    />
+                    <div key={messageId} className="space-y-4">
+                      <AIMessageWithCitations
+                        message={{
+                          id: messageId,
+                          role: message.role,
+                          content: message.content,
+                          timestamp: new Date(message.timestamp),
+                          citations: message.sources?.map((source, idx) => ({
+                            id: idx + 1,
+                            text: source.citedSentences?.join(" ") || source.question,
+                            source: `${source.questionNumber}: ${source.question}`,
+                            page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
+                          })),
+                        }}
+                        onFeedback={onFeedback}
+                        onReference={() => {}}
+                      />
+                      {/* Show follow-up questions if available for assistant messages */}
+                      {message.role === "assistant" && message.followUpQuestions && message.followUpQuestions.length > 0 && (
+                        <div className="ml-10 space-y-2">
+                          <p className="text-xs text-muted-foreground">{t("followUpTitle") || t("followUpQuestions") || "Follow-up questions:"}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {message.followUpQuestions.map((question, qIndex) => (
+                              <button
+                                key={qIndex}
+                                onClick={() => handleFollowUpQuestion(question)}
+                                className="px-3 py-2 text-xs rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left font-medium text-foreground max-w-xs"
+                              >
+                                {question}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
                 {isSending && (
-                  <div className="flex gap-3 py-4">
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="h-4 w-4 text-primary" />
-                    </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                        <span className="text-sm text-muted-foreground font-medium">{t("thinking")}</span>
+                  <div className="space-y-4">
+                    <div className="flex gap-3 py-4">
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Sparkles className="h-4 w-4 text-primary" />
                       </div>
-                      <div className="flex gap-1">
-                        <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" />
-                        <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: "0.2s" }} />
-                        <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: "0.4s" }} />
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                          <span className="text-sm text-muted-foreground font-medium">{t("thinking")}</span>
+                        </div>
+                        <div className="flex gap-1">
+                          <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" />
+                          <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: "0.2s" }} />
+                          <div className="h-2 w-2 rounded-full bg-primary/40 animate-pulse" style={{ animationDelay: "0.4s" }} />
+                        </div>
                       </div>
                     </div>
+                    {/* Show follow-up questions if available while loading */}
+                    {followUpQuestions.length > 0 && (
+                      <div className="ml-10 space-y-2">
+                        <p className="text-xs text-muted-foreground">{t("followUpTitle") || t("followUpQuestions") || "Follow-up questions:"}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {followUpQuestions.map((question, qIndex) => (
+                            <button
+                              key={qIndex}
+                              className="px-3 py-2 text-xs rounded-lg border border-border bg-muted text-muted-foreground max-w-xs cursor-not-allowed"
+                              disabled={true} // Disable during loading
+                            >
+                              {question}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

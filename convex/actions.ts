@@ -3039,12 +3039,53 @@ export const vectorSearch = action({
  * 
  * Requirements: 11.2, 11.3, 11.8, 12.1
  */
-function createRAGSystemPrompt(locale: string): string {
+function createRAGSystemPrompt(locale: string, focusTopic?: string): string {
   const isVietnamese = locale === "vi";
   
+  // Topic focus instructions
+  const topicFocusMap: Record<string, { en: string; vi: string }> = {
+    general: {
+      en: "Focus on providing comprehensive overviews of carbon markets and sustainability concepts.",
+      vi: "Tập trung cung cấp cái nhìn tổng quan về thị trường carbon và các khái niệm phát triển bền vững."
+    },
+    trading: {
+      en: "Focus particularly on carbon trading mechanisms, credit systems, and market dynamics.",
+      vi: "Đặc biệt tập trung vào cơ chế giao dịch carbon, hệ thống tín chỉ và động lực thị trường."
+    },
+    policy: {
+      en: "Focus on climate policies, regulatory frameworks, and government regulations.",
+      vi: "Tập trung vào chính sách khí hậu, khung pháp lý và các quy định của chính phủ."
+    },
+    projects: {
+      en: "Focus on carbon offset projects, methodologies, and project development.",
+      vi: "Tập trung vào các dự án bù đắp carbon, phương pháp luận và phát triển dự án."
+    },
+    accounting: {
+      en: "Focus on carbon accounting methods, reporting standards, and measurement practices.",
+      vi: "Tập trung vào phương pháp kế toán carbon, tiêu chuẩn báo cáo và thực hành đo lường."
+    },
+    compliance: {
+      en: "Focus on compliance markets, mandatory schemes, and regulatory requirements.",
+      vi: "Tập trung vào thị trường tuân thủ, các chương trình bắt buộc và yêu cầu pháp lý."
+    },
+    voluntary: {
+      en: "Focus on voluntary carbon markets, certification standards, and voluntary programs.",
+      vi: "Tập trung vào thị trường carbon tự nguyện, tiêu chuẩn chứng nhận và các chương trình tự nguyện."
+    },
+    technology: {
+      en: "Focus on carbon capture technologies, technological solutions, and innovation.",
+      vi: "Tập trung vào công nghệ thu giữ carbon, giải pháp công nghệ và đổi mới."
+    }
+  };
+
+  const topicFocus = focusTopic && topicFocusMap[focusTopic] 
+    ? (isVietnamese ? topicFocusMap[focusTopic].vi : topicFocusMap[focusTopic].en)
+    : "";
+
   if (isVietnamese) {
     return `Bạn là một chuyên gia tư vấn về thị trường carbon và phát triển bền vững. 
 Hãy trả lời câu hỏi của người dùng dựa CHÍNH XÁC trên thông tin được cung cấp trong phần CONTEXT bên dưới.
+${topicFocus ? `\nTRỌNG TÂM: ${topicFocus}` : ""}
 
 QUY TẮC TRÍCH DẪN BẮT BUỘC:
 1. BẮT BUỘC phải trích dẫn nguồn cho mọi thông tin bằng định dạng [Source N] (ví dụ: [Source 1], [Source 2])
@@ -3060,6 +3101,7 @@ Hãy cung cấp câu trả lời với trích dẫn chính xác.`;
   } else {
     return `You are an expert assistant on carbon markets and sustainability. 
 Answer the user's question using ONLY the information provided in the CONTEXT below.
+${topicFocus ? `\nFOCUS: ${topicFocus}` : ""}
 
 MANDATORY CITATION RULES:
 1. You MUST cite sources for ALL information using [Source N] format (e.g., [Source 1], [Source 2])
@@ -3072,6 +3114,81 @@ EXAMPLE FORMAT:
 "Carbon credits are tradable certificates [Source 1]. The carbon market operates through a cap-and-trade mechanism [Source 2]."
 
 Provide your answer with accurate citations.`;
+  }
+}
+
+/**
+ * Generate follow-up questions based on the user's question and the generated answer
+ * 
+ * This function uses Gemini to suggest 2-3 relevant follow-up questions that the user
+ * might want to ask based on the conversation context.
+ * 
+ * @param userQuestion - The user's original question
+ * @param generatedAnswer - The AI's answer to the question
+ * @param locale - Language preference
+ * @param conversationHistory - Previous conversation messages
+ * @returns Array of 2-3 follow-up question strings
+ */
+async function generateFollowUpQuestions(
+  userQuestion: string,
+  generatedAnswer: string,
+  locale: string,
+  conversationHistory: Array<{ role: "user" | "assistant"; content: string }>
+): Promise<string[]> {
+  const isVietnamese = locale === "vi";
+  
+  const prompt = isVietnamese
+    ? `Dựa trên cuộc hội thoại và câu trả lời vừa được đưa ra, hãy đề xuất 2-3 câu hỏi tiếp theo mà người dùng có thể muốn hỏi.
+
+Câu hỏi của người dùng: ${userQuestion}
+Câu trả lời: ${generatedAnswer}
+
+YÊU CẦU:
+- Đề xuất 2-3 câu hỏi liên quan và tự nhiên
+- Các câu hỏi nên khám phá sâu hơn hoặc mở rộng chủ đề
+- Mỗi câu hỏi trên một dòng
+- Không đánh số, không thêm ký tự đặc biệt
+- Câu hỏi ngắn gọn (tối đa 15 từ)
+
+Ví dụ format:
+Tín chỉ carbon được mua bán như thế nào
+Giá tín chỉ carbon được xác định ra sao
+Ai có thể tham gia thị trường carbon`
+    : `Based on the conversation and the answer just provided, suggest 2-3 follow-up questions that the user might want to ask.
+
+User's question: ${userQuestion}
+Answer: ${generatedAnswer}
+
+REQUIREMENTS:
+- Suggest 2-3 relevant and natural follow-up questions
+- Questions should explore deeper or expand on the topic
+- One question per line
+- No numbering, no special characters
+- Keep questions concise (max 15 words)
+
+Example format:
+How are carbon credits traded
+How is the price of carbon credits determined
+Who can participate in carbon markets`;
+
+  try {
+    const geminiHelper = new GeminiHelper();
+    const response = await geminiHelper.generateText(prompt, {
+      locale,
+      maxTokens: 200, // Limit tokens for follow-up questions
+    });
+
+    // Parse the response into an array of questions
+    const questions = response
+      .split('\n')
+      .map(q => q.trim())
+      .filter(q => q.length > 0 && q.length < 150) // Filter out empty lines and overly long questions
+      .slice(0, 3); // Take max 3 questions
+
+    return questions;
+  } catch (error) {
+    console.warn(`Failed to generate follow-up questions: ${error}`);
+    return []; // Return empty array if generation fails
   }
 }
 
@@ -3239,6 +3356,7 @@ export const askAI = action({
     sessionId: v.string(),
     locale: v.optional(v.string()),
     maxSources: v.optional(v.number()),
+    focusTopic: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const startTime = Date.now();
@@ -3252,9 +3370,10 @@ export const askAI = action({
     // Configuration
     const locale = args.locale ?? "vi";
     const maxSources = Math.min(Math.max(args.maxSources ?? 5, 1), 10);
+    const focusTopic = args.focusTopic ?? "general";
 
     console.log(`RAG query: "${trimmedQuestion.substring(0, 100)}${trimmedQuestion.length > 100 ? '...' : ''}"`);
-    console.log(`Session: ${args.sessionId}, Locale: ${locale}, Max sources: ${maxSources}`);
+    console.log(`Session: ${args.sessionId}, Locale: ${locale}, Max sources: ${maxSources}, Topic: ${focusTopic}`);
 
     try {
       // Step 1: Generate query embedding for the user's question
@@ -3311,24 +3430,52 @@ export const askAI = action({
       console.log(`Context length: ${contextString.length} characters`);
       console.log(`Sources used: ${sources.length}`);
 
-      // Step 4: Generate answer with Gemini using proper citation format
+      // Step 4: Retrieve conversation history for context-aware responses
+      const conversationHistory: Array<{ role: "user" | "assistant"; content: string }> = [];
+      
+      try {
+        const existingConversation = await ctx.runQuery(api.queries.conversations.getConversation, {
+          sessionId: args.sessionId,
+        });
+        
+        if (existingConversation && existingConversation.messages.length > 0) {
+          // Extract message history (exclude current question)
+          conversationHistory.push(
+            ...existingConversation.messages.map(msg => ({
+              role: msg.role,
+              content: msg.content,
+            }))
+          );
+          console.log(`Retrieved ${conversationHistory.length} previous messages from conversation history`);
+        }
+      } catch (historyError) {
+        // Log but don't fail if history retrieval fails
+        console.warn(`Failed to retrieve conversation history: ${historyError}`);
+      }
+
+      // Step 5: Generate answer with Gemini using proper citation format and conversation history
       const answerGenerationStartTime = Date.now();
       
-      // Create system prompt instructing proper citation format
-      const systemPrompt = createRAGSystemPrompt(locale);
+      // Create system prompt instructing proper citation format with topic focus
+      const systemPrompt = createRAGSystemPrompt(locale, focusTopic);
       const citationReminder = locale === "vi" 
         ? "QUAN TRỌNG: Hãy nhớ trích dẫn nguồn bằng [Source N] cho mọi thông tin bạn sử dụng từ CONTEXT."
         : "IMPORTANT: Remember to cite sources using [Source N] for every piece of information you use from the CONTEXT.";
       
-      const userPrompt = `${systemPrompt}\n\nCONTEXT:\n${contextString}\n\nUSER QUESTION:\n${trimmedQuestion}\n\n${citationReminder}\n\nProvide a comprehensive answer with proper citations:`;
+      const userPrompt = `CONTEXT:\n${contextString}\n\nUSER QUESTION:\n${trimmedQuestion}\n\n${citationReminder}\n\nProvide a comprehensive answer with proper citations:`;
       
-      console.log(`Generating answer with Gemini (context: ${contextString.length} chars)`);
+      console.log(`Generating answer with Gemini (context: ${contextString.length} chars, history: ${conversationHistory.length} messages)`);
       
       const geminiHelper = new GeminiHelper();
-      const generatedAnswer = await geminiHelper.generateText(userPrompt, {
-        locale,
-        maxTokens: 1000, // Reasonable limit for answers
-      });
+      const generatedAnswer = conversationHistory.length > 0
+        ? await geminiHelper.generateTextWithHistory(systemPrompt, conversationHistory, userPrompt, {
+            locale,
+            maxTokens: 1000,
+          })
+        : await geminiHelper.generateText(`${systemPrompt}\n\n${userPrompt}`, {
+            locale,
+            maxTokens: 1000,
+          });
       
       const answerGenerationTimeMs = Date.now() - answerGenerationStartTime;
       console.log(`Answer generated in ${answerGenerationTimeMs}ms (${generatedAnswer.length} chars)`);
@@ -3340,6 +3487,20 @@ export const askAI = action({
       // Step 6: Map citations back to source Q&As and extract cited sentences
       const enrichedSources = await enrichSourcesWithCitations(sources, generatedAnswer, citations);
       
+      // Step 7: Generate follow-up questions
+      let followUpQuestions: string[] = [];
+      try {
+        followUpQuestions = await generateFollowUpQuestions(
+          trimmedQuestion,
+          generatedAnswer,
+          locale,
+          conversationHistory
+        );
+        console.log(`Generated ${followUpQuestions.length} follow-up questions`);
+      } catch (followUpError) {
+        console.warn(`Failed to generate follow-up questions: ${followUpError}`);
+      }
+      
       // Generate conversation ID (simple timestamp-based for now)
       const conversationId = `conv_${args.sessionId}_${Date.now()}`;
 
@@ -3350,7 +3511,7 @@ export const askAI = action({
       console.log(`Citations found: ${citations.length}`);
       console.log(`Sources with citations: ${enrichedSources.filter(s => s.citationMarkers.length > 0).length}`);
 
-      // Step 7: Save conversation with citations
+      // Step 8: Save conversation with citations and follow-up questions
       try {
         // Save user question
         await ctx.runMutation(api.mutations.conversations.saveConversationMessage, {
@@ -3360,7 +3521,7 @@ export const askAI = action({
           locale,
         });
 
-        // Save assistant answer with sources and citation metadata
+        // Save assistant answer with sources, citation metadata, and follow-up questions
         await ctx.runMutation(api.mutations.conversations.saveConversationMessage, {
           sessionId: args.sessionId,
           role: "assistant" as const,
@@ -3374,6 +3535,7 @@ export const askAI = action({
             citedSentences: source.citedSentences,
             citationMarkers: source.citationMarkers,
           })),
+          followUpQuestions: followUpQuestions.length > 0 ? followUpQuestions : undefined,
           metadata: {
             sourcesUsed: sources.length,
             generationTimeMs: answerGenerationTimeMs,
@@ -3388,10 +3550,11 @@ export const askAI = action({
         console.error(`Session: ${args.sessionId}, Question length: ${trimmedQuestion.length}`);
       }
 
-      // Return the complete RAG response with answer and enriched sources
+      // Return the complete RAG response with answer, enriched sources, and follow-up questions
       return {
         answer: generatedAnswer,
         sources: enrichedSources,
+        followUpQuestions,
         conversationId,
         metadata: {
           sourcesUsed: sources.length,

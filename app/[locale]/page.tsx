@@ -11,6 +11,7 @@ import { Footer } from "@/components/footer";
 import { FeedbackForm } from "@/components/feedback-form";
 import { FeedbackSection } from "@/components/feedback-section";
 import { SponsorsSection } from "@/components/sponsors-section";
+import { SurveySection } from "@/components/survey-section";
 
 export async function generateMetadata({
   params,
@@ -36,6 +37,7 @@ export default function HomePage() {
         <TrainingDetails /> */}
         <FeedbackSection />
         <SponsorsSection />
+        <SurveySection />
       </main>
       <Footer />
     </>

@@ -11,6 +11,7 @@ export default function AskAiPageClient() {
   const locale = useLocale()
   const sessionId = useGenerateSessionId()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [selectedTopic, setSelectedTopic] = useState<string>("general")
 
   const {
     conversation,
@@ -23,6 +24,7 @@ export default function AskAiPageClient() {
     sessionId,
     locale,
     maxSources: 5,
+    focusTopic: selectedTopic,
   })
 
   const handleSendMessage = async (content: string) => {
@@ -45,6 +47,8 @@ export default function AskAiPageClient() {
           isOpen={isSidebarOpen}
           onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
           sessionId={sessionId}
+          selectedTopic={selectedTopic}
+          onTopicChange={setSelectedTopic}
         />
         <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'lg:ml-72' : 'lg:ml-0'}`}>
           <AIChatInterface
@@ -55,6 +59,7 @@ export default function AskAiPageClient() {
             onSendMessage={handleSendMessage}
             onFeedback={handleFeedback}
             isSidebarOpen={isSidebarOpen}
+            selectedTopic={selectedTopic}
           />
         </div>
       </div>

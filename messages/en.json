@@ -446,7 +446,19 @@
       "realTimeAccuracy": "Real-time accuracy",
       "privacy": "Privacy",
       "privacyDescription": "Your conversations are secure and not stored",
-      "sessionId": "Session ID"
+      "sessionId": "Session ID",
+      "topicsTitle": "Focus Topics",
+      "topicsDescription": "Select a topic for more focused responses",
+      "topics": {
+        "general": "General Carbon Markets",
+        "trading": "Carbon Trading & Credits",
+        "policy": "Climate Policy & Regulation",
+        "projects": "Carbon Offset Projects",
+        "accounting": "Carbon Accounting & Reporting",
+        "compliance": "Compliance Markets",
+        "voluntary": "Voluntary Carbon Markets",
+        "technology": "Carbon Capture & Technology"
+      }
     },
     "interface": {
       "loading": "Loading conversation...",
@@ -457,7 +469,10 @@
       "thinking": "Thinking...",
       "errorMessage": "An error occurred. Please try again.",
       "placeholder": "Ask a question about carbon markets...",
-      "inputHelp": "Enter to send • Shift + Enter for new line"
+      "inputHelp": "Enter to send • Shift + Enter for new line",
+      "followUpTitle": "Follow-up questions:",
+      "followUpQuestions": "You might also want to ask:",
+      "topicFocus": "Topic Focus"
     },
     "dialog": {
       "title": "Carbon Market AI Assistant",
@@ -477,7 +492,8 @@
       "thinking": "Thinking...",
       "errorMessage": "Failed to send message. Please try again.",
       "inputPlaceholder": "Type your question here...",
-      "inputHelp": "Press Enter to send"
+      "inputHelp": "Press Enter to send",
+      "followUpTitle": "Follow-up questions:"
     },
     "messages": {
       "copyMessage": "Copy message",
@@ -497,5 +513,10 @@
       "aboutAuthors": "About the authors",
       "surveyForm": "Survey form"
     }
+  },
+  "SurveySection": {
+    "title": "https://docs.google.com/forms/d/e/1FAIpQLSeXauPOOpCrnnMoH3Y883Gpt5f2kjItQh9u_GdD-DXhUWDsjA/viewform",
+    "description": "",
+    "buttonText": "Take Our Survey (Google Form)"
   }
 }

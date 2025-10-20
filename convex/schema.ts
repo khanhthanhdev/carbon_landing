@@ -241,6 +241,7 @@ export default defineSchema({
         citedSentences: v.optional(v.array(v.string())),
         citationMarkers: v.optional(v.array(v.string())),
       }))),
+      followUpQuestions: v.optional(v.array(v.string())),
       metadata: v.optional(v.object({
         sourcesUsed: v.number(),
         generationTimeMs: v.number(),
