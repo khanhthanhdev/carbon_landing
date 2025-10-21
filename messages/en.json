@@ -206,7 +206,7 @@
     },
     "cta": {
       "note": "Already familiar with the basics? Jump straight to our question collection.",
-      "button": "Browse All 100+ Questions"
+      "button": "Browse All 50+ Questions"
     },
     "fallback": {
       "title": "Carbon Markets Starter Guide",
@@ -229,7 +229,7 @@
     "sourcesTitle": "Related Sources",
     "askAI": "Ask AI About This",
     "noSources": "No external sources were provided for this answer",
-    "viewAll": "View All 100+ Questions"
+    "viewAll": "View All 50+ Questions"
   },
   "knowledgeOverview": {
     "spotlight": "Knowledge Highlights",

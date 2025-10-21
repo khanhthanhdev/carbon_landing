@@ -63,7 +63,7 @@ export function Hero() {
 
           <div className="flex items-center justify-center gap-8 sm:gap-16 pt-8 border-t border-border/50">
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-foreground mb-1">100+</div>
+              <div className="text-3xl sm:text-4xl font-bold text-foreground mb-1">50+</div>
               <div className="text-sm text-muted-foreground">{t("stats.questions")}</div>
             </div>
             <div className="h-12 w-px bg-border/50" />

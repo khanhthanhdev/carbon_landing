@@ -110,7 +110,7 @@ export function AIChatInterface({
                   <Sparkles className="h-10 w-10 text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold text-foreground mb-3">{t("welcome")}</h2>
-                <p className="text-muted-foreground max-w-md mb-4 leading-relaxed">
+                <p className="text-muted-foreground max-w-2xl mb-4 leading-relaxed">
                   {t("welcomeDescription")}
                 </p>
                 
@@ -124,18 +124,36 @@ export function AIChatInterface({
                 )}
                 
                 {/* Suggested Questions */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 w-full max-w-md">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 w-full max-w-4xl">
                   <button 
-                    onClick={() => setInputValue(t("suggestedQuestion1"))}
-                    className="p-3 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-sm font-medium text-foreground"
+                  onClick={() => setInputValue(t("suggestedQuestion1"))}
+                  className="p-4 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-base font-medium text-foreground"
                   >
-                    {t("suggestedQuestion1")}
+                  {t("suggestedQuestion1")}
                   </button>
                   <button 
-                    onClick={() => setInputValue(t("suggestedQuestion2"))}
-                    className="p-3 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-sm font-medium text-foreground"
+                  onClick={() => setInputValue(t("suggestedQuestion2"))}
+                  className="p-4 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-base font-medium text-foreground"
                   >
-                    {t("suggestedQuestion2")}
+                  {t("suggestedQuestion2")}
+                  </button>
+                  <button 
+                  onClick={() => setInputValue(t("suggestedQuestion3"))}
+                  className="p-4 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-base font-medium text-foreground"
+                  >
+                  {t("suggestedQuestion3")}
+                  </button>
+                  <button 
+                  onClick={() => setInputValue(t("suggestedQuestion4"))}
+                  className="p-4 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-base font-medium text-foreground"
+                  >
+                  {t("suggestedQuestion4")}
+                  </button>
+                  <button 
+                  onClick={() => setInputValue(t("suggestedQuestion5"))}
+                  className="p-4 rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left text-base font-medium text-foreground"
+                  >
+                  {t("suggestedQuestion5")}
                   </button>
                 </div>
               </div>

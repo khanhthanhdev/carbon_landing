@@ -46,11 +46,11 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-2 group">
             <div className="relative w-10 h-10 group-hover:scale-110 transition-transform">
               <Image
-                src="/logo_carbon.jpg"
-                alt="CarbonLearn Logo"
-                fill
-                className="object-contain rounded-lg"
-                sizes=""
+              src="/logo_carbon.jpg"
+              alt="CarbonLearn Logo"
+              fill
+              className="object-contain rounded-lg"
+              sizes="(max-width: 768px) 2.5rem, 2.5rem"
               />
             </div>
             <span className="text-xl font-bold text-foreground">{t("brand")}</span>
