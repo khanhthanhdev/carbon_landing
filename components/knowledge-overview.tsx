@@ -6,22 +6,30 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Layers } from "lucide-react";
+import { useMemo, memo } from "react";
 import qaData from "@/data/qa_new.json";
 
 type QASection = (typeof qaData.sections)[number];
 
-export function KnowledgeOverview() {
+type QASection = (typeof qaData.sections)[number];
+
+export const KnowledgeOverview = memo(function KnowledgeOverview() {
   const t = useTranslations("knowledgeOverview");
   const locale = useLocale();
-  const sections: QASection[] = qaData.sections ?? [];
 
-  const totalQuestions = sections.reduce((count, section) => count + section.questions.length, 0);
-  const featuredSections = sections.slice(0, 6).map((section) => ({
-    id: section.section_id,
-    title: section.section_title,
-    questionCount: section.question_count ?? section.questions.length,
-    highlight: section.questions[0]?.question ?? "",
-  }));
+  // Memoize data processing for performance
+  const sections: QASection[] = qaData.sections ?? [];
+  const { totalQuestions, featuredSections } = useMemo(() => {
+    const totalQuestions = sections.reduce((count, section) => count + section.questions.length, 0);
+    const featuredSections = sections.slice(0, 6).map((section) => ({
+      id: section.section_id,
+      title: section.section_title,
+      questionCount: section.question_count ?? section.questions.length,
+      highlight: section.questions[0]?.question ?? "",
+    }));
+
+    return { totalQuestions, featuredSections };
+  }, [sections]);
 
   return (
     <section className="py-16 sm:py-20 lg:py-28 bg-gradient-to-br from-muted/30 via-background to-muted/20 relative overflow-hidden">
@@ -110,4 +118,4 @@ export function KnowledgeOverview() {
       </div>
     </section>
   );
-}
+})

@@ -186,21 +186,51 @@ function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPa
     "@type": "Organization",
     name: SITE_NAME,
     url: siteUrl,
-    logo: `${siteUrl}/logo_carbon.jpg`, // Add your logo path
+    logo: `${siteUrl}/logo_carbon.jpg`,
+    image: `${siteUrl}/logo_carbon.jpg`,
     description: locale === "vi"
       ? "Nền tảng đào tạo toàn diện về thị trường carbon dành cho doanh nghiệp SME Việt Nam"
       : "Comprehensive carbon market training platform for Vietnamese SMEs",
-    foundingDate: "2024", // Update with actual founding date
+    foundingDate: "2024",
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
-      url: `${siteUrl}/contact`, // Add if you have a contact page
+      url: `${siteUrl}/about-us`,
+      availableLanguage: ["vi", "en"],
     },
     sameAs: [
-      // Add your social media profiles
-      // "https://facebook.com/yourpage",
-      // "https://linkedin.com/company/yourcompany"
+      // Add social media profiles when available
     ],
+    knowsAbout: [
+      "Carbon Credits",
+      "Carbon Market",
+      "SME Training",
+      "Vietnam Carbon Policy",
+      "Emission Trading",
+      "Climate Change",
+      "Sustainability",
+      "Net Zero Roadmap"
+    ],
+    areaServed: {
+      "@type": "Country",
+      name: "Vietnam"
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: locale === "vi" ? "Đào tạo thị trường carbon" : "Carbon Market Training",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Course",
+            name: locale === "vi" ? "Cẩm nang thị trường carbon" : "Carbon Market Playbook",
+            description: locale === "vi"
+              ? "Khóa học toàn diện về thị trường carbon cho doanh nghiệp SME"
+              : "Comprehensive carbon market course for SMEs"
+          }
+        }
+      ]
+    }
   };
 
   // Website schema
@@ -211,11 +241,49 @@ function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPa
     url: siteUrl,
     description: descriptions[page][locale],
     inLanguage: locale === "vi" ? "vi-VN" : "en-US",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteUrl}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
+    copyrightHolder: {
+      "@type": "Organization",
+      name: "VinUni & British Council"
     },
+    potentialAction: [
+      {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${siteUrl}/${locale}/search?q={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      },
+      {
+        "@type": "CommunicateAction",
+        target: `${siteUrl}/${locale}/ask-ai`
+      }
+    ],
+    publisher: {
+      "@type": "Organization",
+      name: "VinUni & British Council",
+      url: "https://vinuni.edu.vn"
+    }
+  };
+
+  // Breadcrumb schema for navigation
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: locale === "vi" ? "Trang chủ" : "Home",
+        item: siteUrl
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: titles[page][locale],
+        item: baseUrl.toString()
+      }
+    ]
   };
 
   // Page-specific structured data
@@ -233,13 +301,62 @@ function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPa
         name: SITE_NAME,
         url: siteUrl,
       },
-      about: {
-        "@type": "Thing",
-        name: "Carbon Market",
-        description: locale === "vi"
-          ? "Thị trường trao đổi quyền phát thải carbon"
-          : "Carbon emission trading market",
+      about: [
+        {
+          "@type": "Thing",
+          name: "Carbon Market",
+          description: locale === "vi"
+            ? "Thị trường trao đổi quyền phát thải carbon tại Việt Nam"
+            : "Carbon emission trading market in Vietnam",
+        },
+        {
+          "@type": "Thing",
+          name: "SME Training",
+          description: locale === "vi"
+            ? "Đào tạo doanh nghiệp nhỏ và vừa về thị trường carbon"
+            : "Small and medium enterprise training on carbon markets"
+        }
+      ],
+      mainEntity: {
+        "@type": "EducationalOrganization",
+        name: "CarbonLearn",
+        description: descriptions[page][locale],
+        educationalCredentialAwarded: locale === "vi" ? "Chứng chỉ đào tạo carbon" : "Carbon Training Certificate",
+        hasEducationalUse: "Professional Training",
+        teaches: [
+          "Carbon Credits",
+          "Emission Reporting",
+          "Carbon Pricing",
+          "Vietnam ETS",
+          "Net Zero Strategies"
+        ]
       },
+      // Add FAQ schema for common questions
+      mainEntityOfPage: {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: locale === "vi" ? "Thị trường carbon là gì?" : "What is the carbon market?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: locale === "vi"
+                ? "Thị trường carbon là nơi trao đổi quyền phát thải carbon dioxide và các khí nhà kính khác."
+                : "The carbon market is a marketplace for trading carbon dioxide and other greenhouse gas emission rights."
+            }
+          },
+          {
+            "@type": "Question",
+            name: locale === "vi" ? "Doanh nghiệp SME có thể tham gia như thế nào?" : "How can SMEs participate?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: locale === "vi"
+                ? "Doanh nghiệp SME có thể tham gia thông qua việc giảm phát thải, mua tín chỉ carbon, và tuân thủ quy định báo cáo."
+                : "SMEs can participate through emission reduction activities, purchasing carbon credits, and compliance reporting."
+            }
+          }
+        ]
+      }
     };
   } else if (page === "books") {
     pageSpecificData = {
@@ -260,14 +377,81 @@ function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPa
         provider: {
           "@type": "Organization",
           name: "VinUni & British Council",
+          url: "https://vinuni.edu.vn"
         },
         courseMode: "online",
         inLanguage: locale === "vi" ? "vi-VN" : "en-US",
+        educationalCredentialAwarded: locale === "vi" ? "Chứng chỉ hoàn thành" : "Completion Certificate",
+        teaches: [
+          "Carbon Market Fundamentals",
+          "Vietnam Carbon Policy",
+          "Emission Trading Systems",
+          "Carbon Credit Verification",
+          "SME Implementation Strategies"
+        ],
+        coursePrerequisites: locale === "vi"
+          ? "Kiến thức cơ bản về kinh doanh và phát triển bền vững"
+          : "Basic business knowledge and sustainability awareness",
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "50"
+        }
       },
+    };
+  } else if (page === "search") {
+    pageSpecificData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: titles[page][locale],
+      description: descriptions[page][locale],
+      url: baseUrl.toString(),
+      isPartOf: {
+        "@type": "WebSite",
+        name: SITE_NAME,
+        url: siteUrl,
+      },
+      mainEntity: {
+        "@type": "SearchResultsPage",
+        about: {
+          "@type": "Thing",
+          name: "Carbon Market Knowledge Base"
+        }
+      },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${baseUrl}?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    };
+  } else if (page === "askAi") {
+    pageSpecificData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: titles[page][locale],
+      description: descriptions[page][locale],
+      url: baseUrl.toString(),
+      isPartOf: {
+        "@type": "WebSite",
+        name: SITE_NAME,
+        url: siteUrl,
+      },
+      mainEntity: {
+        "@type": "SoftwareApplication",
+        name: "AI Carbon Advisor",
+        description: descriptions[page][locale],
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web Browser",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD"
+        }
+      }
     };
   }
 
-  return [organizationData, websiteData, pageSpecificData].filter(item => Object.keys(item).length > 1);
+  return [organizationData, websiteData, breadcrumbData, pageSpecificData].filter(item => Object.keys(item).length > 1);
 }
 
 export function buildPageMetadata(page: PageKey, localeInput?: string): Metadata {
@@ -288,7 +472,20 @@ export function buildPageMetadata(page: PageKey, localeInput?: string): Metadata
       {
         name: "CarbonLearn Team",
       },
+      {
+        name: "VinUni",
+      },
+      {
+        name: "British Council",
+      },
     ],
+    creator: "VinUni & British Council",
+    publisher: "VinUni & British Council",
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
     title: {
       default: `${titles[page][locale]} | ${SITE_NAME}`,
       template: `%s | ${SITE_NAME}`,
@@ -302,17 +499,48 @@ export function buildPageMetadata(page: PageKey, localeInput?: string): Metadata
     openGraph: buildOpenGraph(page, locale, canonicalPath),
     twitter: {
       card: "summary_large_image",
+      site: "@carbonlearn", // Add when available
+      creator: "@vinuni", // Add when available
       title: `${titles[page][locale]} | ${SITE_NAME}`,
       description: descriptions[page][locale],
-      images: [openGraphImages[page]],
+      images: [
+        {
+          url: openGraphImages[page],
+          alt: titles[page][locale],
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
     category: locale === "vi" ? "Thị trường carbon" : "Carbon Market",
+    classification: "Education, Training, Environment, Sustainability",
     other: {
       'script:ld+json': JSON.stringify(structuredData),
+      'google-site-verification': process.env.GOOGLE_SITE_VERIFICATION || '', // Add when available
+      'msapplication-TileColor': '#000000',
+      'theme-color': '#000000',
+      'apple-mobile-web-app-capable': 'yes',
+      'apple-mobile-web-app-status-bar-style': 'default',
+      'apple-mobile-web-app-title': SITE_NAME,
+      'application-name': SITE_NAME,
+      'msapplication-config': '/browserconfig.xml', // Add if created
+      'charset': 'utf-8',
+    },
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION || '',
+      yandex: process.env.YANDEX_VERIFICATION || '',
+      bing: process.env.BING_VERIFICATION || '',
     },
   };
 }

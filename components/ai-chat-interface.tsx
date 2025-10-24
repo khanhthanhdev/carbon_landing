@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, memo, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Send, Sparkles, AlertCircle, Loader2, ArrowDown } from "lucide-react"
@@ -22,13 +20,13 @@ interface AIChatInterfaceProps {
   selectedTopic?: string
 }
 
-export function AIChatInterface({ 
-  messages, 
-  isLoading, 
-  isSending, 
+export const AIChatInterface = memo(function AIChatInterface({
+  messages,
+  isLoading,
+  isSending,
   error,
-  onSendMessage, 
-  onFeedback, 
+  onSendMessage,
+  onFeedback,
   isSidebarOpen,
   selectedTopic = "general"
 }: AIChatInterfaceProps) {
@@ -42,6 +40,50 @@ export function AIChatInterface({
   
   // Extract follow-up questions from the last message if available
   const followUpQuestions = messages.length > 0 ? messages[messages.length - 1].followUpQuestions || [] : []
+
+  // Memoize rendered messages for performance
+  const renderedMessages = useMemo(() => {
+    return messages.map((message, index) => {
+      const messageId = `${message.timestamp}-${index}`;
+      return (
+        <div key={messageId} className="space-y-4">
+          <AIMessageWithCitations
+            message={{
+              id: messageId,
+              role: message.role,
+              content: message.content,
+              timestamp: new Date(message.timestamp),
+              citations: message.sources?.map((source, idx) => ({
+                id: idx + 1,
+                text: source.citedSentences?.join(" ") || source.question,
+                source: `${source.questionNumber}: ${source.question}`,
+                page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
+              })),
+            }}
+            onFeedback={onFeedback}
+            onReference={() => {}}
+          />
+          {/* Show follow-up questions if available for assistant messages */}
+          {message.role === "assistant" && message.followUpQuestions && message.followUpQuestions.length > 0 && (
+            <div className="ml-10 space-y-2">
+              <p className="text-xs text-muted-foreground">{t("followUpTitle") || t("followUpQuestions") || "Follow-up questions:"}</p>
+              <div className="flex flex-wrap gap-2">
+                {message.followUpQuestions.map((question, qIndex) => (
+                  <button
+                    key={qIndex}
+                    onClick={() => handleFollowUpQuestion(question)}
+                    className="px-3 py-2 text-xs rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left font-medium text-foreground max-w-xs"
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    });
+  }, [messages, onFeedback, t])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -158,48 +200,9 @@ export function AIChatInterface({
                 </div>
               </div>
             ) : (
-              <div className="space-y-6 py-4">
-                {messages.map((message, index) => {
-                  const messageId = `${message.timestamp}-${index}`;
-                  return (
-                    <div key={messageId} className="space-y-4">
-                      <AIMessageWithCitations
-                        message={{
-                          id: messageId,
-                          role: message.role,
-                          content: message.content,
-                          timestamp: new Date(message.timestamp),
-                          citations: message.sources?.map((source, idx) => ({
-                            id: idx + 1,
-                            text: source.citedSentences?.join(" ") || source.question,
-                            source: `${source.questionNumber}: ${source.question}`,
-                            page: `Relevance: ${(source.relevanceScore * 100).toFixed(1)}%`,
-                          })),
-                        }}
-                        onFeedback={onFeedback}
-                        onReference={() => {}}
-                      />
-                      {/* Show follow-up questions if available for assistant messages */}
-                      {message.role === "assistant" && message.followUpQuestions && message.followUpQuestions.length > 0 && (
-                        <div className="ml-10 space-y-2">
-                          <p className="text-xs text-muted-foreground">{t("followUpTitle") || t("followUpQuestions") || "Follow-up questions:"}</p>
-                          <div className="flex flex-wrap gap-2">
-                            {message.followUpQuestions.map((question, qIndex) => (
-                              <button
-                                key={qIndex}
-                                onClick={() => handleFollowUpQuestion(question)}
-                                className="px-3 py-2 text-xs rounded-lg border border-border hover:border-primary hover:bg-primary/5 transition-colors text-left font-medium text-foreground max-w-xs"
-                              >
-                                {question}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                {isSending && (
+            <div className="space-y-6 py-4">
+            {renderedMessages}
+            {isSending && (
                   <div className="space-y-4">
                     <div className="flex gap-3 py-4">
                       <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -302,4 +305,4 @@ export function AIChatInterface({
       </div>
     </main>
   )
-}
+})

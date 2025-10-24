@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import { Search, MessageSquare } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { AIChatDialog } from "@/components/ai-chat-dialog";
 
-export function MainSearchSection() {
+export const MainSearchSection = memo(function MainSearchSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
   const router = useRouter();
@@ -86,4 +86,4 @@ export function MainSearchSection() {
       />
     </section>
   );
-}
+})

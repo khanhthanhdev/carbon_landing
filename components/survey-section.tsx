@@ -14,10 +14,11 @@ export function SurveySection() {
           {t('description')}
         </p>
         <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSeXauPOOpCrnnMoH3Y883Gpt5f2kjItQh9u_GdD-DXhUWDsjA/viewform" // Replace with actual survey link
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSd7ZdH_8L38kXJJ9EjqnodwZqpKK7vvIT0n3LeuzbyPiKoi6w/viewform?usp=dialog" // Replace with actual survey link
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Take our survey to help improve CarbonLearn"
+          className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           {t('buttonText')}
         </a>

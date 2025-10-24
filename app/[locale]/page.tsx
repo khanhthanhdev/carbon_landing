@@ -5,14 +5,14 @@ import { MainSearchSection } from "@/components/main-search-section";
 import { BookRecommendation } from "@/components/book-recommendation";
 import { CommonQuestionsSection } from "@/components/common-questions-section";
 import { KnowledgeOverview } from "@/components/knowledge-overview";
-import { BookFlipSection } from "@/components/book-flip-section";
-import { TrainingDetails } from "@/components/training-details";
 import { Footer } from "@/components/footer";
-import { FeedbackForm } from "@/components/feedback-form";
-import { FeedbackSection } from "@/components/feedback-section";
-import { SponsorsSection } from "@/components/sponsors-section";
 import { SurveySection } from "@/components/survey-section";
 import { FutureSection } from "@/components/future-section";
+import dynamic from "next/dynamic";
+
+// Lazy load below-the-fold components for better performance
+const FeedbackSectionLazy = dynamic(() => import("@/components/feedback-section").then(mod => ({ default: mod.FeedbackSection })), { ssr: true });
+const SponsorsSectionLazy = dynamic(() => import("@/components/sponsors-section").then(mod => ({ default: mod.SponsorsSection })), { ssr: true });
 
 export async function generateMetadata({
   params,
@@ -37,9 +37,9 @@ export default function HomePage() {
         <CommonQuestionsSection />
         {/* <BookFlipSection />
         <TrainingDetails /> */}
-        <FeedbackSection />
+        <FeedbackSectionLazy />
         <SurveySection />
-        <SponsorsSection />
+        <SponsorsSectionLazy />
         
       </main>
       <Footer />

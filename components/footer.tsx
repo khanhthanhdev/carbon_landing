@@ -3,8 +3,9 @@
 import { Leaf, Mail, Phone, MapPin, Facebook, Linkedin } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { memo } from "react";
 
-export function Footer() {
+export const Footer = memo(function Footer() {
   const t = useTranslations('footer')
   return (
     <footer className="bg-foreground text-background py-8 sm:py-12 lg:py-16" id="contact">
@@ -68,4 +69,4 @@ export function Footer() {
       </div>
     </footer>
   )
-}
+})

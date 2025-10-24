@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { Link } from "@/lib/navigation";
 import { Button } from "@/components/ui/button";
 import { Leaf, Menu, X } from "lucide-react";
@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import Image from "next/image";
 
-export function Navigation() {
+export const Navigation = memo(function Navigation() {
   const t = useTranslations("navigation");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -85,7 +85,12 @@ export function Navigation() {
             <div className="md:hidden">
               <LocaleSwitcher />
             </div>
-            <button className="md:hidden text-foreground" onClick={() => setIsMobileMenuOpen((open) => !open)}>
+            <button
+              className="md:hidden text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
@@ -121,4 +126,4 @@ export function Navigation() {
       </div>
     </nav>
   );
-}
+})
