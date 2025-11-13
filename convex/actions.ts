@@ -871,6 +871,122 @@ export const importQAWithEmbeddings = action({
 });
 
 /**
+ * Import QA data without generating embeddings (for initial import)
+ */
+export const importQASimple = action({
+  args: {
+    items: v.array(
+      v.object({
+        id: v.optional(v.string()),
+        question: v.string(),
+        answer: v.string(),
+        searchable_text: v.optional(v.string()),
+        category: v.optional(v.string()),
+        lang: v.optional(v.string()),
+        section_id: v.optional(v.string()),
+        section_number: v.optional(v.string()),
+        section_title: v.optional(v.string()),
+        question_number: v.optional(v.string()),
+        keywords: v.optional(v.array(v.string())),
+        metadata: v.optional(
+          v.object({
+            question_number: v.optional(v.string()),
+            section_number: v.optional(v.string()),
+            section_title: v.optional(v.string()),
+            section_id: v.optional(v.string()),
+            category: v.optional(v.string()),
+            keywords: v.optional(v.array(v.string())),
+            has_sources: v.optional(v.boolean()),
+            answer_length: v.optional(v.number()),
+            created_at: v.optional(v.string()),
+            updated_at: v.optional(v.string()),
+            lang: v.optional(v.string()),
+          }),
+        ),
+        search_fields: v.optional(
+          v.object({
+            question_lower: v.optional(v.string()),
+            keywords_searchable: v.optional(v.string()),
+            category_searchable: v.optional(v.string()),
+          }),
+        ),
+        sources: v.optional(v.any()),
+      }),
+    ),
+    skipExisting: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    let inserted = 0;
+    let updated = 0;
+    const failures: Array<{ question: string; error: string }> = [];
+
+    for (const item of args.items) {
+      try {
+        const normalized = normalizeImportItem(item);
+
+        // Check if exists
+        let existing = null;
+        if (normalized.question_number) {
+          existing = await ctx.runQuery(api.queries.qa.getByQuestionNumber, {
+            questionNumber: normalized.question_number,
+          });
+        }
+
+        if (existing && args.skipExisting) {
+          continue;
+        }
+
+        // Prepare data for qa table
+        const qaData = {
+          question: normalized.question,
+          answer: normalized.answer,
+          content: normalized.searchable_text || `${normalized.question}\n\n${normalized.answer}`,
+          searchable_text: normalized.searchable_text,
+          section_id: normalized.section_id,
+          section_number: normalized.section_number,
+          section_title: normalized.section_title,
+          question_number: normalized.question_number,
+          source_id: normalized.source_id,
+          category: normalized.category || "General",
+          keywords: normalized.keywords,
+          question_lower: normalized.question_lower,
+          keywords_searchable: normalized.keywords_searchable,
+          category_searchable: normalized.category_searchable,
+          lang: normalized.lang,
+          has_sources: normalized.has_sources,
+          answer_length: normalized.answer_length,
+          metadata_created_at: normalized.metadata_created_at,
+          metadata_updated_at: normalized.metadata_updated_at,
+          sources: normalized.sources,
+          embedding_doc: [], // Empty for now
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        };
+
+        const id = await ctx.runMutation(api.qa.upsert, qaData);
+
+        if (existing) {
+          updated += 1;
+        } else {
+          inserted += 1;
+        }
+      } catch (error: any) {
+        failures.push({
+          question: item.question,
+          error: error?.message ?? "Unknown import error",
+        });
+      }
+    }
+
+    return {
+      inserted,
+      updated,
+      failures,
+    };
+  },
+});
+
+/**
  * Re-embed existing QA documents through Convex.
  */
 export const reembedQA = action({

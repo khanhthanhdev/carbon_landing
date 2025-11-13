@@ -9,8 +9,8 @@ import { api } from "../convex/_generated/api";
 dotenv.config({ path: ".env.local" });
 
 const CONCURRENCY = Number(process.env.EMBED_CONCURRENCY || "3");
-const DEFAULT_LANG = process.env.DEFAULT_LANG || "vi";
-const QA_SOURCE_PATH = process.env.QA_IMPORT_PATH || "data/qa_new.json";
+const DEFAULT_LANG = process.env.DEFAULT_LANG || "en";
+const QA_SOURCE_PATH = process.env.QA_IMPORT_PATH || "data/qa_en.json";
 const RETRIES = Number(process.env.EMBED_RETRIES || "4");
 const RETRY_DELAY_MS = Number(process.env.EMBED_RETRY_DELAY_MS || "1500");
 const RETRY_BACKOFF_MULTIPLIER = Number(process.env.EMBED_RETRY_BACKOFF || "2");

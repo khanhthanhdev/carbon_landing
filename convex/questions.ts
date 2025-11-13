@@ -288,14 +288,15 @@ const getQuestionsQuery = query({
             if (category) {
               queryBuilder = queryBuilder.eq("category_searchable", toSearchable(category));
             }
-            if (section) {
-              queryBuilder = queryBuilder.eq("section_number", section);
-            }
+            // Note: search_by_keywords index doesn't have section_number filter
             return queryBuilder;
           })
           .take(searchLimit);
 
-        documents = keywordResults;
+        // Filter by section after fetching if needed
+        documents = section 
+          ? keywordResults.filter(doc => doc.section_number === section)
+          : keywordResults;
       }
     } else if (section) {
       documents = await ctx.db
@@ -321,6 +322,44 @@ const getQuestionsQuery = query({
 
 export const list = getQuestionsQuery;
 export const getQuestions = getQuestionsQuery;
+
+export const getPaginated = query({
+  args: {
+    paginationOpts: v.object({
+      numItems: v.number(),
+      cursor: v.union(v.string(), v.null()),
+    }),
+    section: v.optional(v.string()),
+    category: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const section = args.section ? trimString(args.section) : undefined;
+    const category = args.category ? trimString(args.category) : undefined;
+
+    let query;
+    if (section) {
+      query = ctx.db
+        .query("questions")
+        .withIndex("by_section", (q) => q.eq("section_number", section));
+    } else if (category) {
+      query = ctx.db
+        .query("questions")
+        .withIndex("by_category", (q) => q.eq("category", category));
+    } else {
+      query = ctx.db.query("questions");
+    }
+
+    const result = await query.paginate(args.paginationOpts);
+
+    // Sort by sequence if available
+    const sortedPage = [...result.page].sort(compareQuestions);
+
+    return {
+      ...result,
+      page: sortedPage.map(toPublicQuestion),
+    };
+  },
+});
 
 export const get = query({
   args: { id: v.id("questions") },

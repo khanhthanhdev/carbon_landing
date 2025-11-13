@@ -18,24 +18,24 @@
       "members": [
         {
           "name": "Dr. Lê Duy Anh",
-          "credentials": "PhD",
+          "credentials": "Program Director, Lecturer in Economics Program",
           "institute": "VinUniversity",
           "image": "/duy_anh.png",
-          "link": "https://vinuni.edu.vn/faculty/dr-le-duy-anh"
+          "link": "https://vinuni.edu.vn/vi/people/ts-le-duy-anh/"
         },
         {
-          "name": "Prof. Dr. Vũ Anh Dũng",
-          "credentials": "Associate Professor, PhD",
+          "name": "Assoc. Prof. Dr. Vũ Anh Dũng",
+          "credentials": "Founding Director, Institute of Liberal Arts and Sciences",
           "institute": "VinUniversity",
           "image": "/vu_anh_dung.jpg",
-          "link": "https://vinuni.edu.vn/faculty/prof-dr-vu-anh-dung"
+          "link": "https://vinuni.edu.vn/vi/people/pgs-ts-vu-anh-dzung/"
         },
         {
           "name": "Dr. Trương Thu Hà",
-          "credentials": "PhD",
-          "institute": "VinUniversity",
-          "image": "/placeholder-user.jpg",
-          "link": "https://vinuni.edu.vn/faculty/dr-truong-thu-ha"
+          "credentials": "Lecturer, Department of Public Policy, University of Economics",
+          "institute": "Vietnam National University, Hanoi",
+          "image": "/truong_thu_ha.png",
+          "link": "https://ueb.edu.vn/Don-Vi-Giang-Vien/UEB/TS-TRUONG-THU-HA-/1873/1931/31354"
         }
       ]
     },
@@ -43,16 +43,16 @@
       "title": "Contributors",
       "members": [
         {
-          "name": "Dr. Trần Diệu Anh",
-          "credentials": "PhD Candidate",
+          "name": "M.A. Trần Diệu Anh",
+          "credentials": "",
           "institute": "VinUniversity",
-          "link": "https://vinuni.edu.vn/faculty/dr-tran-dieu-anh"
+          "link": "https://vinuni.edu.vn/faculty/ths-tran-dieu-anh"
         },
         {
-          "name": "Dr. Trần Anh Khoa",
-          "credentials": "PhD Candidate",
+          "name": "M.A. Trần Anh Khoa",
+          "credentials": "",
           "institute": "VinUniversity",
-          "link": "https://vinuni.edu.vn/faculty/dr-tran-anh-khoa"
+          "link": "https://vinuni.edu.vn/faculty/ths-tran-anh-khoa"
         },
         {
           "name": "Nguyễn Minh Khuê",
@@ -91,16 +91,16 @@
     }
   },
   "hero": {
-    "badge": "100+ Questions About Carbon Markets",
-    "title": "Your Complete Guide to Carbon Markets",
-    "description": "Explore comprehensive question-and-answer pairs about carbon trading, sustainability practices, and green initiatives. Start with our recommended book for foundational understanding.",
-    "readBook": "Read Recommended Book",
-    "browseQuestions": "Browse All Questions",
+    "badge": "50+ Questions About Carbon Markets",
+    "title": "Explore the Carbon Market Knowledge Library",
+    "description": "Discover comprehensive question-and-answer pairs about carbon markets, sustainable development, and green initiatives. Start with the recommended handbook to understand the fundamental concepts.",
+    "readBook": "Read Q&A Handbook",
+    "browseQuestions": "View All Questions",
     "askAI": "Ask AI",
     "stats": {
       "questions": "Q&A Pairs",
       "categories": "Categories",
-      "support": "Powered Support"
+      "support": "AI Powered"
     }
   },
   "footer": {
@@ -209,8 +209,8 @@
       "button": "Browse All 50+ Questions"
     },
     "fallback": {
-      "title": "Carbon Markets Starter Guide",
-      "description": "A practical field manual that translates complex carbon market policies into plain language for SME teams. Learn how credits are generated, traded, and verified with real-world examples from Vietnamese enterprises.",
+      "title": "Q&A HANDBOOK FOR SMALL AND MEDIUM ENTERPRISES ON VIETNAM'S CARBON MARKET, TOWARD 2030",
+      "description": "The Q&A Handbook for Small and Medium Enterprises (SMEs) on Vietnam's Carbon Market, Toward 2030 is designed to provide foundational knowledge, practical guidance, and support tools to help Vietnamese enterprises proactively participate in the green transition and integrate into domestic and international carbon markets.\n\nThe handbook content is presented in a Q&A format, easy to reference, covering six core topic groups:\n\n(1) Concepts and legal frameworks related to carbon credits;\n\n(2) Processes for calculating emissions, designing, and implementing emission reduction projects;\n\n(3) Financial mechanisms, green credit, and economic benefits from carbon credits;\n\n(4) Tools, training, and technical support for enterprises;\n\n(5) Risk management, transparency, and best practices; and\n\n(6) International experience and lessons for Vietnam.\n\nThe handbook not only compiles the latest legal regulations (as of 2025) such as Decree 06/2022/NĐ-CP, Decree 119/2025/NĐ-CP, and the roadmap for developing the national carbon trading exchange, but also provides specific guidance for SMEs to build MRV (Measurement – Reporting – Verification) systems, select emission factors, access green capital, and participate in public-private partnership models.\n\nBy combining professional knowledge, practical examples, and applicable tools, the handbook aims to help Vietnamese enterprises seize carbon economic opportunities while contributing to the national goal of achieving net zero emissions by 2050.",
       "publisher": "Carbon Market Institute",
       "retailers": {
         "exploreChapters": "Vietnamese Version",
@@ -495,8 +495,11 @@
       "loading": "Loading conversation...",
       "welcome": "Welcome to AI Assistant",
       "welcomeDescription": "Ask me anything about carbon markets, sustainability, emissions trading, or environmental policies. I'll provide accurate, cited answers.",
-      "suggestedQuestion1": "What is carbon trading?",
-      "suggestedQuestion2": "How do carbon credits work?",
+      "suggestedQuestion1": "What is MRV and why is it important?",
+      "suggestedQuestion2": "What are mandatory and voluntary carbon markets?",
+      "suggestedQuestion3": "Legal documents related to Vietnam's carbon market",
+      "suggestedQuestion4": "How do carbon credits differ from emission quotas?",
+      "suggestedQuestion5": "Which emission factors should Vietnamese SMEs use?",
       "thinking": "Thinking...",
       "errorMessage": "An error occurred. Please try again.",
       "placeholder": "Ask a question about carbon markets...",
@@ -546,9 +549,9 @@
     }
   },
   "futureSection": {
-    "badge": "Future Features",
-    "title": "Coming Soon",
-    "subtitle": "We're continuously improving our platform with cutting-edge features to enhance your learning experience",
+    "badge": "Features",
+    "title": "Learn About Carbon Markets",
+    "subtitle": "Question sets and features are continuously updated to provide the latest and most accurate information. You can ask questions to the author team or ask the AI assistant.",
     "continuousUpdates": {
       "title": "Continuously Updated Question Set",
       "description": "Our knowledge base is regularly updated with the latest carbon market developments, regulations, and best practices",
@@ -561,14 +564,14 @@
     },
     "aiAssistant": {
       "title": "AI Assistant",
-      "description": "Intelligent AI-powered assistant to help you navigate complex carbon market concepts and answer your questions",
+      "description": "Intelligent AI-powered assistant to help you navigate complex carbon market concepts and answer your questions. Responses use data directly from the question set and cite sources, ensuring accuracy.",
       "buttonText": "Ask AI"
     },
     "comingSoon": "Coming Soon"
   },
   "SurveySection": {
-    "title": "https://docs.google.com/forms/d/e/1FAIpQLSeXauPOOpCrnnMoH3Y883Gpt5f2kjItQh9u_GdD-DXhUWDsjA/viewform",
+    "title": "Survey on Your Company's Carbon Market Readiness",
     "description": "",
-    "buttonText": "Take Our Survey (Google Form)"
+    "buttonText": "Take the Survey (Google Form)"
   }
 }
