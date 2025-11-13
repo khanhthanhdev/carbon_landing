@@ -30,25 +30,21 @@ async function main() {
   const items: any[] = [];
 
   for (const section of parsed.sections) {
-    const sectionId = section.section_id;
-    const sectionNumber = section.section_number;
-    const sectionTitle = section.section_title;
-
     for (const question of section.questions) {
       items.push({
         question: question.question,
         answer: question.answer,
         searchable_text: question.searchable_text,
-        category: "Carbon Market", // or based on section
-        lang: "en",
-        section_id: sectionId,
-        section_number: sectionNumber,
-        section_title: sectionTitle,
-        question_number: question.id.split('_').pop(), // e.g., q_1
-        keywords: [], // can add later
+        category: question.metadata?.category || "Carbon Market",
+        lang: question.metadata?.lang || "en",
+        section_id: question.metadata?.section_id,
+        section_number: question.metadata?.section_number,
+        section_title: question.metadata?.section_title,
+        question_number: question.id,
+        keywords: question.metadata?.keywords || [],
         metadata: question.metadata,
         search_fields: question.search_fields,
-        sources: question.sources,
+        sources: question.sources || [],
       });
     }
   }

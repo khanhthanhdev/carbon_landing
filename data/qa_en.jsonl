@@ -18,22 +18,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "credit",
-              "one",
-              "ton",
-              "co",
-              "businesses",
-              "question",
-              "answer",
-              "certificate",
-              "permit"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 608,
-            "created_at": "2025-11-13T11:14:03.170Z",
-            "updated_at": "2025-11-13T11:14:03.170Z",
+            "created_at": "2025-11-13T09:47:53.480Z",
+            "updated_at": "2025-11-13T09:47:53.480Z",
             "lang": "en"
           },
           "sources": [],
@@ -42,7 +31,7 @@
             "question": "What is a Carbon Credit?",
             "answer_preview": "A carbon credit is a certificate or permit representing the right to emit one ton of carbon dioxide (CO₂) or the equivalent amount of a different greenhouse gas. Each credit also signifies that one to...",
             "question_lower": "what is a carbon credit?",
-            "keywords_searchable": "carbon credit one ton co businesses question answer certificate permit",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -58,22 +47,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "market",
-              "carbon",
-              "compliance",
-              "voluntary",
-              "emissions",
-              "government",
-              "allowances",
-              "based",
-              "reduce",
-              "emission"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2834,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -84,7 +62,7 @@
             "question": "What are Compliance and Voluntary Carbon Markets?",
             "answer_preview": "## Compliance Carbon Market\nThe compliance carbon market is established and operated based on national or international agreements and legally binding commitments to reduce carbon emissions. Key examp...",
             "question_lower": "what are compliance and voluntary carbon markets?",
-            "keywords_searchable": "market carbon compliance voluntary emissions government allowances based reduce emission",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -100,22 +78,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "mrv",
-              "carbon",
-              "reporting",
-              "process",
-              "system",
-              "energy",
-              "footnote",
-              "data",
-              "emission",
-              "reduction"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2421,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -128,7 +95,7 @@
             "question": "What is MRV, and why is it important?",
             "answer_preview": "## What is MRV?\nThe Measurement, Reporting, and Verification (MRV) process is a multi-step system for assessing the amount of greenhouse gas emissions reduced or removed by a specific mitigation activ...",
             "question_lower": "what is mrv, and why is it important?",
-            "keywords_searchable": "mrv carbon reporting process system energy footnote data emission reduction",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -144,22 +111,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "article",
-              "credits",
-              "framework",
-              "international",
-              "trading",
-              "kyoto",
-              "protocol",
-              "climate",
-              "market"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1940,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -170,7 +126,7 @@
             "question": "Important international legal instruments related to carbon credits?",
             "answer_preview": "Two foundational international agreements have been instrumental in establishing and evolving the global framework for carbon credits and their trading.\n## The Kyoto Protocol\nThe Kyoto Protocol, opera...",
             "question_lower": "important international legal instruments related to carbon credits?",
-            "keywords_searchable": "carbon article credits framework international trading kyoto protocol climate market",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -186,22 +142,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "market",
-              "footnote",
-              "development",
-              "ghg",
-              "legal",
-              "emissions",
-              "regulations",
-              "trading",
-              "law"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 4552,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -221,7 +166,7 @@
             "question": "Vietnamese legal documents related to the carbon market",
             "answer_preview": "To achieve its commitment of reaching Net Zero emissions by 2050, Vietnam has been progressively building a comprehensive legal framework to govern its domestic carbon market. The development of this ...",
             "question_lower": "vietnamese legal documents related to the carbon market",
-            "keywords_searchable": "carbon market footnote development ghg legal emissions regulations trading law",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -237,22 +182,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "standard",
-              "credits",
-              "program",
-              "development",
-              "verified",
-              "emission",
-              "reduction",
-              "projects",
-              "developed"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2356,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -265,7 +199,7 @@
             "question": "Common carbon credit standards/mechanisms currently applied",
             "answer_preview": "For carbon credits to be considered credible and tradable on the global market, they must be developed, verified, and issued under a recognized standard or program. These frameworks provide the rules,...",
             "question_lower": "common carbon credit standards/mechanisms currently applied",
-            "keywords_searchable": "carbon standard credits program development verified emission reduction projects developed",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -281,22 +215,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "voluntary",
-              "carbon",
-              "emission",
-              "ets",
-              "market",
-              "pilot",
-              "trading",
-              "system",
-              "vietnam",
-              "vcm"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2002,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -308,7 +231,7 @@
             "question": "How does the voluntary carbon market differ from the pilot Emission Trading System (ETS) in Vietnam?",
             "answer_preview": "As Vietnam prepares to launch its pilot Emission Trading System (ETS), it is important to understand how this new compliance market will differ from the existing Voluntary Carbon Market (VCM). While b...",
             "question_lower": "how does the voluntary carbon market differ from the pilot emission trading system (ets) in vietnam?",
-            "keywords_searchable": "voluntary carbon emission ets market pilot trading system vietnam vcm",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -324,22 +247,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "market",
-              "carbon",
-              "trading",
-              "will",
-              "ets",
-              "vietnam",
-              "phase",
-              "2028",
-              "launch",
-              "national"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1290,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -350,7 +262,7 @@
             "question": "When will the ETS market officially operate in Vietnam?",
             "answer_preview": "The development and launch of Vietnam's national Emission Trading System (ETS) is guided by a phased roadmap set forth by the government. The timeline is designed to ensure a stable and effective tran...",
             "question_lower": "when will the ets market officially operate in vietnam?",
-            "keywords_searchable": "market carbon trading will ets vietnam phase 2028 launch national",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -366,22 +278,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "exchange",
-              "will",
-              "carbon",
-              "hnx",
-              "trading",
-              "ets",
-              "credits",
-              "otc",
-              "market",
-              "centralized"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1383,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -392,7 +293,7 @@
             "question": "Which exchange will enterprises use to trade carbon credits? Can they trade through the Hanoi Stock Exchange (HNX) or via Over-the-Counter (OTC) agreements?",
             "answer_preview": "For Vietnam's regulated Emission Trading System (ETS), the Hanoi Stock Exchange (HNX) has been designated as the official platform for organizing and operating the carbon market. The HNX is responsibl...",
             "question_lower": "which exchange will enterprises use to trade carbon credits? can they trade through the hanoi stock exchange (hnx) or via over-the-counter (otc) agreements?",
-            "keywords_searchable": "exchange will carbon hnx trading ets credits otc market centralized",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -408,22 +309,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "emission",
-              "quotas",
-              "carbon",
-              "emissions",
-              "credits",
-              "cap",
-              "government",
-              "compliance",
-              "market",
-              "ets"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2804,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -434,7 +324,7 @@
             "question": "How do carbon credits and emission quotas differ?",
             "answer_preview": "Although both are key instruments in carbon markets and represent the \"right to emit\" one ton of CO₂ equivalent, emission quotas and carbon credits originate and function in fundamentally different wa...",
             "question_lower": "how do carbon credits and emission quotas differ?",
-            "keywords_searchable": "emission quotas carbon emissions credits cap government compliance market ets",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -450,22 +340,11 @@
             "section_title": "CONCEPTS AND LEGAL DOCUMENTS RELATED TO CARBON CREDITS",
             "section_id": "section_1",
             "category": "Carbon Market",
-            "keywords": [
-              "credits",
-              "vietnam",
-              "carbon",
-              "international",
-              "market",
-              "mechanisms",
-              "article",
-              "mechanism",
-              "will",
-              "global"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1729,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -476,7 +355,7 @@
             "question": "Can Vietnam connect carbon credits with the international market through mechanisms such as CDM, the Joint Crediting Mechanism with Japan (JCM), or Article 6 of the Paris Agreement?",
             "answer_preview": "Vietnam's carbon market framework is explicitly designed to integrate with international markets through several key mechanisms. The national system will not be a closed loop; instead, it is structure...",
             "question_lower": "can vietnam connect carbon credits with the international market through mechanisms such as cdm, the joint crediting mechanism with japan (jcm), or article 6 of the paris agreement?",
-            "keywords_searchable": "credits vietnam carbon international market mechanisms article mechanism will global",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         }
@@ -500,22 +379,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "emission",
-              "ets",
-              "emissions",
-              "market",
-              "allowances",
-              "penalties",
-              "enterprise",
-              "will",
-              "primary",
-              "exceed"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1247,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -526,7 +394,7 @@
             "question": "If an enterprise exceeds the permitted emission level in the ETS, how will it be handled?",
             "answer_preview": "The primary mechanism for handling emissions that exceed a facility's initial allocation is through market participation. Under the ETS, any regulated enterprise is required to surrender a quantity of...",
             "question_lower": "if an enterprise exceeds the permitted emission level in the ets, how will it be handled?",
-            "keywords_searchable": "emission ets emissions market allowances penalties enterprise will primary exceed",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -542,22 +410,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "emissions",
-              "emission",
-              "ghg",
-              "data",
-              "footnote",
-              "indirect",
-              "purchased",
-              "carbon",
-              "company",
-              "scope"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 5596,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -575,7 +432,7 @@
             "question": "How does an SME calculate its total greenhouse gas emissions (carbon footprint)?",
             "answer_preview": "To navigate emerging regulations like the EU's Carbon Border Adjustment Mechanism (CBAM) and participate effectively in the carbon market, the first essential step for any enterprise is to establish a...",
             "question_lower": "how does an sme calculate its total greenhouse gas emissions (carbon footprint)?",
-            "keywords_searchable": "emissions emission ghg data footnote indirect purchased carbon company scope",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -591,22 +448,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "emission",
-              "factors",
-              "use",
-              "vietnam",
-              "ghg",
-              "national",
-              "enterprises",
-              "international",
-              "footnote",
-              "official"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2115,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -619,7 +465,7 @@
             "question": "Which emission factors should SME enterprises use that are suitable for conditions in Vietnam?",
             "answer_preview": "Selecting appropriate emission factors is a critical step to ensure the accuracy, consistency, and legality of a greenhouse gas (GHG) inventory. For small and medium-sized enterprises (SMEs) in Vietna...",
             "question_lower": "which emission factors should sme enterprises use that are suitable for conditions in vietnam?",
-            "keywords_searchable": "emission factors use vietnam ghg national enterprises international footnote official",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -635,22 +481,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "scope",
-              "emissions",
-              "smes",
-              "data",
-              "supply",
-              "not",
-              "calculating",
-              "enterprises",
-              "carbon",
-              "category"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3147,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -661,7 +496,7 @@
             "question": "Is indirect emissions in the supply chain (Scope 3) mandatory to calculate? Should SMEs calculate it?",
             "answer_preview": "Indirect emissions occurring within the value chain (Scope 3) are a key indicator of an enterprise's comprehensive and substantive commitment to managing greenhouse gas (GHG) emissions. Although not y...",
             "question_lower": "is indirect emissions in the supply chain (scope 3) mandatory to calculate? should smes calculate it?",
-            "keywords_searchable": "scope emissions smes data supply not calculating enterprises carbon category",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -677,22 +512,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "factors",
-              "sector",
-              "specific",
-              "emission",
-              "legal",
-              "decision",
-              "applying",
-              "factor",
-              "appendix",
-              "enterprises"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2495,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -703,7 +527,7 @@
             "question": "Can enterprises in different sectors use sector-specific emission factors?",
             "answer_preview": "Not only is it permitted, but under current Vietnamese regulations, enterprises must apply the correct sector-specific emission factors that correspond to their production and business activities. Thi...",
             "question_lower": "can enterprises in different sectors use sector-specific emission factors?",
-            "keywords_searchable": "factors sector specific emission legal decision applying factor appendix enterprises",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -719,22 +543,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "standard",
-              "vcs",
-              "gold",
-              "methodologies",
-              "projects",
-              "reductions",
-              "emission",
-              "project",
-              "verified"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2780,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -746,7 +559,7 @@
             "question": "Methodological Database of Verified Carbon Standard (VCS) and Gold Standard",
             "answer_preview": "In the global voluntary carbon market, the Verified Carbon Standard (VCS) and Gold Standard (GS) are the two most reputable and widely used certification standards. A core component of both systems is...",
             "question_lower": "methodological database of verified carbon standard (vcs) and gold standard",
-            "keywords_searchable": "carbon standard vcs gold methodologies projects reductions emission project verified",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -762,22 +575,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "smes",
-              "low",
-              "cost",
-              "solutions",
-              "reduce",
-              "vietnam",
-              "not",
-              "energy",
-              "efficiency",
-              "waste"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2483,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -788,7 +590,7 @@
             "question": "What low-cost emission reduction solutions are suitable for SMEs in Vietnam?",
             "answer_preview": "For Small and Medium-sized Enterprises (SMEs) in Vietnam, reducing greenhouse gas (GHG) emissions does not necessarily require high-tech solutions or large capital investments. Many low-cost yet highl...",
             "question_lower": "what low-cost emission reduction solutions are suitable for smes in vietnam?",
-            "keywords_searchable": "smes low cost solutions reduce vietnam not energy efficiency waste",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -804,22 +606,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "project",
-              "no",
-              "following",
-              "form",
-              "appendix",
-              "carbon",
-              "documents",
-              "decree",
-              "eligible",
-              "credits"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1514,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -830,7 +621,7 @@
             "question": "What documents and certifications are necessary to prove a project is eligible for carbon credits?",
             "answer_preview": "Developing a carbon credit project under Vietnam's domestic mechanism requires a specific and detailed set of documents to demonstrate the project's transparency, effectiveness, and genuine contributi...",
             "question_lower": "what documents and certifications are necessary to prove a project is eligible for carbon credits?",
-            "keywords_searchable": "project no following form appendix carbon documents decree eligible credits",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -846,22 +637,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "smes",
-              "project",
-              "poa",
-              "projects",
-              "model",
-              "small",
-              "programme",
-              "activities",
-              "market",
-              "individual"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 2839,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [],
@@ -870,7 +650,7 @@
             "question": "Can SMEs jointly implement a common project to share the costs of Measurement, Reporting and Verification (MRV)?",
             "answer_preview": "This collaborative model is one of the most effective approaches for Small and Medium-sized Enterprises (SMEs). It is officially recognized in international carbon markets as a Programme of Activities...",
             "question_lower": "can smes jointly implement a common project to share the costs of measurement, reporting and verification (mrv)?",
-            "keywords_searchable": "smes project poa projects model small programme activities market individual",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -886,22 +666,11 @@
             "section_title": "FROM EMISSION CALCULATION TO IMPLEMENTATION OF EMISSION REDUCTION PROJECTS",
             "section_id": "section_2",
             "category": "Carbon Market",
-            "keywords": [
-              "project",
-              "days",
-              "ministry",
-              "appraisal",
-              "registration",
-              "line",
-              "final",
-              "official",
-              "working",
-              "months"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 3376,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [],
@@ -910,7 +679,7 @@
             "question": "How long does it usually take for a project to be registered, verified, and issued carbon credits?",
             "answer_preview": "The timeline for registering a domestic carbon credit project in Vietnam is detailed in the newly amended regulations. While the process is structured, the total duration can vary based on the project...",
             "question_lower": "how long does it usually take for a project to be registered, verified, and issued carbon credits?",
-            "keywords_searchable": "project days ministry appraisal registration line final official working months",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         }
@@ -934,22 +703,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "national",
-              "verification",
-              "data",
-              "stage",
-              "ministry",
-              "reporting",
-              "level",
-              "report",
-              "ghg",
-              "emission"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 3488,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [],
@@ -958,7 +716,7 @@
             "question": "What is the specific MRV process according to the guidance of the Ministry of Agriculture and Environment?",
             "answer_preview": "The Measurement, Reporting, and Verification (MRV) process in Vietnam, as defined by recent decrees and coordinated by the Ministry of Agriculture and Environment, is a structured, multi-layered syste...",
             "question_lower": "what is the specific mrv process according to the guidance of the ministry of agriculture and environment?",
-            "keywords_searchable": "national verification data stage ministry reporting level report ghg emission",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -974,22 +732,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "price",
-              "carbon",
-              "usd",
-              "credits",
-              "credit",
-              "market",
-              "co",
-              "value",
-              "footnote",
-              "45"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2580,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1003,7 +750,7 @@
             "question": "What price (USD/credit) can SME enterprises expect for selling carbon credits?",
             "answer_preview": "The value of a carbon credit currently fluctuates significantly depending on the market, project type, geographical location, and the added value the project delivers. In Vietnam, the average price of...",
             "question_lower": "what price (usd/credit) can sme enterprises expect for selling carbon credits?",
-            "keywords_searchable": "price carbon usd credits credit market co value footnote 45",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1019,22 +766,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "green",
-              "footnote",
-              "credit",
-              "bidv",
-              "vietinbank",
-              "finance",
-              "development",
-              "bank",
-              "international",
-              "banks"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2707,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1051,7 +787,7 @@
             "question": "What green credit options are being offered by domestic banks such as BIDV and VietinBank?",
             "answer_preview": "Currently, many commercial banks in Vietnam, such as BIDV and VietinBank, are actively implementing green credit programs to support businesses, especially small and medium-sized enterprises (SMEs), i...",
             "question_lower": "what green credit options are being offered by domestic banks such as bidv and vietinbank?",
-            "keywords_searchable": "green footnote credit bidv vietinbank finance development bank international banks",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1067,22 +803,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "tax",
-              "enterprises",
-              "reduction",
-              "projects",
-              "carbon",
-              "income",
-              "energy",
-              "credits",
-              "footnote",
-              "emission"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2402,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1096,7 +821,7 @@
             "question": "Can enterprises receive tax exemptions/reductions if they implement emission reduction projects?",
             "answer_preview": "Currently, Vietnam has been implementing several tax incentive policies for enterprises carrying out greenhouse gas emission reduction projects, especially those related to renewable energy, energy sa...",
             "question_lower": "can enterprises receive tax exemptions/reductions if they implement emission reduction projects?",
-            "keywords_searchable": "tax enterprises reduction projects carbon income energy credits footnote emission",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1112,22 +837,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "credit",
-              "credits",
-              "not",
-              "legal",
-              "system",
-              "contracts",
-              "58",
-              "used",
-              "use"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1475,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1139,7 +853,7 @@
             "question": "Can carbon credits be used as collateral (mortgage) for loans?",
             "answer_preview": "The use of carbon credits as a security asset in lending activities remains a novel issue and is not clearly regulated in Vietnam's current legal system. Currently, the Civil Code, the Law on Credit I...",
             "question_lower": "can carbon credits be used as collateral (mortgage) for loans?",
-            "keywords_searchable": "carbon credit credits not legal system contracts 58 used use",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1155,22 +869,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "000",
-              "costs",
-              "mrv",
-              "smes",
-              "usd",
-              "footnote",
-              "year",
-              "plan",
-              "verification",
-              "project"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2094,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1185,7 +888,7 @@
             "question": "How should SMEs plan costs for MRV activities?",
             "answer_preview": "MRV (Measurement - Reporting - Verification) activities are a mandatory and costly stage in the carbon credit project development chain, especially for Small and Medium-sized Enterprises (SMEs) in Vie...",
             "question_lower": "how should smes plan costs for mrv activities?",
-            "keywords_searchable": "000 costs mrv smes usd footnote year plan verification project",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1201,22 +904,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "smes",
-              "verification",
-              "costs",
-              "carbon",
-              "credit",
-              "market",
-              "risk",
-              "standard",
-              "footnote",
-              "usd"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2599,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1230,7 +922,7 @@
             "question": "What are the financial risks that SMEs need to be aware of (e.g., price volatility, increased verification costs)?",
             "answer_preview": "Small and Medium-sized Enterprises (SMEs) participating in the carbon credit market need to pay special attention to a range of financial risks that could affect the feasibility and investment efficie...",
             "question_lower": "what are the financial risks that smes need to be aware of (e.g., price volatility, increased verification costs)?",
-            "keywords_searchable": "smes verification costs carbon credit market risk standard footnote usd",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1246,22 +938,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "finance",
-              "businesses",
-              "footnote",
-              "blended",
-              "bank",
-              "development",
-              "projects",
-              "carbon",
-              "green",
-              "financial"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2781,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1278,7 +959,7 @@
             "question": "Can businesses access blended finance from the International Finance Corporation (IFC), the World Bank (WB), or the Asian Development Bank (ADB)?",
             "answer_preview": "Vietnamese businesses, especially Small and Medium-sized Enterprises (SMEs), are fully capable of accessing blended finance from development finance institutions such as the International Finance Corp...",
             "question_lower": "can businesses access blended finance from the international finance corporation (ifc), the world bank (wb), or the asian development bank (adb)?",
-            "keywords_searchable": "finance businesses footnote blended bank development projects carbon green financial",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1294,22 +975,11 @@
             "section_title": "FINANCE AND ECONOMIC BENEFITS FROM CARBON CREDITS",
             "section_id": "section_3",
             "category": "Carbon Market",
-            "keywords": [
-              "co",
-              "benefits",
-              "credit",
-              "biodiversity",
-              "carbon",
-              "value",
-              "market",
-              "projects",
-              "footnote",
-              "sdgs"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3138,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1324,7 +994,7 @@
             "question": "How to value co-benefits such as contributions to Sustainable Development Goals (SDGs) or biodiversity conservation?",
             "answer_preview": "In the context where the global carbon credit market increasingly focuses on added values beyond emission reduction factors, accurately valuing co-benefits such as contributions to Sustainable Develop...",
             "question_lower": "how to value co-benefits such as contributions to sustainable development goals (sdgs) or biodiversity conservation?",
-            "keywords_searchable": "co benefits credit biodiversity carbon value market projects footnote sdgs",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         }
@@ -1348,22 +1018,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "cbam",
-              "help",
-              "credits",
-              "emissions",
-              "businesses",
-              "smes",
-              "eu",
-              "emission",
-              "mechanism"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2421,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.487Z",
+            "updated_at": "2025-11-13T09:47:53.487Z",
             "lang": "en"
           },
           "sources": [
@@ -1376,7 +1035,7 @@
             "question": "Can carbon credits help SMEs cope with the European Union's Carbon Border Adjustment Mechanism (CBAM)?",
             "answer_preview": "In the context of the European Union implementing the Carbon Border Adjustment Mechanism (CBAM) to control the volume of carbon emissions imported into the internal market, Vietnamese exporting enterp...",
             "question_lower": "can carbon credits help smes cope with the european union's carbon border adjustment mechanism (cbam)?",
-            "keywords_searchable": "carbon cbam help credits emissions businesses smes eu emission mechanism",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1392,22 +1051,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "footnote",
-              "vietnam",
-              "technical",
-              "market",
-              "development",
-              "businesses",
-              "guidance",
-              "documents",
-              "ministry",
-              "climate"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3273,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1427,7 +1075,7 @@
             "question": "Where can businesses find guidance documents and forms (Ministry of Agriculture and Environment, CT Group, GIZ...)?",
             "answer_preview": "Enterprises seeking documents and guidelines related to climate change, GHG inventories, and carbon market mechanisms in Vietnam can access resources from three primary categories of sources:\n###\n## G...",
             "question_lower": "where can businesses find guidance documents and forms (ministry of agriculture and environment, ct group, giz...)?",
-            "keywords_searchable": "footnote vietnam technical market development businesses guidance documents ministry climate",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1443,22 +1091,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "verification",
-              "vietnam",
-              "carbon",
-              "standard",
-              "international",
-              "standards",
-              "accredited",
-              "validation",
-              "projects",
-              "sgs"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1982,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1471,7 +1108,7 @@
             "question": "Does Vietnam have any verification organizations recognized according to international standards yet?",
             "answer_preview": "There are several internationally accredited verification bodies active in Vietnam, although they are primarily branches or subsidiaries of global organizations.\nA verification organization, formally ...",
             "question_lower": "does vietnam have any verification organizations recognized according to international standards yet?",
-            "keywords_searchable": "verification vietnam carbon standard international standards accredited validation projects sgs",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1487,22 +1124,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "emissions",
-              "businesses",
-              "software",
-              "ghg",
-              "platforms",
-              "reporting",
-              "domestic",
-              "tracking",
-              "solutions",
-              "tools"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3007,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1516,7 +1142,7 @@
             "question": "What software can support SME businesses in tracking and reporting emissions?",
             "answer_preview": "Software solutions for tracking and reporting greenhouse gas (GHG) emissions for Small and Medium-sized Enterprises (SMEs) can be categorized into three main groups, ranging from basic tools to specia...",
             "question_lower": "what software can support sme businesses in tracking and reporting emissions?",
-            "keywords_searchable": "emissions businesses software ghg platforms reporting domestic tracking solutions tools",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1532,22 +1158,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "data",
-              "training",
-              "internal",
-              "carbon",
-              "emissions",
-              "ghg",
-              "emission",
-              "inventory",
-              "management",
-              "step"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2792,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1558,7 +1173,7 @@
             "question": "How to train internal staff on emissions tracking and carbon data management?",
             "answer_preview": "Building internal capacity is a critical step for successfully managing greenhouse gas (GHG) emissions. A structured training program ensures that data is collected accurately, calculations are perfor...",
             "question_lower": "how to train internal staff on emissions tracking and carbon data management?",
-            "keywords_searchable": "data training internal carbon emissions ghg emission inventory management step",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1574,22 +1189,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "blockchain",
-              "data",
-              "qr",
-              "codes",
-              "carbon",
-              "footnote",
-              "mrv",
-              "transparency",
-              "consumers",
-              "businesses"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3466,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1606,7 +1210,7 @@
             "question": "Can businesses apply blockchain technology or QR codes to enhance the transparency of the MRV process?",
             "answer_preview": "Businesses can leverage blockchain technology and QR codes to significantly enhance the transparency, accuracy, and efficiency of the MRV (Measurement, Reporting, and Verification) process. These tech...",
             "question_lower": "can businesses apply blockchain technology or qr codes to enhance the transparency of the mrv process?",
-            "keywords_searchable": "blockchain data qr codes carbon footnote mrv transparency consumers businesses",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1622,22 +1226,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "business",
-              "support",
-              "vietnam",
-              "project",
-              "organizations",
-              "platforms",
-              "networks",
-              "businesses",
-              "climate"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3868,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1650,7 +1243,7 @@
             "question": "What platforms or networks support SME cooperation and experience sharing (e.g., Carbon Market Forum, Bamboo Eco)?",
             "answer_preview": "Several platforms and networks are available to help Small and Medium-sized Enterprises (SMEs) in Vietnam access resources, share experiences, and collaborate on their decarbonization journey. These c...",
             "question_lower": "what platforms or networks support sme cooperation and experience sharing (e.g., carbon market forum, bamboo eco)?",
-            "keywords_searchable": "carbon business support vietnam project organizations platforms networks businesses climate",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1666,22 +1259,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "support",
-              "smes",
-              "footnote",
-              "organizations",
-              "vietnam",
-              "international",
-              "programs",
-              "carbon",
-              "universities",
-              "ngos"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2382,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1697,7 +1279,7 @@
             "question": "Which universities and non-governmental organizations (NGOs) can support SMEs in designing or verifying carbon projects?",
             "answer_preview": "Numerous universities and non-governmental organizations (NGOs), both globally and within Vietnam, are actively providing support to Small and Medium-sized Enterprises (SMEs) in the areas of project d...",
             "question_lower": "which universities and non-governmental organizations (ngos) can support smes in designing or verifying carbon projects?",
-            "keywords_searchable": "support smes footnote organizations vietnam international programs carbon universities ngos",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1713,22 +1295,11 @@
             "section_title": "TOOLS, TRAINING, AND TECHNICAL SUPPORT FOR SMEs",
             "section_id": "section_4",
             "category": "Carbon Market",
-            "keywords": [
-              "businesses",
-              "vietnam",
-              "market",
-              "new",
-              "carbon",
-              "industry",
-              "policies",
-              "monitoring",
-              "official",
-              "government"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 1695,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [],
@@ -1737,7 +1308,7 @@
             "question": "How can businesses regularly update new policies regarding the carbon market in Vietnam?",
             "answer_preview": "To effectively navigate the evolving regulatory landscape of Vietnam's carbon market, businesses should adopt a proactive, multi-channel approach that combines monitoring official government channels ...",
             "question_lower": "how can businesses regularly update new policies regarding the carbon market in vietnam?",
-            "keywords_searchable": "businesses vietnam market new carbon industry policies monitoring official government",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         }
@@ -1761,22 +1332,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "smes",
-              "carbon",
-              "climate",
-              "private",
-              "models",
-              "finance",
-              "footnote",
-              "ppp",
-              "projects",
-              "countries"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3779,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1792,7 +1352,7 @@
             "question": "What existing Public-Private Partnership (PPP) models help SMEs implement carbon projects?",
             "answer_preview": "Public-Private Partnership (PPP) models are increasingly being adapted to support Small and Medium-sized Enterprises (SMEs) in developing carbon projects, particularly in countries like Vietnam that a...",
             "question_lower": "what existing public-private partnership (ppp) models help smes implement carbon projects?",
-            "keywords_searchable": "smes carbon climate private models finance footnote ppp projects countries",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1808,22 +1368,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "verification",
-              "third",
-              "party",
-              "greenwashing",
-              "carbon",
-              "market",
-              "mrv",
-              "process",
-              "project",
-              "climate"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 4347,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1837,7 +1386,7 @@
             "question": "How to avoid \"greenwashing\" and ensure project credibility?",
             "answer_preview": "\"Greenwashing\" is the practice of making unsubstantiated or misleading claims about the environmental benefits of a product, service, or company's operations. The goal is often to enhance brand image ...",
             "question_lower": "how to avoid \"greenwashing\" and ensure project credibility?",
-            "keywords_searchable": "verification third party greenwashing carbon market mrv process project climate",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1853,22 +1402,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "additionality",
-              "project",
-              "carbon",
-              "analysis",
-              "barriers",
-              "investment",
-              "financial",
-              "common",
-              "practice",
-              "credit"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3244,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1879,7 +1417,7 @@
             "question": "What is the criterion for assessing \"additionality\" in a project?",
             "answer_preview": "The concept of “additionality” is a core principle of all credible carbon credit mechanisms, including the Clean Development Mechanism (CDM) and voluntary market standards such as the Verified Carbon ...",
             "question_lower": "what is the criterion for assessing \"additionality\" in a project?",
-            "keywords_searchable": "additionality project carbon analysis barriers investment financial common practice credit",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1895,22 +1433,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "project",
-              "credits",
-              "000",
-              "emission",
-              "targets",
-              "reduction",
-              "carbon",
-              "tco",
-              "verified",
-              "monitoring"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3371,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1922,7 +1449,7 @@
             "question": "What happens if a project fails to achieve the committed emission reduction targets?",
             "answer_preview": "## Context and importance of complying with emission reduction targets\nUnder any carbon crediting mechanism, every registered project must include a specific, quantified commitment regarding the volum...",
             "question_lower": "what happens if a project fails to achieve the committed emission reduction targets?",
-            "keywords_searchable": "project credits 000 emission targets reduction carbon tco verified monitoring",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1938,22 +1465,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "project",
-              "risk",
-              "leakage",
-              "permanence",
-              "buffer",
-              "carbon",
-              "credits",
-              "pool",
-              "measures",
-              "risks"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3409,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -1965,7 +1481,7 @@
             "question": "How to control the risk of leakage and ensure permanence?",
             "answer_preview": "## Explanation of concepts\nLeakage is the phenomenon in which greenhouse gas (GHG) emissions increase in another location as an indirect consequence of implementing an emission reduction project in a ...",
             "question_lower": "how to control the risk of leakage and ensure permanence?",
-            "keywords_searchable": "project risk leakage permanence buffer carbon credits pool measures risks",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -1981,22 +1497,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "credits",
-              "vietnam",
-              "emission",
-              "reduction",
-              "international",
-              "national",
-              "ndc",
-              "carbon",
-              "double",
-              "counting"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 4246,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [],
@@ -2005,7 +1510,7 @@
             "question": "What is Vietnam doing to prevent double counting?",
             "answer_preview": "## The concept of “double counting”\n“Double counting” occurs when a single greenhouse gas (GHG) emission reduction or removal is claimed by two or more entities to meet their climate targets. A common...",
             "question_lower": "what is vietnam doing to prevent double counting?",
-            "keywords_searchable": "credits vietnam emission reduction international national ndc carbon double counting",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2021,22 +1526,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "ets",
-              "carbon",
-              "businesses",
-              "market",
-              "changes",
-              "scenario",
-              "000",
-              "quota",
-              "tco",
-              "policy"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3664,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2048,7 +1542,7 @@
             "question": "How should SME businesses react if ETS regulations change suddenly?",
             "answer_preview": "## Context and Policy Risks within the ETS System[[133]](#footnote-132) [[134]](#footnote-133)\nThe Emissions Trading System (ETS) is an economic instrument adopted by many countries to control greenho...",
             "question_lower": "how should sme businesses react if ets regulations change suddenly?",
-            "keywords_searchable": "ets carbon businesses market changes scenario 000 quota tco policy",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2064,22 +1558,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "credit",
-              "market",
-              "exchange",
-              "national",
-              "transparency",
-              "project",
-              "system",
-              "credits",
-              "vietnam"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 4225,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [],
@@ -2088,7 +1571,7 @@
             "question": "What mechanisms ensure transparency when registering and trading carbon credits?",
             "answer_preview": "## The Importance of Transparency in the Carbon Market\nTransparency is a core factor in ensuring the reliability, effectiveness, and fair operation of the carbon credit market. A transparent carbon ma...",
             "question_lower": "what mechanisms ensure transparency when registering and trading carbon credits?",
-            "keywords_searchable": "carbon credit market exchange national transparency project system credits vietnam",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2104,22 +1587,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "project",
-              "co",
-              "benefits",
-              "sdg",
-              "impact",
-              "standard",
-              "water",
-              "indicators",
-              "international",
-              "gold"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 4137,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2130,7 +1602,7 @@
             "question": "How to demonstrate co-benefits (social, ecosystem) to attract investors?",
             "answer_preview": "## Concept and role of “co-benefits”\nCo-benefits are positive values beyond the emission reduction objective that a carbon project can bring to the local community, society, and ecosystem. These benef...",
             "question_lower": "how to demonstrate co-benefits (social, ecosystem) to attract investors?",
-            "keywords_searchable": "project co benefits sdg impact standard water indicators international gold",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2146,22 +1618,11 @@
             "section_title": "RISK GOVERNANCE, TRANSPARENCY, AND GOOD PRACTICES",
             "section_id": "section_5",
             "category": "Carbon Market",
-            "keywords": [
-              "governance",
-              "carbon",
-              "market",
-              "credit",
-              "data",
-              "principles",
-              "smes",
-              "esg",
-              "internal",
-              "social"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 4500,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [],
@@ -2170,7 +1631,7 @@
             "question": "What governance principles should SMEs follow to ensure transparency throughout the entire cycle?",
             "answer_preview": "## Recommended Governance Principles for SMEs\nSmall and medium-sized enterprises (SMEs) participating in the carbon market must adopt clear, transparent, and accountable governance mechanisms. This se...",
             "question_lower": "what governance principles should smes follow to ensure transparency throughout the entire cycle?",
-            "keywords_searchable": "governance carbon market credit data principles smes esg internal social",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         }
@@ -2194,22 +1655,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "governance",
-              "credit",
-              "project",
-              "carbon",
-              "market",
-              "objectives",
-              "assessment",
-              "community",
-              "specific",
-              "requirement"
-            ],
+            "keywords": [],
             "has_sources": false,
             "answer_length": 3095,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [],
@@ -2218,7 +1668,7 @@
             "question": "Transparency Governance Checklist for SMEs Participating in the Carbon Market",
             "answer_preview": "## I. Environmental\n| Governance Objectives | Specific Requirement | Implemented | Note |\n| --- | --- | --- | --- |\n| 1. Accurate Emission Calculation | Possesses an MRV toolkit or GHG calculation sof...",
             "question_lower": "transparency governance checklist for smes participating in the carbon market",
-            "keywords_searchable": "governance credit project carbon market objectives assessment community specific requirement",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2234,22 +1684,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "steel",
-              "cement",
-              "emissions",
-              "emission",
-              "businesses",
-              "credits",
-              "medium",
-              "enterprises",
-              "reduce"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 3936,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2263,7 +1702,7 @@
             "question": "Globally, what models or strategies have small and medium manufacturing enterprises in the steel and cement industries adopted to reduce emissions and participate in the carbon credit market?",
             "answer_preview": "Recently, many small and medium manufacturing enterprises (SMEs) in the steel and cement sectors, which are high-emission industries, have gradually implemented solutions to reduce greenhouse gases an...",
             "question_lower": "globally, what models or strategies have small and medium manufacturing enterprises in the steel and cement industries adopted to reduce emissions and participate in the carbon credit market?",
-            "keywords_searchable": "carbon steel cement emissions emission businesses credits medium enterprises reduce",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2279,22 +1718,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "logistics",
-              "businesses",
-              "emissions",
-              "credits",
-              "distribution",
-              "market",
-              "operational",
-              "optimizing",
-              "transport"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2269,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2306,7 +1734,7 @@
             "question": "Globally, what models and strategies have businesses in the logistics, distribution, and warehousing sectors implemented to reduce emissions and participate in the carbon credit market?",
             "answer_preview": "Recently, logistics, distribution, and warehousing businesses globally have been implementing numerous solutions aimed at reducing emissions and participating in the carbon credit market, focusing on ...",
             "question_lower": "globally, what models and strategies have businesses in the logistics, distribution, and warehousing sectors implemented to reduce emissions and participate in the carbon credit market?",
-            "keywords_searchable": "carbon logistics businesses emissions credits distribution market operational optimizing transport",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2322,22 +1750,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "real",
-              "carbon",
-              "estate",
-              "energy",
-              "credits",
-              "footnote",
-              "reduce",
-              "emissions",
-              "lighting",
-              "led"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2447,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2352,7 +1769,7 @@
             "question": "Internationally, what solutions have small and medium-sized commercial buildings and real estate businesses adopted to reduce emissions and generate carbon credits?",
             "answer_preview": "Small and medium-sized commercial buildings and real estate businesses (SMEs) worldwide have implemented various solutions to reduce greenhouse gas emissions and participate in the carbon credit marke...",
             "question_lower": "internationally, what solutions have small and medium-sized commercial buildings and real estate businesses adopted to reduce emissions and generate carbon credits?",
-            "keywords_searchable": "real carbon estate energy credits footnote reduce emissions lighting led",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2368,22 +1785,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "forest",
-              "carbon",
-              "models",
-              "credits",
-              "management",
-              "international",
-              "project",
-              "redd",
-              "model",
-              "emissions"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2992,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2396,7 +1802,7 @@
             "question": "What cultivation or forest management models have helped international agriculture and forestry enterprises successfully generate carbon credits?",
             "answer_preview": "The cultivation and forest management models that have helped international agriculture and forestry enterprises successfully generate carbon credits are presented systematically and in detail within ...",
             "question_lower": "what cultivation or forest management models have helped international agriculture and forestry enterprises successfully generate carbon credits?",
-            "keywords_searchable": "forest carbon models credits management international project redd model emissions",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2412,22 +1818,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "esg",
-              "consulting",
-              "models",
-              "companies",
-              "services",
-              "business",
-              "market",
-              "firms",
-              "model"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 2492,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2440,7 +1835,7 @@
             "question": "At the international level, what are the business models of companies providing ESG consulting services and carbon market services, and can these companies achieve financial efficiency or sustainable profitability?",
             "answer_preview": "Globally, many consulting firms specializing in ESG (Environmental, Social, Governance) and the carbon market have developed successful business models, focusing on providing technical services, data ...",
             "question_lower": "at the international level, what are the business models of companies providing esg consulting services and carbon market services, and can these companies achieve financial efficiency or sustainable profitability?",
-            "keywords_searchable": "carbon esg consulting models companies services business market firms model",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2456,22 +1851,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "carbon",
-              "collective",
-              "model",
-              "forest",
-              "implemented",
-              "project",
-              "smes",
-              "small",
-              "program",
-              "reduce"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 1948,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2483,7 +1867,7 @@
             "question": "Have any countries successfully organized and implemented a collective carbon project model involving multiple SMEs?",
             "answer_preview": "Several countries have successfully implemented collective carbon project models, where multiple small businesses or farm households participate under a centrally coordinated program. The goal is to r...",
             "question_lower": "have any countries successfully organized and implemented a collective carbon project model involving multiple smes?",
-            "keywords_searchable": "carbon collective model forest implemented project smes small program reduce",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         },
@@ -2499,22 +1883,11 @@
             "section_title": "INTERNATIONAL EXPERIENCE",
             "section_id": "section_6",
             "category": "Carbon Market",
-            "keywords": [
-              "footnote",
-              "ref",
-              "https",
-              "carbon",
-              "vietnam",
-              "vn",
-              "www",
-              "org",
-              "2022",
-              "2024"
-            ],
+            "keywords": [],
             "has_sources": true,
             "answer_length": 41841,
-            "created_at": "2025-11-13T11:14:03.171Z",
-            "updated_at": "2025-11-13T11:14:03.171Z",
+            "created_at": "2025-11-13T09:47:53.488Z",
+            "updated_at": "2025-11-13T09:47:53.488Z",
             "lang": "en"
           },
           "sources": [
@@ -2526,7 +1899,7 @@
             "question": "How do international businesses overcome the barrier of lacking internal technical capacity for emissions measurement and reporting?",
             "answer_preview": "The lack of technical capacity for Measurement, Reporting, and Verification (MRV) of emissions is a significant barrier for small and medium-sized enterprises participating in the carbon market. Howev...",
             "question_lower": "how do international businesses overcome the barrier of lacking internal technical capacity for emissions measurement and reporting?",
-            "keywords_searchable": "footnote ref https carbon vietnam vn www org 2022 2024",
+            "keywords_searchable": "",
             "category_searchable": "carbon market"
           }
         }

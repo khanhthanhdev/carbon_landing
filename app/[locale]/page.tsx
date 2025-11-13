@@ -8,11 +8,12 @@ import { KnowledgeOverview } from "@/components/knowledge-overview";
 import { Footer } from "@/components/footer";
 import { SurveySection } from "@/components/survey-section";
 import { FutureSection } from "@/components/future-section";
-import dynamic from "next/dynamic";
+import { FeedbackSectionLazy, SponsorsSectionLazy } from "@/components/lazy-home-sections";
+import { locales } from "@/i18n/request";
 
-// Lazy load below-the-fold components for better performance
-const FeedbackSectionLazy = dynamic(() => import("@/components/feedback-section").then(mod => ({ default: mod.FeedbackSection })), { ssr: true });
-const SponsorsSectionLazy = dynamic(() => import("@/components/sponsors-section").then(mod => ({ default: mod.SponsorsSection })), { ssr: true });
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({
   params,

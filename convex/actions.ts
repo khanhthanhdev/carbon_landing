@@ -758,15 +758,93 @@ export const importQAWithEmbeddings = action({
     let updated = 0;
     const failures: Array<{ question: string; error: string }> = [];
 
+    // First, normalize all items and collect valid ones
+    const validItems: Array<{
+      rawItem: any;
+      normalized: any;
+    }> = [];
+
     for (const rawItem of args.items) {
-      let normalized;
       try {
-        normalized = normalizeImportItem(rawItem as any);
+        const normalized = normalizeImportItem(rawItem as any);
+        validItems.push({ rawItem, normalized });
       } catch (error: any) {
         failures.push({
           question: rawItem.question,
           error: error?.message ?? "Invalid QA payload",
         });
+      }
+    }
+
+    // If skipExisting is true, check which ones already exist
+    let itemsToProcess = validItems;
+    if (skipExisting) {
+      const allQAs = await ctx.runQuery(api.queries.qa.listAll, {});
+      itemsToProcess = validItems.filter(({ normalized }) => {
+        const { question, category, question_number } = normalized;
+        let existing = allQAs.find(
+          (qa) => qa.category === category && qa.question === question
+        );
+        if (!existing && question_number) {
+          existing = allQAs.find(
+            (qa) => qa.question_number === question_number
+          );
+        }
+        return !existing;
+      });
+    }
+
+    // Prepare documents for batch embedding
+    const documentsToEmbed = itemsToProcess.map(({ normalized }) => ({
+      question: normalized.question,
+      answer: normalized.answer,
+    }));
+
+    // Batch embed all documents at once
+    let embeddings: Array<{
+      embedding_doc: number[];
+      embedding_qa: number[];
+      embedding_fact: number[];
+      composed: string;
+      dim: number;
+      model: string;
+    }> = [];
+
+    if (documentsToEmbed.length > 0) {
+      try {
+        embeddings = await ctx.runAction(api.embeddings.embedQADocumentsBatch, {
+          documents: documentsToEmbed,
+        });
+      } catch (error: any) {
+        // If batch embedding fails, fall back to individual embedding
+        console.warn("Batch embedding failed, falling back to individual embedding:", error.message);
+        embeddings = [];
+        for (const doc of documentsToEmbed) {
+          try {
+            const embedded = await ctx.runAction(api.embeddings.embedQADocumentAll, {
+              question: doc.question,
+              answer: doc.answer,
+            });
+            embeddings.push(embedded);
+            // Add delay to prevent rate limiting
+            await sleep(5000);
+          } catch (embedError: any) {
+            failures.push({
+              question: doc.question,
+              error: embedError?.message ?? "Embedding generation failed",
+            });
+          }
+        }
+      }
+    }
+
+    // Process each item with its embedding
+    for (let i = 0; i < itemsToProcess.length; i++) {
+      const { rawItem, normalized } = itemsToProcess[i];
+      const embedded = embeddings[i];
+
+      if (!embedded) {
+        // Skip if embedding failed
         continue;
       }
 
@@ -793,16 +871,8 @@ export const importQAWithEmbeddings = action({
         metadata_updated_at,
       } = normalized;
 
-      if (!question || !answer) {
-        failures.push({
-          question: rawItem.question,
-          error: "Missing question or answer",
-        });
-        continue;
-      }
-
       try {
-        // Check if QA already exists by question text
+        // Check if QA already exists (again, in case of concurrent updates)
         const allQAs = await ctx.runQuery(api.queries.qa.listAll, {});
         let existing = allQAs.find(
           (qa) => qa.category === category && qa.question === question
@@ -813,15 +883,6 @@ export const importQAWithEmbeddings = action({
             (qa) => qa.question_number === question_number
           );
         }
-
-        if (skipExisting && existing) {
-          continue;
-        }
-
-        const embedded = await ctx.runAction(api.embeddings.embedQADocumentAll, {
-          question,
-          answer,
-        });
 
         const id = await ctx.runMutation(api.mutations.qa.upsertQA, {
           question,
@@ -1020,6 +1081,9 @@ export const reembedQA = action({
           answer: doc.answer,
         });
 
+        // Add delay to prevent rate limiting
+        await sleep(5000);
+
         await ctx.runMutation(api.mutations.qa.upsertQA, {
           question: doc.question,
           answer: doc.answer,
@@ -1029,6 +1093,9 @@ export const reembedQA = action({
           content: doc.content ?? doc.searchable_text ?? embedded.composed,
           searchable_text: doc.searchable_text,
           section_id: doc.section_id,
+
+
+
           section_number: doc.section_number,
           section_title: doc.section_title,
           question_number: doc.question_number,
@@ -2101,6 +2168,9 @@ export const autoEmbedQA = action({
             
             cacheStatus[embeddingType] = false;
             console.log(`Generated new ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`);
+
+            // Add delay to prevent rate limiting
+            await sleep(5000);
 
             // Validate embedding dimensions (768)
             if (embedding.length !== 768) {

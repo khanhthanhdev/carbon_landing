@@ -51,6 +51,7 @@ export const Navigation = memo(function Navigation() {
               fill
               className="object-contain rounded-lg"
               sizes="(max-width: 768px) 2.5rem, 2.5rem"
+              priority
               />
             </div>
             <span className="text-xl font-bold text-foreground">{t("brand")}</span>

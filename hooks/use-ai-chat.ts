@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { convexQuery } from "@convex-dev/react-query";
-import { useConvex } from "convex/react";
+import { useState, useCallback, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useConvex, useQuery as useConvexQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
@@ -138,33 +137,26 @@ export function useAIChat({
   const queryClient = useQueryClient();
   const convex = useConvex();
   const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
-  // Query for fetching conversation history
-  const {
-    data: conversation,
-    isLoading,
-    error,
-    refetch,
-  } = useQuery<Conversation | null>({
-    ...convexQuery(api.queries.conversations.getConversation, { sessionId }),
-    enabled: enabled && !!sessionId,
-    staleTime: 30 * 1000, // 30 seconds - conversations change frequently
-    gcTime: 5 * 60 * 1000, // 5 minutes
-    retry: (failureCount: number, error: Error) => {
-      // Retry up to 2 times for network errors
-      if (failureCount >= 2) return false;
-      return true;
-    },
-    retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 10000),
-  });
+  // Use native Convex useQuery for better reactivity
+  // This will automatically re-render when the conversation updates
+  const conversation = useConvexQuery(
+    api.queries.conversations.getConversation,
+    enabled && !!sessionId ? { sessionId } : "skip"
+  );
+  
+  const isLoading = conversation === undefined;
 
-  // Mutation for sending messages
+  // Mutation for sending messages using native Convex
   const sendMessageMutation = useMutation({
     mutationFn: async (question: string): Promise<AIResponse> => {
       const trimmedQuestion = question.trim();
       if (!trimmedQuestion) {
         throw new Error("Question cannot be empty");
       }
+
+      setError(null); // Clear any previous errors
 
       // Call the Convex askAI action directly using the Convex client
       const result = await convex.action(api.actions.askAI, {
@@ -179,18 +171,15 @@ export function useAIChat({
     },
     onMutate: () => {
       setIsSending(true);
+      setError(null);
     },
-    onSuccess: (data) => {
-      // Invalidate and refetch the conversation to get the latest messages
-      queryClient.invalidateQueries({
-        queryKey: ["convex", "queries.conversations.getConversation", { sessionId }],
-      });
-      
-      // If the response includes follow-up questions, we might want to handle them here
-      // For now, we rely on the conversation refetch to include the follow-up questions
+    onSuccess: async (data) => {
+      // With native Convex useQuery, the conversation will automatically update
+      // We don't need to manually refetch - Convex handles reactivity
     },
     onError: (error: Error) => {
       console.error("Failed to send message:", error);
+      setError(error);
     },
     onSettled: () => {
       setIsSending(false);
@@ -238,16 +227,19 @@ export function useAIChat({
   // Helper function to get follow-up questions from the last message
   const lastFollowUpQuestions = lastMessage?.role === "assistant" ? lastMessage.followUpQuestions || [] : [];
 
-  // Helper function to clear conversation (for future use)
+  // Helper function to clear conversation (not needed with native Convex)
   const clearConversation = useCallback(() => {
-    queryClient.invalidateQueries({
-      queryKey: ["convex", "queries.conversations.getConversation", { sessionId }],
-    });
-  }, [queryClient, sessionId]);
+    // With native Convex, data updates automatically
+  }, []);
+  
+  // Refetch function placeholder (not needed with native Convex reactivity)
+  const refetch = useCallback(() => {
+    // Native Convex handles updates automatically
+  }, []);
 
   return {
     // Conversation data
-    conversation,
+    conversation: conversation ?? null,
     messages,
     hasMessages,
     lastMessage,
@@ -261,7 +253,7 @@ export function useAIChat({
     isLoadingConversation: isLoading,
 
     // Error states
-    error,
+    error: error || sendMessageMutation.error || null,
     sendError: sendMessageMutation.error,
 
     // Functions

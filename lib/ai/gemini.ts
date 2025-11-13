@@ -136,6 +136,56 @@ export class GeminiHelper {
   }
 
   /**
+   * Generate embeddings for a batch of texts with specified task types
+   */
+  async batchEmbedContents(
+    requests: Array<{
+      text: string;
+      taskType: EmbeddingTaskType;
+      title?: string;
+      dimensions?: number;
+    }>
+  ): Promise<number[][]> {
+    const sanitizedRequests = requests.map(({ text, ...rest }) => {
+      const sanitized = text.trim();
+      if (!sanitized) {
+        throw new Error("Cannot generate embedding for empty text");
+      }
+      if (sanitized.length > 20000) {
+        throw new Error("Text too long for embedding generation (max 20,000 characters)");
+      }
+      return { text: sanitized, ...rest };
+    });
+
+    return this.executeWithRetry(async () => {
+      await this.checkRateLimit();
+
+      const batchRequests = sanitizedRequests.map(({ text, taskType, title, dimensions }) => ({
+        model: this.embeddingModel,
+        content: {
+          role: "user",
+          parts: [{ text }],
+        },
+        taskType,
+        title,
+        outputDimensionality: dimensions,
+      }));
+
+      const response = await this.client.models.batchEmbedContents({
+        requests: batchRequests,
+      });
+
+      const embeddings = response.embeddings?.map(e => e.values);
+      if (!embeddings || embeddings.length !== requests.length) {
+        throw new Error("Gemini did not return the expected number of embeddings");
+      }
+
+      this.updateRateLimiterState();
+      return embeddings;
+    });
+  }
+
+  /**
    * Generate text response with context and locale support
    */
   async generateText(

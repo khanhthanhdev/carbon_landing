@@ -1,12 +1,26 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import natural from 'natural';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const mdFilePath = path.join(__dirname, '..', 'data', 'co2_en.md');
 const outputFilePath = path.join(__dirname, '..', 'data', 'qa_en.json');
+
+// Function to extract keywords using TF-IDF
+function extractKeywords(text, topN = 10) {
+  const tfidf = new natural.TfIdf();
+  tfidf.addDocument(text);
+
+  // Get the top N terms
+  const keywords = tfidf.listTerms(0)
+    .slice(0, topN)
+    .map(item => item.term);
+  return keywords;
+}
+
 
 function parseMarkdownToJSON(mdContent) {
   const lines = mdContent.split('\n');
@@ -30,7 +44,8 @@ function parseMarkdownToJSON(mdContent) {
       }
     } else if (inFootnotes && line === '') {
       continue;
-    } else if (inFootnotes) {
+    }
+    else if (inFootnotes) {
       break;
     }
   }
@@ -100,17 +115,45 @@ function parseMarkdownToJSON(mdContent) {
 
   // Process each question to clean answer, set searchable_text, and extract sources
   sections.forEach(section => {
-    section.questions.forEach(q => {
+    section.questions.forEach((q, index) => {
       q.answer = q.answer.trim();
       q.searchable_text = `Question: ${q.question}\n\nAnswer: ${q.answer}`;
-      q.search_fields.answer_preview = q.answer.substring(0, 200) + (q.answer.length > 200 ? '...' : '');
-
+      
       // Extract sources
       const footnoteMatches = q.answer.match(/\[\[\d+\]\]\(#footnote-(\d+)\)/g);
       if (footnoteMatches) {
         const uniqueFootnotes = [...new Set(footnoteMatches.map(m => m.match(/#footnote-(\d+)/)[1]))];
         q.sources = uniqueFootnotes.map(num => footnotes[num]).filter(Boolean);
+      } else {
+        q.sources = [];
       }
+
+      const keywords = extractKeywords(q.searchable_text);
+
+      // Update metadata with complete info
+      q.metadata = {
+        section: section.section_number,
+        question_number: index + 1,
+        section_number: section.section_number,
+        section_title: section.section_title,
+        section_id: section.section_id,
+        category: "Carbon Market",
+        keywords: keywords,
+        has_sources: q.sources.length > 0,
+        answer_length: q.answer.length,
+        created_at: q.metadata.created_at,
+        updated_at: q.metadata.created_at,
+        lang: "en"
+      };
+
+      // Update search_fields
+      q.search_fields = {
+        question: q.question,
+        answer_preview: q.answer.substring(0, 200) + (q.answer.length > 200 ? '...' : ''),
+        question_lower: q.question.toLowerCase(),
+        keywords_searchable: keywords.join(' '),
+        category_searchable: "carbon market"
+      };
     });
   });
 

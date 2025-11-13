@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, FileText, MessageSquare, ChevronRight } from "lucide-react";
 import { RichTextRenderer } from "@/components/rich-text-renderer";
 import { AIChatDialog } from "@/components/ai-chat-dialog";
-import qaData from "@/data/qa_new.json";
+import qaDataVi from "@/data/qa_new.json";
+import qaDataEn from "@/data/qa_en.json";
 
-type QASection = (typeof qaData.sections)[number];
+type QASection = (typeof qaDataVi.sections)[number];
 type QAQuestion = QASection["questions"][number];
 
 function transformSources(question: QAQuestion) {
@@ -36,6 +37,8 @@ export function CommonQuestionsSection() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
 
+  const qaData = locale === 'vi' ? qaDataVi : qaDataEn;
+
   const featuredQuestions = useMemo(() => {
     const sections: QASection[] = qaData.sections ?? [];
     const allQuestions = sections.flatMap((section) =>
@@ -50,7 +53,7 @@ export function CommonQuestionsSection() {
     );
 
     return allQuestions.slice(0, 5);
-  }, []);
+  }, [qaData]);
 
   return (
     <section className="py-12 sm:py-16 lg:py-32 bg-background" id="common">

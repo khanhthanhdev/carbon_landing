@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 type SupportedLocale = "en" | "vi";
-type PageKey = "home" | "search" | "books" | "askAi" | "aboutUs";
+type PageKey = "home" | "search" | "books" | "askAi" | "aboutUs" | "faqs";
 
 const SUPPORTED_LOCALES: SupportedLocale[] = ["en", "vi"];
 const DEFAULT_LOCALE: SupportedLocale = "vi";
@@ -16,6 +16,7 @@ const routePath: Record<PageKey, string> = {
   books: "/books",
   askAi: "/ask-ai",
   aboutUs: "/about-us",
+  faqs: "/faqs",
 };
 
 const openGraphImages: Record<PageKey, string> = {
@@ -24,7 +25,13 @@ const openGraphImages: Record<PageKey, string> = {
   books: "/book-cover-carbon-markets.jpg",
   askAi: "/diverse-business-professionals-learning-sustainabi.jpg",
   aboutUs: "/lush-green-forest-canopy-aerial-view-sustainabilit.jpg",
+  faqs: "/carbon-markets-book-cover-with-green-leaf-design.jpg",
 };
+
+function resolveAssetPath(path: string) {
+  const normalizedSiteUrl = siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`;
+  return new URL(path, normalizedSiteUrl).toString();
+}
 
 const titles: Record<PageKey, Record<SupportedLocale, string>> = {
   home: {
@@ -46,6 +53,10 @@ const titles: Record<PageKey, Record<SupportedLocale, string>> = {
   aboutUs: {
   en: "About Us",
   vi: "Về chúng tôi",
+  },
+  faqs: {
+  en: "Frequently Asked Questions",
+  vi: "Câu hỏi thường gặp",
   },
 };
 
@@ -69,6 +80,10 @@ const descriptions: Record<PageKey, Record<SupportedLocale, string>> = {
   aboutUs: {
   en: "Meet the expert team behind CarbonLearn's comprehensive carbon market training and resources for Vietnamese SMEs.",
   vi: "Gặp gỡ đội ngũ chuyên gia đằng sau chương trình đào tạo và tài nguyên toàn diện về thị trường carbon của CarbonLearn dành cho doanh nghiệp SME Việt Nam.",
+  },
+  faqs: {
+  en: "Find answers to common questions about carbon markets, credits, and compliance for Vietnamese SMEs.",
+  vi: "Tìm câu trả lời cho các câu hỏi thường gặp về thị trường carbon, tín chỉ carbon và tuân thủ dành cho doanh nghiệp SME Việt Nam.",
   },
 };
 
@@ -160,21 +175,21 @@ function buildOpenGraph(page: PageKey, locale: SupportedLocale, pathname: string
     (item) => openGraphLocaleMap[item],
   );
 
-  return {
-    type: "website",
-    locale: openGraphLocaleMap[locale],
-    alternateLocale,
-    url: baseUrl,
-    title: `${titles[page][locale]} | ${SITE_NAME}`,
-    description: descriptions[page][locale],
-    siteName: SITE_NAME,
-    images: [
-      {
-        url: openGraphImages[page],
-        alt: titles[page][locale],
-      },
-    ],
-  };
+    return {
+      type: "website",
+      locale: openGraphLocaleMap[locale],
+      alternateLocale,
+      url: baseUrl,
+      title: `${titles[page][locale]} | ${SITE_NAME}`,
+      description: descriptions[page][locale],
+      siteName: SITE_NAME,
+      images: [
+        {
+          url: resolveAssetPath(openGraphImages[page]),
+          alt: titles[page][locale],
+        },
+      ],
+    };
 }
 
 function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPath: string) {
@@ -505,7 +520,7 @@ export function buildPageMetadata(page: PageKey, localeInput?: string): Metadata
       description: descriptions[page][locale],
       images: [
         {
-          url: openGraphImages[page],
+          url: resolveAssetPath(openGraphImages[page]),
           alt: titles[page][locale],
           width: 1200,
           height: 630,

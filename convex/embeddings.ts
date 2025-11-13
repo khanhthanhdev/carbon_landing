@@ -2,6 +2,7 @@ import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { GoogleGenAI } from "@google/genai";
 import { action } from "./_generated/server";
+import { GeminiHelper } from "../lib/ai/gemini";
 
 const MODEL = process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001";
 const DIM = Number(process.env.EMBEDDING_DIM || "768");
@@ -131,6 +132,56 @@ export const embedQADocumentAll = action({
       dim: DIM,
       model: MODEL,
     };
+  },
+});
+
+/**
+ * Generate embeddings for a batch of Q&A documents
+ */
+export const embedQADocumentsBatch = action({
+  args: {
+    documents: v.array(
+      v.object({
+        question: v.string(),
+        answer: v.string(),
+      })
+    ),
+  },
+  handler: async (ctx, { documents }) => {
+    const apiKey = process.env.GOOGLE_API_KEY;
+    if (!apiKey) throw new Error("Missing GOOGLE_API_KEY");
+
+    const docTexts = documents.map(({ question, answer }) => composeDocText(question, answer));
+    const answerTexts = documents.map(({ answer }) => answer);
+
+    const requestsDoc = docTexts.map((text, i) => ({
+      text,
+      task: "RETRIEVAL_DOCUMENT" as TaskType,
+      title: documents[i].question,
+    }));
+    const requestsQA = answerTexts.map((text) => ({
+      text,
+      task: "QUESTION_ANSWERING" as TaskType,
+    }));
+    const requestsFact = docTexts.map((text) => ({
+      text,
+      task: "FACT_VERIFICATION" as TaskType,
+    }));
+
+    const [embeddingsDoc, embeddingsQA, embeddingsFact] = await Promise.all([
+      new GeminiHelper(apiKey).batchEmbedContents(requestsDoc),
+      new GeminiHelper(apiKey).batchEmbedContents(requestsQA),
+      new GeminiHelper(apiKey).batchEmbedContents(requestsFact),
+    ]);
+
+    return documents.map((doc, i) => ({
+      embedding_doc: embeddingsDoc[i],
+      embedding_qa: embeddingsQA[i],
+      embedding_fact: embeddingsFact[i],
+      composed: docTexts[i],
+      dim: DIM,
+      model: MODEL,
+    }));
   },
 });
 

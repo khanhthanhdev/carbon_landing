@@ -9,9 +9,20 @@ import { RichTextRenderer } from "@/components/rich-text-renderer"
 import { AIChatDialog } from "@/components/ai-chat-dialog"
 import { ChevronDown, ChevronRight, ExternalLink, FileText, MessageSquare, Menu, X, Loader2 } from "lucide-react"
 import { usePaginatedQuestions } from "@/hooks/use-paginated-questions"
-import qaData from "@/data/qa_new.json"
+import { useQuery } from "convex/react"
+import { api } from "@/convex/_generated/api"
 
-type QASection = (typeof qaData.sections)[number]
+type QAData = {
+  sections: Array<{
+    section_id: string
+    section_number: string
+    section_title: string
+    questions: Array<any>
+    question_count: number
+  }>
+}
+
+type QASection = QAData["sections"][number]
 type QAQuestion = QASection["questions"][number]
 
 function extractSources(question: QAQuestion | any) {
@@ -207,12 +218,15 @@ const QuestionContent = memo(({
 })
 QuestionContent.displayName = "QuestionContent"
 
-export default function BooksPageClient() {
-  const sections: QASection[] = qaData.sections ?? []
-  
+export default function BooksPageClient({ locale }: { locale: string }) {
   // Use paginated questions from Convex
   const { questions: paginatedQuestions, loadMore, hasMore, isLoading } = usePaginatedQuestions()
 
+  const qaData = useQuery(api.qa.getAllByLang, { lang: locale })
+  const isLoadingQa = !qaData
+
+  const sections: QASection[] = qaData?.sections ?? []
+  
   // Build question entries from static data (for sidebar navigation)
   const questionEntries = useMemo(
     () =>
@@ -226,10 +240,17 @@ export default function BooksPageClient() {
   )
 
   const totalQuestions = questionEntries.length
-  const [selectedQuestionId, setSelectedQuestionId] = useState<string>(() => questionEntries[0]?.question.id ?? "")
+  const [selectedQuestionId, setSelectedQuestionId] = useState<string>("")
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isChatOpen, setIsChatOpen] = useState(false)
+
+  useEffect(() => {
+    if (qaData && questionEntries.length > 0 && !selectedQuestionId) {
+      setSelectedQuestionId(questionEntries[0].question.id)
+      setExpandedSections(new Set(sections.map((section) => section.section_id)))
+    }
+  }, [qaData])
 
   // Try to find in paginated data first, fallback to static data
   const selectedEntry = useMemo(() => {
@@ -246,10 +267,6 @@ export default function BooksPageClient() {
     () => questionEntries.findIndex((entry) => entry.question.id === selectedQuestionId),
     [questionEntries, selectedQuestionId],
   )
-
-  useEffect(() => {
-    setExpandedSections(new Set(sections.map((section) => section.section_id)))
-  }, [sections])
 
   const toggleSection = useCallback((sectionId: string) => {
     setExpandedSections((prev) => {
@@ -302,45 +319,52 @@ export default function BooksPageClient() {
             ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
           `}
         >
-          <div className="p-4 sm:p-6 space-y-3">
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-sidebar-foreground mb-2">Carbon Market Guide</h2>
-              <p className="text-sm text-sidebar-foreground/70">Browse by section</p>
+          {isLoadingQa ? (
+            <div className="p-4 sm:p-6 flex items-center justify-center h-full">
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <span className="ml-2 text-sidebar-foreground">Loading...</span>
             </div>
-
-            {sections.map((section) => (
-              <SectionItem
-                key={section.section_id}
-                section={section}
-                isExpanded={expandedSections.has(section.section_id)}
-                selectedQuestionId={selectedQuestionId}
-                onToggle={() => toggleSection(section.section_id)}
-                onQuestionSelect={handleQuestionSelect}
-              />
-            ))}
-
-            {/* Load more button for paginated questions */}
-            {hasMore && (
-              <div className="pt-4 pb-2">
-                <Button
-                  onClick={loadMore}
-                  disabled={isLoading}
-                  variant="outline"
-                  className="w-full"
-                  size="sm"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Loading...
-                    </>
-                  ) : (
-                    "Load More Questions"
-                  )}
-                </Button>
+          ) : (
+            <div className="p-4 sm:p-6 space-y-3">
+              <div className="mb-6">
+                <h2 className="text-xl font-bold text-sidebar-foreground mb-2">Carbon Market Guide</h2>
+                <p className="text-sm text-sidebar-foreground/70">Browse by section</p>
               </div>
-            )}
-          </div>
+
+              {sections.map((section) => (
+                <SectionItem
+                  key={section.section_id}
+                  section={section}
+                  isExpanded={expandedSections.has(section.section_id)}
+                  selectedQuestionId={selectedQuestionId}
+                  onToggle={() => toggleSection(section.section_id)}
+                  onQuestionSelect={handleQuestionSelect}
+                />
+              ))}
+
+              {/* Load more button for paginated questions */}
+              {hasMore && (
+                <div className="pt-4 pb-2">
+                  <Button
+                    onClick={loadMore}
+                    disabled={isLoading}
+                    variant="outline"
+                    className="w-full"
+                    size="sm"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Loading...
+                      </>
+                    ) : (
+                      "Load More Questions"
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
         </aside>
 
         {isSidebarOpen && (

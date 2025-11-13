@@ -3,6 +3,11 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AboutUsSection } from "@/components/about-us-section";
 import { SurveySection } from "@/components/survey-section";
+import { locales } from "@/i18n/request";
+
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({
   params,

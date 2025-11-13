@@ -20,6 +20,7 @@ import type * as landingContent from "../landingContent.js";
 import type * as mutations_conversations from "../mutations/conversations.js";
 import type * as mutations_qa from "../mutations/qa.js";
 import type * as mutations_search from "../mutations/search.js";
+import type * as qa from "../qa.js";
 import type * as queries_conversations from "../queries/conversations.js";
 import type * as queries_documents from "../queries/documents.js";
 import type * as queries_qa from "../queries/qa.js";
@@ -45,6 +46,7 @@ declare const fullApi: ApiFromModules<{
   "mutations/conversations": typeof mutations_conversations;
   "mutations/qa": typeof mutations_qa;
   "mutations/search": typeof mutations_search;
+  qa: typeof qa;
   "queries/conversations": typeof queries_conversations;
   "queries/documents": typeof queries_documents;
   "queries/qa": typeof queries_qa;

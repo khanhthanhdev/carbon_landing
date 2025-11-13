@@ -25,7 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
       sitemap.push({
         url,
-        lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: page === '' ? 1.0 : 0.8,
       })

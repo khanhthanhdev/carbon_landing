@@ -80,12 +80,12 @@
         {
           "name": "VinUniversity",
           "description": "Leading private university in Vietnam",
-          "image": "/placeholder-logo.png"
+          "image": "/vin_uni.png"
         },
         {
           "name": "British Council",
           "description": "UK's international organization for cultural relations",
-          "image": "/placeholder-logo.png"
+          "image": "/british-council.png"
         }
       ]
     }
