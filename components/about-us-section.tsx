@@ -1,204 +1,236 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Users, Building2, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Image from "next/image";
+import { Quote } from "lucide-react";
 
 export function AboutUsSection() {
   const t = useTranslations("aboutUs");
 
-  const coChairs = t.raw("coChairs.members") as Array<{ name: string; credentials: string; institute?: string; image?: string; link?: string }>;
+  const coChairs = t.raw("coChairs.members") as Array<{ name: string; credentials: string; institute?: string; image?: string; link?: string; quote?: string }>;
   const participants = t.raw("participants.members") as Array<{ name: string; credentials: string; institute?: string; image?: string; link?: string }>;
   const organizations = t.raw("organizations.members") as Array<{ name: string; description: string; image?: string }>;
 
   return (
-    <section className="pt-16 sm:pt-0 py-8 sm:py-12 lg:py-16 xl:py-12 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-4 sm:mb-8 lg:mb-12 xl:mb-8">
-          <h1 className="text-3xl sm:text-4xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-foreground mb-3 sm:mb-4 text-balance">
-            {t("title")}
-          </h1>
-          <p className="text-base sm:text-lg md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty px-4">
-            {t("subtitle")}
-          </p>
+    <section className="bg-background">
+      {/* Hero Section with Background */}
+      <div className="relative min-h-[500px] lg:min-h-[600px] bg-gradient-to-b from-emerald-900 to-emerald-700 overflow-hidden">
+        {/* Background Image Overlay */}
+        <div className="absolute inset-0 bg-[url('/forest-bg.jpg')] bg-cover bg-center opacity-40" />
+        
+        {/* Network Lines Overlay (decorative) */}
+        <div className="absolute inset-0 opacity-20">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                <circle cx="25" cy="25" r="2" fill="white" opacity="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
         </div>
 
-        {/* Co-Chairs and Editors */}
-        <div className="mb-8 lg:mb-10 xl:mb-8">
-          <div className="text-center mb-8 lg:mb-10">
-            <Badge variant="secondary" className="mb-3 px-3 py-1.5 text-lg font-medium">
-              <Users className="h-4 w-4 mr-2" />
-              {t("coChairs.title")}
-            </Badge>
+        {/* Content */}
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+          <div className="text-center text-white mb-16 lg:mb-20">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
+              Empowering a Sustainable Future
+            </h1>
+            <p className="text-lg sm:text-xl lg:text-2xl opacity-90 max-w-2xl mx-auto">
+              Meet the innovators behind CarbonLearn.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-            {coChairs.map((member, index) => (
-              <Card key={index} className="group overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300 bg-white p-0">
-                <div className="relative">
-                  {/* Profile Image */}
-                  <div className="aspect-[4/5] sm:aspect-[3/4] bg-gradient-to-br from-primary/10 to-primary/5 relative overflow-hidden">
-                    {member.image ? (
-                      <a href={member.link} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
-                        <Image
-                          fill
-                          src={member.image}
-                          alt={member.name}
-                          className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </a>
-                    ) : (
-                      <>
-                        <div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors duration-300" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Users className="h-12 w-12 sm:h-14 sm:h-14 text-primary/60 group-hover:text-primary/80 transition-colors duration-300" />
-                        </div>
-                      </>
-                    )}
-                    {/* Decorative elements */}
-                    <div className="absolute top-3 right-3 w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center">
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4 sm:p-6 text-center">
-                    <div className="mb-2">
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 leading-tight">
-                        {member.name}
-                      </h3>
-                      {member.credentials && (
-                        <p className="text-base sm:text-lg font-medium text-primary">
-                          {member.credentials}
-                        </p>
-                      )}
-                    </div>
-
-                    {member.institute && (
-                      <div className="flex items-center justify-center gap-2 text-sm sm:text-base text-muted-foreground">
-                        <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
-                        <span className="font-medium">{member.institute}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Participants */}
-        <div className="mb-12 lg:mb-16">
-          <div className="text-center mb-8 lg:mb-10">
-            <Badge variant="secondary" className="mb-3 px-3 py-1.5 text-sm font-medium">
-              <Users className="h-4 w-4 mr-2" />
-              {t("participants.title")}
-            </Badge>
-          </div>
-
-          <div className="max-w-5xl mx-auto">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-2 md:-ml-3">
-                {participants.map((member, index) => (
-                  <CarouselItem key={index} className="pl-2 md:pl-3 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <Card className="group overflow-hidden border shadow-sm hover:shadow-md transition-all duration-300 bg-white p-0">
-                      <div className="relative">
-                        {/* Profile Image */}
-                        <div className="aspect-[3/4] bg-gradient-to-br from-muted/50 to-muted/30 relative overflow-hidden">
-                          {member.image ? (
-                            <a href={member.link} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
-                              <Image
-                                fill
-                                src={member.image}
-                                alt={member.name}
-                                className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                              />
-                            </a>
-                          ) : (
-                            <>
-                              <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/5 transition-colors duration-300" />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <Users className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground group-hover:text-primary/80 transition-colors duration-300" />
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        {/* Content */}
-                        <div className="p-3 sm:p-4 text-center">
-                          <h4 className="text-sm sm:text-base font-semibold text-foreground mb-1 leading-tight">
-                            {member.name}
-                          </h4>
-                          {member.credentials && (
-                            <p className="text-xs sm:text-sm font-medium text-primary">
-                              {member.credentials}
-                            </p>
-                          )}
-                          {member.institute && (
-                            <div className="flex items-center justify-center gap-1 mt-1 sm:mt-2 text-xs sm:text-sm text-muted-foreground">
-                              <MapPin className="h-3 w-3" />
-                              <span className="font-medium truncate">{member.institute}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
-            </Carousel>
-          </div>
-        </div>
-
-        {/* Organizations */}
-        <div>
-          <div className="text-center mb-8 lg:mb-10">
-            <Badge variant="secondary" className="mb-3 px-3 py-1.5 text-sm font-medium">
-              <Building2 className="h-4 w-4 mr-2" />
-              {t("organizations.title")}
-            </Badge>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-16 lg:gap-20 max-w-4xl mx-auto">
-            {organizations.map((org, index) => (
-              <div key={index} className="flex flex-col items-center text-center group">
-                <div className="relative w-40 h-40 sm:w-44 sm:h-44 lg:w-48 lg:h-48 mb-8 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-100">
-                  {org.image ? (
+          {/* Three Main Leaders */}
+          <div className="flex flex-wrap justify-center gap-12 lg:gap-20 max-w-7xl mx-auto">
+            {coChairs.slice(0, 3).map((member, index) => (
+              <div key={index} className="flex flex-col items-center text-center text-white w-full sm:w-[320px] md:w-[360px]">
+                {/* Circular Avatar with White Border */}
+                <a 
+                  href={member.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="relative w-48 h-48 lg:w-56 lg:h-56 mb-6 rounded-full overflow-hidden border-8 border-white shadow-2xl hover:scale-105 transition-transform duration-300"
+                >
+                  {member.image ? (
                     <Image
                       fill
-                      src={org.image}
-                      alt={org.name}
-                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                      src={member.image}
+                      alt={member.name}
+                      className="object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-primary/5">
-                      <Building2 className="h-16 w-16 sm:h-18 sm:w-18 lg:h-20 lg:w-20 text-primary/60" />
-                    </div>
+                    <div className="w-full h-full bg-white/20" />
                   )}
-                </div>
-                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground mb-3 leading-tight">
-                  {org.name}
-                </h3>
-                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-md text-center">
-                  {org.description}
-                </p>
+                </a>
+                <h3 className="text-xl lg:text-2xl font-bold mb-2 break-words">{member.name}</h3>
+                <p className="text-sm lg:text-base opacity-90 mb-1 line-clamp-2">{member.credentials}</p>
+                {/* <p className="text-sm lg:text-base opacity-75 italic">
+                  "{member.quote || "Bridging economics and ecology"}"
+                </p> */}
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Our Leadership Section */}
+      <div className="bg-gray-50 py-16 lg:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Our Leadership
+            </h2>
+          </div>
+
+          {/* Leadership Grid */}
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-8 lg:gap-12">
+              {participants.map((member, index) => (
+                <a
+                  key={index}
+                  href={member.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center group"
+                >
+                  {/* Avatar Circle */}
+                  <div className="relative w-24 h-24 lg:w-28 lg:h-28 rounded-full overflow-hidden border-4 border-white shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 bg-gradient-to-br from-emerald-300 to-emerald-500 mb-4 flex-shrink-0">
+                    {member.image ? (
+                      <Image
+                        fill
+                        src={member.image}
+                        alt={member.name}
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-emerald-400 to-emerald-600" />
+                    )}
+                  </div>
+                  {/* Name */}
+                  <h4 className="text-center text-sm lg:text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors duration-300 max-w-[120px] line-clamp-2">
+                    {member.name}
+                  </h4>
+                </a>
+              ))}
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center mt-12">
+              <p className="text-gray-600 text-sm lg:text-base">
+                Click to learn more about the team!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Global Partners Section */}
+      <div className="bg-white py-16 lg:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8">
+              Our Global Partners
+            </h2>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            {/* Partners Logo Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 mb-12">
+              {organizations.map((org, index) => (
+                <div key={index} className="flex flex-col items-center text-center">
+                  <div className="relative w-48 h-48 lg:w-56 lg:h-56 mb-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 p-6 flex items-center justify-center">
+                    {org.image ? (
+                      <Image
+                        fill
+                        src={org.image}
+                        alt={org.name}
+                        className="object-contain p-6"
+                      />
+                    ) : (
+                      <div className="text-gray-400 font-bold text-xl">{org.name}</div>
+                    )}
+                  </div>
+                  <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-2">
+                    {org.name}
+                  </h3>
+                  <p className="text-sm lg:text-base text-gray-600">
+                    {org.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Values Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                  <span className="text-emerald-600 text-lg">①</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-1">Innovation & Impact</h4>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                  <span className="text-emerald-600 text-lg">②</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-1">Innovation & Research</h4>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                  <span className="text-emerald-600 text-lg">③</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-1">Empowerment for SMEs</h4>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                  <span className="text-emerald-600 text-lg">④</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-1">Global Collaboration</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Quote Section */}
+      {/* <div className="bg-gradient-to-br from-emerald-50 to-teal-50 py-16 lg:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <Quote className="w-16 h-16 text-emerald-600 mx-auto mb-6" />
+            <blockquote className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 italic">
+              "Knowledge is the carbon currency of tomorrow."
+            </blockquote>
+            <div className="text-gray-600 text-lg">
+              <p className="font-semibold">VinUniversity</p>
+              <p className="text-sm">Leading private for Vietnam</p>
+            </div>
+          </div>
+        </div>
+      </div> */}
+
+      {/* Final CTA Section */}
+      {/* <div className="bg-emerald-600 py-16 lg:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+            Ready to Assess Your Carbon Readiness?
+          </h2>
+          <Button 
+            size="lg" 
+            className="bg-white text-emerald-600 hover:bg-gray-100 text-lg px-8 py-6 rounded-full shadow-lg"
+          >
+            Take the Survey (Google Form)
+          </Button>
+        </div>
+      </div> */}
     </section>
   );
 }

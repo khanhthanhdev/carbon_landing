@@ -39,6 +39,9 @@ function transformInline(text: string) {
     return `__LINK_PLACEHOLDER_${links.length - 1}__`
   })
 
+  // Remove footnote references
+  working = working.replace(/\[\[.*?\]\]\(#footnote-.*?\)/g, '')
+
   working = escapeHtml(working)
   working = applyInlineFormatting(working)
 
