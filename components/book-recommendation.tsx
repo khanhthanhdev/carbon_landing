@@ -57,7 +57,7 @@ export function BookRecommendation() {
     authors:
       AUTHORS_DATA[locale as keyof typeof AUTHORS_DATA] || AUTHORS_DATA.vi,
     description: t("fallback.description"),
-    coverImage: "/book_cover.png",
+    coverImage: locale === 'en' ? "/cover_en.jpg" : "/cover_vi.jpg",
     pages: 150,
     publisher: t("fallback.publisher"),
     year: 2025,
