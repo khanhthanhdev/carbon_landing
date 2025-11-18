@@ -45,13 +45,13 @@
         {
           "name": "ThS. Trần Diệu Anh",
           "credentials": "",
-          "institute": "VinUniversity",
+          "institute": "MA, Chulalongkorn University",
           "link": "https://vinuni.edu.vn/faculty/ths-tran-dieu-anh"
         },
         {
           "name": "ThS.Trần Anh Khoa",
           "credentials": "",
-          "institute": "VinUniversity",
+          "institute": "PhD candidate, INSEAD ",
           "link": "https://vinuni.edu.vn/faculty/ths-tran-anh-khoa"
         },
         {
@@ -71,6 +71,12 @@
           "credentials": "",
           "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/le-thien-ha-ngan"
+        },
+        {
+          "name": "Trần Khánh Thành",
+          "credentials": "",
+          "institute": "VinUniversity",
+          "link": "https://khanhthanh.is-a.dev/"
         }
       ]
     },

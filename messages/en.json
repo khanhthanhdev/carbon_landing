@@ -25,7 +25,7 @@
         },
         {
           "name": "Assoc. Prof. Dr. Vũ Anh Dũng",
-          "credentials": "Founding Director, Institute of Liberal Arts and Sciences",
+          "credentials": "Founding Dean, College of Arts and Sciences, VinUniversity",
           "institute": "VinUniversity",
           "image": "/vu_anh_dung.jpg",
           "link": "https://vinuni.edu.vn/vi/people/pgs-ts-vu-anh-dzung/"
@@ -45,14 +45,14 @@
         {
           "name": "M.A. Trần Diệu Anh",
           "credentials": "",
-          "institute": "VinUniversity",
-          "link": "https://vinuni.edu.vn/faculty/ths-tran-dieu-anh"
+          "institute": "MA, Chulalongkorn University",
+          "link": "#"
         },
         {
           "name": "M.A. Trần Anh Khoa",
           "credentials": "",
-          "institute": "VinUniversity",
-          "link": "https://vinuni.edu.vn/faculty/ths-tran-anh-khoa"
+          "institute": " PhD candidate, INSEAD ",
+          "link": "#"
         },
         {
           "name": "Nguyễn Minh Khuê",
@@ -71,6 +71,12 @@
           "credentials": "",
           "institute": "VinUniversity",
           "link": "https://vinuni.edu.vn/faculty/le-thien-ha-ngan"
+        },
+        {
+          "name": "Trần Khánh Thành",
+          "credentials": "",
+          "institute": "VinUniversity",
+          "link": "https://khanhthanh.is-a.dev/"
         }
       ]
     },
