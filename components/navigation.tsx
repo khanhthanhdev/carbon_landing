@@ -61,16 +61,16 @@ export const Navigation = memo(function Navigation() {
             <Link href="/#book" className="text-foreground hover:text-primary transition-colors">
               {t("recommendedBook")}
             </Link>
-            <Link href="/books" className="text-foreground hover:text-primary transition-colors">
+            <Link href="/books" className="text-foreground hover:text-primary transition-colors" data-tour="nav-books">
               {t("books")}
             </Link>
-            <Link href="/search" className="text-foreground hover:text-primary transition-colors">
+            <Link href="/search" className="text-foreground hover:text-primary transition-colors" data-tour="nav-search">
               {t("search")}
             </Link>
-            <Link href="/ask-ai" className="text-foreground hover:text-primary transition-colors">
+            <Link href="/ask-ai" className="text-foreground hover:text-primary transition-colors" data-tour="nav-ask-ai">
               {t("askAI")}
             </Link>
-            <Link href="/about-us" className="text-foreground hover:text-primary transition-colors">
+            <Link href="/about-us" className="text-foreground hover:text-primary transition-colors" data-tour="nav-about">
               {t("about")}
             </Link>
             <Link href="/#common" className="text-foreground hover:text-primary transition-colors">

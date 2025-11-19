@@ -56,7 +56,11 @@ export function CommonQuestionsSection() {
   }, [qaData]);
 
   return (
-    <section className="py-12 sm:py-16 lg:py-32 bg-background" id="common">
+    <section
+      className="py-12 sm:py-16 lg:py-32 bg-background"
+      id="common"
+      data-tour="common-questions"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 sm:mb-4 text-balance px-2">

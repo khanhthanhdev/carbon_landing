@@ -174,7 +174,7 @@ export function BookRecommendation() {
                 </span>
               </div>
 
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-foreground leading-tight break-words hyphens-auto text-center md:text-left">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-foreground leading-tight break-words hyphens-auto text-center md:text-left" data-tour="book-title">
                 {bookData.title}
               </h3>
               {bookData.authors &&

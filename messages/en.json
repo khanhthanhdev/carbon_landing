@@ -575,6 +575,39 @@
     },
     "comingSoon": "Coming Soon"
   },
+  "tour": {
+    "navBooks": {
+      "title": "Books",
+      "description": "Click here to view the full list of Q&A books about carbon markets."
+    },
+    "navSearch": {
+      "title": "Search",
+      "description": "Use the search tool to quickly find information on any topic related to carbon markets."
+    },
+    "navAskAI": {
+      "title": "Ask AI",
+      "description": "Ask our AI assistant questions and receive detailed, sourced answers from reliable documents."
+    },
+    "navAbout": {
+      "title": "About Us",
+      "description": "About our teams behind this handbook"
+    },
+    "bookSection": {
+      "title": "Recommended Books",
+      "description": "Explore carefully curated books about carbon markets with rich and diverse content."
+    },
+    "survey": {
+      "title": "Carbon Readiness Survey",
+      "description": "Complete a quick survey to help us tailor training programs and resources to better meet your needs."
+    },
+    "actions": {
+      "back": "Back",
+      "close": "Close",
+      "last": "Finish",
+      "next": "Next",
+      "skip": "Skip tour"
+    }
+  },
   "SurveySection": {
     "title": "Survey on Your Company's Carbon Market Readiness",
     "description": "",

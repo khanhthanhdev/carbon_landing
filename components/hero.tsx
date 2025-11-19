@@ -74,12 +74,20 @@ export const Hero = memo(function Hero() {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link href="/books" className="w-full sm:flex-1 sm:max-w-[240px]">
+            <Link
+              href="/books"
+              className="w-full sm:flex-1 sm:max-w-[240px]"
+              data-tour="books-cta"
+            >
               <Button size="lg" variant="outline" className="w-full px-8 py-6 text-base border-2 bg-transparent">
                 {t("browseQuestions")}
               </Button>
             </Link>
-            <Link href="/ask-ai" className="w-full sm:flex-1 sm:max-w-[240px]">
+            <Link
+              href="/ask-ai"
+              className="w-full sm:flex-1 sm:max-w-[240px]"
+              data-tour="ask-ai-cta"
+            >
               <Button size="lg" className="w-full px-8 py-6 text-base bg-secondary text-secondary-foreground">
                 {t("askAI")}
               </Button>

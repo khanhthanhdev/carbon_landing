@@ -7,7 +7,7 @@ export function SurveySection() {
   const t = useTranslations('SurveySection');
 
   return (
-    <section className="py-16 bg-muted/50">
+    <section className="py-16 bg-muted/50" id="survey" data-tour="survey">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-2xl font-bold mb-4">{t('title')}</h2>
         <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">

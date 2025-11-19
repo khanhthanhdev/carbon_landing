@@ -576,6 +576,39 @@
     },
     "comingSoon": "Sắp Ra Mắt"
   },
+  "tour": {
+    "navBooks": {
+      "title": "Sách",
+      "description": "Nhấn vào đây để xem toàn bộ danh sách sách hỏi - đáp do đội ngũ chúng tôi biên soạn về thị trường carbon."
+    },
+    "navSearch": {
+      "title": "Tìm Kiếm",
+      "description": "Sử dụng công cụ tìm kiếm ngữ nghĩa về bất kỳ chủ đề nào liên quan đến thị trường carbon."
+    },
+    "navAskAI": {
+      "title": "Hỏi AI",
+      "description": "Đặt câu hỏi cho trợ lý AI và nhận câu trả lời chi tiết có trích nguồn từ các tài liệu đáng tin cậy."
+    },
+    "navAbout": {
+      "title": "Về Chúng Tôi",
+      "description": "Tìm hiểu về nhóm chúng tôi"
+    },
+    "bookSection": {
+      "title": "Sổ tay hỏi đáp",
+      "description": "Khám phá các cuốn sách được tuyển chọn kỹ lưỡng về thị trường carbon với nội dung phong phú và đa dạng."
+    },
+    "survey": {
+      "title": "Khảo Sát Mức Độ Sẵn Sàng",
+      "description": "Hoàn thành khảo sát nhanh để giúp chúng tôi điều chỉnh chương trình đào tạo và tài nguyên phù hợp hơn với nhu cầu của bạn."
+    },
+    "actions": {
+      "back": "Quay lại",
+      "close": "Đóng",
+      "last": "Hoàn tất",
+      "next": "Tiếp tục",
+      "skip": "Bỏ qua hướng dẫn"
+    }
+  },
   "SurveySection": {
     "title": "Khảo Sát Mức Độ Sẵn sàng của Doanh nghiệp của bạn về thị trường Carbon",
     "description": "",

@@ -10,6 +10,7 @@ import { SurveySection } from "@/components/survey-section";
 import { FutureSection } from "@/components/future-section";
 import { FeedbackSectionLazy, SponsorsSectionLazy } from "@/components/lazy-home-sections";
 import { locales } from "@/i18n/request";
+import { TourGuide } from "@/components/tour-guide";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -28,6 +29,7 @@ export default function HomePage() {
   return (
     <>
       <Navigation />
+      <TourGuide />
       <main className="bg-background">
         <Hero />
         <FutureSection />
