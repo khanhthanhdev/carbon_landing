@@ -169,6 +169,35 @@ function getAlternateLinks(pathname: string) {
   };
 }
 
+export function getAlternateLinksForLayout(pathname: string) {
+  const normalised = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const baseUrl = siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`;
+
+  // Determine canonical URL (always use the default locale with full path)
+  const canonicalPath =
+    pathname === "" || pathname === "/"
+      ? "/"
+      : `${normalised === "/" ? "" : normalised}`;
+  const canonical = new URL(canonicalPath.replace(/^\//, ""), baseUrl).toString();
+
+  // Generate hreflang links for all locales
+  const hreflang = SUPPORTED_LOCALES.map((locale) => {
+    const prefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
+    const path = `${prefix}${normalised === "/" ? "" : normalised}` || "/";
+    const href = new URL(path.replace(/^\//, ""), baseUrl).toString();
+    const hrefLang = locale === "vi" ? "vi-VN" : locale === "en" ? "en-US" : locale;
+    return { href, hrefLang };
+  });
+
+  // Add x-default hreflang
+  hreflang.push({
+    href: canonical,
+    hrefLang: "x-default",
+  });
+
+  return { canonical, hreflang };
+}
+
 function buildOpenGraph(page: PageKey, locale: SupportedLocale, pathname: string): Metadata["openGraph"] {
   const baseUrl = new URL(pathname.replace(/^\/*/, ""), siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`);
   const alternateLocale = SUPPORTED_LOCALES.filter((item) => item !== locale).map(
@@ -554,8 +583,6 @@ export function buildPageMetadata(page: PageKey, localeInput?: string): Metadata
     },
     verification: {
       google: process.env.GOOGLE_SITE_VERIFICATION || '',
-      yandex: process.env.YANDEX_VERIFICATION || '',
-      bing: process.env.BING_VERIFICATION || '',
     },
   };
 }

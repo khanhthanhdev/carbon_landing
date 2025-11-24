@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import "../globals.css";
 import { locales } from "@/i18n/request";
 import { Providers } from "@/app/providers";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, getAlternateLinksForLayout } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -36,6 +36,8 @@ export default async function RootLayout({
   setRequestLocale(resolvedLocale);
   const messages = await getMessages({ locale: resolvedLocale });
 
+  const alternateLinks = getAlternateLinksForLayout("");
+
   return (
     <html
       lang={resolvedLocale}
@@ -58,6 +60,12 @@ export default async function RootLayout({
           name="robots"
           content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
         />
+
+        {/* Canonical and hreflang links */}
+        <link rel="canonical" href={alternateLinks.canonical} />
+        {alternateLinks.hreflang.map((link) => (
+          <link key={link.href} rel="alternate" hrefLang={link.hrefLang} href={link.href} />
+        ))}
 
         {/* Favicon and Icons */}
         <link rel="icon" href="/logo_carbon.jpg" />
