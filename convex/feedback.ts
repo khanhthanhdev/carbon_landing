@@ -1,5 +1,17 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { checkIsAdmin } from "./users";
+
+export const list = query({
+  args: {},
+  handler: async (ctx) => {
+    const isAdmin = await checkIsAdmin(ctx);
+    if (!isAdmin) {
+      throw new Error("Unauthorized: Admin access required");
+    }
+    return await ctx.db.query("feedback").order("desc").collect();
+  },
+});
 
 export const submit = mutation({
   args: {
@@ -51,7 +63,7 @@ export const submit = mutation({
   },
 });
 
-export const list = query({
+export const listPublic = query({
   args: {},
   handler: async (ctx) => {
     const feedbackEntries = await ctx.db.query("feedback").collect();

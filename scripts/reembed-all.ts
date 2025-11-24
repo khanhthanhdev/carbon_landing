@@ -96,14 +96,17 @@ async function main() {
             answer: doc.answer,
           });
 
+          const composedContent = `${doc.question}\n\n${doc.answer}`.trim();
+
           const payload = {
+            id: doc._id,
             question: doc.question,
             answer: doc.answer,
             sources: doc.sources ?? [],
             category: doc.category,
             lang: doc.lang ?? undefined,
-            content: doc.content ?? doc.searchable_text ?? embedded.composed,
-            searchable_text: doc.searchable_text,
+            content: composedContent,
+            searchable_text: composedContent,
             section_id: doc.section_id,
             section_number: doc.section_number,
             section_title: doc.section_title,

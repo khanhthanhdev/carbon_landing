@@ -29,7 +29,7 @@ export const getAllByLang = query({
       section.questions.push({
         id: doc._id,
         question: doc.question,
-        answer: doc.answer,
+        answer: doc.content || doc.answer, // Use content (rich HTML) if available, fallback to answer
         searchable_text: doc.searchable_text,
         metadata: {
           question_number: doc.question_number,

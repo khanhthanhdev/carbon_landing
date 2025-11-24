@@ -1,4 +1,5 @@
 import type React from "react";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
@@ -98,12 +99,14 @@ export default async function RootLayout({
         <meta name="twitter:site" content="@carbonlearn" />
       </head>
       <body className="font-sans">
-        <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
-          <Providers>
-            <Suspense fallback={null}>{children}</Suspense>
-          </Providers>
-        </NextIntlClientProvider>
-        <Analytics />
+        <ClerkProvider>
+          <NextIntlClientProvider locale={resolvedLocale} messages={messages}>
+            <Providers>
+              <Suspense fallback={null}>{children}</Suspense>
+            </Providers>
+          </NextIntlClientProvider>
+          <Analytics />
+        </ClerkProvider>
       </body>
     </html>
   );

@@ -2,10 +2,11 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+
   qa: defineTable({
-    question: v.string(),
-    answer: v.string(),
-    content: v.string(),
+    question: v.optional(v.string()),
+    answer: v.optional(v.string()),
+    content: v.optional(v.string()),
     searchable_text: v.optional(v.string()),
     section_id: v.optional(v.string()),
     section_number: v.optional(v.string()),
@@ -22,22 +23,12 @@ export default defineSchema({
     answer_length: v.optional(v.number()),
     metadata_created_at: v.optional(v.string()),
     metadata_updated_at: v.optional(v.string()),
-    sources: v.optional(
-      v.array(
-        v.object({
-          type: v.optional(v.string()),
-          title: v.optional(v.string()),
-          url: v.optional(v.string()),
-          location: v.optional(v.string()),
-          note: v.optional(v.string()),
-        }),
-      ),
-    ),
-    embedding_doc: v.array(v.float64()),
+    sources: v.optional(v.array(v.any())),
+    embedding_doc: v.optional(v.array(v.float64())),
     embedding_qa: v.optional(v.array(v.float64())),
     embedding_fact: v.optional(v.array(v.float64())),
-    createdAt: v.number(),
-    updatedAt: v.number(),
+    createdAt: v.optional(v.number()),
+    updatedAt: v.optional(v.number()),
   })
     .index("by_category", ["category"])
     .index("by_question_number", ["question_number"])
@@ -68,38 +59,33 @@ export default defineSchema({
 
   questions: defineTable({
     // Core fields
-    question: v.string(),
-    answer: v.string(),
-    searchable_text: v.string(),
+    question: v.optional(v.string()),
+    answer: v.optional(v.string()),
+    searchable_text: v.optional(v.string()),
     summary: v.optional(v.string()),
     
     // Metadata
-    question_number: v.string(),
-    section_number: v.string(),
-    section_title: v.string(),
-    category: v.string(),
-    keywords: v.array(v.string()),
-    has_sources: v.boolean(),
-    answer_length: v.number(),
+    question_number: v.optional(v.string()),
+    section_number: v.optional(v.string()),
+    section_title: v.optional(v.string()),
+    category: v.optional(v.string()),
+    keywords: v.optional(v.array(v.string())),
+    has_sources: v.optional(v.boolean()),
+    answer_length: v.optional(v.number()),
     
     // Sources
-    sources: v.array(v.object({
-      type: v.string(),
-      title: v.string(),
-      url: v.string(),
-      location: v.optional(v.string()),
-    })),
+    sources: v.optional(v.array(v.any())),
     
     // Search fields
-    question_lower: v.string(),
-    keywords_searchable: v.string(),
-    category_searchable: v.string(),
+    question_lower: v.optional(v.string()),
+    keywords_searchable: v.optional(v.string()),
+    category_searchable: v.optional(v.string()),
     
     // Embedding for vector search
     embedding: v.optional(v.array(v.float64())),
     
     // Timestamps
-    created_at: v.string(),
+    created_at: v.optional(v.string()),
     updated_at: v.optional(v.string()),
     sequence: v.optional(v.number()),
     is_common: v.optional(v.boolean()),
@@ -167,11 +153,7 @@ export default defineSchema({
     embedding: v.optional(v.array(v.float64())),
     createdAt: v.number(),
     queryText: v.optional(v.string()),
-    filters: v.optional(v.object({
-      category: v.optional(v.string()),
-      section: v.optional(v.string()),
-      locale: v.optional(v.string()),
-    })),
+    filters: v.optional(v.any()),
     scores: v.optional(v.array(v.float64())),
     lastAccessedAt: v.number(),
     accessCount: v.number(),
@@ -197,30 +179,10 @@ export default defineSchema({
     .index("byProviderModel", ["provider", "model"]),
 
   landingContent: defineTable({
-    key: v.string(),
-    locale: v.string(),
-    payload: v.object({
-      title: v.string(),
-      authors: v.optional(v.array(v.object({
-        name: v.string(),
-        link: v.string(),
-      }))),
-      description: v.optional(v.string()),
-      coverImage: v.optional(v.string()),
-      pages: v.optional(v.number()),
-      publisher: v.optional(v.string()),
-      year: v.optional(v.number()),
-      isbn: v.optional(v.string()),
-      purchaseLinks: v.optional(
-        v.array(
-          v.object({
-            retailer: v.string(),
-            url: v.string(),
-          }),
-        ),
-      ),
-    }),
-    updatedAt: v.number(),
+    key: v.optional(v.string()),
+    locale: v.optional(v.string()),
+    payload: v.optional(v.any()),
+    updatedAt: v.optional(v.number()),
   })
     .index("byKey", ["key", "locale"])
     .index("byLocale", ["locale"]),
@@ -244,32 +206,26 @@ export default defineSchema({
     .index("byLocale", ["locale"]),
 
   conversations: defineTable({
-    sessionId: v.string(),
+    sessionId: v.optional(v.string()),
     userId: v.optional(v.string()),
-    locale: v.string(),
-    messages: v.array(v.object({
-      role: v.union(v.literal("user"), v.literal("assistant")),
-      content: v.string(),
-      timestamp: v.number(),
-      sources: v.optional(v.array(v.object({
-        questionId: v.id("qa"),
-        questionNumber: v.string(),
-        question: v.string(),
-        relevanceScore: v.number(),
-        citedSentences: v.optional(v.array(v.string())),
-        citationMarkers: v.optional(v.array(v.string())),
-      }))),
-      followUpQuestions: v.optional(v.array(v.string())),
-      metadata: v.optional(v.object({
-        sourcesUsed: v.number(),
-        generationTimeMs: v.number(),
-        tokensUsed: v.optional(v.number()),
-      })),
-    })),
-    createdAt: v.number(),
-    updatedAt: v.number(),
+    locale: v.optional(v.string()),
+    messages: v.optional(v.array(v.any())),
+    createdAt: v.optional(v.number()),
+    updatedAt: v.optional(v.number()),
   })
     .index("bySessionId", ["sessionId"])
     .index("byUserId", ["userId"])
     .index("byCreatedAt", ["createdAt"]),
+
+  users: defineTable({
+    tokenIdentifier: v.string(),
+    name: v.optional(v.string()),
+    email: v.optional(v.string()),
+    username: v.optional(v.string()),
+    image: v.optional(v.string()),
+    role: v.optional(v.string()), // "admin" or "user"
+  })
+    .index("by_token", ["tokenIdentifier"])
+    .index("by_email", ["email"])
+    .index("by_username", ["username"]),
 });

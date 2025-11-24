@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConvexReactClient, ConvexProvider } from "convex/react";
+import { ConvexReactClient } from "convex/react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
+import { useAuth } from "@clerk/nextjs";
 import { ConvexQueryClient } from "@convex-dev/react-query";
+import { UserSync } from "@/components/user-sync";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
@@ -68,11 +71,12 @@ export function Providers({ children }: PropsWithChildren) {
 
   return (
     <PostHogProvider>
-      <ConvexProvider client={convexClient}>
+      <ConvexProviderWithClerk client={convexClient} useAuth={useAuth}>
         <QueryClientProvider client={queryClient}>
+          <UserSync />
           {children}
         </QueryClientProvider>
-      </ConvexProvider>
+      </ConvexProviderWithClerk>
     </PostHogProvider>
   );
 }

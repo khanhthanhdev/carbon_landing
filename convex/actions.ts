@@ -1084,14 +1084,17 @@ export const reembedQA = action({
         // Add delay to prevent rate limiting
         await sleep(5000);
 
+        const composedContent = `${doc.question}\n\n${doc.answer}`.trim();
+
         await ctx.runMutation(api.mutations.qa.upsertQA, {
+          id: doc._id,
           question: doc.question,
           answer: doc.answer,
           sources: doc.sources ?? [],
           category: doc.category,
           lang: doc.lang ?? undefined,
-          content: doc.content ?? doc.searchable_text ?? embedded.composed,
-          searchable_text: doc.searchable_text,
+          content: composedContent,
+          searchable_text: composedContent,
           section_id: doc.section_id,
 
 
