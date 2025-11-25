@@ -329,10 +329,12 @@ export const getPaginated = query({
       numItems: v.number(),
       cursor: v.union(v.string(), v.null()),
     }),
+    lang: v.optional(v.string()),
     section: v.optional(v.string()),
     category: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const lang = args.lang ? trimString(args.lang) : undefined;
     const section = args.section ? trimString(args.section) : undefined;
     const category = args.category ? trimString(args.category) : undefined;
 
@@ -347,6 +349,14 @@ export const getPaginated = query({
         .withIndex("by_category", (q) => q.eq("category", category));
     } else {
       query = ctx.db.query("questions");
+    }
+
+    // Filter by language if provided, otherwise include all questions without lang set
+    if (lang) {
+      query = query.filter((q) => {
+        const qLang = q.lang;
+        return qLang === lang || (qLang === undefined || qLang === null);
+      });
     }
 
     const result = await query.paginate(args.paginationOpts);

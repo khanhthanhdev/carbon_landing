@@ -486,6 +486,7 @@
       "sessionId": "Session ID",
       "topicsTitle": "Focus Topics",
       "topicsDescription": "Select a topic for more focused responses",
+      "newChat": "New Chat Session",
       "topics": {
         "general": "General Carbon Markets",
         "trading": "Carbon Trading & Credits",
@@ -498,22 +499,80 @@
       }
     },
     "interface": {
-      "loading": "Loading conversation...",
-      "welcome": "Welcome to AI Assistant",
-      "welcomeDescription": "Ask me anything about carbon markets, sustainability, emissions trading, or environmental policies. I'll provide accurate, cited answers.",
-      "suggestedQuestion1": "What is MRV and why is it important?",
-      "suggestedQuestion2": "What are mandatory and voluntary carbon markets?",
-      "suggestedQuestion3": "Legal documents related to Vietnam's carbon market",
-      "suggestedQuestion4": "How do carbon credits differ from emission quotas?",
-      "suggestedQuestion5": "Which emission factors should Vietnamese SMEs use?",
-      "thinking": "Thinking...",
-      "errorMessage": "An error occurred. Please try again.",
-      "placeholder": "Ask a question about carbon markets...",
-      "inputHelp": "Enter to send • Shift + Enter for new line",
-      "followUpTitle": "Follow-up questions:",
-      "followUpQuestions": "You might also want to ask:",
-      "topicFocus": "Topic Focus"
-    },
+       "loading": "Loading conversation...",
+       "welcome": "Welcome to AI Assistant",
+       "welcomeDescription": "Ask me anything about carbon markets, sustainability, emissions trading, or environmental policies. I'll provide accurate, cited answers.",
+       "suggestedQuestion1": "What is MRV and why is it important?",
+       "suggestedQuestion2": "What are mandatory and voluntary carbon markets?",
+       "suggestedQuestion3": "Legal documents related to Vietnam's carbon market",
+       "suggestedQuestion4": "How do carbon credits differ from emission quotas?",
+       "suggestedQuestion5": "Which emission factors should Vietnamese SMEs use?",
+       "suggestedQuestions": {
+         "general": {
+           "1": "What is MRV and why is it important?",
+           "2": "What are mandatory and voluntary carbon markets?",
+           "3": "Legal documents related to Vietnam's carbon market",
+           "4": "How do carbon credits differ from emission quotas?",
+           "5": "Which emission factors should Vietnamese SMEs use?"
+         },
+         "trading": {
+           "1": "How do I buy and sell carbon credits?",
+           "2": "What are the pricing mechanisms in carbon markets?",
+           "3": "What are the risks involved in carbon trading?",
+           "4": "How do transaction costs affect carbon trading?",
+           "5": "What is the difference between spot and futures trading?"
+         },
+         "policy": {
+           "1": "What are Vietnam's current climate change policies?",
+           "2": "How does the NDC framework affect businesses?",
+           "3": "What are the upcoming carbon market regulations?",
+           "4": "How do international agreements influence Vietnam's carbon policy?",
+           "5": "What compliance requirements do SMEs need to meet?"
+         },
+         "projects": {
+           "1": "What types of carbon offset projects are available?",
+           "2": "How do I develop a carbon offset project?",
+           "3": "What is the project design document (PDD)?",
+           "4": "How are carbon credits generated from projects?",
+           "5": "What are the additionality requirements for projects?"
+         },
+         "accounting": {
+           "1": "How do I calculate my carbon footprint?",
+           "2": "What are Scope 1, 2, and 3 emissions?",
+           "3": "Which accounting standards should I use?",
+           "4": "How do I report emissions accurately?",
+           "5": "What is the GHG Protocol and how do I apply it?"
+         },
+         "compliance": {
+           "1": "What are mandatory carbon market requirements?",
+           "2": "How do I ensure compliance with carbon regulations?",
+           "3": "What auditing and verification processes are needed?",
+           "4": "What penalties apply for non-compliance?",
+           "5": "How do I maintain accurate records for compliance?"
+         },
+         "voluntary": {
+           "1": "What is the voluntary carbon market?",
+           "2": "How do carbon credits work in voluntary markets?",
+           "3": "What are the major VCM standards and certifications?",
+           "4": "How do I participate in voluntary carbon programs?",
+           "5": "What is the difference between compliance and voluntary markets?"
+         },
+         "technology": {
+           "1": "What is carbon capture and storage (CCS) technology?",
+           "2": "How does direct air capture work?",
+           "3": "What are the costs of carbon capture technologies?",
+           "4": "How mature are emerging carbon tech solutions?",
+           "5": "What role does technology play in emissions reduction?"
+         }
+       },
+       "thinking": "Thinking...",
+       "errorMessage": "An error occurred. Please try again.",
+       "placeholder": "Ask a question about carbon markets...",
+       "inputHelp": "Enter to send • Shift + Enter for new line",
+       "followUpTitle": "Follow-up questions:",
+       "followUpQuestions": "You might also want to ask:",
+       "topicFocus": "Topic Focus"
+     },
     "dialog": {
       "title": "Carbon Market AI Assistant",
       "subtitle": "Ask me anything about carbon markets",

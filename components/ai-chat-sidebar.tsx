@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ChevronLeft, ChevronRight, MessageSquare, Info, Zap, Lock, BookOpen } from "lucide-react"
+import { ChevronLeft, ChevronRight, MessageSquare, Info, Zap, Lock, BookOpen, Plus } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
 
@@ -12,6 +12,7 @@ interface AIChatSidebarProps {
   sessionId: string
   selectedTopic?: string
   onTopicChange?: (topic: string) => void
+  onNewChat?: () => void
 }
 
 export function AIChatSidebar({
@@ -20,6 +21,7 @@ export function AIChatSidebar({
   sessionId,
   selectedTopic = "general",
   onTopicChange,
+  onNewChat,
 }: AIChatSidebarProps) {
   const t = useTranslations("aiChat.sidebar")
 
@@ -145,11 +147,21 @@ export function AIChatSidebar({
         </ScrollArea>
 
         {/* Footer - Sticky */}
-        <div className="flex-shrink-0 p-4 border-t border-sidebar-border bg-sidebar">
-          <p className="text-xs text-sidebar-foreground/50 break-all font-mono">
-            {sessionId.substring(0, 16)}...
-          </p>
-          <p className="text-xs text-sidebar-foreground/40 mt-1">{t("sessionId")}</p>
+        <div className="flex-shrink-0 p-4 border-t border-sidebar-border bg-sidebar space-y-3">
+          <Button
+            onClick={onNewChat}
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+            size="sm"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            {t("newChat")}
+          </Button>
+          <div>
+            <p className="text-xs text-sidebar-foreground/50 break-all font-mono">
+              {sessionId.substring(0, 16)}...
+            </p>
+            <p className="text-xs text-sidebar-foreground/40 mt-1">{t("sessionId")}</p>
+          </div>
         </div>
       </aside>
 

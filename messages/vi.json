@@ -111,7 +111,7 @@
   },
   "footer": {
     "brand": {
-      "description": "Trao quyền cho các doanh nghiệp SME với kiến thức và công cụ để dẫn dắt trong việc giảm carbon và bền vững."
+      "description": "Sổ tay hướng dẫn cho các doanh nghiệp SME với kiến thức và công cụ  trong việc giảm carbon và bền vững."
     },
     "quickLinks": {
       "title": "Liên Kết Nhanh",
@@ -215,7 +215,7 @@
       "button": "Xem Tất Cả 50+ Câu Hỏi"
     },
     "fallback": {
-      "title": "SỔ TAY HỎI ĐÁP CHO DOANH NGHIỆP VỪA VÀ NHỎ VỀ THỊ TRƯỜNG CARBON TẠI VIỆT NAM, HƯỚNG TỚI 2030",
+      "title": "CẨM NANG THỊ TRƯỜNG CARBON DÀNH CHO DOANH NGHIỆP VỪA VÀ NHỎ TẠI VIỆT NAM",
       "description": "Cuốn Sổ tay Hỏi – Đáp cho Doanh nghiệp vừa và nhỏ (SME) về Thị trường Carbon tại Việt Nam, hướng tới 2030 được biên soạn nhằm cung cấp kiến thức nền tảng, hướng dẫn thực hành và công cụ hỗ trợ giúp doanh nghiệp Việt Nam chủ động tham gia quá trình chuyển đổi xanh và hội nhập thị trường carbon trong nước và quốc tế.\n\nNội dung sổ tay được trình bày dưới dạng hỏi – đáp, dễ tra cứu, bao quát sáu nhóm chủ đề trọng tâm:\n\n(1) Các khái niệm và khung pháp lý liên quan đến tín chỉ carbon;\n\n(2) Quy trình tính toán phát thải, thiết kế và triển khai dự án giảm phát thải;\n\n(3) Cơ chế tài chính, tín dụng xanh và lợi ích kinh tế từ tín chỉ carbon;\n\n(4) Công cụ, đào tạo và hỗ trợ kỹ thuật cho doanh nghiệp;\n\n(5) Quản trị rủi ro, minh bạch và thực hành tốt; và\n(\n6) Kinh nghiệm quốc tế và bài học cho Việt Nam.\n\nSổ tay không chỉ tổng hợp quy định pháp luật mới nhất (tính đến năm 2025) như Nghị định 06/2022/NĐ-CP, Nghị định 119/2025/NĐ-CP và lộ trình phát triển sàn giao dịch carbon quốc gia, mà còn cung cấp hướng dẫn cụ thể để SMEs xây dựng hệ thống MRV (đo lường – báo cáo – thẩm định), lựa chọn hệ số phát thải, tiếp cận nguồn vốn xanh, và tham gia các mô hình hợp tác công – tư.\n\nThông qua việc kết hợp kiến thức chuyên môn, ví dụ thực tiễn và công cụ áp dụng, cuốn sổ tay hướng tới hỗ trợ doanh nghiệp Việt Nam nắm bắt cơ hội kinh tế carbon, đồng thời đóng góp vào mục tiêu quốc gia đạt phát thải ròng bằng **\"0\"** vào năm 2050.",
       "publisher": "Viện Thị Trường Carbon",
       "retailers": {
@@ -223,8 +223,8 @@
         "searchAnswers": "Comming soon"
       },
       "googleDriveLinks": {
-        "exploreChapters": "https://drive.google.com/file/d/1EXAMPLE_LINK_1/view?usp=sharing",
-        "searchAnswers": "https://drive.google.com/file/d/1EXAMPLE_LINK_2/view?usp=sharing"
+        "exploreChapters": "#",
+        "searchAnswers": "#"
       }
     }
   },
@@ -475,7 +475,7 @@
       "title": "Trợ Lý AI",
       "subtitle": "Chuyên Gia Thị Trường Carbon",
       "poweredBy": "Được hỗ trợ bởi RAG",
-      "poweredByDescription": "Tạo Sinh Tăng Cường Truy Xuất cung cấp câu trả lời chính xác từ các nguồn đã xác minh",
+      "poweredByDescription": "RAG cung cấp câu trả lời chính xác từ các nguồn đã xác minh",
       "features": "Tính năng",
       "verifiedSources": "Nguồn đã xác minh & trích dẫn",
       "multilingual": "Đa ngôn ngữ (EN/VI)",
@@ -486,6 +486,7 @@
       "sessionId": "ID phiên",
       "topicsTitle": "Chủ Đề Tập Trung",
       "topicsDescription": "Chọn một chủ đề để nhận phản hồi tập trung hơn",
+      "newChat": "Đoạn Hội Thoại Mới",
       "topics": {
         "general": "Thị Trường Carbon Tổng Quát",
         "trading": "Giao Dịch & Tín Chỉ Carbon",
@@ -506,7 +507,64 @@
       "suggestedQuestion3": "Các văn bản pháp luật của Việt Nam liên quan đến thị trường carbon",
       "suggestedQuestion4": "Tín chỉ carbon và hạn ngạch phát thải khác nhau như thế nào?",
       "suggestedQuestion5": "Doanh nghiệp SME nên sử dụng hệ số phát thải nào phù hợp với điều kiện tại Việt Nam?",
-    
+      "suggestedQuestions": {
+        "general": {
+          "1": "MRV là gì và tại sao đóng vai trò quan trọng?",
+          "2": "Thị trường carbon bắt buộc và tự nguyện là gì?",
+          "3": "Các văn bản pháp luật của Việt Nam liên quan đến thị trường carbon",
+          "4": "Tín chỉ carbon và hạn ngạch phát thải khác nhau như thế nào?",
+          "5": "Doanh nghiệp SME nên sử dụng hệ số phát thải nào phù hợp với điều kiện tại Việt Nam?"
+        },
+        "trading": {
+          "1": "Tôi làm thế nào để mua và bán tín chỉ carbon?",
+          "2": "Cơ chế định giá trên thị trường carbon là gì?",
+          "3": "Những rủi ro liên quan đến giao dịch carbon là gì?",
+          "4": "Chi phí giao dịch ảnh hưởng đến giao dịch carbon như thế nào?",
+          "5": "Sự khác nhau giữa giao dịch spot và tương lai là gì?"
+        },
+        "policy": {
+          "1": "Chính sách thay đổi khí hậu hiện tại của Việt Nam là gì?",
+          "2": "Khung NDC ảnh hưởng đến doanh nghiệp như thế nào?",
+          "3": "Những quy định thị trường carbon sắp tới là gì?",
+          "4": "Thỏa thuận quốc tế ảnh hưởng đến chính sách carbon của Việt Nam như thế nào?",
+          "5": "SME cần tuân thủ những yêu cầu nào?"
+        },
+        "projects": {
+          "1": "Những loại dự án bù đắp carbon nào có sẵn?",
+          "2": "Tôi làm thế nào để phát triển một dự án bù đắp carbon?",
+          "3": "Tài liệu thiết kế dự án (PDD) là gì?",
+          "4": "Tín chỉ carbon được tạo ra từ dự án như thế nào?",
+          "5": "Các yêu cầu bổ sung cho dự án là gì?"
+        },
+        "accounting": {
+          "1": "Tôi làm thế nào để tính dấu chân carbon của mình?",
+          "2": "Phát thải Scope 1, 2 và 3 là gì?",
+          "3": "Tôi nên sử dụng tiêu chuẩn kế toán nào?",
+          "4": "Tôi làm thế nào để báo cáo phát thải chính xác?",
+          "5": "GHG Protocol là gì và tôi áp dụng nó như thế nào?"
+        },
+        "compliance": {
+          "1": "Các yêu cầu thị trường carbon bắt buộc là gì?",
+          "2": "Tôi làm thế nào để đảm bảo tuân thủ các quy định carbon?",
+          "3": "Những quy trình kiểm toán và xác minh nào cần thiết?",
+          "4": "Những hình phạt nào áp dụng cho việc không tuân thủ?",
+          "5": "Tôi làm thế nào để duy trì hồ sơ chính xác cho sự tuân thủ?"
+        },
+        "voluntary": {
+          "1": "Thị trường carbon tự nguyện là gì?",
+          "2": "Tín chỉ carbon hoạt động như thế nào trên thị trường tự nguyện?",
+          "3": "Những tiêu chuẩn và chứng chỉ VCM chính là gì?",
+          "4": "Tôi làm thế nào để tham gia các chương trình carbon tự nguyện?",
+          "5": "Sự khác nhau giữa thị trường tuân thủ và tự nguyện là gì?"
+        },
+        "technology": {
+          "1": "Công nghệ thu giữ và lưu trữ carbon (CCS) là gì?",
+          "2": "Quá trình thu lấy không khí trực tiếp hoạt động như thế nào?",
+          "3": "Chi phí của các công nghệ thu giữ carbon là bao nhiêu?",
+          "4": "Các giải pháp công nghệ carbon mới có trưởng thành như thế nào?",
+          "5": "Công nghệ đóng vai trò gì trong giảm phát thải?"
+        }
+      },
       "thinking": "Đang suy nghĩ...",
       "errorMessage": "Đã xảy ra lỗi. Vui lòng thử lại.",
       "placeholder": "Hỏi một câu hỏi về thị trường carbon...",

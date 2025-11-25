@@ -9,8 +9,6 @@ import { RichTextRenderer } from "@/components/rich-text-renderer"
 import { AIChatDialog } from "@/components/ai-chat-dialog"
 import { ChevronDown, ChevronRight, ExternalLink, FileText, MessageSquare, Menu, X, Loader2 } from "lucide-react"
 import { usePaginatedQuestions } from "@/hooks/use-paginated-questions"
-import { useQuery } from "convex/react"
-import { api } from "@/convex/_generated/api"
 
 type QAData = {
   sections: Array<{
@@ -219,13 +217,25 @@ const QuestionContent = memo(({
 QuestionContent.displayName = "QuestionContent"
 
 export default function BooksPageClient({ locale }: { locale: string }) {
-  // Use paginated questions from Convex
-  const { questions: paginatedQuestions, loadMore, hasMore, isLoading } = usePaginatedQuestions()
+  const {
+    sections: paginatedSections,
+    loadMore,
+    hasMore: hasMoreCurrentSection,
+    isLoading,
+    isLoadingCurrentSection,
+    loadNextSection,
+    hasMoreSections,
+    isLoadingNextSection,
+  } = usePaginatedQuestions(locale, "1")
 
-  const qaData = useQuery(api.qa.getAllByLang, { lang: locale })
-  const isLoadingQa = !qaData
-
-  const sections: QASection[] = qaData?.sections ?? []
+  const sections = paginatedSections
+  const isLoadingQa = isLoading
+  const canLoadNextSection =
+    !hasMoreCurrentSection &&
+    sections.length > 0 &&
+    hasMoreSections &&
+    !isLoadingNextSection
+  const nextSectionLabel = locale === "vi" ? "Chương tiếp theo" : "Load next section"
   
   // Build question entries from static data (for sidebar navigation)
   const questionEntries = useMemo(
@@ -246,11 +256,11 @@ export default function BooksPageClient({ locale }: { locale: string }) {
   const [isChatOpen, setIsChatOpen] = useState(false)
 
   useEffect(() => {
-    if (qaData && questionEntries.length > 0 && !selectedQuestionId) {
+    if (!isLoadingQa && questionEntries.length > 0 && !selectedQuestionId) {
       setSelectedQuestionId(questionEntries[0].question.id)
       setExpandedSections(new Set(sections.map((section) => section.section_id)))
     }
-  }, [qaData])
+  }, [isLoadingQa, questionEntries, sections, selectedQuestionId])
 
   // Try to find in paginated data first, fallback to static data
   const selectedEntry = useMemo(() => {
@@ -342,23 +352,44 @@ export default function BooksPageClient({ locale }: { locale: string }) {
                 />
               ))}
 
-              {/* Load more button for paginated questions */}
-              {hasMore && (
+              {/* Load more button for current section */}
+              {hasMoreCurrentSection && (
                 <div className="pt-4 pb-2">
                   <Button
                     onClick={loadMore}
-                    disabled={isLoading}
+                    disabled={isLoadingCurrentSection}
                     variant="outline"
                     className="w-full"
                     size="sm"
                   >
-                    {isLoading ? (
+                    {isLoadingCurrentSection ? (
                       <>
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                         Loading...
                       </>
                     ) : (
                       "Load More Questions"
+                    )}
+                  </Button>
+                </div>
+              )}
+
+              {!hasMoreCurrentSection && canLoadNextSection && (
+                <div className="pt-4 pb-2">
+                  <Button
+                    onClick={loadNextSection}
+                    disabled={!canLoadNextSection}
+                    variant="secondary"
+                    className="w-full"
+                    size="sm"
+                  >
+                    {isLoadingNextSection ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        {nextSectionLabel}
+                      </>
+                    ) : (
+                      nextSectionLabel
                     )}
                   </Button>
                 </div>

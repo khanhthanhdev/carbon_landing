@@ -81,6 +81,9 @@ export default defineSchema({
     keywords_searchable: v.optional(v.string()),
     category_searchable: v.optional(v.string()),
     
+    // Language
+    lang: v.optional(v.string()),
+    
     // Embedding for vector search
     embedding: v.optional(v.array(v.float64())),
     
