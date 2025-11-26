@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-type SupportedLocale = "en" | "vi";
-type PageKey = "home" | "search" | "books" | "askAi" | "aboutUs" | "faqs";
+export type SupportedLocale = "en" | "vi";
+export type PageKey = "home" | "search" | "books" | "askAi" | "aboutUs" | "faqs";
 
 const SUPPORTED_LOCALES: SupportedLocale[] = ["en", "vi"];
 const DEFAULT_LOCALE: SupportedLocale = "vi";
@@ -169,29 +169,30 @@ function getAlternateLinks(pathname: string) {
   };
 }
 
-export function getAlternateLinksForLayout(pathname: string) {
+export function getAlternateLinksForLayout(pathname: string, currentLocale?: string) {
   const normalised = pathname.startsWith("/") ? pathname : `/${pathname}`;
   const baseUrl = siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`;
+  const locale = resolveLocale(currentLocale);
 
-  // Determine canonical URL (always use the default locale with full path)
-  const canonicalPath =
-    pathname === "" || pathname === "/"
-      ? "/"
-      : `${normalised === "/" ? "" : normalised}`;
+  // Determine canonical URL for the current locale
+  const currentLocalePrefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
+  const canonicalPath = `${currentLocalePrefix}${normalised === "/" ? "" : normalised}` || "/";
   const canonical = new URL(canonicalPath.replace(/^\//, ""), baseUrl).toString();
 
   // Generate hreflang links for all locales
-  const hreflang = SUPPORTED_LOCALES.map((locale) => {
-    const prefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
+  const hreflang = SUPPORTED_LOCALES.map((loc) => {
+    const prefix = loc === DEFAULT_LOCALE ? "" : `/${loc}`;
     const path = `${prefix}${normalised === "/" ? "" : normalised}` || "/";
     const href = new URL(path.replace(/^\//, ""), baseUrl).toString();
-    const hrefLang = locale === "vi" ? "vi-VN" : locale === "en" ? "en-US" : locale;
+    const hrefLang = loc === "vi" ? "vi-VN" : loc === "en" ? "en-US" : loc;
     return { href, hrefLang };
   });
 
-  // Add x-default hreflang
+  // Add x-default pointing to default locale version
+  const defaultLocalePath = normalised === "/" ? "" : normalised;
+  const xDefaultHref = new URL(defaultLocalePath.replace(/^\//, ""), baseUrl).toString();
   hreflang.push({
-    href: canonical,
+    href: xDefaultHref,
     hrefLang: "x-default",
   });
 
@@ -221,7 +222,7 @@ function buildOpenGraph(page: PageKey, locale: SupportedLocale, pathname: string
     };
 }
 
-function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPath: string) {
+export function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPath: string) {
   const baseUrl = new URL(canonicalPath.replace(/^\/*/, ""), siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`);
 
   // Organization schema (always included)
@@ -501,10 +502,8 @@ function buildStructuredData(page: PageKey, locale: SupportedLocale, canonicalPa
 export function buildPageMetadata(page: PageKey, localeInput?: string): Metadata {
   const locale = resolveLocale(localeInput);
   const pathname = routePath[page] || "";
-  const canonicalPath =
-    locale === DEFAULT_LOCALE && pathname === ""
-      ? "/"
-      : `/${locale}${pathname === "" ? "" : pathname}`;
+  const localePrefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
+  const canonicalPath = `${localePrefix}${pathname}` || "/";
 
   const structuredData = buildStructuredData(page, locale, canonicalPath);
 
@@ -570,19 +569,23 @@ export function buildPageMetadata(page: PageKey, localeInput?: string): Metadata
     category: locale === "vi" ? "Thị trường carbon" : "Carbon Market",
     classification: "Education, Training, Environment, Sustainability",
     other: {
-      'script:ld+json': JSON.stringify(structuredData),
-      'google-site-verification': process.env.GOOGLE_SITE_VERIFICATION || '', // Add when available
       'msapplication-TileColor': '#000000',
-      'theme-color': '#000000',
       'apple-mobile-web-app-capable': 'yes',
       'apple-mobile-web-app-status-bar-style': 'default',
       'apple-mobile-web-app-title': SITE_NAME,
       'application-name': SITE_NAME,
-      'msapplication-config': '/browserconfig.xml', // Add if created
-      'charset': 'utf-8',
     },
     verification: {
       google: process.env.GOOGLE_SITE_VERIFICATION || '',
     },
   };
+}
+
+export function getPageStructuredData(page: PageKey, localeInput?: string): object[] {
+  const locale = resolveLocale(localeInput);
+  const pathname = routePath[page] || "";
+  const localePrefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
+  const canonicalPath = `${localePrefix}${pathname}` || "/";
+
+  return buildStructuredData(page, locale, canonicalPath);
 }

@@ -1,4 +1,4 @@
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
 import { Navigation } from "@/components/navigation";
 import { Hero } from "@/components/hero";
 import { MainSearchSection } from "@/components/main-search-section";
@@ -11,6 +11,7 @@ import { FutureSection } from "@/components/future-section";
 import { FeedbackSectionLazy, SponsorsSectionLazy } from "@/components/lazy-home-sections";
 import { locales } from "@/i18n/request";
 import { TourGuide } from "@/components/tour-guide";
+import { JsonLd } from "@/components/json-ld";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -25,9 +26,17 @@ export async function generateMetadata({
   return buildPageMetadata("home", locale);
 }
 
-export default function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const structuredData = getPageStructuredData("home", locale);
+
   return (
     <>
+      <JsonLd data={structuredData} />
       <Navigation />
       <TourGuide />
       <main className="bg-background">

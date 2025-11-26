@@ -1,6 +1,7 @@
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
 import BooksPageClient from "./books-page-client";
 import { locales } from "@/i18n/request";
+import { JsonLd } from "@/components/json-ld";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -21,6 +22,13 @@ export default async function BooksPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  return <BooksPageClient locale={locale} />;
+  const structuredData = getPageStructuredData("books", locale);
+
+  return (
+    <>
+      <JsonLd data={structuredData} />
+      <BooksPageClient locale={locale} />
+    </>
+  );
 }
 

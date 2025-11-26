@@ -37,7 +37,7 @@ export default async function RootLayout({
   setRequestLocale(resolvedLocale);
   const messages = await getMessages({ locale: resolvedLocale });
 
-  const alternateLinks = getAlternateLinksForLayout("");
+  const alternateLinks = getAlternateLinksForLayout("", resolvedLocale);
 
   return (
     <html

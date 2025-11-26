@@ -1,6 +1,7 @@
-import { buildPageMetadata } from "@/lib/seo";
+import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
 import SearchPageClient from "./search-page-client";
 import { locales } from "@/i18n/request";
+import { JsonLd } from "@/components/json-ld";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -15,7 +16,19 @@ export async function generateMetadata({
   return buildPageMetadata("search", locale);
 }
 
-export default function SearchPage() {
-  return <SearchPageClient />;
+export default async function SearchPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const structuredData = getPageStructuredData("search", locale);
+
+  return (
+    <>
+      <JsonLd data={structuredData} />
+      <SearchPageClient />
+    </>
+  );
 }
 
