@@ -6,18 +6,25 @@ import { useTranslations } from "next-intl";
 
 const TOUR_STORAGE_KEY = "carbonlearn-tour-completed";
 
+function isMobileDevice(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.innerWidth < 1024;
+}
+
 export function TourGuide() {
   const t = useTranslations("tour");
   const [hasMounted, setHasMounted] = useState(false);
   const [run, setRun] = useState(false);
   const [shouldDisplay, setShouldDisplay] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
+    setIsMobile(isMobileDevice());
   }, []);
 
   useEffect(() => {
-    if (!hasMounted) {
+    if (!hasMounted || isMobile) {
       return;
     }
 
@@ -31,7 +38,7 @@ export function TourGuide() {
 
       return () => window.clearTimeout(timer);
     }
-  }, [hasMounted]);
+  }, [hasMounted, isMobile]);
 
   const steps = useMemo<Step[]>(() => {
     if (!hasMounted) {
