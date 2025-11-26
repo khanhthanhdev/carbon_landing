@@ -15,6 +15,17 @@ import { SearchFilters } from "@/components/search-filters";
 import { SearchResults } from "@/components/search-results";
 import { QuestionRequestForm } from "@/components/question-request-form";
 import qaData from "@/data/qa_new.json";
+import type { PrefetchedCategories } from "@/lib/convex-server";
+
+// Type for prefetched QA items from server
+interface PrefetchedQAItem {
+  _id: string;
+  question?: string;
+  answer?: string;
+  category: string;
+  sources?: any[];
+  lang?: string;
+}
 
 type QASection = (typeof qaData.sections)[number];
 type QAQuestion = QASection["questions"][number];
@@ -37,7 +48,12 @@ function buildSources(question: QAQuestion) {
   }));
 }
 
-function SearchResultsContent() {
+interface SearchResultsContentProps {
+  initialCategories?: PrefetchedCategories;
+  initialQAItems?: PrefetchedQAItem[];
+}
+
+function SearchResultsContent({ initialCategories, initialQAItems }: SearchResultsContentProps) {
   const t = useTranslations("search");
   const tQuestions = useTranslations("questions");
   const tQuestionRequest = useTranslations("questionRequest");
@@ -394,14 +410,22 @@ function SearchResultsContent() {
   );
 }
 
-export default function SearchPageClient() {
+interface SearchPageClientProps {
+  initialCategories?: PrefetchedCategories;
+  initialQAItems?: PrefetchedQAItem[];
+}
+
+export default function SearchPageClient({ initialCategories, initialQAItems }: SearchPageClientProps) {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     }>
-      <SearchResultsContent />
+      <SearchResultsContent 
+        initialCategories={initialCategories}
+        initialQAItems={initialQAItems}
+      />
     </Suspense>
   );
 }

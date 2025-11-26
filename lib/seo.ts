@@ -63,7 +63,7 @@ const titles: Record<PageKey, Record<SupportedLocale, string>> = {
 const descriptions: Record<PageKey, Record<SupportedLocale, string>> = {
   home: {
   en: "Understand carbon credits, compliance, and opportunity pathways tailored for Vietnamese SMEs to thrive in the carbon market.",
-  vi: "Nắm vững tín chỉ carbon, yêu cầu tuân thủ và cơ hội kinh doanh giúp doanh nghiệp SME Việt Nam tham gia hiệu quả vào thị trường carbon.",
+  vi: "Nắm vững tín chỉ carbon, yêu cầu bắt buộc và cơ hội kinh doanh giúp doanh nghiệp SME Việt Nam tham gia hiệu quả vào thị trường carbon.",
   },
   search: {
   en: "Explore verified answers about carbon credits, reporting, pricing and policies curated for small and medium enterprises.",
@@ -83,7 +83,7 @@ const descriptions: Record<PageKey, Record<SupportedLocale, string>> = {
   },
   faqs: {
   en: "Find answers to common questions about carbon markets, credits, and compliance for Vietnamese SMEs.",
-  vi: "Tìm câu trả lời cho các câu hỏi thường gặp về thị trường carbon, tín chỉ carbon và tuân thủ dành cho doanh nghiệp SME Việt Nam.",
+  vi: "Tìm câu trả lời cho các câu hỏi thường gặp về thị trường carbon, tín chỉ carbon dành cho doanh nghiệp SME Việt Nam.",
   },
 };
 
@@ -492,6 +492,73 @@ export function buildStructuredData(page: PageKey, locale: SupportedLocale, cano
           price: "0",
           priceCurrency: "USD"
         }
+      }
+    };
+  } else if (page === "aboutUs") {
+    pageSpecificData = {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      name: titles[page][locale],
+      description: descriptions[page][locale],
+      url: baseUrl.toString(),
+      isPartOf: {
+        "@type": "WebSite",
+        name: SITE_NAME,
+        url: siteUrl,
+      },
+      mainEntity: {
+        "@type": "EducationalOrganization",
+        name: SITE_NAME,
+        description: descriptions[page][locale],
+        url: siteUrl,
+        logo: `${siteUrl}/logo_carbon.jpg`,
+        founder: [
+          {
+            "@type": "Person",
+            name: "Dr. Lê Duy Anh",
+            jobTitle: locale === "vi" ? "Giám đốc chương trình, Giảng Viên" : "Program Director, Lecturer",
+            affiliation: {
+              "@type": "Organization",
+              name: "VinUniversity"
+            }
+          },
+          {
+            "@type": "Person",
+            name: "Assoc. Prof. Dr. Vũ Anh Dũng",
+            jobTitle: locale === "vi" ? "Viện trưởng sáng lập Viện Khoa học và Giáo dục Khai phóng" : "Founding Dean, College of Arts and Sciences",
+            affiliation: {
+              "@type": "Organization",
+              name: "VinUniversity"
+            }
+          },
+          {
+            "@type": "Person",
+            name: "Dr. Trương Thu Hà",
+            jobTitle: locale === "vi" ? "Giảng viên Bộ môn Chính sách công" : "Lecturer, Department of Public Policy",
+            affiliation: {
+              "@type": "Organization",
+              name: locale === "vi" ? "Đại học Quốc gia Hà Nội" : "Vietnam National University, Hanoi"
+            }
+          }
+        ],
+        member: [
+          {
+            "@type": "Organization",
+            name: "VinUniversity",
+            url: "https://vinuni.edu.vn"
+          },
+          {
+            "@type": "Organization",
+            name: "British Council",
+            url: "https://www.britishcouncil.vn"
+          }
+        ],
+        knowsAbout: [
+          "Carbon Markets",
+          "SME Training",
+          "Sustainability",
+          "Vietnam Carbon Policy"
+        ]
       }
     };
   }

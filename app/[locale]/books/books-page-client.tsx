@@ -9,6 +9,7 @@ import { RichTextRenderer } from "@/components/rich-text-renderer"
 import { AIChatDialog } from "@/components/ai-chat-dialog"
 import { ChevronDown, ChevronRight, ExternalLink, FileText, MessageSquare, Menu, X, Loader2 } from "lucide-react"
 import { usePaginatedQuestions } from "@/hooks/use-paginated-questions"
+import { useLocale, useTranslations } from "next-intl"
 
 type QAData = {
   sections: Array<{
@@ -216,7 +217,11 @@ const QuestionContent = memo(({
 })
 QuestionContent.displayName = "QuestionContent"
 
-export default function BooksPageClient({ locale }: { locale: string }) {
+export default function BooksPageClient() {
+  // Use useLocale() for stable locale value to prevent hydration mismatches
+  const locale = useLocale()
+  const t = useTranslations("books")
+  
   const {
     sections: paginatedSections,
     loadMore,
@@ -235,7 +240,6 @@ export default function BooksPageClient({ locale }: { locale: string }) {
     sections.length > 0 &&
     hasMoreSections &&
     !isLoadingNextSection
-  const nextSectionLabel = locale === "vi" ? "Chương tiếp theo" : "Load next section"
   
   // Build question entries from static data (for sidebar navigation)
   const questionEntries = useMemo(
@@ -365,10 +369,10 @@ export default function BooksPageClient({ locale }: { locale: string }) {
                     {isLoadingCurrentSection ? (
                       <>
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        Loading...
+                        {t("loading")}
                       </>
                     ) : (
-                      "Load More Questions"
+                      t("loadMoreQuestions")
                     )}
                   </Button>
                 </div>
@@ -386,10 +390,10 @@ export default function BooksPageClient({ locale }: { locale: string }) {
                     {isLoadingNextSection ? (
                       <>
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        {nextSectionLabel}
+                        {t("loadNextSection")}
                       </>
                     ) : (
-                      nextSectionLabel
+                      t("loadNextSection")
                     )}
                   </Button>
                 </div>

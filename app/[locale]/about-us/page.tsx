@@ -32,7 +32,7 @@ export default async function AboutUsPage({
       <JsonLd data={structuredData} />
       <Navigation />
       <main className="bg-background">
-        <AboutUsSection />
+        <AboutUsSection locale={locale} />
         <SurveySection />
       </main>
       <Footer />

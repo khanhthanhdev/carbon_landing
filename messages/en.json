@@ -13,6 +13,14 @@
   "aboutUs": {
     "title": "About the Team",
     "subtitle": "Meet the experts behind the Carbon Markets Starter Guide",
+    "heroTitle": "Empowering a Sustainable Future",
+    "heroSubtitle": "Meet the expert team behind CarbonLearn's carbon market training",
+    "values": {
+      "innovation": "Innovation & Impact",
+      "research": "Innovation & Research",
+      "empowerment": "Empowerment for SMEs",
+      "collaboration": "Global Collaboration"
+    },
     "coChairs": {
       "title": "Co-Chairs and Editors",
       "members": [
@@ -40,7 +48,8 @@
       ]
     },
     "participants": {
-      "title": "Contributors",
+      "title": "Our Members",
+      "description": "Meet our dedicated team of contributors and researchers",
       "members": [
         {
           "name": "M.A. Trần Diệu Anh",
@@ -671,5 +680,10 @@
     "title": "Survey on Your Company's Carbon Market Readiness",
     "description": "",
     "buttonText": "Take the Survey (Google Form)"
+  },
+  "books": {
+    "loadMoreQuestions": "Load More Questions",
+    "loadNextSection": "Load Next Section",
+    "loading": "Loading..."
   }
 }

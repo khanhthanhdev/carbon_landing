@@ -3261,7 +3261,7 @@ function createRAGSystemPrompt(locale: string, focusTopic?: string): string {
     },
     compliance: {
       en: "Focus on compliance markets, mandatory schemes, and regulatory requirements.",
-      vi: "Tập trung vào thị trường tuân thủ, các chương trình bắt buộc và yêu cầu pháp lý."
+      vi: "Tập trung vào thị trường bắt buộc, các chương trình bắt buộc và yêu cầu pháp lý."
     },
     voluntary: {
       en: "Focus on voluntary carbon markets, certification standards, and voluntary programs.",

@@ -27,7 +27,7 @@ export default async function BooksPage({
   return (
     <>
       <JsonLd data={structuredData} />
-      <BooksPageClient locale={locale} />
+      <BooksPageClient />
     </>
   );
 }

@@ -13,6 +13,14 @@
   "aboutUs": {
     "title": "Về Chúng Tôi",
     "subtitle": "Đội ngũ các chuyên gia, giảng viên từ Trường Đại học VinUniversity và Trường Đại học Kinh tế, Đại học Quốc gia Hà Nội",
+    "heroTitle": "Xây Dựng Tương Lai Bền Vững",
+    "heroSubtitle": "Gặp gỡ đội ngũ chuyên gia đào tạo thị trường carbon của CarbonLearn",
+    "values": {
+      "innovation": "Đổi Mới & Tác Động",
+      "research": "Đổi Mới & Nghiên Cứu",
+      "empowerment": "Hỗ Trợ Doanh Nghiệp SME",
+      "collaboration": "Hợp Tác Toàn Cầu"
+    },
     "coChairs": {
       "title": "Đồng Chủ Trì và Biên Tập",
       "members": [
@@ -40,7 +48,8 @@
       ]
     },
     "participants": {
-      "title": "Tham Gia",
+      "title": "Thành Viên",
+      "description": "Gặp gỡ đội ngũ cộng tác viên và nhà nghiên cứu của chúng tôi",
       "members": [
         {
           "name": "ThS. Trần Diệu Anh",
@@ -671,5 +680,10 @@
     "title": "Khảo Sát Mức Độ Sẵn sàng của Doanh nghiệp của bạn về thị trường Carbon",
     "description": "",
     "buttonText": "Tham Gia Khảo Sát (Google Form)"
+  },
+  "books": {
+    "loadMoreQuestions": "Tải thêm câu hỏi",
+    "loadNextSection": "Chương tiếp theo",
+    "loading": "Đang tải..."
   }
 }
