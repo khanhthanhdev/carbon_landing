@@ -96,7 +96,7 @@ export function ResultCard({
             {/* Relevance Score Badge */}
             <Badge variant="outline" className="text-[10px] sm:text-xs flex-shrink-0">
               {t("relevanceScore", { 
-                score: (result.hybridScore * 100).toFixed(0) 
+                score: (result.score * 100).toFixed(0) 
               })}
             </Badge>
             

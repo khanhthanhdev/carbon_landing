@@ -83,9 +83,15 @@
         },
         {
           "name": "Trần Khánh Thành",
-          "credentials": "",
+          "credentials": "Software Engineer",
           "institute": "VinUniversity",
           "link": "https://khanhthanh.is-a.dev/"
+        },
+        {
+          "name": "Tony Tin",
+          "credentials": "Technical Advisor",
+          "institute": "",
+          "link": "#"
         }
       ]
     },

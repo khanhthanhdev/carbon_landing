@@ -2590,15 +2590,15 @@ export const autoEmbedQA = action({
  */
 
 /**
- * Hybrid search action orchestrator
+ * Unified search action orchestrator
  * 
- * Combines vector-based semantic search with full-text keyword search using
- * Reciprocal Rank Fusion (RRF) to provide the most relevant results.
+ * Provides vector-based semantic search or full-text keyword search
+ * based on the specified search type.
  * 
  * Features:
  * - Query hash generation and cache checking
- * - Parallel execution of vector and full-text searches
- * - RRF merging with configurable alpha weight
+ * - Vector search using embeddings (semantic)
+ * - Full-text search using indexes (keyword-based)
  * - Result caching with configurable TTL
  * - Search analytics logging
  * - Graceful error handling with fallbacks
@@ -2607,9 +2607,9 @@ export const autoEmbedQA = action({
  * @param category - Optional category filter
  * @param lang - Optional language filter ("vi" | "en")
  * @param topK - Number of results to return (default: 10, max: 50)
- * @param alpha - Vector search weight 0-1 (default: 0.6, higher favors semantic search)
- * @param searchType - Search mode: "hybrid" | "vector" | "fulltext" (default: "hybrid")
- * @returns Search results with hybrid scores and metadata
+ * @param alpha - Not used (kept for backward compatibility)
+ * @param searchType - Search mode: "vector" | "fulltext" (default: "fulltext")
+ * @returns Search results with scores and metadata
  * 
  * Requirements: 1.1, 1.2, 2.1, 2.2
  */
@@ -2621,7 +2621,6 @@ export const hybridSearch = action({
     topK: v.optional(v.number()),
     alpha: v.optional(v.number()),
     searchType: v.optional(v.union(
-      v.literal("hybrid"),
       v.literal("vector"),
       v.literal("fulltext")
     )),
@@ -2637,7 +2636,7 @@ export const hybridSearch = action({
     
     const topK = Math.min(Math.max(args.topK ?? 10, 1), 50);
     const alpha = Math.min(Math.max(args.alpha ?? 0.6, 0), 1);
-    const searchType = args.searchType ?? "hybrid";
+    const searchType = args.searchType ?? "fulltext";
     const category = args.category?.trim() || undefined;
     const lang = args.lang?.trim() || undefined;
     
@@ -2699,15 +2698,19 @@ export const hybridSearch = action({
       // Build results from cached data
       const results = questions
         .filter((q): q is NonNullable<typeof q> => q !== null)
-        .map((q, index) => ({
-          _id: q._id,
-          question: q.question,
-          answer: q.answer,
-          category: q.category,
-          sources: q.sources,
-          hybridScore: cacheRecord.scores?.[index] ?? 0,
-          reasons: ["cached"] as string[],
-        }));
+        .map((q, index) => {
+          const cachedScore = cacheRecord.scores?.[index] ?? 0;
+          const score = typeof cachedScore === 'number' && !isNaN(cachedScore) ? cachedScore : Math.max(0.1, 1 - index * 0.1);
+          return {
+            _id: q._id,
+            question: q.question,
+            answer: q.answer,
+            category: q.category,
+            sources: q.sources,
+            score,
+            reasons: ["cached"] as string[],
+          };
+        });
       
       const latencyMs = Date.now() - startTime;
       
@@ -2733,186 +2736,8 @@ export const hybridSearch = action({
     let fallbackUsed: string | undefined;
     let searchErrors: string[] = [];
     
-    // Execute searches based on search type with enhanced error handling and fallbacks
-    if (searchType === "hybrid") {
-      // For hybrid search, implement robust fallback strategy
-      
-      // Step 1: Try to generate embedding for vector search
-      let embeddingError: string | undefined;
-      try {
-        const { generateQueryEmbedding } = await import("./searchUtils");
-        embedding = await generateQueryEmbedding(ctx, query);
-        console.log("Successfully generated query embedding for hybrid search");
-      } catch (error) {
-        embeddingError = error instanceof Error ? error.message : String(error);
-        searchErrors.push(`Embedding generation failed: ${embeddingError}`);
-        
-        // Log embedding failure with context
-        logSearchError({
-          query,
-          searchType,
-          category,
-          lang,
-          topK,
-          alpha,
-          latencyMs: Date.now() - startTime,
-          usedVector: false,
-          usedFullText: false,
-          usedCache: false,
-          queryHash,
-          error: embeddingError,
-          errorType: 'embedding_generation',
-          fallbackUsed: 'Will attempt full-text search only'
-        });
-        
-        console.warn("Embedding generation failed, will fallback to full-text search only");
-      }
-      
-      // Step 2: Execute searches in parallel with individual error handling
-      const searchPromises: Promise<{ type: 'vector' | 'fulltext'; results: any[]; error?: string }>[] = [];
-      
-      // Vector search promise (only if embedding was successful)
-      if (embedding) {
-        searchPromises.push(
-          (async () => {
-            try {
-              const results = await ctx.runAction(api.actions.vectorSearch, {
-                embedding: embedding!,
-                category,
-                lang,
-                limit: topK * 2, // Fetch more for better merging
-              });
-              usedVector = true;
-              console.log(`Vector search returned ${results.length} results`);
-              return { type: 'vector' as const, results };
-            } catch (error) {
-              const errorMsg = error instanceof Error ? error.message : String(error);
-              searchErrors.push(`Vector search failed: ${errorMsg}`);
-              
-              // Log vector search failure
-              logSearchError({
-                query,
-                searchType,
-                category,
-                lang,
-                topK,
-                alpha,
-                latencyMs: Date.now() - startTime,
-                usedVector: false,
-                usedFullText: false,
-                usedCache: false,
-                queryHash,
-                error: errorMsg,
-                errorType: 'vector_search',
-                fallbackUsed: 'Will continue with full-text results only'
-              });
-              
-              console.warn("Vector search failed, continuing with full-text search only");
-              return { type: 'vector' as const, results: [], error: errorMsg };
-            }
-          })()
-        );
-      }
-      
-      // Full-text search promise
-      searchPromises.push(
-        (async () => {
-          try {
-            const results = await ctx.runQuery(api.queries.search.fullTextSearch, {
-              query,
-              category,
-              lang,
-              limit: topK * 2, // Fetch more for better merging
-            });
-            usedFullText = true;
-            console.log(`Full-text search returned ${results.length} results`);
-            return { type: 'fulltext' as const, results };
-          } catch (error) {
-            const errorMsg = error instanceof Error ? error.message : String(error);
-            searchErrors.push(`Full-text search failed: ${errorMsg}`);
-            
-            // Log full-text search failure
-            logSearchError({
-              query,
-              searchType,
-              category,
-              lang,
-              topK,
-              alpha,
-              latencyMs: Date.now() - startTime,
-              usedVector,
-              usedFullText: false,
-              usedCache: false,
-              queryHash,
-              error: errorMsg,
-              errorType: 'fulltext_search',
-              fallbackUsed: usedVector ? 'Will continue with vector results only' : 'No fallback available'
-            });
-            
-            console.warn("Full-text search failed");
-            return { type: 'fulltext' as const, results: [], error: errorMsg };
-          }
-        })()
-      );
-      
-      // Execute searches in parallel and collect results
-      const searchResults = await Promise.all(searchPromises);
-      
-      // Process results and determine fallback status
-      for (const result of searchResults) {
-        if (result.type === 'vector') {
-          vectorResults = result.results;
-          if (result.error && result.results.length === 0) {
-            // Vector search failed but we might have full-text results
-            if (!fallbackUsed) fallbackUsed = 'full-text search only (vector search failed)';
-          }
-        } else if (result.type === 'fulltext') {
-          textResults = result.results;
-          if (result.error && result.results.length === 0) {
-            // Full-text search failed but we might have vector results
-            if (!fallbackUsed && vectorResults.length > 0) {
-              fallbackUsed = 'vector search only (full-text search failed)';
-            }
-          }
-        }
-      }
-      
-      // Determine final fallback status
-      if (embeddingError && textResults.length > 0) {
-        fallbackUsed = 'full-text search only (embedding generation failed)';
-      } else if (vectorResults.length === 0 && textResults.length > 0) {
-        fallbackUsed = 'full-text search only (vector search failed)';
-      } else if (vectorResults.length > 0 && textResults.length === 0) {
-        fallbackUsed = 'vector search only (full-text search failed)';
-      }
-      
-      // Check if both searches failed completely
-      if (vectorResults.length === 0 && textResults.length === 0) {
-        const combinedError = searchErrors.join('; ');
-        
-        // Log complete failure
-        logSearchError({
-          query,
-          searchType,
-          category,
-          lang,
-          topK,
-          alpha,
-          latencyMs: Date.now() - startTime,
-          usedVector,
-          usedFullText,
-          usedCache: false,
-          queryHash,
-          error: combinedError,
-          errorType: 'both_searches_failed'
-        });
-        
-        throw new ConvexError(
-          `Both vector and full-text searches failed. ${combinedError}. Please try again or use different search terms.`
-        );
-      }
-      
-    } else if (searchType === "vector") {
+    // Execute searches based on search type with enhanced error handling
+    if (searchType === "vector") {
       // Vector search only - with enhanced error handling and fallback suggestions
       try {
         const { generateQueryEmbedding } = await import("./searchUtils");
@@ -2926,13 +2751,13 @@ export const hybridSearch = action({
           limit: topK,
         });
         
-        console.log(`Vector-only search returned ${vectorResults.length} results`);
+        console.log(`Vector search returned ${vectorResults.length} results`);
         
         // Check if no results found
         if (vectorResults.length === 0) {
           console.warn("Vector search returned no results");
           throw new ConvexError(
-            "Vector search found no matching results. Try using different keywords or switch to 'hybrid' search for better coverage."
+            "Vector search found no matching results. Try using different keywords or switch to 'fulltext' search for keyword matching."
           );
         }
         
@@ -2945,13 +2770,13 @@ export const hybridSearch = action({
         
         if (errorMsg.includes('Embedding generation failed') || errorMsg.includes('Gemini')) {
           errorType = 'embedding_generation';
-          fallbackSuggestion = "Try using 'fulltext' search mode or 'hybrid' search as fallback.";
+          fallbackSuggestion = "Try using 'fulltext' search mode as fallback.";
         } else if (errorMsg.includes('Vector search found no matching results')) {
           errorType = 'vector_search';
-          fallbackSuggestion = "Try using 'hybrid' search for broader results or 'fulltext' search with different keywords.";
+          fallbackSuggestion = "Try 'fulltext' search with different keywords.";
         } else {
           errorType = 'vector_search';
-          fallbackSuggestion = "Try using 'fulltext' or 'hybrid' search modes as alternatives.";
+          fallbackSuggestion = "Try using 'fulltext' search mode as alternative.";
         }
         
         // Log vector search failure with context
@@ -2975,7 +2800,7 @@ export const hybridSearch = action({
         throw new ConvexError(`Vector search failed: ${errorMsg} ${fallbackSuggestion}`);
       }
       
-    } else if (searchType === "fulltext") {
+    } else {
       // Full-text search only - with enhanced error handling
       try {
         usedFullText = true;
@@ -2992,7 +2817,7 @@ export const hybridSearch = action({
         if (textResults.length === 0) {
           console.warn("Full-text search returned no results");
           throw new ConvexError(
-            "Full-text search found no matching results. Try using different keywords, removing filters, or switch to 'hybrid' search for semantic matching."
+            "Full-text search found no matching results. Try using different keywords, removing filters, or switch to 'vector' search for semantic matching."
           );
         }
         
@@ -3003,9 +2828,9 @@ export const hybridSearch = action({
         // Determine appropriate fallback suggestion
         let fallbackSuggestion = '';
         if (errorMsg.includes('Full-text search found no matching results')) {
-          fallbackSuggestion = "Try 'hybrid' search for semantic matching or 'vector' search if available.";
+          fallbackSuggestion = "Try 'vector' search for semantic matching.";
         } else {
-          fallbackSuggestion = "Try 'hybrid' or 'vector' search modes as alternatives.";
+          fallbackSuggestion = "Try 'vector' search mode as alternative.";
         }
         
         // Log full-text search failure with context
@@ -3030,12 +2855,41 @@ export const hybridSearch = action({
       }
     }
     
-    // Merge results using RRF
-    const { mergeWithKeywordPriority } = await import("./searchUtils");
-    let mergedResults = mergeWithKeywordPriority(vectorResults, textResults, query, alpha);
+    // Format results based on search type (no merging needed)
+    const results = searchType === "vector" 
+      ? vectorResults.map((r, index) => {
+          const score = typeof r.vectorScore === 'number' && !isNaN(r.vectorScore) 
+            ? r.vectorScore 
+            : Math.max(0.1, 1 - index * 0.1); // Fallback: decrease by 0.1 per rank, minimum 0.1
+          return {
+            _id: r._id,
+            question: r.question,
+            answer: r.answer,
+            category: r.category,
+            sources: r.sources,
+            score,
+            vectorScore: r.vectorScore,
+            reasons: ["vector"] as string[],
+          };
+        })
+      : textResults.map((r, index) => {
+          const score = typeof r.textScore === 'number' && !isNaN(r.textScore) 
+            ? r.textScore 
+            : Math.max(0.1, 1 - index * 0.1); // Fallback: decrease by 0.1 per rank, minimum 0.1
+          return {
+            _id: r._id,
+            question: r.question,
+            answer: r.answer,
+            category: r.category,
+            sources: r.sources,
+            score,
+            textScore: r.textScore,
+            reasons: ["fulltext"] as string[],
+          };
+        });
     
     // Limit to topK results
-    mergedResults = mergedResults.slice(0, topK);
+    const finalResults = results.slice(0, topK);
     
     // Cache the results with enhanced error handling
     let cacheWriteSuccess = false;
@@ -3043,9 +2897,9 @@ export const hybridSearch = action({
       await ctx.runMutation(api.search.cacheSearchResults, {
         queryHash,
         locale: lang ?? "vi",
-        questionIds: mergedResults.map(r => r._id as Id<"qa">),
+        questionIds: finalResults.map(r => r._id as Id<"qa">),
         queryText: query,
-        scores: mergedResults.map(r => r.hybridScore),
+        scores: finalResults.map(r => r.score),
         embedding,
         filters: Object.keys(filters).length > 0 ? {
           category,
@@ -3082,7 +2936,7 @@ export const hybridSearch = action({
     const latencyMs = Date.now() - startTime;
     
     // Log successful search completion
-    console.log(`Search completed: ${mergedResults.length} results in ${latencyMs}ms`);
+    console.log(`Search completed: ${finalResults.length} results in ${latencyMs}ms`);
     if (fallbackUsed) {
       console.log(`Fallback strategy used: ${fallbackUsed}`);
     }
@@ -3098,7 +2952,7 @@ export const hybridSearch = action({
     //     locale: lang ?? "vi",
     //     category,
     //     searchType,
-    //     resultCount: mergedResults.length,
+    //     resultCount: finalResults.length,
     //     latencyMs,
     //     usedVector,
     //     usedFullText,
@@ -3112,9 +2966,9 @@ export const hybridSearch = action({
     // }
     
     return {
-      results: mergedResults,
+      results: finalResults,
       metadata: {
-        totalResults: mergedResults.length,
+        totalResults: finalResults.length,
         searchType,
         usedCache: false,
         latencyMs,

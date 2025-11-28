@@ -76,7 +76,7 @@ function SearchResultsContent({ initialCategories, initialQAItems }: SearchResul
 
   // Search state management
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchType, setSearchType] = useState<SearchType>("hybrid");
+  const [searchType, setSearchType] = useState<SearchType>("fulltext");
 
   const debouncedSearch = useDebounce(searchQuery, 400);
   const trimmedQuery = debouncedSearch.trim();
@@ -183,9 +183,9 @@ function SearchResultsContent({ initialCategories, initialQAItems }: SearchResul
   const hasLowRelevanceScores = useMemo(() => {
     if (combinedResults.length === 0) return false;
     
-    // Check if all results have hybridScore < 0.2 (20%)
+    // Check if all results have score < 0.2 (20%)
     const allLowScores = combinedResults.every(result => {
-      const score = result.hybridScore ?? result.vectorScore ?? result.textScore ?? 0;
+      const score = result.score ?? result.hybridScore ?? result.vectorScore ?? result.textScore ?? 0;
       return score < 0.2;
     });
     
@@ -222,7 +222,7 @@ function SearchResultsContent({ initialCategories, initialQAItems }: SearchResul
     hasLowRelevanceScores,
     showQuestionRequestForm,
     errorMessage: normalizedError?.message,
-    topScore: combinedResults.length > 0 ? combinedResults[0]?.hybridScore : null
+    topScore: combinedResults.length > 0 ? combinedResults[0]?.score ?? combinedResults[0]?.hybridScore : null
   });
 
   // Initialize state from URL parameters

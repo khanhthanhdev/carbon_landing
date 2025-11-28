@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 
 const SearchSchema = z.object({
   query: z.string().trim().min(2, "Query must be at least 2 characters"),
-  searchType: z.enum(["hybrid", "vector", "fulltext"]).optional().default("hybrid"),
+  searchType: z.enum(["vector", "fulltext"]).optional().default("fulltext"),
   category: z.string().trim().optional(),
   lang: z.string().trim().optional(),
   topK: z.number().int().min(1).max(50).optional().default(10),

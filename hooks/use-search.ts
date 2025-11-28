@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAction, useQuery as useConvexQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
-export type SearchType = "hybrid" | "vector" | "fulltext";
+export type SearchType = "vector" | "fulltext";
 
 export interface SearchFilters {
     category?: string;
@@ -22,7 +22,7 @@ export interface SearchResult {
         url: string;
         location?: string;
     }>;
-    hybridScore: number;
+    score: number;
     vectorScore?: number;
     textScore?: number;
     reasons: string[];
@@ -52,7 +52,7 @@ interface UseSearchOptions {
 }
 
 /**
- * Custom hook for hybrid search functionality using TanStack Query
+ * Custom hook for search functionality using TanStack Query
  * 
  * This hook provides a React interface to the Convex hybridSearch action,
  * with built-in caching, loading states, and error handling. It follows
@@ -61,10 +61,10 @@ interface UseSearchOptions {
  * 
  * @param options - Search configuration options
  * @param options.query - Search query string (must be >= 2 characters)
- * @param options.searchType - Type of search: "hybrid", "vector", or "fulltext"
+ * @param options.searchType - Type of search: "vector" or "fulltext" (default: "fulltext")
  * @param options.filters - Optional filters for category and language
  * @param options.topK - Maximum number of results to return (default: 10)
- * @param options.alpha - Weight for vector vs text search (0-1, default: 0.6)
+ * @param options.alpha - Not used (kept for backward compatibility)
  * @param options.enabled - Whether the query should be enabled (default: true)
  * 
  * @returns TanStack Query result with search data, loading state, and error handling
@@ -78,14 +78,14 @@ interface UseSearchOptions {
  * ```tsx
  * const { data, isLoading, error } = useSearch({
  *   query: "carbon trading",
- *   searchType: "hybrid",
+ *   searchType: "fulltext",
  *   filters: { category: "Carbon Markets" }
  * });
  * ```
  */
 export function useSearch({
     query,
-    searchType = "hybrid",
+    searchType = "fulltext",
     filters = {},
     topK = 10,
     alpha = 0.6,
