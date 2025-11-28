@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { convexQuery } from "@convex-dev/react-query";
 import { api } from "@/convex/_generated/api";
-import type { PublicQuestion } from "@/convex/questions";
+import type { PublicQuestion } from "@/convex/qa";
 
 export type QuestionRecord = PublicQuestion;
 
@@ -39,7 +39,7 @@ export function useQuestions(options: UseQuestionsOptions) {
   }, [options.category, options.commonOnly, options.limit, options.search]);
 
   return useQuery<PublicQuestion[]>({
-    ...convexQuery(api.questions.list, queryArgs),
+    ...convexQuery(api.qa.list, queryArgs),
     gcTime: 5 * 60 * 1000,
   });
 }

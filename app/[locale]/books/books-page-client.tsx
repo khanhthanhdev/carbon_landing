@@ -224,6 +224,7 @@ export default function BooksPageClient() {
   
   const {
     sections: paginatedSections,
+    availableSections,
     loadMore,
     hasMore: hasMoreCurrentSection,
     isLoading,
@@ -231,15 +232,18 @@ export default function BooksPageClient() {
     loadNextSection,
     hasMoreSections,
     isLoadingNextSection,
+    currentSection,
   } = usePaginatedQuestions(locale, "1")
 
   const sections = paginatedSections
   const isLoadingQa = isLoading
-  const canLoadNextSection =
-    !hasMoreCurrentSection &&
-    sections.length > 0 &&
-    hasMoreSections &&
-    !isLoadingNextSection
+  
+  // Check if current section is fully loaded
+  const currentSectionData = sections.find(s => s.section_number === currentSection)
+  const isCurrentSectionComplete = currentSectionData && !hasMoreCurrentSection
+  
+  // Can load next section only when current section is complete
+  const canLoadNextSection = isCurrentSectionComplete && hasMoreSections && !isLoadingNextSection
   
   // Build question entries from static data (for sidebar navigation)
   const questionEntries = useMemo(
@@ -342,7 +346,12 @@ export default function BooksPageClient() {
             <div className="p-4 sm:p-6 space-y-3">
               <div className="mb-6">
                 <h2 className="text-xl font-bold text-sidebar-foreground mb-2">Carbon Market Guide</h2>
-                <p className="text-sm text-sidebar-foreground/70">Browse by section</p>
+                <p className="text-sm text-sidebar-foreground/70">
+                  {availableSections.length > 0 
+                    ? `${sections.length} of ${availableSections.length} sections loaded`
+                    : "Browse by section"
+                  }
+                </p>
               </div>
 
               {sections.map((section) => (
@@ -372,13 +381,21 @@ export default function BooksPageClient() {
                         {t("loading")}
                       </>
                     ) : (
-                      t("loadMoreQuestions")
+                      <>
+                        {t("loadMoreQuestions")}
+                        {currentSectionData && (
+                          <span className="ml-2 text-xs text-muted-foreground">
+                            ({currentSectionData.question_count}/{currentSectionData.totalCount || "?"})
+                          </span>
+                        )}
+                      </>
                     )}
                   </Button>
                 </div>
               )}
 
-              {!hasMoreCurrentSection && canLoadNextSection && (
+              {/* Load next section button */}
+              {canLoadNextSection && (
                 <div className="pt-4 pb-2">
                   <Button
                     onClick={loadNextSection}
@@ -393,9 +410,25 @@ export default function BooksPageClient() {
                         {t("loadNextSection")}
                       </>
                     ) : (
-                      t("loadNextSection")
+                      <>
+                        {t("loadNextSection")}
+                        {availableSections.length > 0 && (
+                          <span className="ml-2 text-xs text-muted-foreground">
+                            ({sections.length + 1}/{availableSections.length})
+                          </span>
+                        )}
+                      </>
                     )}
                   </Button>
+                </div>
+              )}
+              
+              {/* Show completion message when all sections are loaded */}
+              {!hasMoreSections && sections.length > 0 && !hasMoreCurrentSection && (
+                <div className="pt-4 pb-2 text-center">
+                  <p className="text-sm text-sidebar-foreground/60">
+                    ✓ All {totalQuestions} questions loaded
+                  </p>
                 </div>
               )}
             </div>

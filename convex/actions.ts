@@ -619,7 +619,7 @@ const normalizeImportItem = (item: {
           }
 
           // Import the question
-          const result = await ctx.runMutation(api.questions.importQuestion, {
+          const result = await ctx.runMutation(api.qa.importQuestion, {
             ...question,
             embedding,
           });
@@ -693,7 +693,7 @@ const normalizeImportItem = (item: {
     // If replacing existing, clear all questions first
     if (replaceExisting) {
       console.log("Clearing existing questions...");
-      await ctx.runMutation(api.questions.replaceAll, { questions: [] });
+      await ctx.runMutation(api.qa.replaceAll, { questions: [] });
     }
 
     // Import questions with embeddings
@@ -1148,7 +1148,7 @@ export const reembedQA = action({
     const ttlMs = args.embeddingTtlMs ?? DEFAULT_EMBEDDING_TTL_MS;
 
     // Get all questions without embeddings
-    const allQuestions = await ctx.runQuery(api.questions.listWithEmbeddings, { limit: 1000 });
+    const allQuestions = await ctx.runQuery(api.qa.listWithEmbeddings, { limit: 1000 });
     const questionsWithoutEmbeddings = allQuestions.filter(q =>
       !q.hasEmbedding &&
       q.question && q.question.trim() !== "" &&
@@ -1230,7 +1230,7 @@ export const reembedQA = action({
           }
 
           // Update the question with embedding
-          await ctx.runMutation(api.questions.importQuestion, {
+          await ctx.runMutation(api.qa.importQuestion, {
             question: question.question,
             answer: question.answer,
             question_number: question.question_number,
@@ -1277,7 +1277,7 @@ export const reembedQA = action({
 /* export const getMigrationStats = action({
   args: {},
   handler: async (ctx) => {
-    const questions = await ctx.runQuery(api.questions.listWithEmbeddings, { limit: 1000 });
+    const questions = await ctx.runQuery(api.qa.listWithEmbeddings, { limit: 1000 });
     const cacheStats = await ctx.runQuery(api.embeddings.getCacheStats, {});
 
     const totalQuestions = questions.length;
@@ -1369,7 +1369,7 @@ const generateQueryHash = (query: string, filters?: { category?: string; section
 
         // Fetch full question details
         const questions = await Promise.all(
-          cachedResults.questionIds.map((id) => ctx.runQuery(api.questions.get, { id }))
+          cachedResults.questionIds.map((id) => ctx.runQuery(api.qa.get, { id }))
         );
 
         // Filter out null results and combine with scores
@@ -1648,7 +1648,7 @@ const generateQueryHash = (query: string, filters?: { category?: string; section
     console.log(`Options: skipExisting=${skipExisting}, forceReembed=${forceReembed}`);
 
     // Query all questions from questions table
-    const allQuestions = await ctx.runQuery(api.questions.listWithEmbeddings, {
+    const allQuestions = await ctx.runQuery(api.qa.listWithEmbeddings, {
       limit: args.limit ? Math.min(args.limit * 2, 10000) : 10000
     });
 
@@ -1839,7 +1839,7 @@ const generateQueryHash = (query: string, filters?: { category?: string; section
             // Task 2.5: Wrap database updates in try-catch and collect update errors
             // Update question using ctx.runMutation(api.questions.importQuestion) with embedding
             try {
-              const importResult = await ctx.runMutation(api.questions.importQuestion, {
+              const importResult = await ctx.runMutation(api.qa.importQuestion, {
                 question: question.question,
                 answer: question.answer,
                 question_number: question.question_number,

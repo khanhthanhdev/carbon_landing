@@ -33,6 +33,8 @@ export default defineSchema({
     .index("by_category", ["category"])
     .index("by_question_number", ["question_number"])
     .index("by_section_number", ["section_number"])
+    .index("by_lang", ["lang"])
+    .index("by_section_lang", ["section_number", "lang"])
     .searchIndex("by_text", {
       searchField: "content",
       filterFields: ["category", "lang"],
@@ -55,61 +57,6 @@ export default defineSchema({
       vectorField: "embedding_fact",
       dimensions: 768,
       filterFields: ["category", "lang"],
-    }),
-
-  questions: defineTable({
-    // Core fields
-    question: v.optional(v.string()),
-    answer: v.optional(v.string()),
-    searchable_text: v.optional(v.string()),
-    summary: v.optional(v.string()),
-    
-    // Metadata
-    question_number: v.optional(v.string()),
-    section_number: v.optional(v.string()),
-    section_title: v.optional(v.string()),
-    category: v.optional(v.string()),
-    keywords: v.optional(v.array(v.string())),
-    has_sources: v.optional(v.boolean()),
-    answer_length: v.optional(v.number()),
-    
-    // Sources
-    sources: v.optional(v.array(v.any())),
-    
-    // Search fields
-    question_lower: v.optional(v.string()),
-    keywords_searchable: v.optional(v.string()),
-    category_searchable: v.optional(v.string()),
-    
-    // Language
-    lang: v.optional(v.string()),
-    
-    // Embedding for vector search
-    embedding: v.optional(v.array(v.float64())),
-    
-    // Timestamps
-    created_at: v.optional(v.string()),
-    updated_at: v.optional(v.string()),
-    sequence: v.optional(v.number()),
-    is_common: v.optional(v.boolean()),
-    tags: v.optional(v.array(v.string())),
-  })
-    .index("by_section", ["section_number"])
-    .index("by_category", ["category"])
-    .index("by_keywords", ["keywords_searchable"])
-    .index("by_question_number", ["question_number"])
-    .searchIndex("search_by_text", {
-      searchField: "searchable_text",
-      filterFields: ["category_searchable", "section_number"],
-    })
-    .searchIndex("search_by_keywords", {
-      searchField: "keywords_searchable",
-      filterFields: ["category_searchable"],
-    })
-    .vectorIndex("byEmbedding", {
-      vectorField: "embedding",
-      dimensions: 768, // text-embedding-004 default dimensions
-      filterFields: ["section_number", "category", "has_sources"],
     }),
 
   questionRequests: defineTable({

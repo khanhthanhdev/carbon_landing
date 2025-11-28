@@ -12,6 +12,7 @@ type SectionState = {
   section_title: string
   questions: Array<any>
   question_count: number
+  totalCount: number // Total questions in this section from getSections
   hasMore: boolean
 }
 
@@ -23,89 +24,94 @@ export function usePaginatedQuestions(lang?: string, initialSection?: string) {
 
   const normalizedInitialSection = initialSectionNumber.toString()
 
+  // State for loaded sections data
   const [sections, setSections] = useState<Record<string, SectionState>>({})
   const sectionsRef = useRef<Record<string, SectionState>>({})
-  const [currentSection, setCurrentSection] = useState(normalizedInitialSection)
-  const [sectionToFetch, setSectionToFetch] = useState(normalizedInitialSection)
-  const [cursorBySection, setCursorBySection] = useState<Record<string, string | null>>({
-    [normalizedInitialSection]: null,
-  })
-  const [continuationCursors, setContinuationCursors] = useState<Record<string, string | null>>({})
-  const [nextSectionToLoad, setNextSectionToLoad] = useState(initialSectionNumber + 1)
-  const [hasMoreSections, setHasMoreSections] = useState(true)
+  
+  // Current section being viewed/loaded
+  const [currentSectionNumber, setCurrentSectionNumber] = useState(normalizedInitialSection)
+  
+  // Pagination cursor for current section
+  const [cursor, setCursor] = useState<string | null>(null)
+  
+  // Track loading state separately to avoid flicker
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [isLoadingSection, setIsLoadingSection] = useState(false)
+  
+  // Track previous result to detect changes
+  const prevResultRef = useRef<typeof result | null>(null)
 
-  const ensureCursorEntry = useCallback((sectionKey: string) => {
-    setCursorBySection((prev) => {
-      if (prev[sectionKey] !== undefined) {
-        return prev
-      }
-      return { ...prev, [sectionKey]: null }
-    })
-  }, [])
-
+  // Reset when language changes
   useEffect(() => {
     sectionsRef.current = {}
     setSections({})
-    setCurrentSection(normalizedInitialSection)
-    setSectionToFetch(normalizedInitialSection)
-    setCursorBySection({ [normalizedInitialSection]: null })
-    setContinuationCursors({})
-    setNextSectionToLoad(initialSectionNumber + 1)
-    setHasMoreSections(true)
-  }, [lang, normalizedInitialSection, initialSectionNumber])
+    setCurrentSectionNumber(normalizedInitialSection)
+    setCursor(null)
+    setIsLoadingMore(false)
+    setIsLoadingSection(false)
+  }, [lang, normalizedInitialSection])
 
-  const cursor = cursorBySection[sectionToFetch] ?? null
+  // Fetch available sections info (for knowing total counts and section order)
+  const sectionsInfo = useQuery(api.qa.getSections, { lang })
+
+  // Available sections sorted by number
+  const availableSections = useMemo(() => {
+    if (!sectionsInfo) return []
+    return sectionsInfo.sort(
+      (a, b) => parseInt(a.section_number, 10) - parseInt(b.section_number, 10)
+    )
+  }, [sectionsInfo])
+
+  // Get the index of current section in available sections
+  const currentSectionIndex = useMemo(() => {
+    return availableSections.findIndex(s => s.section_number === currentSectionNumber)
+  }, [availableSections, currentSectionNumber])
+
+  // Check if there are more sections after the current one
+  const hasMoreSections = useMemo(() => {
+    if (availableSections.length === 0) return true // Still loading
+    return currentSectionIndex < availableSections.length - 1
+  }, [availableSections, currentSectionIndex])
+
+  // Fetch paginated questions for current section
   const result = useQuery(
-    api.questions.getPaginated,
+    api.qa.getPaginated,
     {
       paginationOpts: {
         numItems: ITEMS_PER_PAGE,
         cursor,
       },
       lang,
-      section: sectionToFetch,
-    },
+      section: currentSectionNumber,
+    }
   )
 
+  // Process query results and update loading states
   useEffect(() => {
     if (!result) return
 
-    const sectionKey = sectionToFetch
-    setContinuationCursors((prev) => ({
-      ...prev,
-      [sectionKey]: result.continueCursor ?? null,
-    }))
+    // Result received - clear loading states
+    setIsLoadingMore(false)
+    setIsLoadingSection(false)
 
-    const hadExistingSection = Boolean(sectionsRef.current[sectionKey])
-
-    if (result.page.length === 0) {
-      if (!hadExistingSection) {
-        setHasMoreSections(false)
-      } else {
-        setSections((prev) => {
-          const previous = prev[sectionKey]
-          if (!previous) return prev
-          const updatedSection = {
-            ...previous,
-            hasMore: false,
-          }
-          const updated = { ...prev, [sectionKey]: updatedSection }
-          sectionsRef.current = updated
-          return updated
-        })
-      }
-      return
-    }
+    const sectionKey = currentSectionNumber
+    const sectionInfo = availableSections.find(s => s.section_number === sectionKey)
 
     setSections((prev) => {
       const previous = prev[sectionKey]
-      const existingIds = new Set(previous?.questions.map((question) => question.id) ?? [])
-      const uniqueQuestions = result.page.filter((question) => !existingIds.has(question.id))
-      const updatedQuestions = previous ? [...previous.questions, ...uniqueQuestions] : uniqueQuestions
+      const existingIds = new Set(previous?.questions.map((q) => q.id) ?? [])
+      const uniqueQuestions = result.page.filter((q) => !existingIds.has(q.id))
+      const updatedQuestions = previous 
+        ? [...previous.questions, ...uniqueQuestions] 
+        : uniqueQuestions
+
       const sectionTitle =
         previous?.section_title ??
+        sectionInfo?.section_title ??
         result.page[0]?.section_title ??
         `Section ${sectionKey}`
+
+      const totalCount = sectionInfo?.question_count ?? updatedQuestions.length
 
       const updatedSection: SectionState = {
         section_id: `section_${sectionKey}`,
@@ -113,6 +119,7 @@ export function usePaginatedQuestions(lang?: string, initialSection?: string) {
         section_title: sectionTitle,
         questions: updatedQuestions,
         question_count: updatedQuestions.length,
+        totalCount,
         hasMore: !result.isDone,
       }
 
@@ -120,54 +127,58 @@ export function usePaginatedQuestions(lang?: string, initialSection?: string) {
       sectionsRef.current = updated
       return updated
     })
+    
+    prevResultRef.current = result
+  }, [result, currentSectionNumber, availableSections])
 
-    setCurrentSection(sectionKey)
-    setNextSectionToLoad((prev) => {
-      const parsed = parseInt(sectionKey, 10)
-      if (Number.isNaN(parsed)) {
-        return prev
-      }
-      return Math.max(prev, parsed + 1)
-    })
-  }, [result, sectionToFetch])
-
+  // Load more questions in current section
   const loadMore = useCallback(() => {
-    const nextCursor = continuationCursors[currentSection]
-    if (!nextCursor) return
-    setCursorBySection((prev) => ({
-      ...prev,
-      [currentSection]: nextCursor,
-    }))
-  }, [continuationCursors, currentSection])
+    if (!result?.continueCursor || result.isDone) return
+    setIsLoadingMore(true)
+    setCursor(result.continueCursor)
+  }, [result])
 
-  const isFetchingNextSection = sectionToFetch !== currentSection
+  // Load next section
   const loadNextSection = useCallback(() => {
-    if (!hasMoreSections || isFetchingNextSection) return
-    const nextKey = nextSectionToLoad.toString()
-    ensureCursorEntry(nextKey)
-    setSectionToFetch(nextKey)
-  }, [ensureCursorEntry, hasMoreSections, isFetchingNextSection, nextSectionToLoad])
+    if (!hasMoreSections || currentSectionIndex < 0) return
+    
+    const nextSection = availableSections[currentSectionIndex + 1]
+    if (!nextSection) return
 
+    const nextSectionNumber = nextSection.section_number
+    
+    // Set loading state and reset cursor for new section
+    setIsLoadingSection(true)
+    setCursor(null)
+    setCurrentSectionNumber(nextSectionNumber)
+  }, [hasMoreSections, currentSectionIndex, availableSections])
+
+  // Build sorted sections array
   const sectionsArray = useMemo(() => {
     return Object.values(sections).sort(
-      (a, b) => (parseInt(a.section_number, 10) || 0) - (parseInt(b.section_number, 10) || 0),
+      (a, b) => (parseInt(a.section_number, 10) || 0) - (parseInt(b.section_number, 10) || 0)
     )
   }, [sections])
 
-  const currentSectionState = sections[currentSection]
-  const hasMoreCurrentSection = currentSectionState?.hasMore ?? false
-  const isLoadingCurrentSection = sectionToFetch === currentSection && !result
-  const isLoadingInitialSection = sectionsArray.length === 0 && !result
+  // Current section state
+  const currentSectionState = sections[currentSectionNumber]
+  const hasMoreCurrentSection = currentSectionState?.hasMore ?? (result ? !result.isDone : true)
+  
+  // Loading states - use tracked state to avoid flicker
+  const isLoadingInitial = !sectionsInfo || (sectionsArray.length === 0 && !result)
+  const isLoadingCurrentSection = isLoadingMore || (!result && sectionsArray.length > 0)
+  const isLoadingNextSection = isLoadingSection
 
   return {
     sections: sectionsArray,
+    availableSections,
     loadMore,
     hasMore: hasMoreCurrentSection,
-    isLoading: isLoadingInitialSection,
+    isLoading: isLoadingInitial,
     isLoadingCurrentSection,
     loadNextSection,
     hasMoreSections,
-    isLoadingNextSection: isFetchingNextSection,
-    currentSection,
+    isLoadingNextSection,
+    currentSection: currentSectionNumber,
   }
 }

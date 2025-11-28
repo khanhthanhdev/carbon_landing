@@ -22,7 +22,6 @@ import type * as queries_documents from "../queries/documents.js";
 import type * as queries_qa from "../queries/qa.js";
 import type * as queries_search from "../queries/search.js";
 import type * as questionRequests from "../questionRequests.js";
-import type * as questions from "../questions.js";
 import type * as search from "../search.js";
 import type * as searchUtils from "../searchUtils.js";
 import type * as users from "../users.js";
@@ -48,7 +47,6 @@ declare const fullApi: ApiFromModules<{
   "queries/qa": typeof queries_qa;
   "queries/search": typeof queries_search;
   questionRequests: typeof questionRequests;
-  questions: typeof questions;
   search: typeof search;
   searchUtils: typeof searchUtils;
   users: typeof users;

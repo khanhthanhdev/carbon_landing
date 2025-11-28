@@ -86,6 +86,150 @@ export const upsertQA = mutation({
   },
 });
 
+export const importQuestion = mutation({
+  args: {
+    question: v.optional(v.string()),
+    answer: v.optional(v.string()),
+    searchable_text: v.optional(v.string()),
+    summary: v.optional(v.string()),
+    question_number: v.optional(v.string()),
+    section_number: v.optional(v.string()),
+    section_title: v.optional(v.string()),
+    category: v.optional(v.string()),
+    keywords: v.optional(v.array(v.string())),
+    has_sources: v.optional(v.boolean()),
+    answer_length: v.optional(v.number()),
+    sources: v.optional(v.array(v.any())),
+    question_lower: v.optional(v.string()),
+    keywords_searchable: v.optional(v.string()),
+    category_searchable: v.optional(v.string()),
+    lang: v.optional(v.string()),
+    embedding: v.optional(v.array(v.float64())),
+    created_at: v.optional(v.string()),
+    updated_at: v.optional(v.string()),
+    sequence: v.optional(v.number()),
+    is_common: v.optional(v.boolean()),
+    tags: v.optional(v.array(v.string())),
+  },
+  handler: async (ctx, args) => {
+    const now = Date.now();
+    const baseData: any = {
+      updatedAt: now,
+    };
+
+    // Map all the fields
+    if (args.question !== undefined) baseData.question = args.question;
+    if (args.answer !== undefined) baseData.answer = args.answer;
+    if (args.searchable_text !== undefined) baseData.searchable_text = args.searchable_text;
+    if (args.summary !== undefined) baseData.summary = args.summary;
+    if (args.question_number !== undefined) baseData.question_number = args.question_number;
+    if (args.section_number !== undefined) baseData.section_number = args.section_number;
+    if (args.section_title !== undefined) baseData.section_title = args.section_title;
+    if (args.category !== undefined) baseData.category = args.category;
+    if (args.keywords !== undefined) baseData.keywords = args.keywords;
+    if (args.has_sources !== undefined) baseData.has_sources = args.has_sources;
+    if (args.answer_length !== undefined) baseData.answer_length = args.answer_length;
+    if (args.sources !== undefined) baseData.sources = args.sources;
+    if (args.question_lower !== undefined) baseData.question_lower = args.question_lower;
+    if (args.keywords_searchable !== undefined) baseData.keywords_searchable = args.keywords_searchable;
+    if (args.category_searchable !== undefined) baseData.category_searchable = args.category_searchable;
+    if (args.lang !== undefined) baseData.lang = args.lang;
+    if (args.embedding !== undefined) baseData.embedding = args.embedding;
+    if (args.created_at !== undefined) baseData.created_at = args.created_at;
+    if (args.updated_at !== undefined) baseData.updated_at = args.updated_at;
+    if (args.sequence !== undefined) baseData.sequence = args.sequence;
+    if (args.is_common !== undefined) baseData.is_common = args.is_common;
+    if (args.tags !== undefined) baseData.tags = args.tags;
+
+    // For backward compatibility, set content to answer if not provided
+    if (!baseData.content && baseData.answer) {
+      baseData.content = baseData.answer;
+    }
+
+    return ctx.db.insert("qa", baseData);
+  },
+});
+
+export const replaceAll = mutation({
+  args: {
+    questions: v.array(v.object({
+      question: v.optional(v.string()),
+      answer: v.optional(v.string()),
+      searchable_text: v.optional(v.string()),
+      summary: v.optional(v.string()),
+      question_number: v.optional(v.string()),
+      section_number: v.optional(v.string()),
+      section_title: v.optional(v.string()),
+      category: v.optional(v.string()),
+      keywords: v.optional(v.array(v.string())),
+      has_sources: v.optional(v.boolean()),
+      answer_length: v.optional(v.number()),
+      sources: v.optional(v.array(v.any())),
+      question_lower: v.optional(v.string()),
+      keywords_searchable: v.optional(v.string()),
+      category_searchable: v.optional(v.string()),
+      lang: v.optional(v.string()),
+      embedding: v.optional(v.array(v.float64())),
+      created_at: v.optional(v.string()),
+      updated_at: v.optional(v.string()),
+      sequence: v.optional(v.number()),
+      is_common: v.optional(v.boolean()),
+      tags: v.optional(v.array(v.string())),
+    })),
+  },
+  handler: async (ctx, args) => {
+    // Delete all existing qa records
+    const existingRecords = await ctx.db.query("qa").collect();
+    for (const record of existingRecords) {
+      await ctx.db.delete(record._id);
+    }
+
+    // Insert new records
+    const results = [];
+    for (const question of args.questions) {
+      const now = Date.now();
+      const baseData: any = {
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      // Map all the fields
+      if (question.question !== undefined) baseData.question = question.question;
+      if (question.answer !== undefined) baseData.answer = question.answer;
+      if (question.searchable_text !== undefined) baseData.searchable_text = question.searchable_text;
+      if (question.summary !== undefined) baseData.summary = question.summary;
+      if (question.question_number !== undefined) baseData.question_number = question.question_number;
+      if (question.section_number !== undefined) baseData.section_number = question.section_number;
+      if (question.section_title !== undefined) baseData.section_title = question.section_title;
+      if (question.category !== undefined) baseData.category = question.category;
+      if (question.keywords !== undefined) baseData.keywords = question.keywords;
+      if (question.has_sources !== undefined) baseData.has_sources = question.has_sources;
+      if (question.answer_length !== undefined) baseData.answer_length = question.answer_length;
+      if (question.sources !== undefined) baseData.sources = question.sources;
+      if (question.question_lower !== undefined) baseData.question_lower = question.question_lower;
+      if (question.keywords_searchable !== undefined) baseData.keywords_searchable = question.keywords_searchable;
+      if (question.category_searchable !== undefined) baseData.category_searchable = question.category_searchable;
+      if (question.lang !== undefined) baseData.lang = question.lang;
+      if (question.embedding !== undefined) baseData.embedding = question.embedding;
+      if (question.created_at !== undefined) baseData.created_at = question.created_at;
+      if (question.updated_at !== undefined) baseData.updated_at = question.updated_at;
+      if (question.sequence !== undefined) baseData.sequence = question.sequence;
+      if (question.is_common !== undefined) baseData.is_common = question.is_common;
+      if (question.tags !== undefined) baseData.tags = question.tags;
+
+      // For backward compatibility, set content to answer if not provided
+      if (!baseData.content && baseData.answer) {
+        baseData.content = baseData.content = baseData.answer;
+      }
+
+      const id = await ctx.db.insert("qa", baseData);
+      results.push(id);
+    }
+
+    return results;
+  },
+});
+
 export const patchQA = mutation({
   args: {
     id: v.id("qa"),
