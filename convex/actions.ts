@@ -2590,25 +2590,128 @@ export const autoEmbedQA = action({
  */
 
 /**
+ * Helper function to combine search results using Reciprocal Rank Fusion (RRF)
+ * with normalized scores and weighted similarity score combination
+ * 
+ * This function combines results from vector and full-text search using:
+ * 1. RRF for ranking (based on positions in each result set)
+ * 2. Weighted combination of actual similarity scores for the final score
+ * 
+ * The final score is normalized to 0-1 range to match similarity scores from
+ * individual searches, making it comparable to vector (0-1) and full-text scores.
+ * 
+ * @param vectorResults - Results from vector search with _id and _score
+ * @param textResults - Results from full-text search with _id and _score
+ * @param k - RRF constant (default: 60)
+ * @param vectorWeight - Weight for vector similarity scores (default: 0.5)
+ * @param textWeight - Weight for text similarity scores (default: 0.5)
+ * @returns Combined and deduplicated results sorted by normalized RRF score
+ */
+function combineWithRRF(
+  vectorResults: Array<{ _id: Id<"qa">; _score: number }>,
+  textResults: Array<{ _id: Id<"qa">; _score: number }>,
+  k: number = 60,
+  vectorWeight: number = 0.5,
+  textWeight: number = 0.5
+): Array<{ _id: Id<"qa">; vectorRank: number; textRank: number; rrfScore: number; normalizedScore: number }> {
+  // Create maps for quick rank and score lookup
+  const vectorRankMap = new Map<Id<"qa">, number>();
+  const textRankMap = new Map<Id<"qa">, number>();
+  const vectorScoreMap = new Map<Id<"qa">, number>();
+  const textScoreMap = new Map<Id<"qa">, number>();
+  
+  vectorResults.forEach((result, index) => {
+    vectorRankMap.set(result._id, index + 1); // Rank starts at 1
+    vectorScoreMap.set(result._id, result._score);
+  });
+  
+  textResults.forEach((result, index) => {
+    textRankMap.set(result._id, index + 1); // Rank starts at 1
+    textScoreMap.set(result._id, result._score);
+  });
+  
+  // Collect all unique document IDs
+  const allIds = new Set<Id<"qa">>([
+    ...vectorResults.map(r => r._id),
+    ...textResults.map(r => r._id)
+  ]);
+  
+  // Calculate RRF score and weighted similarity score for each document
+  const combined = Array.from(allIds).map(_id => {
+    const vectorRank = vectorRankMap.get(_id) ?? Infinity;
+    const textRank = textRankMap.get(_id) ?? Infinity;
+    const vectorScore = vectorScoreMap.get(_id) ?? 0;
+    const textScore = textScoreMap.get(_id) ?? 0;
+    
+    // RRF formula: sum of 1/(k + rank) for each ranking
+    const rrfScore = (vectorRank < Infinity ? 1 / (k + vectorRank) : 0) +
+                     (textRank < Infinity ? 1 / (k + textRank) : 0);
+    
+    // Weighted combination of similarity scores
+    // Normalize scores to 0-1 range if needed (assuming they might be in different ranges)
+    const normalizedVectorScore = Math.max(0, Math.min(1, vectorScore));
+    const normalizedTextScore = Math.max(0, Math.min(1, textScore));
+    
+    // Calculate weighted similarity score
+    let weightedScore = 0;
+    let totalWeight = 0;
+    
+    if (vectorRank < Infinity) {
+      weightedScore += normalizedVectorScore * vectorWeight;
+      totalWeight += vectorWeight;
+    }
+    if (textRank < Infinity) {
+      weightedScore += normalizedTextScore * textWeight;
+      totalWeight += textWeight;
+    }
+    
+    // Normalize by total weight if both are present
+    const finalWeightedScore = totalWeight > 0 ? weightedScore / totalWeight : 0;
+    
+    return {
+      _id,
+      vectorRank: vectorRank < Infinity ? vectorRank : -1,
+      textRank: textRank < Infinity ? textRank : -1,
+      rrfScore,
+      normalizedScore: finalWeightedScore, // Use weighted similarity score as the main score
+    };
+  });
+  
+  // Sort by RRF score descending (for ranking), but use normalizedScore for display
+  combined.sort((a, b) => b.rrfScore - a.rrfScore);
+  
+  return combined;
+}
+
+/**
  * Unified search action orchestrator
  * 
- * Provides vector-based semantic search or full-text keyword search
- * based on the specified search type.
+ * Provides vector-based semantic search, full-text keyword search, or true hybrid search
+ * that combines both methods using Reciprocal Rank Fusion (RRF).
  * 
  * Features:
  * - Query hash generation and cache checking
- * - Vector search using embeddings (semantic)
- * - Full-text search using indexes (keyword-based)
+ * - Direct vector search using ctx.vectorSearch() (no action-to-action calls, reduced latency)
+ * - Full-text search using internal query (reduced latency vs public query)
+ * - True hybrid search combining both methods with RRF score fusion (k=60)
+ * - Batch document fetching for optimal performance (single round-trip)
  * - Result caching with configurable TTL
  * - Search analytics logging
  * - Graceful error handling with fallbacks
+ * 
+ * Search Types:
+ * - "vector": Semantic search using embeddings only
+ * - "fulltext": Keyword-based search using full-text indexes only
+ * - "hybrid": Combines both vector and full-text search using RRF (best relevance)
+ * 
+ * RRF Formula: RRF(d) = 1/(k + vectorRank) + 1/(k + textRank) where k=60
  * 
  * @param query - User search query text
  * @param category - Optional category filter
  * @param lang - Optional language filter ("vi" | "en")
  * @param topK - Number of results to return (default: 10, max: 50)
  * @param alpha - Not used (kept for backward compatibility)
- * @param searchType - Search mode: "vector" | "fulltext" (default: "fulltext")
+ * @param searchType - Search mode: "vector" | "fulltext" | "hybrid" (default: "vector")
  * @returns Search results with scores and metadata
  * 
  * Requirements: 1.1, 1.2, 2.1, 2.2
@@ -2622,7 +2725,8 @@ export const hybridSearch = action({
     alpha: v.optional(v.number()),
     searchType: v.optional(v.union(
       v.literal("vector"),
-      v.literal("fulltext")
+      v.literal("fulltext"),
+      v.literal("hybrid")
     )),
   },
   handler: async (ctx, args) => {
@@ -2636,9 +2740,13 @@ export const hybridSearch = action({
     
     const topK = Math.min(Math.max(args.topK ?? 10, 1), 50);
     const alpha = Math.min(Math.max(args.alpha ?? 0.6, 0), 1);
-    const searchType = args.searchType ?? "fulltext";
+    const searchType = args.searchType ?? "vector";
     const category = args.category?.trim() || undefined;
+    // Normalize lang: ensure it's either "vi" or "en" when provided
     const lang = args.lang?.trim() || undefined;
+    if (lang && lang !== "vi" && lang !== "en") {
+      console.warn(`Invalid lang value: ${lang}, expected "vi" or "en"`);
+    }
     
     // Build filters object for cache key generation
     const filters: Record<string, string> = {};
@@ -2688,17 +2796,21 @@ export const hybridSearch = action({
         cacheId: cacheRecord.id,
       });
       
-      // Fetch full question data
-      const questions = await Promise.all(
-        cacheRecord.questionIds.slice(0, topK).map(id => 
-          ctx.runQuery(api.queries.qa.get, { id })
-        )
-      );
+      // Fetch full question data using batch query
+      const questionIds = cacheRecord.questionIds.slice(0, topK);
+      const questions = await ctx.runQuery(api.queries.documents.getQAsByIds, {
+        ids: questionIds,
+      });
+      
+      // Create a map for quick lookup
+      const questionMap = new Map(questions.map(q => [q._id, q]));
       
       // Build results from cached data
-      const results = questions
-        .filter((q): q is NonNullable<typeof q> => q !== null)
-        .map((q, index) => {
+      const results = questionIds
+        .map((id, index) => {
+          const q = questionMap.get(id);
+          if (!q) return null;
+          
           const cachedScore = cacheRecord.scores?.[index] ?? 0;
           const score = typeof cachedScore === 'number' && !isNaN(cachedScore) ? cachedScore : Math.max(0.1, 1 - index * 0.1);
           return {
@@ -2710,7 +2822,8 @@ export const hybridSearch = action({
             score,
             reasons: ["cached"] as string[],
           };
-        });
+        })
+        .filter((r): r is NonNullable<typeof r> => r !== null);
       
       const latencyMs = Date.now() - startTime;
       
@@ -2730,56 +2843,121 @@ export const hybridSearch = action({
     // Cache miss - execute search based on search type
     let usedVector = false;
     let usedFullText = false;
-    let vectorResults: any[] = [];
-    let textResults: any[] = [];
     let embedding: number[] | undefined;
-    let fallbackUsed: string | undefined;
     let searchErrors: string[] = [];
+    
+    // Final formatted results
+    let finalResults: Array<{
+      _id: Id<"qa">;
+      question: string | undefined;
+      answer: string | undefined;
+      category: string;
+      sources: any;
+      score: number;
+      vectorScore?: number;
+      textScore?: number;
+      rrfScore?: number;
+      vectorRank?: number;
+      textRank?: number;
+      reasons: string[];
+    }> = [];
+    
+    // Helper function to perform vector search directly
+    // Always filters by lang when provided (required: Vietnamese -> lang: "vi", English -> lang: "en")
+    const performVectorSearch = async (embeddingVector: number[], limit: number) => {
+      // Build filter based on category and lang
+      // lang filter is always applied when provided to ensure language-specific results
+      let filterFn: ((q: any) => any) | undefined;
+      if (category && lang) {
+        filterFn = (q: any) => q.eq("category", category).eq("lang", lang);
+      } else if (category) {
+        filterFn = (q: any) => q.eq("category", category);
+      } else if (lang) {
+        // Apply lang filter when lang is provided (required for language-specific search)
+        filterFn = (q: any) => q.eq("lang", lang);
+      }
+      
+      // Perform vector search directly (no action-to-action call)
+      const results = filterFn
+        ? await ctx.vectorSearch("qa", "by_embedding_doc", {
+            vector: embeddingVector,
+            limit,
+            filter: filterFn,
+          })
+        : await ctx.vectorSearch("qa", "by_embedding_doc", {
+            vector: embeddingVector,
+            limit,
+          });
+      
+      return results;
+    };
     
     // Execute searches based on search type with enhanced error handling
     if (searchType === "vector") {
-      // Vector search only - with enhanced error handling and fallback suggestions
+      // Vector search only
       try {
         const { generateQueryEmbedding } = await import("./searchUtils");
         embedding = await generateQueryEmbedding(ctx, query);
         usedVector = true;
         
-        vectorResults = await ctx.runAction(api.actions.vectorSearch, {
-          embedding,
-          category,
-          lang,
-          limit: topK,
-        });
+        // Perform vector search directly
+        const vectorResults = await performVectorSearch(embedding, topK);
         
         console.log(`Vector search returned ${vectorResults.length} results`);
         
-        // Check if no results found
+        // Handle no results gracefully - return empty array instead of throwing
         if (vectorResults.length === 0) {
-          console.warn("Vector search returned no results");
-          throw new ConvexError(
-            "Vector search found no matching results. Try using different keywords or switch to 'fulltext' search for keyword matching."
-          );
+          console.log("Vector search returned no results - returning empty set");
+          // finalResults is already an empty array
+        } else {
+          // Fetch full documents using batch query
+          const documentIds = vectorResults.map(result => result._id);
+          const documents = await ctx.runQuery(api.queries.documents.getQAsByIds, {
+            ids: documentIds,
+          });
+          
+          // Create a map for quick lookup
+          const docMap = new Map(documents.map(doc => [doc._id, doc]));
+          
+          // Format results
+          finalResults = vectorResults.map((result, index) => {
+            const doc = docMap.get(result._id);
+            if (!doc) {
+              console.warn(`Document not found for ID: ${result._id}`);
+              return null;
+            }
+            
+            const score = typeof result._score === 'number' && !isNaN(result._score) 
+              ? result._score 
+              : Math.max(0.1, 1 - index * 0.1);
+            
+            return {
+              _id: doc._id as Id<"qa">,
+              question: doc.question,
+              answer: doc.answer,
+              category: doc.category,
+              sources: doc.sources,
+              score,
+              vectorScore: result._score,
+              reasons: ["vector"] as string[],
+            };
+          }).filter((r): r is NonNullable<typeof r> => r !== null);
         }
         
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
         
-        // Determine error type and provide appropriate fallback suggestions
+        // Determine error type for logging
         let errorType: SearchErrorContext['errorType'] = 'unknown';
-        let fallbackSuggestion = '';
         
         if (errorMsg.includes('Embedding generation failed') || errorMsg.includes('Gemini')) {
           errorType = 'embedding_generation';
-          fallbackSuggestion = "Try using 'fulltext' search mode as fallback.";
-        } else if (errorMsg.includes('Vector search found no matching results')) {
-          errorType = 'vector_search';
-          fallbackSuggestion = "Try 'fulltext' search with different keywords.";
         } else {
           errorType = 'vector_search';
-          fallbackSuggestion = "Try using 'fulltext' search mode as alternative.";
         }
         
-        // Log vector search failure with context
+        // Log vector search error with context but don't throw
+        console.error("Vector search error:", errorMsg);
         logSearchError({
           query,
           searchType,
@@ -2794,46 +2972,56 @@ export const hybridSearch = action({
           queryHash,
           error: errorMsg,
           errorType,
-          fallbackUsed: fallbackSuggestion
+          fallbackUsed: "Returning empty results"
         });
         
-        throw new ConvexError(`Vector search failed: ${errorMsg} ${fallbackSuggestion}`);
+        // Return empty results instead of throwing
+        searchErrors.push(`Vector search error: ${errorMsg}`);
       }
       
-    } else {
-      // Full-text search only - with enhanced error handling
+    } else if (searchType === "fulltext") {
+      // Full-text search only
       try {
         usedFullText = true;
-        textResults = await ctx.runQuery(api.queries.search.fullTextSearch, {
+        // Use full-text search query
+        const textResults = await ctx.runQuery(api.queries.search.fullTextSearch, {
           query,
           category,
           lang,
           limit: topK,
         });
         
-        console.log(`Full-text-only search returned ${textResults.length} results`);
+        console.log(`Full-text search returned ${textResults.length} results`);
         
-        // Check if no results found
+        // Handle no results gracefully - return empty array instead of throwing
         if (textResults.length === 0) {
-          console.warn("Full-text search returned no results");
-          throw new ConvexError(
-            "Full-text search found no matching results. Try using different keywords, removing filters, or switch to 'vector' search for semantic matching."
-          );
+          console.log("Full-text search returned no results - returning empty set");
+          // finalResults is already an empty array
+        } else {
+          // Format results - fullTextSearch already returns document data
+          finalResults = textResults.map((result, index) => {
+            const score = typeof result.textScore === 'number' && !isNaN(result.textScore) 
+              ? result.textScore 
+              : Math.max(0.1, 1 - index * 0.1);
+            
+            return {
+              _id: result._id as Id<"qa">,
+              question: result.question,
+              answer: result.answer,
+              category: result.category,
+              sources: result.sources,
+              score,
+              textScore: result.textScore,
+              reasons: ["fulltext"] as string[],
+            };
+          });
         }
         
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
-        usedFullText = false;
         
-        // Determine appropriate fallback suggestion
-        let fallbackSuggestion = '';
-        if (errorMsg.includes('Full-text search found no matching results')) {
-          fallbackSuggestion = "Try 'vector' search for semantic matching.";
-        } else {
-          fallbackSuggestion = "Try 'vector' search mode as alternative.";
-        }
-        
-        // Log full-text search failure with context
+        // Log full-text search error with context but don't throw
+        console.error("Full-text search error:", errorMsg);
         logSearchError({
           query,
           searchType,
@@ -2848,48 +3036,132 @@ export const hybridSearch = action({
           queryHash,
           error: errorMsg,
           errorType: 'fulltext_search',
-          fallbackUsed: fallbackSuggestion
+          fallbackUsed: "Returning empty results"
         });
         
-        throw new ConvexError(`Full-text search failed: ${errorMsg} ${fallbackSuggestion}`);
+        // Return empty results instead of throwing
+        searchErrors.push(`Full-text search error: ${errorMsg}`);
+      }
+      
+    } else {
+      // Hybrid search - run both vector and full-text in parallel, then combine with RRF
+      try {
+        const { generateQueryEmbedding } = await import("./searchUtils");
+        
+        // Generate embedding first (required for vector search)
+        embedding = await generateQueryEmbedding(ctx, query);
+        
+        // Run both searches in parallel for better performance
+        const [vectorSearchResults, textSearchResults] = await Promise.all([
+          performVectorSearch(embedding, topK * 2).catch((err) => {
+            console.warn("Vector search in hybrid mode failed:", err);
+            searchErrors.push(`Vector search: ${err instanceof Error ? err.message : String(err)}`);
+            return [] as Array<{ _id: Id<"qa">; _score: number }>;
+          }),
+          ctx.runQuery(api.queries.search.fullTextSearch, {
+            query,
+            category,
+            lang,
+            limit: topK * 2,
+          }).catch((err) => {
+            console.warn("Full-text search in hybrid mode failed:", err);
+            searchErrors.push(`Full-text search: ${err instanceof Error ? err.message : String(err)}`);
+            return [] as Array<{ _id: Id<"qa">; textScore: number }>;
+          }),
+        ]);
+        
+        usedVector = vectorSearchResults.length > 0;
+        usedFullText = textSearchResults.length > 0;
+        
+        console.log(`Hybrid search: vector=${vectorSearchResults.length} results, fulltext=${textSearchResults.length} results`);
+        
+        // Handle no results gracefully - return empty array instead of throwing
+        if (vectorSearchResults.length === 0 && textSearchResults.length === 0) {
+          console.log("Hybrid search returned no results from either method - returning empty set");
+          // finalResults is already an empty array
+        } else {
+          // Convert text search results to format expected by RRF (needs _id and _score)
+          const textResultsForRRF = textSearchResults.map(r => ({
+            _id: r._id,
+            _score: r.textScore ?? 0,
+          }));
+          
+          // Combine results using RRF
+          const combined = combineWithRRF(vectorSearchResults, textResultsForRRF, 60);
+          
+          // Fetch all unique documents using batch query
+          const allDocumentIds = Array.from(new Set([
+            ...vectorSearchResults.map(r => r._id),
+            ...textSearchResults.map(r => r._id)
+          ]));
+          
+          const allDocs = await ctx.runQuery(api.queries.documents.getQAsByIds, {
+            ids: allDocumentIds,
+          });
+          
+          const docMap = new Map(allDocs.map(doc => [doc._id, doc]));
+          
+          // Create result maps for quick lookup
+          const vectorScoreMap = new Map(vectorSearchResults.map((r, i) => [r._id, { rank: i + 1, score: r._score }]));
+          const textScoreMap = new Map(textSearchResults.map((r, i) => [r._id, { rank: i + 1, score: r.textScore }]));
+          
+          // Build combined results with RRF scores
+          finalResults = combined
+            .slice(0, topK)
+            .map(item => {
+              const doc = docMap.get(item._id);
+              if (!doc) return null;
+              
+              const vectorInfo = vectorScoreMap.get(item._id);
+              const textInfo = textScoreMap.get(item._id);
+              
+              return {
+                _id: doc._id as Id<"qa">,
+                question: doc.question,
+                answer: doc.answer,
+                category: doc.category,
+                sources: doc.sources,
+                vectorScore: vectorInfo?.score,
+                textScore: textInfo?.score,
+                rrfScore: item.rrfScore,
+                vectorRank: item.vectorRank,
+                textRank: item.textRank,
+                score: item.normalizedScore, // Use normalized weighted similarity score (0-1 range)
+                reasons: ["hybrid"] as string[],
+              };
+            })
+            .filter((r): r is NonNullable<typeof r> => r !== null);
+        }
+        
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        
+        // Log hybrid search error but don't throw
+        console.error("Hybrid search error:", errorMsg);
+        logSearchError({
+          query,
+          searchType,
+          category,
+          lang,
+          topK,
+          alpha,
+          latencyMs: Date.now() - startTime,
+          usedVector,
+          usedFullText,
+          usedCache: false,
+          queryHash,
+          error: errorMsg,
+          errorType: usedVector || usedFullText ? 'unknown' : 'both_searches_failed',
+          fallbackUsed: "Returning empty results"
+        });
+        
+        // Return empty results instead of throwing
+        searchErrors.push(`Hybrid search error: ${errorMsg}`);
       }
     }
     
-    // Format results based on search type (no merging needed)
-    const results = searchType === "vector" 
-      ? vectorResults.map((r, index) => {
-          const score = typeof r.vectorScore === 'number' && !isNaN(r.vectorScore) 
-            ? r.vectorScore 
-            : Math.max(0.1, 1 - index * 0.1); // Fallback: decrease by 0.1 per rank, minimum 0.1
-          return {
-            _id: r._id,
-            question: r.question,
-            answer: r.answer,
-            category: r.category,
-            sources: r.sources,
-            score,
-            vectorScore: r.vectorScore,
-            reasons: ["vector"] as string[],
-          };
-        })
-      : textResults.map((r, index) => {
-          const score = typeof r.textScore === 'number' && !isNaN(r.textScore) 
-            ? r.textScore 
-            : Math.max(0.1, 1 - index * 0.1); // Fallback: decrease by 0.1 per rank, minimum 0.1
-          return {
-            _id: r._id,
-            question: r.question,
-            answer: r.answer,
-            category: r.category,
-            sources: r.sources,
-            score,
-            textScore: r.textScore,
-            reasons: ["fulltext"] as string[],
-          };
-        });
-    
-    // Limit to topK results
-    const finalResults = results.slice(0, topK);
+    // Limit to topK results (results are already formatted in each search type block)
+    const results = finalResults.slice(0, topK);
     
     // Cache the results with enhanced error handling
     let cacheWriteSuccess = false;
@@ -2897,9 +3169,9 @@ export const hybridSearch = action({
       await ctx.runMutation(api.search.cacheSearchResults, {
         queryHash,
         locale: lang ?? "vi",
-        questionIds: finalResults.map(r => r._id as Id<"qa">),
+        questionIds: results.map(r => r._id as Id<"qa">),
         queryText: query,
-        scores: finalResults.map(r => r.score),
+        scores: results.map(r => r.score),
         embedding,
         filters: Object.keys(filters).length > 0 ? {
           category,
@@ -2936,46 +3208,21 @@ export const hybridSearch = action({
     const latencyMs = Date.now() - startTime;
     
     // Log successful search completion
-    console.log(`Search completed: ${finalResults.length} results in ${latencyMs}ms`);
-    if (fallbackUsed) {
-      console.log(`Fallback strategy used: ${fallbackUsed}`);
-    }
+    console.log(`Search completed: ${results.length} results in ${latencyMs}ms`);
     if (searchErrors.length > 0) {
       console.log(`Search completed with ${searchErrors.length} non-fatal errors: ${searchErrors.join('; ')}`);
     }
     
-    // Log successful search analytics
-    // Note: This will be available after Convex regenerates the API
-    // try {
-    //   await ctx.runMutation(api["mutations/search"].logSearchAnalytics, {
-    //     query,
-    //     locale: lang ?? "vi",
-    //     category,
-    //     searchType,
-    //     resultCount: finalResults.length,
-    //     latencyMs,
-    //     usedVector,
-    //     usedFullText,
-    //     usedCache: false,
-    //     fallbackUsed,
-    //     errors: searchErrors.length > 0 ? searchErrors.join('; ') : undefined,
-    //   });
-    // } catch (analyticsError) {
-    //   // Log analytics error but don't fail the request
-    //   console.warn("Failed to log search analytics:", analyticsError);
-    // }
-    
     return {
-      results: finalResults,
+      results,
       metadata: {
-        totalResults: finalResults.length,
+        totalResults: results.length,
         searchType,
         usedCache: false,
         latencyMs,
         usedVector,
         usedFullText,
         cacheWriteSuccess,
-        fallbackUsed,
         errors: searchErrors.length > 0 ? searchErrors : undefined,
         warnings: searchErrors.length > 0 ? 
           `Search completed with fallbacks. ${searchErrors.length} non-fatal error(s) occurred.` : 

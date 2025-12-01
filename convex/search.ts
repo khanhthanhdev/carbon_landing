@@ -43,6 +43,17 @@ const sanitizeOptionalString = (value?: string | null) => {
   return trimmed.length > 0 ? trimmed : undefined;
 };
 
+/**
+ * Semantic search action (deprecated)
+ * 
+ * @deprecated This action is deprecated. Use api.actions.vectorSearch for vector search
+ * or api.actions.hybridSearch for hybrid search instead. This action will be removed
+ * in a future version.
+ * 
+ * For migration:
+ * - Replace api.search.semantic with api.actions.vectorSearch for direct vector search
+ * - Use api.actions.hybridSearch with searchType: "hybrid" for combined vector + full-text search
+ */
 export const semantic = action({
   args: {
     embedding: v.array(v.float64()),
@@ -50,6 +61,8 @@ export const semantic = action({
     category: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    console.warn("api.search.semantic is deprecated. Use api.actions.vectorSearch or api.actions.hybridSearch instead.");
+    
     const limit = Math.min(Math.max(args.limit ?? 5, 1), 20);
 
     const results = await ctx.vectorSearch("qa", "by_embedding_doc", {
@@ -62,13 +75,18 @@ export const semantic = action({
         : {}),
     });
 
-    const documents = await Promise.all(
-      results.map((result) => ctx.runQuery(api.queries.qa.get, { id: result._id })),
-    );
+    // Use batch document fetching instead of individual queries
+    const documentIds = results.map(result => result._id);
+    const documents = await ctx.runQuery(api.queries.documents.getQAsByIds, {
+      ids: documentIds,
+    });
+
+    // Create a map for quick lookup
+    const docMap = new Map(documents.map(doc => [doc._id, doc]));
 
     return results
-      .map((result, index) => {
-        const doc = documents[index];
+      .map((result) => {
+        const doc = docMap.get(result._id);
         if (!doc) {
           return null;
         }

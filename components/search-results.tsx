@@ -98,21 +98,7 @@ export function SearchResults({
       )}
 
       {/* No Results */}
-      {showNoResults && (
-        <Card className="p-6 sm:p-8 md:p-12 text-center border-2">
-          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-3 sm:mb-4">
-            {tQuestions("noResults")}
-          </p>
-          <p className="text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
-            {t("noResultsHint")}
-          </p>
-          {onClearSearch && (
-            <Button variant="outline" size="sm" onClick={onClearSearch}>
-              {tQuestions("clearSearch")}
-            </Button>
-          )}
-        </Card>
-      )}
+      
 
       {/* Search Results */}
       {hasResults && !isLoading && (
