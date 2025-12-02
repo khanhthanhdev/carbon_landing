@@ -166,24 +166,38 @@ export function RichTextEditor({
 
     let markdown: string | null = null
 
+    // Priority 1: HTML tables (preserve existing behavior)
     if (html && html.includes("<table")) {
       markdown = htmlTableToMarkdown(html)
     }
 
+    // Priority 2: TSV data (preserve existing behavior)
     if (!markdown && text && text.includes("\t")) {
       markdown = tsvToMarkdownTable(text)
     }
 
-    if (!markdown) return
+    // Priority 3: General HTML content (new - for Word/Excel/Docs formatting)
+    if (!markdown && html && /<\/?[a-z][\s\S]*>/i.test(html.trim())) {
+      const converted = htmlToMarkdown(html)
+      // Only use converted markdown if it's different from plain text (has formatting)
+      // This prevents converting plain text that happens to have HTML wrapper tags
+      if (converted && converted.trim() && converted !== text.trim()) {
+        markdown = converted
+      }
+    }
 
-    event.preventDefault()
-    const { value: currentValue } = textarea
-    const { start, end } = ensureSelection(textarea)
-    const nextValue = `${currentValue.slice(0, start)}${markdown}\n${currentValue.slice(end)}`
-    setDraft(nextValue)
-    emitChange(nextValue)
-    const cursor = start + markdown.length + 1
-    setSelection(textarea, cursor, cursor)
+    // If we have markdown to insert, prevent default paste and insert it
+    if (markdown) {
+      event.preventDefault()
+      const { value: currentValue } = textarea
+      const { start, end } = ensureSelection(textarea)
+      const nextValue = `${currentValue.slice(0, start)}${markdown}${currentValue.slice(end)}`
+      setDraft(nextValue)
+      emitChange(nextValue)
+      const cursor = start + markdown.length
+      setSelection(textarea, cursor, cursor)
+    }
+    // Otherwise, let default paste behavior happen (plain text)
   }
 
   return (
