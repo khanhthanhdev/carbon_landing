@@ -71,10 +71,10 @@ export class GeminiHelper {
     this.client = new GoogleGenAI({ apiKey: key, vertexai: false });
     this.embeddingModel = options?.embeddingModel || process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001";
     this.textModel = options?.textModel || process.env.GEMINI_TEXT_MODEL || "gemini-2.5-flash-lite";
-    
+
     this.rateLimitConfig = { ...DEFAULT_RATE_LIMIT, ...options?.rateLimitConfig };
     this.retryConfig = { ...DEFAULT_RETRY_CONFIG, ...options?.retryConfig };
-    
+
     // Initialize rate limiter state
     const now = Date.now();
     this.rateLimiterState = {
@@ -158,27 +158,33 @@ export class GeminiHelper {
     });
 
     return this.executeWithRetry(async () => {
+      // Execute embeddings in parallel since SDK batch method is inconsistent
+      // Use rate limiter for the batch (approximated)
       await this.checkRateLimit();
 
-      const batchRequests = sanitizedRequests.map(({ text, taskType, title, dimensions }) => ({
-        model: this.embeddingModel,
-        content: {
-          role: "user",
-          parts: [{ text }],
-        },
-        taskType,
-        title,
-        outputDimensionality: dimensions,
-      }));
-
-      const response = await this.client.models.batchEmbedContents({
-        requests: batchRequests,
+      const promises = sanitizedRequests.map(async (req) => {
+        const response = await this.client.models.embedContent({
+          model: this.embeddingModel,
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: req.text }],
+            },
+          ],
+          config: {
+            taskType: req.taskType,
+            title: req.title,
+            ...(req.dimensions ? { outputDimensionality: req.dimensions } : {}),
+          },
+        });
+        const values = response.embeddings?.[0]?.values;
+        if (!values) {
+          throw new Error("Gemini did not return an embedding vector for one of the batch items");
+        }
+        return values;
       });
 
-      const embeddings = response.embeddings?.map(e => e.values);
-      if (!embeddings || embeddings.length !== requests.length) {
-        throw new Error("Gemini did not return the expected number of embeddings");
-      }
+      const embeddings = await Promise.all(promises);
 
       this.updateRateLimiterState();
       return embeddings;
@@ -204,12 +210,12 @@ export class GeminiHelper {
     return this.executeWithRetry(async () => {
       await this.checkRateLimit();
 
-      const languageInstruction = options?.locale === "en" 
-        ? "Respond in English." 
+      const languageInstruction = options?.locale === "en"
+        ? "Respond in English."
         : "Respond in Vietnamese.";
-      
-      const contextInstruction = options?.context 
-        ? `Use the following context where relevant:\n${options.context}` 
+
+      const contextInstruction = options?.context
+        ? `Use the following context where relevant:\n${options.context}`
         : "";
 
       const compositePrompt = `${languageInstruction}\n${contextInstruction}\n${sanitizedPrompt}`.trim();
@@ -263,8 +269,8 @@ export class GeminiHelper {
     return this.executeWithRetry(async () => {
       await this.checkRateLimit();
 
-      const languageInstruction = options?.locale === "en" 
-        ? "Respond in English." 
+      const languageInstruction = options?.locale === "en"
+        ? "Respond in English."
         : "Respond in Vietnamese.";
 
       // Build conversation contents for Gemini API
@@ -325,13 +331,13 @@ export class GeminiHelper {
    */
   private async checkRateLimit(): Promise<void> {
     const now = Date.now();
-    
+
     // Reset counters if time windows have passed
     if (now - this.rateLimiterState.lastMinuteReset >= 60000) {
       this.rateLimiterState.requestsThisMinute = 0;
       this.rateLimiterState.lastMinuteReset = now;
     }
-    
+
     if (now - this.rateLimiterState.lastDayReset >= 86400000) {
       this.rateLimiterState.requestsToday = 0;
       this.rateLimiterState.lastDayReset = now;
@@ -377,34 +383,34 @@ export class GeminiHelper {
    */
   private async executeWithRetry<T>(fn: () => Promise<T>): Promise<T> {
     let lastError: Error;
-    
+
     for (let attempt = 0; attempt <= this.retryConfig.maxRetries; attempt++) {
       try {
         return await fn();
       } catch (error) {
         lastError = error as Error;
-        
+
         // Don't retry on certain errors
         if (this.isNonRetryableError(error as Error)) {
           throw error;
         }
-        
+
         // Don't retry on last attempt
         if (attempt === this.retryConfig.maxRetries) {
           break;
         }
-        
+
         // Calculate delay with exponential backoff and jitter
         const baseDelay = this.retryConfig.baseDelayMs * Math.pow(this.retryConfig.backoffMultiplier, attempt);
         const jitter = Math.random() * 0.1 * baseDelay; // 10% jitter
         const delay = Math.min(baseDelay + jitter, this.retryConfig.maxDelayMs);
-        
+
         console.warn(`Gemini API request failed (attempt ${attempt + 1}/${this.retryConfig.maxRetries + 1}): ${error}. Retrying in ${Math.round(delay)}ms...`);
-        
+
         await this.sleep(delay);
       }
     }
-    
+
     throw new Error(`Gemini API request failed after ${this.retryConfig.maxRetries + 1} attempts. Last error: ${lastError.message}`);
   }
 
@@ -413,7 +419,7 @@ export class GeminiHelper {
    */
   private isNonRetryableError(error: Error): boolean {
     const message = error.message.toLowerCase();
-    
+
     // Don't retry on authentication, validation, or rate limit errors
     return (
       message.includes("api key") ||
@@ -476,9 +482,9 @@ export async function generateEmbedding(
     questionAnswering: "QUESTION_ANSWERING" as const,
     factVerification: "FACT_VERIFICATION" as const,
   };
-  
+
   const taskType = options.usage ? taskTypeMap[options.usage] : "RETRIEVAL_QUERY";
-  
+
   return getGeminiHelper().generateEmbedding(text, taskType, {
     title: options.title,
     dimensions: options.dimensions,

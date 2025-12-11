@@ -12,6 +12,7 @@ import type * as actions from "../actions.js";
 import type * as admin from "../admin.js";
 import type * as embeddings from "../embeddings.js";
 import type * as feedback from "../feedback.js";
+import type * as ingest from "../ingest.js";
 import type * as landingContent from "../landingContent.js";
 import type * as mutations_conversations from "../mutations/conversations.js";
 import type * as mutations_qa from "../mutations/qa.js";
@@ -22,8 +23,11 @@ import type * as queries_documents from "../queries/documents.js";
 import type * as queries_qa from "../queries/qa.js";
 import type * as queries_search from "../queries/search.js";
 import type * as questionRequests from "../questionRequests.js";
+import type * as rag from "../rag.js";
 import type * as search from "../search.js";
 import type * as searchUtils from "../searchUtils.js";
+import type * as sections from "../sections.js";
+import type * as shared from "../shared.js";
 import type * as users from "../users.js";
 
 import type {
@@ -37,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   embeddings: typeof embeddings;
   feedback: typeof feedback;
+  ingest: typeof ingest;
   landingContent: typeof landingContent;
   "mutations/conversations": typeof mutations_conversations;
   "mutations/qa": typeof mutations_qa;
@@ -47,8 +52,11 @@ declare const fullApi: ApiFromModules<{
   "queries/qa": typeof queries_qa;
   "queries/search": typeof queries_search;
   questionRequests: typeof questionRequests;
+  rag: typeof rag;
   search: typeof search;
   searchUtils: typeof searchUtils;
+  sections: typeof sections;
+  shared: typeof shared;
   users: typeof users;
 }>;
 

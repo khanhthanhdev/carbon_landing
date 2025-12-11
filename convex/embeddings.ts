@@ -1,11 +1,14 @@
-import { mutation, query } from "./_generated/server";
+import { mutation, query, action } from "./_generated/server";
 import { v } from "convex/values";
 import { GoogleGenAI } from "@google/genai";
-import { action } from "./_generated/server";
 import { GeminiHelper } from "../lib/ai/gemini";
+import { api } from "./_generated/api";
+import { getEmbeddingCacheKey, sleep } from "./shared";
 
 const MODEL = process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001";
 const DIM = Number(process.env.EMBEDDING_DIM || "768");
+const DEFAULT_EMBEDDING_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const GEMINI_PROVIDER = "google-gemini";
 
 const TASKS = [
   "RETRIEVAL_DOCUMENT",
@@ -156,16 +159,16 @@ export const embedQADocumentsBatch = action({
 
     const requestsDoc = docTexts.map((text, i) => ({
       text,
-      task: "RETRIEVAL_DOCUMENT" as TaskType,
+      taskType: "RETRIEVAL_DOCUMENT" as TaskType,
       title: documents[i].question,
     }));
     const requestsQA = answerTexts.map((text) => ({
       text,
-      task: "QUESTION_ANSWERING" as TaskType,
+      taskType: "QUESTION_ANSWERING" as TaskType,
     }));
     const requestsFact = docTexts.map((text) => ({
       text,
-      task: "FACT_VERIFICATION" as TaskType,
+      taskType: "FACT_VERIFICATION" as TaskType,
     }));
 
     const [embeddingsDoc, embeddingsQA, embeddingsFact] = await Promise.all([
@@ -503,6 +506,293 @@ export const optimizeCache = mutation({
         batchSize,
       },
     };
+  },
+});
+
+export const reembedQA = action({
+  args: {
+    categories: v.optional(v.array(v.string())),
+    lang: v.optional(v.string()),
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const { categories, lang, limit } = args;
+    const docs = await ctx.runQuery(api.queries.qa.listAll, {});
+
+    const filtered = docs.filter((doc) => {
+      if (categories && categories.length > 0 && !categories.includes(doc.category)) {
+        return false;
+      }
+      if (lang && doc.lang && doc.lang !== lang) {
+        return false;
+      }
+      return true;
+    });
+
+    const slice = typeof limit === "number" ? filtered.slice(0, limit) : filtered;
+    let processed = 0;
+    const failures: Array<{ id: string; error: string }> = [];
+
+    for (const doc of slice) {
+      try {
+        const embedded = await ctx.runAction(api.embeddings.embedQADocumentAll, {
+          question: doc.question,
+          answer: doc.answer,
+        });
+
+        // Add delay to prevent rate limiting
+        await sleep(5000);
+
+        const composedContent = `${doc.question}\n\n${doc.answer}`.trim();
+
+        await ctx.runMutation(api.mutations.qa.upsertQA, {
+          id: doc._id,
+          question: doc.question,
+          answer: doc.answer,
+          sources: doc.sources ?? [],
+          category: doc.category,
+          lang: doc.lang ?? undefined,
+          content: composedContent,
+          searchable_text: composedContent,
+          section_id: doc.section_id,
+          section_number: doc.section_number,
+          section_title: doc.section_title,
+          question_number: doc.question_number,
+          source_id: doc.source_id,
+          keywords: doc.keywords,
+          question_lower: doc.question_lower,
+          keywords_searchable: doc.keywords_searchable,
+          category_searchable: doc.category_searchable,
+          has_sources: doc.has_sources,
+          answer_length: doc.answer_length,
+          metadata_created_at: doc.metadata_created_at,
+          metadata_updated_at: doc.metadata_updated_at,
+          embedding_doc: embedded.embedding_doc,
+          embedding_qa: embedded.embedding_qa,
+          embedding_fact: embedded.embedding_fact,
+        });
+
+        processed += 1;
+      } catch (error: any) {
+        failures.push({
+          id: doc._id,
+          error: error?.message ?? "Unknown re-embedding error",
+        });
+      }
+    }
+
+    return {
+      processed,
+      totalMatched: slice.length,
+      skipped: slice.length - processed,
+      failures,
+    };
+  },
+});
+
+export const autoEmbedQA = action({
+  args: {
+    qaId: v.id("qa"),
+    embeddingTtlMs: v.optional(v.number()),
+    embeddingTypes: v.optional(v.array(v.union(
+      v.literal("doc"),
+      v.literal("qa"),
+      v.literal("fact")
+    ))),
+  },
+  handler: async (ctx, args) => {
+    const ttlMs = args.embeddingTtlMs ?? DEFAULT_EMBEDDING_TTL_MS; // 7 days default
+    const embeddingTypes = args.embeddingTypes ?? ["doc", "qa", "fact"];
+
+    // Fetch QA document by ID
+    const qaDoc = await ctx.runQuery(api.queries.qa.get, { id: args.qaId });
+
+    // Validate document exists
+    if (!qaDoc) {
+      throw new Error(`QA document with ID ${args.qaId} not found`);
+    }
+
+    // Validate question field is non-empty
+    if (!qaDoc.question || typeof qaDoc.question !== "string" || qaDoc.question.trim().length === 0) {
+      throw new Error(`QA document ${args.qaId} has invalid or empty question field`);
+    }
+
+    // Validate answer field is non-empty
+    if (!qaDoc.answer || typeof qaDoc.answer !== "string" || qaDoc.answer.trim().length === 0) {
+      throw new Error(`QA document ${args.qaId} has invalid or empty answer field`);
+    }
+
+    // Validate content field is non-empty
+    if (!qaDoc.content || typeof qaDoc.content !== "string" || qaDoc.content.trim().length === 0) {
+      throw new Error(`QA document ${args.qaId} has invalid or empty content field`);
+    }
+
+    // Log question_number being processed
+    console.log(`Processing QA document ${qaDoc.question_number || args.qaId}`);
+
+    // Wrap entire process in try-catch to handle errors gracefully
+    try {
+      // Generate embeddings for each type with cache support
+      const embeddings: {
+        embedding_doc?: number[];
+        embedding_qa?: number[];
+        embedding_fact?: number[];
+      } = {};
+
+      const cacheStatus: {
+        doc?: boolean;
+        qa?: boolean;
+        fact?: boolean;
+      } = {};
+
+      for (const embeddingType of embeddingTypes) {
+        try {
+          // Compose appropriate text based on embedding type
+          let text: string;
+          let taskType: "RETRIEVAL_DOCUMENT" | "QUESTION_ANSWERING" | "FACT_VERIFICATION";
+          let title: string | undefined;
+
+          if (embeddingType === "doc") {
+            // Document-level embedding: full content
+            text = qaDoc.content;
+            taskType = "RETRIEVAL_DOCUMENT";
+            title = qaDoc.question; // Use question as title for document embeddings
+          } else if (embeddingType === "qa") {
+            // Question-answer pair embedding: question + answer
+            text = `${qaDoc.question}\n\n${qaDoc.answer}`;
+            taskType = "QUESTION_ANSWERING";
+          } else {
+            // Factual content embedding: answer only
+            text = qaDoc.answer;
+            taskType = "FACT_VERIFICATION";
+          }
+
+          // Generate cache key using getEmbeddingCacheKey helper
+          const cacheKey = getEmbeddingCacheKey(
+            qaDoc.question,
+            qaDoc.answer,
+            qaDoc.question_number
+          ) + `::${embeddingType}`;
+
+          // Check embeddingCache using api.embeddings.getCachedEmbedding
+          const cached = await ctx.runQuery(api.embeddings.getCachedEmbedding, {
+            hash: cacheKey
+          });
+
+          let embedding: number[];
+
+          if (cached && cached.embedding.length > 0) {
+            // Use cached embedding
+            embedding = cached.embedding;
+            cacheStatus[embeddingType] = true;
+            console.log(`Cache hit for ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`);
+
+            // Update access tracking
+            await ctx.runMutation(api.embeddings.updateAccessTracking, {
+              hash: cacheKey
+            });
+          } else {
+            // Generate new embedding using api.embeddings.embedForTask
+            embedding = await ctx.runAction(api.embeddings.embedForTask, {
+              text,
+              task: taskType,
+            });
+
+            cacheStatus[embeddingType] = false;
+            console.log(`Generated new ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`);
+
+            // Add delay to prevent rate limiting
+            await sleep(5000);
+
+            // Validate embedding dimensions (768)
+            if (embedding.length !== 768) {
+              throw new Error(
+                `Invalid embedding dimensions for ${embeddingType}: expected 768, got ${embedding.length}`
+              );
+            }
+
+            // Cache new embedding with TTL
+            await ctx.runMutation(api.embeddings.cacheEmbedding, {
+              hash: cacheKey,
+              provider: GEMINI_PROVIDER,
+              model: "gemini-embedding-001",
+              dimensions: embedding.length,
+              embedding,
+              expiresAt: Date.now() + ttlMs,
+              taskType,
+              text,
+            });
+          }
+
+          // Store embedding in the appropriate field
+          if (embeddingType === "doc") {
+            embeddings.embedding_doc = embedding;
+          } else if (embeddingType === "qa") {
+            embeddings.embedding_qa = embedding;
+          } else {
+            embeddings.embedding_fact = embedding;
+          }
+        } catch (error) {
+          console.error(
+            `Failed to generate ${embeddingType} embedding for QA document ${qaDoc.question_number || args.qaId}:`,
+            error
+          );
+          // Don't throw - continue with other embedding types
+        }
+      }
+
+      // Update QA document with all embeddings using ctx.db.patch
+      const updatePayload: {
+        embedding_doc?: number[];
+        embedding_qa?: number[];
+        embedding_fact?: number[];
+      } = {};
+
+      if (embeddings.embedding_doc) {
+        updatePayload.embedding_doc = embeddings.embedding_doc;
+      }
+      if (embeddings.embedding_qa) {
+        updatePayload.embedding_qa = embeddings.embedding_qa;
+      }
+      if (embeddings.embedding_fact) {
+        updatePayload.embedding_fact = embeddings.embedding_fact;
+      }
+
+      if (Object.keys(updatePayload).length > 0) {
+        await ctx.runMutation(api.mutations.qa.patchQA, {
+          id: args.qaId,
+          ...updatePayload,
+        });
+        console.log(
+          `Updated QA document ${qaDoc.question_number || args.qaId} with ${Object.keys(updatePayload).length} embedding(s)`
+        );
+      }
+
+      return {
+        success: true,
+        qaId: args.qaId,
+        questionNumber: qaDoc.question_number,
+        embeddingTypes,
+        embeddings,
+        cacheStatus,
+        ttlMs,
+        embeddingsGenerated: Object.keys(updatePayload).length,
+      };
+    } catch (error) {
+      console.error(
+        `Error during automatic embedding for QA document ${qaDoc.question_number || args.qaId}:`,
+        error
+      );
+
+      return {
+        success: false,
+        qaId: args.qaId,
+        questionNumber: qaDoc.question_number,
+        embeddingTypes,
+        error: error instanceof Error ? error.message : String(error),
+        embeddingsGenerated: 0,
+      };
+    }
   },
 });
 

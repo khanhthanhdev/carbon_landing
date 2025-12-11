@@ -51,7 +51,7 @@ async function main() {
 
   console.log(`Importing ${items.length} questions...`);
 
-  const result = await client.action(api.actions.importQASimple, {
+  const result = await client.action(api.ingest.importQASimple, {
     items,
     skipExisting: false,
   });

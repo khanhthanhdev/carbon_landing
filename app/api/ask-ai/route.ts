@@ -17,10 +17,10 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { 
-          error: "Invalid AI request parameters", 
-          details: parsed.error.flatten() 
-        }, 
+        {
+          error: "Invalid AI request parameters",
+          details: parsed.error.flatten()
+        },
         { status: 400 }
       );
     }
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const { question, sessionId, locale, maxSources } = parsed.data;
 
     // Call the Convex askAI action
-    const result = await convexServerClient.action(api.actions.askAI, {
+    const result = await convexServerClient.action(api.rag.askAI, {
       question,
       sessionId,
       locale,
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("Ask AI API error:", error);
-    
+
     // Return appropriate error response
     if (error instanceof Error) {
       return NextResponse.json(
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-    
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

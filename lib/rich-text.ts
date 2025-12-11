@@ -160,16 +160,16 @@ const markdownToHtml = (markdown: string) => {
 
     const bodyHtml = bodyRows.length
       ? `<tbody>${bodyRows
-          .map(
-            (row) =>
-              `<tr>${row
-                .map((cell, cellIndex) => {
-                  const alignClass = alignments[cellIndex] ?? "text-left"
-                  return `<td class="border border-border px-3 py-2 align-top ${alignClass}">${cell}</td>`
-                })
-                .join("")}</tr>`,
-          )
-          .join("")}</tbody>`
+        .map(
+          (row) =>
+            `<tr>${row
+              .map((cell, cellIndex) => {
+                const alignClass = alignments[cellIndex] ?? "text-left"
+                return `<td class="border border-border px-3 py-2 align-top ${alignClass}">${cell}</td>`
+              })
+              .join("")}</tr>`,
+        )
+        .join("")}</tbody>`
       : ""
 
     return {
@@ -332,40 +332,122 @@ export const htmlToMarkdown = (html: string) => {
 
     if (!(node instanceof HTMLElement)) return ""
 
-    const children = Array.from(node.childNodes)
+    const tag = node.tagName.toLowerCase()
+
+    // Check for inline styles
+    const style = node.style
+    const fontWeight = style.fontWeight
+    const fontStyle = style.fontStyle
+    const textDecoration = style.textDecoration
+
+    const isBold = fontWeight === "bold" || parseInt(fontWeight) >= 600
+    const isItalic = fontStyle === "italic"
+
+    // Helper to apply styles to text
+    const applyStyles = (text: string) => {
+      let result = text
+
+      // Avoid double wrapping if possible (naive check)
+      // We only wrap if it's not strictly block-level content that shouldn't be wrapped?
+      // Actually, we just wrap. inner redundancy (****) can be cleaned up later if needed.
+
+      // Clean up extra spaces which break markdown formatting
+      // Move spaces outside: "** text **" -> " **text** "
+      result = result.replace(/^(\s+)(.+?)(\s+)$/, "$1**$2**$3")
+        .replace(/^(\s+)(.+)$/, "$1**$2**")
+        .replace(/^(.+?)(\s+)$/, "**$1**$2")
+
+      // If we didn't match the regexes above (no leading/trailing space), just wrap
+      if (!result.includes("**") && isBold) {
+        // Ensure we don't wrap if empty
+        if (result.trim()) result = `**${result}**`
+      } else if (isBold && !/^\*\*.*\*\*$/.test(result.trim())) {
+        // It might have inner bold, but we want to bold the whole thing?
+        // This is complex. Let's stick to simple wrapping and rely on cleanup or renderer resilience.
+        if (result.trim()) result = `**${result}**`
+      }
+
+      if (isItalic) {
+        if (result.trim()) result = `*${result}*`
+      }
+
+      return result
+    }
+
+    // Recursively serialize children first
+    let children = Array.from(node.childNodes)
       .map((child) => serializeNode(child))
       .join("")
-      .trimEnd()
 
-    const tag = node.tagName.toLowerCase()
+    // Clean up extra spaces around internal formatting hooks from children
+    children = children
+      .replace(/\s+(\*\*)|\s+(\*)/g, " $1$2")
+      .replace(/(\*\*)\s+|(\*)\s+/g, "$1$2 ")
+
 
     switch (tag) {
       case "br":
         return "\n"
       case "p":
-        return `${children}\n\n`
+      case "div": {
+        const className = node.className || ""
+        // Word List Handling
+        if (className.includes("MsoListParagraph") || style.getPropertyValue("mso-list")) {
+          const trimmed = children.trim()
+          let marker = ""
+          let content = trimmed
+
+          // Try to extract marker from text stats
+          const match = trimmed.match(/^(\d+\.|[a-zA-Z]\.|•|·|-)\s+([\s\S]*)$/)
+          if (match) {
+            marker = match[1]
+            content = match[2]
+          } else if (/^(\d+\.|[a-zA-Z]\.|•|·|-)\s*$/.test(trimmed)) {
+            // Just a marker?
+            marker = trimmed
+            content = ""
+          } else {
+            // Fallback: No visible marker in text, check for implicit
+            // We'll use a bullet as default if we can't find one.
+            marker = "-"
+            content = trimmed
+          }
+
+          // Apply styles ONLY to the content, not the marker
+          const styledContent = applyStyles(content)
+
+          return `${marker} ${styledContent}\n\n`
+        }
+
+        // Normal Paragraph/Div
+        // Apply styles to the whole content
+        const styled = applyStyles(children)
+        return styled.trim() ? `${styled}\n\n` : ""
+      }
       case "strong":
       case "b":
-        return `**${children}**`
+        return `**${children.trim()}**`
       case "em":
       case "i":
-        return `*${children}*`
+        return `*${children.trim()}*`
+      case "u":
+        return children.trim()
       case "code":
         return node.parentElement?.tagName.toLowerCase() === "pre" ? children : `\`${children}\``
       case "pre":
         return `\`\`\`\n${node.textContent?.trim() ?? ""}\n\`\`\`\n\n`
       case "h1":
-        return `# ${children}\n\n`
+        return `# ${children.trim()}\n\n`
       case "h2":
-        return `## ${children}\n\n`
+        return `## ${children.trim()}\n\n`
       case "h3":
-        return `### ${children}\n\n`
+        return `### ${children.trim()}\n\n`
       case "h4":
-        return `#### ${children}\n\n`
+        return `#### ${children.trim()}\n\n`
       case "h5":
-        return `##### ${children}\n\n`
+        return `##### ${children.trim()}\n\n`
       case "h6":
-        return `###### ${children}\n\n`
+        return `###### ${children.trim()}\n\n`
       case "blockquote":
         return children
           .split("\n")
@@ -374,7 +456,7 @@ export const htmlToMarkdown = (html: string) => {
           .concat("\n\n")
       case "a": {
         const href = node.getAttribute("href") ?? ""
-        return `[${children || href}](${href})`
+        return `[${applyStyles(children.trim()) || href}](${href})`
       }
       case "ul":
         return Array.from(node.children)
@@ -387,11 +469,15 @@ export const htmlToMarkdown = (html: string) => {
           .join("\n")
           .concat("\n\n")
       case "li":
-        return children
+        // LI usually doesn't have bold style on the LI tag itself, but if it does:
+        return applyStyles(children.trim())
       case "table":
-        return tableToMarkdown(node)
+        return tableToMarkdown(node as HTMLTableElement)
+      case "span":
+        return applyStyles(children)
       default:
-        return children
+        // Generic container, apply styles if present (e.g. <font>)
+        return applyStyles(children)
     }
   }
 

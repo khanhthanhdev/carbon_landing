@@ -35,6 +35,7 @@ export default defineSchema({
     .index("by_section_number", ["section_number"])
     .index("by_lang", ["lang"])
     .index("by_section_lang", ["section_number", "lang"])
+    .index("by_section_id", ["section_id"]) // Added index for new relation
     .searchIndex("by_text", {
       searchField: "content",
       filterFields: ["category", "lang"],
@@ -58,6 +59,18 @@ export default defineSchema({
       dimensions: 768,
       filterFields: ["category", "lang"],
     }),
+
+  sections: defineTable({
+    name_vi: v.string(),
+    name_en: v.optional(v.string()),
+    slug: v.string(),
+    order: v.number(),
+    description: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  })
+    .index("by_order", ["order"])
+    .index("by_slug", ["slug"]),
 
   questionRequests: defineTable({
     name: v.string(),

@@ -145,7 +145,7 @@ export function useAIChat({
     api.queries.conversations.getConversation,
     enabled && !!sessionId ? { sessionId } : "skip"
   );
-  
+
   const isLoading = conversation === undefined;
 
   // Mutation for sending messages using native Convex
@@ -159,7 +159,7 @@ export function useAIChat({
       setError(null); // Clear any previous errors
 
       // Call the Convex askAI action directly using the Convex client
-      const result = await convex.action(api.actions.askAI, {
+      const result = await convex.action(api.rag.askAI, {
         question: trimmedQuestion,
         sessionId,
         locale,
@@ -187,7 +187,7 @@ export function useAIChat({
     retry: (failureCount: number, error: Error) => {
       // Don't retry for client errors (4xx) or if already retried twice
       if (failureCount >= 2) return false;
-      
+
       // Don't retry for validation errors
       if (error instanceof Error && error.message.includes("empty")) {
         return false;
@@ -231,7 +231,7 @@ export function useAIChat({
   const clearConversation = useCallback(() => {
     // With native Convex, data updates automatically
   }, []);
-  
+
   // Refetch function placeholder (not needed with native Convex reactivity)
   const refetch = useCallback(() => {
     // Native Convex handles updates automatically

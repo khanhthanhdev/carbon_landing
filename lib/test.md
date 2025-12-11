@@ -1,0 +1,8 @@
+2.	Thị trường carbon bắt buộc và tự nguyện là gì?
+a.	Thị trường carbon bắt buộc:
+Thị trường carbon bắt buộc được thiết lập và điều hành dựa trên các hiệp định và cam kết quốc gia hoặc quốc tế về việc cắt giảm phát thải carbon, chẳng hạn như Nghị định thư Kyoto (yêu cầu các quốc gia phát triển giảm lượng khí thải nhà kính trung bình ít nhất 5% so với mức phát thải của năm 1990 trong giai đoạn 2008-2012) hay trong Hiệp định Paris (Paris Agreement) điều 6. 
+Một mô hình phổ biến trong việc vận hành thị trường carbon bắt buộc là Hệ thống Giao dịch phát thải (Emission Trading System - ETS). Theo cơ chế này, Chính phủ sẽ phân bổ hoặc bán ra một lượng giới hạn các tín chỉ hoặc giấy phép phát thải khí carbon (thường tính theo đơn vị 1 tấn CO₂ tương đương) trong một khung thời gian xác định. Các đơn vị phát thải theo danh mục quy định chỉ được phép phát thải trong phạm vi số tín chỉ hoặc giấy phép mà họ đang nắm giữ. Nếu một doanh nghiệp muốn gia tăng lượng phát thải thì cần mua thêm tín chỉ từ những tổ chức có phát thải thấp hơn phạm vi số tín chỉ hoặc giấy phép định sẵn.
+Trong trường hợp này, bên mua phải chịu chi phí bổ sung do việc phát thải vượt mức, trong khi bên bán có thể hưởng lợi về tài chính từ việc giảm lượng khí thải. Nhờ vậy, các tổ chức có khả năng cắt giảm khí nhà kính hiệu quả sẽ có thêm động lực để giảm phát thải, đồng thời khuyến khích đầu tư vào các công nghệ sạch và thân thiện với môi trường.
+b.	Thị trường carbon tự nguyện:
+Thị trường carbon tự nguyện vận hành song song với thị trường bắt buộc, tạo điều kiện cho các cá nhân và doanh nghiệp chủ động tham gia mua bán tín chỉ carbon mà không bị ràng buộc bởi quy định pháp lý.
+Bảng so sánh giữa thị trường carbon tự nguyện và thị trường carbon bắt buộc
