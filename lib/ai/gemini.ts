@@ -1,21 +1,25 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Task types for embedding generation
-export type EmbeddingTaskType = "RETRIEVAL_DOCUMENT" | "RETRIEVAL_QUERY" | "QUESTION_ANSWERING" | "FACT_VERIFICATION";
+export type EmbeddingTaskType =
+  | "RETRIEVAL_DOCUMENT"
+  | "RETRIEVAL_QUERY"
+  | "QUESTION_ANSWERING"
+  | "FACT_VERIFICATION";
 
 // Rate limiting configuration
 interface RateLimitConfig {
-  requestsPerMinute: number;
-  requestsPerDay: number;
   burstLimit: number;
+  requestsPerDay: number;
+  requestsPerMinute: number;
 }
 
 // Retry configuration
 interface RetryConfig {
-  maxRetries: number;
+  backoffMultiplier: number;
   baseDelayMs: number;
   maxDelayMs: number;
-  backoffMultiplier: number;
+  maxRetries: number;
 }
 
 // Default configurations
@@ -28,18 +32,18 @@ const DEFAULT_RATE_LIMIT: RateLimitConfig = {
 const DEFAULT_RETRY_CONFIG: RetryConfig = {
   maxRetries: 3,
   baseDelayMs: 1000,
-  maxDelayMs: 30000,
+  maxDelayMs: 30_000,
   backoffMultiplier: 2,
 };
 
 // Rate limiter state
 interface RateLimiterState {
-  requestsThisMinute: number;
-  requestsToday: number;
-  lastMinuteReset: number;
-  lastDayReset: number;
   burstTokens: number;
   lastBurstRefill: number;
+  lastDayReset: number;
+  lastMinuteReset: number;
+  requestsThisMinute: number;
+  requestsToday: number;
 }
 
 /**
@@ -63,16 +67,28 @@ export class GeminiHelper {
       retryConfig?: Partial<RetryConfig>;
     }
   ) {
-    const key = apiKey || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+    const key =
+      apiKey || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
     if (!key) {
-      throw new Error("Missing Google Gemini API key. Set GOOGLE_API_KEY or GEMINI_API_KEY.");
+      throw new Error(
+        "Missing Google Gemini API key. Set GOOGLE_API_KEY or GEMINI_API_KEY."
+      );
     }
 
     this.client = new GoogleGenAI({ apiKey: key, vertexai: false });
-    this.embeddingModel = options?.embeddingModel || process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001";
-    this.textModel = options?.textModel || process.env.GEMINI_TEXT_MODEL || "gemini-2.5-flash-lite";
+    this.embeddingModel =
+      options?.embeddingModel ||
+      process.env.GEMINI_EMBEDDING_MODEL ||
+      "gemini-embedding-001";
+    this.textModel =
+      options?.textModel ||
+      process.env.GEMINI_TEXT_MODEL ||
+      "gemini-2.5-flash-lite";
 
-    this.rateLimitConfig = { ...DEFAULT_RATE_LIMIT, ...options?.rateLimitConfig };
+    this.rateLimitConfig = {
+      ...DEFAULT_RATE_LIMIT,
+      ...options?.rateLimitConfig,
+    };
     this.retryConfig = { ...DEFAULT_RETRY_CONFIG, ...options?.retryConfig };
 
     // Initialize rate limiter state
@@ -103,8 +119,10 @@ export class GeminiHelper {
       throw new Error("Cannot generate embedding for empty text");
     }
 
-    if (sanitized.length > 20000) {
-      throw new Error("Text too long for embedding generation (max 20,000 characters)");
+    if (sanitized.length > 20_000) {
+      throw new Error(
+        "Text too long for embedding generation (max 20,000 characters)"
+      );
     }
 
     return this.executeWithRetry(async () => {
@@ -121,7 +139,9 @@ export class GeminiHelper {
         config: {
           taskType,
           title: options?.title,
-          ...(options?.dimensions ? { outputDimensionality: options.dimensions } : {}),
+          ...(options?.dimensions
+            ? { outputDimensionality: options.dimensions }
+            : {}),
         },
       });
 
@@ -151,8 +171,10 @@ export class GeminiHelper {
       if (!sanitized) {
         throw new Error("Cannot generate embedding for empty text");
       }
-      if (sanitized.length > 20000) {
-        throw new Error("Text too long for embedding generation (max 20,000 characters)");
+      if (sanitized.length > 20_000) {
+        throw new Error(
+          "Text too long for embedding generation (max 20,000 characters)"
+        );
       }
       return { text: sanitized, ...rest };
     });
@@ -179,7 +201,9 @@ export class GeminiHelper {
         });
         const values = response.embeddings?.[0]?.values;
         if (!values) {
-          throw new Error("Gemini did not return an embedding vector for one of the batch items");
+          throw new Error(
+            "Gemini did not return an embedding vector for one of the batch items"
+          );
         }
         return values;
       });
@@ -210,15 +234,17 @@ export class GeminiHelper {
     return this.executeWithRetry(async () => {
       await this.checkRateLimit();
 
-      const languageInstruction = options?.locale === "en"
-        ? "Respond in English."
-        : "Respond in Vietnamese.";
+      const languageInstruction =
+        options?.locale === "en"
+          ? "Respond in English."
+          : "Respond in Vietnamese.";
 
       const contextInstruction = options?.context
         ? `Use the following context where relevant:\n${options.context}`
         : "";
 
-      const compositePrompt = `${languageInstruction}\n${contextInstruction}\n${sanitizedPrompt}`.trim();
+      const compositePrompt =
+        `${languageInstruction}\n${contextInstruction}\n${sanitizedPrompt}`.trim();
 
       const requestParams: any = {
         model: this.textModel,
@@ -269,9 +295,10 @@ export class GeminiHelper {
     return this.executeWithRetry(async () => {
       await this.checkRateLimit();
 
-      const languageInstruction = options?.locale === "en"
-        ? "Respond in English."
-        : "Respond in Vietnamese.";
+      const languageInstruction =
+        options?.locale === "en"
+          ? "Respond in English."
+          : "Respond in Vietnamese.";
 
       // Build conversation contents for Gemini API
       const contents = [];
@@ -292,7 +319,8 @@ export class GeminiHelper {
       const recentHistory = conversationHistory.slice(-10);
       for (const message of recentHistory) {
         contents.push({
-          role: message.role === "user" ? "user" as const : "model" as const,
+          role:
+            message.role === "user" ? ("user" as const) : ("model" as const),
           parts: [{ text: message.content }],
         });
       }
@@ -333,12 +361,12 @@ export class GeminiHelper {
     const now = Date.now();
 
     // Reset counters if time windows have passed
-    if (now - this.rateLimiterState.lastMinuteReset >= 60000) {
+    if (now - this.rateLimiterState.lastMinuteReset >= 60_000) {
       this.rateLimiterState.requestsThisMinute = 0;
       this.rateLimiterState.lastMinuteReset = now;
     }
 
-    if (now - this.rateLimiterState.lastDayReset >= 86400000) {
+    if (now - this.rateLimiterState.lastDayReset >= 86_400_000) {
       this.rateLimiterState.requestsToday = 0;
       this.rateLimiterState.lastDayReset = now;
     }
@@ -355,17 +383,26 @@ export class GeminiHelper {
     }
 
     // Check rate limits
-    if (this.rateLimiterState.requestsToday >= this.rateLimitConfig.requestsPerDay) {
+    if (
+      this.rateLimiterState.requestsToday >= this.rateLimitConfig.requestsPerDay
+    ) {
       throw new Error("Daily rate limit exceeded. Please try again tomorrow.");
     }
 
-    if (this.rateLimiterState.requestsThisMinute >= this.rateLimitConfig.requestsPerMinute) {
-      const waitTime = 60000 - (now - this.rateLimiterState.lastMinuteReset);
-      throw new Error(`Rate limit exceeded. Please wait ${Math.ceil(waitTime / 1000)} seconds.`);
+    if (
+      this.rateLimiterState.requestsThisMinute >=
+      this.rateLimitConfig.requestsPerMinute
+    ) {
+      const waitTime = 60_000 - (now - this.rateLimiterState.lastMinuteReset);
+      throw new Error(
+        `Rate limit exceeded. Please wait ${Math.ceil(waitTime / 1000)} seconds.`
+      );
     }
 
     if (this.rateLimiterState.burstTokens <= 0) {
-      throw new Error("Burst limit exceeded. Please wait a moment before making another request.");
+      throw new Error(
+        "Burst limit exceeded. Please wait a moment before making another request."
+      );
     }
   }
 
@@ -401,17 +438,23 @@ export class GeminiHelper {
         }
 
         // Calculate delay with exponential backoff and jitter
-        const baseDelay = this.retryConfig.baseDelayMs * Math.pow(this.retryConfig.backoffMultiplier, attempt);
+        const baseDelay =
+          this.retryConfig.baseDelayMs *
+          this.retryConfig.backoffMultiplier ** attempt;
         const jitter = Math.random() * 0.1 * baseDelay; // 10% jitter
         const delay = Math.min(baseDelay + jitter, this.retryConfig.maxDelayMs);
 
-        console.warn(`Gemini API request failed (attempt ${attempt + 1}/${this.retryConfig.maxRetries + 1}): ${error}. Retrying in ${Math.round(delay)}ms...`);
+        console.warn(
+          `Gemini API request failed (attempt ${attempt + 1}/${this.retryConfig.maxRetries + 1}): ${error}. Retrying in ${Math.round(delay)}ms...`
+        );
 
         await this.sleep(delay);
       }
     }
 
-    throw new Error(`Gemini API request failed after ${this.retryConfig.maxRetries + 1} attempts. Last error: ${lastError.message}`);
+    throw new Error(
+      `Gemini API request failed after ${this.retryConfig.maxRetries + 1} attempts. Last error: ${lastError.message}`
+    );
   }
 
   /**
@@ -436,7 +479,7 @@ export class GeminiHelper {
    * Sleep for specified milliseconds
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
@@ -474,7 +517,11 @@ function getGeminiHelper(): GeminiHelper {
 // Backward compatibility functions
 export async function generateEmbedding(
   text: string,
-  options: { usage?: "document" | "query" | "questionAnswering" | "factVerification"; title?: string; dimensions?: number } = {}
+  options: {
+    usage?: "document" | "query" | "questionAnswering" | "factVerification";
+    title?: string;
+    dimensions?: number;
+  } = {}
 ): Promise<number[]> {
   const taskTypeMap = {
     document: "RETRIEVAL_DOCUMENT" as const,
@@ -483,7 +530,9 @@ export async function generateEmbedding(
     factVerification: "FACT_VERIFICATION" as const,
   };
 
-  const taskType = options.usage ? taskTypeMap[options.usage] : "RETRIEVAL_QUERY";
+  const taskType = options.usage
+    ? taskTypeMap[options.usage]
+    : "RETRIEVAL_QUERY";
 
   return getGeminiHelper().generateEmbedding(text, taskType, {
     title: options.title,

@@ -1,23 +1,23 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Read the qa_en.json file
-const inputPath = path.join(__dirname, '../data/qa_en.json');
-const outputPath = path.join(__dirname, '../data/qa_en_convex.json');
+const inputPath = path.join(__dirname, "../data/qa_en.json");
+const outputPath = path.join(__dirname, "../data/qa_en_convex.json");
 
-const rawData = fs.readFileSync(inputPath, 'utf-8');
+const rawData = fs.readFileSync(inputPath, "utf-8");
 const data = JSON.parse(rawData);
 
 // Transform to match qa table schema
 const transformedQuestions = [];
 const now = Date.now(); // Current timestamp in milliseconds
 
-data.sections.forEach(section => {
-  section.questions.forEach(q => {
+data.sections.forEach((section) => {
+  section.questions.forEach((q) => {
     // Match the exact schema structure
     const transformed = {
       question: q.question,
@@ -38,11 +38,11 @@ data.sections.forEach(section => {
       answer_length: q.metadata.answer_length,
       metadata_created_at: q.metadata.created_at,
       metadata_updated_at: q.metadata.updated_at,
-      sources: q.sources.map(sourceText => ({
+      sources: q.sources.map((sourceText) => ({
         type: "reference",
         title: sourceText.substring(0, 100), // First 100 chars as title
         url: sourceText.match(/https?:\/\/[^\s)]+/)?.[0] || "", // Extract URL if present
-        note: sourceText
+        note: sourceText,
       })),
       embedding_doc: [], // Empty array as required by schema
       createdAt: now,
@@ -58,5 +58,5 @@ fs.writeFileSync(outputPath, JSON.stringify(transformedQuestions, null, 2));
 
 console.log(`✅ Transformed ${transformedQuestions.length} questions`);
 console.log(`📄 Output saved to: ${outputPath}`);
-console.log(`\nSample transformed question:`);
+console.log("\nSample transformed question:");
 console.log(JSON.stringify(transformedQuestions[0], null, 2));

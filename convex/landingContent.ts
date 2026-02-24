@@ -1,5 +1,5 @@
-import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
 const BOOK_KEY = "recommendedBook";
 
@@ -38,10 +38,14 @@ export const setRecommendedBook = mutation({
   args: {
     locale: v.string(),
     title: v.string(),
-    authors: v.optional(v.array(v.object({
-      name: v.string(),
-      link: v.string(),
-    }))),
+    authors: v.optional(
+      v.array(
+        v.object({
+          name: v.string(),
+          link: v.string(),
+        })
+      )
+    ),
     description: v.optional(v.string()),
     coverImage: v.optional(v.string()),
     pages: v.optional(v.number()),
@@ -53,15 +57,17 @@ export const setRecommendedBook = mutation({
         v.object({
           retailer: v.string(),
           url: v.string(),
-        }),
-      ),
+        })
+      )
     ),
   },
   handler: async (ctx, args) => {
     const now = Date.now();
     const existing = await ctx.db
       .query("landingContent")
-      .withIndex("byKey", (q) => q.eq("key", BOOK_KEY).eq("locale", args.locale))
+      .withIndex("byKey", (q) =>
+        q.eq("key", BOOK_KEY).eq("locale", args.locale)
+      )
       .first();
 
     const payload = {

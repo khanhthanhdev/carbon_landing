@@ -1,6 +1,6 @@
 import "dotenv/config";
-import pLimit from "p-limit";
 import { ConvexHttpClient } from "convex/browser";
+import pLimit from "p-limit";
 import { api } from "../convex/_generated/api";
 
 const CONCURRENCY = Number(process.env.EMBED_CONCURRENCY || "3");
@@ -61,7 +61,11 @@ async function main() {
   const all = await client.query(convexApi.queries.qa.listAll, {});
 
   const filtered = all.filter((doc: any) => {
-    if (categories && categories.length > 0 && !categories.includes(doc.category)) {
+    if (
+      categories &&
+      categories.length > 0 &&
+      !categories.includes(doc.category)
+    ) {
       return false;
     }
     if (lang && doc.lang && doc.lang !== lang) {
@@ -79,8 +83,10 @@ async function main() {
 
   console.log(
     `Re-embedding ${items.length} QA records (concurrency=${CONCURRENCY}${
-      categories && categories.length > 0 ? `, categories=${categories.join(",")}` : ""
-    }${lang ? `, lang=${lang}` : ""})`,
+      categories && categories.length > 0
+        ? `, categories=${categories.join(",")}`
+        : ""
+    }${lang ? `, lang=${lang}` : ""})`
   );
 
   const limitConcurrency = pLimit(CONCURRENCY);
@@ -91,10 +97,13 @@ async function main() {
     items.map((doc: any) =>
       limitConcurrency(async () => {
         try {
-          const embedded = await client.action(convexApi.embeddings.embedQADocumentAll, {
-            question: doc.question,
-            answer: doc.answer,
-          });
+          const embedded = await client.action(
+            convexApi.embeddings.embedQADocumentAll,
+            {
+              question: doc.question,
+              answer: doc.answer,
+            }
+          );
 
           const composedContent = `${doc.question}\n\n${doc.answer}`.trim();
 
@@ -135,8 +144,8 @@ async function main() {
           failures.push({ id: String(doc._id || doc.question), error });
           console.error(`Failed to re-embed ${doc.question}:`, error);
         }
-      }),
-    ),
+      })
+    )
   );
 
   if (failures.length > 0) {

@@ -1,13 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import natural from 'natural';
+import fs from "fs";
+import natural from "natural";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const mdFilePath = path.join(__dirname, '..', 'data', 'co2_en.md');
-const outputFilePath = path.join(__dirname, '..', 'data', 'qa_en.json');
+const mdFilePath = path.join(__dirname, "..", "data", "co2_en.md");
+const outputFilePath = path.join(__dirname, "..", "data", "qa_en.json");
 
 // Function to extract keywords using TF-IDF
 function extractKeywords(text, topN = 10) {
@@ -15,15 +15,15 @@ function extractKeywords(text, topN = 10) {
   tfidf.addDocument(text);
 
   // Get the top N terms
-  const keywords = tfidf.listTerms(0)
+  const keywords = tfidf
+    .listTerms(0)
     .slice(0, topN)
-    .map(item => item.term);
+    .map((item) => item.term);
   return keywords;
 }
 
-
 function parseMarkdownToJSON(mdContent) {
-  const lines = mdContent.split('\n');
+  const lines = mdContent.split("\n");
   const sections = [];
   let currentSection = null;
   let currentQuestion = null;
@@ -42,10 +42,8 @@ function parseMarkdownToJSON(mdContent) {
         const text = match[2];
         footnotes[num] = text;
       }
-    } else if (inFootnotes && line === '') {
-      continue;
-    }
-    else if (inFootnotes) {
+    } else if (inFootnotes && line === "") {
+    } else if (inFootnotes) {
       break;
     }
   }
@@ -65,7 +63,7 @@ function parseMarkdownToJSON(mdContent) {
         section_number: partMatch[1],
         section_title: partMatch[2],
         question_count: 0,
-        questions: []
+        questions: [],
       };
       questionIndex = 0;
       continue;
@@ -81,26 +79,26 @@ function parseMarkdownToJSON(mdContent) {
       currentQuestion = {
         id: `section_${currentSection.section_number}_q_${questionIndex}`,
         question: questionMatch[2],
-        answer: '',
-        searchable_text: '',
+        answer: "",
+        searchable_text: "",
         metadata: {
           section: currentSection.section_number,
           question_number: questionIndex,
-          created_at: new Date().toISOString()
+          created_at: new Date().toISOString(),
         },
         sources: [],
         embedding: null,
         search_fields: {
           question: questionMatch[2],
-          answer_preview: ''
-        }
+          answer_preview: "",
+        },
       };
       continue;
     }
 
     // Accumulate answer
-    if (currentQuestion && line.trim() !== '') {
-      currentQuestion.answer += line + '\n';
+    if (currentQuestion && line.trim() !== "") {
+      currentQuestion.answer += line + "\n";
     }
   }
 
@@ -114,16 +112,20 @@ function parseMarkdownToJSON(mdContent) {
   }
 
   // Process each question to clean answer, set searchable_text, and extract sources
-  sections.forEach(section => {
+  sections.forEach((section) => {
     section.questions.forEach((q, index) => {
       q.answer = q.answer.trim();
       q.searchable_text = `Question: ${q.question}\n\nAnswer: ${q.answer}`;
-      
+
       // Extract sources
       const footnoteMatches = q.answer.match(/\[\[\d+\]\]\(#footnote-(\d+)\)/g);
       if (footnoteMatches) {
-        const uniqueFootnotes = [...new Set(footnoteMatches.map(m => m.match(/#footnote-(\d+)/)[1]))];
-        q.sources = uniqueFootnotes.map(num => footnotes[num]).filter(Boolean);
+        const uniqueFootnotes = [
+          ...new Set(footnoteMatches.map((m) => m.match(/#footnote-(\d+)/)[1])),
+        ];
+        q.sources = uniqueFootnotes
+          .map((num) => footnotes[num])
+          .filter(Boolean);
       } else {
         q.sources = [];
       }
@@ -138,21 +140,22 @@ function parseMarkdownToJSON(mdContent) {
         section_title: section.section_title,
         section_id: section.section_id,
         category: "Carbon Market",
-        keywords: keywords,
+        keywords,
         has_sources: q.sources.length > 0,
         answer_length: q.answer.length,
         created_at: q.metadata.created_at,
         updated_at: q.metadata.created_at,
-        lang: "en"
+        lang: "en",
       };
 
       // Update search_fields
       q.search_fields = {
         question: q.question,
-        answer_preview: q.answer.substring(0, 200) + (q.answer.length > 200 ? '...' : ''),
+        answer_preview:
+          q.answer.substring(0, 200) + (q.answer.length > 200 ? "..." : ""),
         question_lower: q.question.toLowerCase(),
-        keywords_searchable: keywords.join(' '),
-        category_searchable: "carbon market"
+        keywords_searchable: keywords.join(" "),
+        category_searchable: "carbon market",
       };
     });
   });
@@ -160,19 +163,24 @@ function parseMarkdownToJSON(mdContent) {
   return { sections };
 }
 
-fs.readFile(mdFilePath, 'utf8', (err, data) => {
+fs.readFile(mdFilePath, "utf8", (err, data) => {
   if (err) {
-    console.error('Error reading file:', err);
+    console.error("Error reading file:", err);
     return;
   }
 
   const jsonData = parseMarkdownToJSON(data);
 
-  fs.writeFile(outputFilePath, JSON.stringify(jsonData, null, 2), 'utf8', (err) => {
-    if (err) {
-      console.error('Error writing file:', err);
-      return;
+  fs.writeFile(
+    outputFilePath,
+    JSON.stringify(jsonData, null, 2),
+    "utf8",
+    (err) => {
+      if (err) {
+        console.error("Error writing file:", err);
+        return;
+      }
+      console.log("JSON file created successfully at", outputFilePath);
     }
-    console.log('JSON file created successfully at', outputFilePath);
-  });
+  );
 });

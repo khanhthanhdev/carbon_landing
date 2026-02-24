@@ -691,5 +691,14 @@
     "loadMoreQuestions": "Tải thêm câu hỏi",
     "loadNextSection": "Chương tiếp theo",
     "loading": "Đang tải..."
+  },
+  "disclaimer": {
+    "title": "Tuyên bố miễn trừ trách nhiệm",
+    "paragraphs": [
+      "Thông tin cung cấp trên nền tảng này nhằm mục đích tham khảo và nâng cao năng lực. Nội dung không cấu thành tư vấn pháp lý, tài chính, đầu tư, thuế hoặc tư vấn chuyên môn.",
+      "Nghĩa vụ pháp lý của doanh nghiệp liên quan đến quản lý phát thải khí nhà kính (GHG), báo cáo phát thải và tham gia thị trường carbon được điều chỉnh bởi các văn bản quy phạm pháp luật chính thức do cơ quan nhà nước có thẩm quyền ban hành.",
+      "Mặc dù đã nỗ lực đảm bảo tính chính xác và cập nhật, các quy định pháp luật và hướng dẫn kỹ thuật có thể được sửa đổi, bổ sung theo thời gian. Doanh nghiệp có trách nhiệm tự kiểm tra các quy định hiện hành và tham vấn cơ quan có thẩm quyền hoặc chuyên gia phù hợp trước khi đưa ra quyết định về tuân thủ, báo cáo, đầu tư hoặc ký kết hợp đồng.",
+      "Cơ quan ban hành không chịu trách nhiệm đối với bất kỳ thiệt hại trực tiếp hoặc gián tiếp nào phát sinh từ việc sử dụng thông tin trên nền tảng này."
+    ]
   }
 }

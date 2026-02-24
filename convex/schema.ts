@@ -2,7 +2,6 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-
   qa: defineTable({
     question: v.optional(v.string()),
     answer: v.optional(v.string()),
@@ -76,7 +75,11 @@ export default defineSchema({
     name: v.string(),
     email: v.string(),
     question: v.string(),
-    status: v.union(v.literal("pending"), v.literal("triaged"), v.literal("completed")),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("triaged"),
+      v.literal("completed")
+    ),
     createdAt: v.number(),
     sourceQuery: v.optional(v.string()),
   }).index("byEmail", ["email"]),

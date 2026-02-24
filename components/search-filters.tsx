@@ -1,25 +1,23 @@
 "use client";
 
-import * as React from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SearchType } from "@/hooks/use-search";
+import { cn } from "@/lib/utils";
 
 interface SearchFiltersProps {
-  // Current filter state
-  searchType: SearchType;
-  
-  // Event handlers
-  onSearchTypeChange: (type: SearchType) => void;
-  
   // UI state
   className?: string;
+
+  // Event handlers
+  onSearchTypeChange: (type: SearchType) => void;
+  // Current filter state
+  searchType: SearchType;
 }
 
 /**
  * SearchFilters component provides filtering controls for search results.
- * 
+ *
  * Features:
  * - Search type tabs (vector/fulltext)
  */
@@ -32,12 +30,22 @@ export function SearchFilters({
 
   return (
     <div className={cn("flex justify-center", className)}>
-      <Tabs value={searchType} onValueChange={onSearchTypeChange} className="w-full sm:w-auto">
-        <TabsList className="grid grid-cols-2 h-9 sm:h-10 w-full sm:w-auto">
-          <TabsTrigger value="vector" className="text-xs sm:text-sm px-2 sm:px-4">
+      <Tabs
+        className="w-full sm:w-auto"
+        onValueChange={onSearchTypeChange}
+        value={searchType}
+      >
+        <TabsList className="grid h-9 w-full grid-cols-2 sm:h-10 sm:w-auto">
+          <TabsTrigger
+            className="px-2 text-xs sm:px-4 sm:text-sm"
+            value="vector"
+          >
             {t("semantic")}
           </TabsTrigger>
-          <TabsTrigger value="fulltext" className="text-xs sm:text-sm px-2 sm:px-4">
+          <TabsTrigger
+            className="px-2 text-xs sm:px-4 sm:text-sm"
+            value="fulltext"
+          >
             {t("keyword")}
           </TabsTrigger>
         </TabsList>

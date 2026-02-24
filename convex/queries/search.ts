@@ -1,14 +1,14 @@
-import { query, action, internalQuery } from "../_generated/server";
 import { v } from "convex/values";
+import { internalQuery, query } from "../_generated/server";
 
 // Vector search moved to actions.ts since it must be an action
 
 /**
  * Internal full-text search query for use within actions
- * 
+ *
  * This internal query allows actions to perform full-text search without
  * going through the public API, reducing latency.
- * 
+ *
  * @param query - Search query text
  * @param category - Optional category filter
  * @param lang - Optional language filter ("en" | "vi")
@@ -38,17 +38,17 @@ export const internalFullTextSearch = internalQuery({
       .query("qa")
       .withSearchIndex("by_text", (q) => {
         let searchQuery = q.search("content", trimmedQuery);
-        
+
         // Apply category filter if provided
         if (category) {
           searchQuery = searchQuery.eq("category", category);
         }
-        
+
         // Apply language filter if provided
         if (lang) {
           searchQuery = searchQuery.eq("lang", lang);
         }
-        
+
         return searchQuery;
       })
       .take(take);
@@ -59,17 +59,17 @@ export const internalFullTextSearch = internalQuery({
         .query("qa")
         .withSearchIndex("search_by_keywords", (q) => {
           let searchQuery = q.search("keywords_searchable", trimmedQuery);
-          
+
           // Apply category filter if provided
           if (category) {
             searchQuery = searchQuery.eq("category", category);
           }
-          
+
           // Apply language filter if provided
           if (lang) {
             searchQuery = searchQuery.eq("lang", lang);
           }
-          
+
           return searchQuery;
         })
         .take(take);
@@ -93,10 +93,10 @@ export const internalFullTextSearch = internalQuery({
 
 /**
  * Enhanced full-text search query using the qa table with search indexes
- * 
+ *
  * Performs keyword-based search using Convex full-text search with fallback
  * to keywords index if no results found. Supports filtering by category and language.
- * 
+ *
  * @param query - Search query text
  * @param category - Optional category filter
  * @param lang - Optional language filter ("en" | "vi")
@@ -126,17 +126,17 @@ export const fullTextSearch = query({
       .query("qa")
       .withSearchIndex("by_text", (q) => {
         let searchQuery = q.search("content", trimmedQuery);
-        
+
         // Apply category filter if provided
         if (category) {
           searchQuery = searchQuery.eq("category", category);
         }
-        
+
         // Apply language filter if provided
         if (lang) {
           searchQuery = searchQuery.eq("lang", lang);
         }
-        
+
         return searchQuery;
       })
       .take(take);
@@ -147,17 +147,17 @@ export const fullTextSearch = query({
         .query("qa")
         .withSearchIndex("search_by_keywords", (q) => {
           let searchQuery = q.search("keywords_searchable", trimmedQuery);
-          
+
           // Apply category filter if provided
           if (category) {
             searchQuery = searchQuery.eq("category", category);
           }
-          
+
           // Apply language filter if provided
           if (lang) {
             searchQuery = searchQuery.eq("lang", lang);
           }
-          
+
           return searchQuery;
         })
         .take(take);
@@ -181,13 +181,13 @@ export const fullTextSearch = query({
 
 /**
  * Get unique categories from the qa table
- * 
+ *
  * Extracts all unique category values from the qa table and returns them
  * in a sorted array. This query is designed to be cached with infinite
  * stale time on the client side since categories rarely change.
- * 
+ *
  * @returns Sorted array of unique category names
- * 
+ *
  * Requirements: 4.1
  */
 export const getCategories = query({
@@ -195,28 +195,28 @@ export const getCategories = query({
   handler: async (ctx) => {
     // Fetch all qa records
     const allQAs = await ctx.db.query("qa").collect();
-    
+
     // Extract unique categories using a Set
     const categorySet = new Set<string>();
-    
+
     for (const qa of allQAs) {
       if (qa.category && qa.category.trim().length > 0) {
         categorySet.add(qa.category.trim());
       }
     }
-    
+
     // Convert to array and sort alphabetically
-    const categories = Array.from(categorySet).sort((a, b) => 
-      a.localeCompare(b, undefined, { sensitivity: 'base' })
+    const categories = Array.from(categorySet).sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" })
     );
-    
+
     return categories;
   },
 });
 
 /**
  * Legacy vector search query (kept for backward compatibility)
- * 
+ *
  * @deprecated This uses the old withVectorIndex pattern on queries.
  * Vector search must be performed in actions using ctx.vectorSearch().
  * Use api.actions.vectorSearch instead.

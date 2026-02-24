@@ -1,14 +1,14 @@
 "use client";
 
-import type { PropsWithChildren } from "react";
-import { useEffect, useState } from "react";
-import posthog from "posthog-js";
-import { PostHogProvider as PHProvider } from "posthog-js/react";
+import { useAuth } from "@clerk/nextjs";
+import { ConvexQueryClient } from "@convex-dev/react-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
-import { useAuth } from "@clerk/nextjs";
-import { ConvexQueryClient } from "@convex-dev/react-query";
+import posthog from "posthog-js";
+import { PostHogProvider as PHProvider } from "posthog-js/react";
+import type { PropsWithChildren } from "react";
+import { useEffect, useState } from "react";
 import { UserSync } from "@/components/user-sync";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
@@ -35,10 +35,12 @@ export function Providers({ children }: PropsWithChildren) {
     () =>
       new ConvexReactClient(convexUrl, {
         unsavedChangesWarning: false,
-      }),
+      })
   );
 
-  const [convexQueryClient] = useState(() => new ConvexQueryClient(convexClient));
+  const [convexQueryClient] = useState(
+    () => new ConvexQueryClient(convexClient)
+  );
 
   const [queryClient] = useState(
     () =>
@@ -47,14 +49,14 @@ export function Providers({ children }: PropsWithChildren) {
           queries: {
             queryKeyHashFn: convexQueryClient.hashFn(),
             queryFn: convexQueryClient.queryFn(),
-            staleTime: Infinity,
+            staleTime: Number.POSITIVE_INFINITY,
             refetchOnWindowFocus: false,
           },
           mutations: {
             retry: 1,
           },
         },
-      }),
+      })
   );
 
   useEffect(() => {

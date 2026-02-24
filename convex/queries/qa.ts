@@ -1,6 +1,6 @@
 import { paginationOptsValidator } from "convex/server";
-import { query } from "../_generated/server";
 import { v } from "convex/values";
+import { query } from "../_generated/server";
 
 export const listAll = query({
   args: {},
@@ -47,7 +47,9 @@ export const listPaginated = query({
           .query("qa")
           .withIndex("by_category", (q) => q.eq("category", category));
         if (lang) {
-          queryBuilder = queryBuilder.filter((q) => q.eq(q.field("lang"), lang));
+          queryBuilder = queryBuilder.filter((q) =>
+            q.eq(q.field("lang"), lang)
+          );
         }
         return queryBuilder;
       }
@@ -62,7 +64,8 @@ export const listPaginated = query({
     const result = await baseQuery.paginate(args.paginationOpts);
 
     const sortedPage = [...result.page].sort(
-      (a, b) => (b.updatedAt ?? b._creationTime) - (a.updatedAt ?? a._creationTime),
+      (a, b) =>
+        (b.updatedAt ?? b._creationTime) - (a.updatedAt ?? a._creationTime)
     );
 
     return {

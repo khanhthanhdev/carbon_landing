@@ -1,18 +1,23 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useConvex, useQuery as useConvexQuery } from "convex/react";
+import { useCallback, useState } from "react";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
+import type { Id } from "@/convex/_generated/dataModel";
 
 /**
  * Message interface matching the Convex schema
  */
 export interface ChatMessage {
-  role: "user" | "assistant";
   content: string;
-  timestamp: number;
+  followUpQuestions?: string[]; // Added for follow-up questions functionality
+  metadata?: {
+    sourcesUsed: number;
+    generationTimeMs: number;
+    tokensUsed?: number;
+  };
+  role: "user" | "assistant";
   sources?: Array<{
     questionId: Id<"qa">;
     questionNumber: string;
@@ -21,12 +26,7 @@ export interface ChatMessage {
     citedSentences?: string[];
     citationMarkers?: string[];
   }>;
-  followUpQuestions?: string[]; // Added for follow-up questions functionality
-  metadata?: {
-    sourcesUsed: number;
-    generationTimeMs: number;
-    tokensUsed?: number;
-  };
+  timestamp: number;
 }
 
 /**
@@ -34,12 +34,12 @@ export interface ChatMessage {
  */
 export interface Conversation {
   _id: Id<"conversations">;
-  sessionId: string;
-  userId?: string;
+  createdAt: number;
   locale: string;
   messages: ChatMessage[];
-  createdAt: number;
+  sessionId: string;
   updatedAt: number;
+  userId?: string;
 }
 
 /**
@@ -47,18 +47,8 @@ export interface Conversation {
  */
 export interface AIResponse {
   answer: string;
-  sources: Array<{
-    questionId: Id<"qa">;
-    questionNumber: string;
-    question: string;
-    answer: string;
-    category: string;
-    relevanceScore: number;
-    citedSentences?: string[];
-    citationMarkers?: string[];
-  }>;
-  followUpQuestions?: string[]; // Added for follow-up questions functionality
   conversationId: string;
+  followUpQuestions?: string[]; // Added for follow-up questions functionality
   metadata: {
     sourcesUsed: number;
     generationTimeMs: number;
@@ -70,53 +60,63 @@ export interface AIResponse {
     answerLength?: number;
     citationsFound?: number;
   };
+  sources: Array<{
+    questionId: Id<"qa">;
+    questionNumber: string;
+    question: string;
+    answer: string;
+    category: string;
+    relevanceScore: number;
+    citedSentences?: string[];
+    citationMarkers?: string[];
+  }>;
 }
 
 /**
  * Options for the useAIChat hook
  */
 export interface UseAIChatOptions {
-  sessionId: string;
-  locale?: string;
-  maxSources?: number;
   enabled?: boolean;
   focusTopic?: string;
+  locale?: string;
+  maxSources?: number;
+  sessionId: string;
 }
 
 /**
  * Custom hook for AI chat functionality with conversation management
- * 
+ *
  * This hook provides a complete interface for managing AI conversations,
  * including fetching conversation history, sending messages, and handling
  * loading and error states. It integrates with the Convex askAI action
  * and conversation management system.
- * 
+ *
  * @param options - Configuration options for the chat
  * @param options.sessionId - Unique session identifier for the conversation
  * @param options.locale - Language preference for responses (default: "vi")
  * @param options.maxSources - Maximum number of sources to use for context (default: 5)
  * @param options.enabled - Whether the conversation query should be enabled (default: true)
- * 
+ *
  * @returns Object containing conversation data, loading states, and functions
- * 
+ *
  * Requirements addressed:
  * - 11.9: Manage conversation state with sessionId, fetch conversation history
  * - Provide sendMessage mutation function
  * - Handle loading and error states
- * 
+ *
  * @example
  * ```tsx
- * const { 
- *   conversation, 
- *   isLoading, 
- *   error, 
- *   sendMessage, 
- *   isSending 
+ * const {
+ *   conversation,
+ *   isLoading,
+ *   error,
+ *   sendMessage,
+ *   isSending
  * } = useAIChat({
  *   sessionId: "user-session-123",
  *   locale: "en"
  * });
- * 
+ *
  * // Send a message
  * const handleSendMessage = async (question: string) => {
  *   try {
@@ -186,7 +186,9 @@ export function useAIChat({
     },
     retry: (failureCount: number, error: Error) => {
       // Don't retry for client errors (4xx) or if already retried twice
-      if (failureCount >= 2) return false;
+      if (failureCount >= 2) {
+        return false;
+      }
 
       // Don't retry for validation errors
       if (error instanceof Error && error.message.includes("empty")) {
@@ -195,7 +197,8 @@ export function useAIChat({
 
       return true;
     },
-    retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    retryDelay: (attemptIndex: number) =>
+      Math.min(1000 * 2 ** attemptIndex, 30_000),
   });
 
   // Wrapper function for sending messages
@@ -222,10 +225,14 @@ export function useAIChat({
   const hasMessages = messages.length > 0;
 
   // Helper function to get the last message
-  const lastMessage = messages.length > 0 ? messages[messages.length - 1] : null;
+  const lastMessage =
+    messages.length > 0 ? messages[messages.length - 1] : null;
 
   // Helper function to get follow-up questions from the last message
-  const lastFollowUpQuestions = lastMessage?.role === "assistant" ? lastMessage.followUpQuestions || [] : [];
+  const lastFollowUpQuestions =
+    lastMessage?.role === "assistant"
+      ? lastMessage.followUpQuestions || []
+      : [];
 
   // Helper function to clear conversation (not needed with native Convex)
   const clearConversation = useCallback(() => {
@@ -273,13 +280,13 @@ export function useAIChat({
 
 /**
  * Hook for generating a unique session ID
- * 
+ *
  * This utility hook generates a unique session ID that can be used
  * with the useAIChat hook. It creates a timestamp-based ID with
  * a random component for uniqueness.
- * 
+ *
  * @returns A unique session ID string
- * 
+ *
  * @example
  * ```tsx
  * const sessionId = useGenerateSessionId();

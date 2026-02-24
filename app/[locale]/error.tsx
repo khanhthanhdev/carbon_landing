@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import posthog from "posthog-js";
+import { useEffect } from "react";
 
 export default function Error({
   error,
@@ -15,12 +15,12 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
+        <h2 className="mb-4 font-bold text-2xl">Something went wrong</h2>
         <button
+          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           onClick={() => reset()}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Try again
         </button>

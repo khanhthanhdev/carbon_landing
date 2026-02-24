@@ -3,22 +3,22 @@
 import { useQuery } from "@tanstack/react-query";
 
 interface SemanticSearchSource {
-  title: string;
-  url: string;
-  type: string;
   location: string;
+  title: string;
+  type: string;
+  url: string;
 }
 
 export interface SemanticSearchMatch {
-  id: string;
-  question: string;
   answer: string;
   category: string;
+  id: string;
+  isCommon: boolean;
+  question: string;
+  score: number;
+  sequence?: number | null;
   sources: SemanticSearchSource[];
   tags: string[];
-  isCommon: boolean;
-  sequence?: number | null;
-  score: number;
 }
 
 interface SemanticSearchResponse {
@@ -27,13 +27,18 @@ interface SemanticSearchResponse {
 }
 
 interface Options {
-  query: string;
   category?: string;
-  locale?: string;
   enabled?: boolean;
+  locale?: string;
+  query: string;
 }
 
-export function useSemanticSearch({ query, category, locale, enabled = true }: Options) {
+export function useSemanticSearch({
+  query,
+  category,
+  locale,
+  enabled = true,
+}: Options) {
   return useQuery<SemanticSearchResponse>({
     queryKey: ["semantic-search", query, category, locale],
     queryFn: async () => {

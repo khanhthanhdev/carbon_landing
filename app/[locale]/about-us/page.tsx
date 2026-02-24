@@ -1,10 +1,10 @@
-import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
 import { AboutUsSection } from "@/components/about-us-section";
+import { Footer } from "@/components/footer";
+import { JsonLd } from "@/components/json-ld";
+import { Navigation } from "@/components/navigation";
 import { SurveySection } from "@/components/survey-section";
 import { locales } from "@/i18n/request";
-import { JsonLd } from "@/components/json-ld";
+import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

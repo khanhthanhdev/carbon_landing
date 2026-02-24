@@ -4,16 +4,16 @@
 
 // Citation extraction utilities
 export {
-  extractCitations,
-  extractCitedSentences,
-  isValidCitationMarker,
-  getReferencedSourceIndices,
-  getReferencedQuestionNumbers,
-  groupCitationsBySource,
-  removeCitationMarkers,
   type Citation,
   type CitedSentence,
-} from './citations';
+  extractCitations,
+  extractCitedSentences,
+  getReferencedQuestionNumbers,
+  getReferencedSourceIndices,
+  groupCitationsBySource,
+  isValidCitationMarker,
+  removeCitationMarkers,
+} from "./citations";
 
 // Gemini AI utilities (existing)
-export * from './gemini';
+export * from "./gemini";

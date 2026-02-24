@@ -1,9 +1,9 @@
-import dotenv from "dotenv";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import pLimit from "p-limit";
 import { setTimeout as delay } from "node:timers/promises";
 import { ConvexHttpClient } from "convex/browser";
+import dotenv from "dotenv";
+import pLimit from "p-limit";
 import { api } from "../convex/_generated/api";
 
 dotenv.config({ path: ".env.local" });
@@ -95,11 +95,21 @@ function parseSources(value: unknown): QASource[] | undefined {
       const url = sanitizeString(raw.url);
       const location = sanitizeString(raw.location);
       const note = sanitizeString(raw.note);
-      if (type) source.type = type;
-      if (title) source.title = title;
-      if (url) source.url = url;
-      if (location) source.location = location;
-      if (note) source.note = note;
+      if (type) {
+        source.type = type;
+      }
+      if (title) {
+        source.title = title;
+      }
+      if (url) {
+        source.url = url;
+      }
+      if (location) {
+        source.location = location;
+      }
+      if (note) {
+        source.note = note;
+      }
       return Object.keys(source).length > 0 ? source : undefined;
     })
     .filter((source): source is QASource => source !== undefined);
@@ -111,7 +121,10 @@ function ensureArray<T>(value: unknown): T[] | undefined {
   return Array.isArray(value) ? (value as T[]) : undefined;
 }
 
-function normalizeQAData(data: unknown, defaultLang: string): NormalizedQAItem[] {
+function normalizeQAData(
+  data: unknown,
+  defaultLang: string
+): NormalizedQAItem[] {
   const sections = extractSections(data);
   const items: NormalizedQAItem[] = [];
 
@@ -126,7 +139,7 @@ function normalizeQAData(data: unknown, defaultLang: string): NormalizedQAItem[]
       const questionText = sanitizeString(question?.question);
       const answerText = sanitizeString(question?.answer);
 
-      if (!questionText || !answerText) {
+      if (!(questionText && answerText)) {
         continue;
       }
 
@@ -136,7 +149,9 @@ function normalizeQAData(data: unknown, defaultLang: string): NormalizedQAItem[]
           : {};
 
       const searchFields =
-        question && typeof question.search_fields === "object" && question.search_fields
+        question &&
+        typeof question.search_fields === "object" &&
+        question.search_fields
           ? (question.search_fields as Record<string, unknown>)
           : {};
 
@@ -162,16 +177,13 @@ function normalizeQAData(data: unknown, defaultLang: string): NormalizedQAItem[]
         sanitizeString(question?.question_number);
 
       const resolvedSectionId =
-        sanitizeString(metadata.section_id) ??
-        sectionId;
+        sanitizeString(metadata.section_id) ?? sectionId;
 
       const resolvedSectionNumber =
-        sanitizeString(metadata.section_number) ??
-        sectionNumber;
+        sanitizeString(metadata.section_number) ?? sectionNumber;
 
       const resolvedSectionTitle =
-        sanitizeString(metadata.section_title) ??
-        sectionTitle;
+        sanitizeString(metadata.section_title) ?? sectionTitle;
 
       const categorySearchable =
         sanitizeString(searchFields.category_searchable) ??
@@ -276,12 +288,12 @@ async function runWithRetry<T>(operation: () => Promise<T>, context: string) {
         throw new Error(
           `${context} failed after ${attempt} attempt(s): ${message}. ` +
             `Check CONVEX_URL (${process.env.CONVEX_URL}) reachability and network connectivity.`,
-          { cause: error as Error },
+          { cause: error as Error }
         );
       }
 
       console.warn(
-        `${context} failed on attempt ${attempt}/${RETRIES} with "${message}". Retrying in ${delayMs}ms...`,
+        `${context} failed on attempt ${attempt}/${RETRIES} with "${message}". Retrying in ${delayMs}ms...`
       );
       await delay(delayMs);
       delayMs *= RETRY_BACKOFF_MULTIPLIER;
@@ -304,12 +316,13 @@ async function main() {
   console.log(
     `Starting import of ${items.length} QA items with concurrency ${CONCURRENCY} (model: ${
       process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001"
-    }, dim: ${process.env.EMBEDDING_DIM || "768"})`,
+    }, dim: ${process.env.EMBEDDING_DIM || "768"})`
   );
 
   const limit = pLimit(CONCURRENCY);
   let processed = 0;
-  const failures: Array<{ index: number; question: string; error: unknown }> = [];
+  const failures: Array<{ index: number; question: string; error: unknown }> =
+    [];
 
   await Promise.all(
     items.map((item, index) =>
@@ -321,7 +334,7 @@ async function main() {
                 question: item.question,
                 answer: item.answer,
               }),
-            `Embedding generation for "${item.question}"`,
+            `Embedding generation for "${item.question}"`
           );
 
           const payload = {
@@ -352,7 +365,7 @@ async function main() {
 
           await runWithRetry(
             () => client.mutation(convexApi.mutations.qa.upsertQA, payload),
-            `Upsert mutation for "${item.question}"`,
+            `Upsert mutation for "${item.question}"`
           );
 
           processed += 1;
@@ -361,7 +374,10 @@ async function main() {
           }
         } catch (error) {
           failures.push({ index, question: item.question, error });
-          console.error(`Failed to import item ${index + 1} (${item.question}):`, error);
+          console.error(
+            `Failed to import item ${index + 1} (${item.question}):`,
+            error
+          );
 
           if (
             error instanceof Error &&
@@ -369,12 +385,12 @@ async function main() {
             !process.env.CONVEX_URL?.includes("localhost")
           ) {
             console.error(
-              "Hint: verify internet access to Convex Cloud or run `npx convex dev` locally and set CONVEX_URL=http://localhost:4334.",
+              "Hint: verify internet access to Convex Cloud or run `npx convex dev` locally and set CONVEX_URL=http://localhost:4334."
             );
           }
         }
-      }),
-    ),
+      })
+    )
   );
 
   if (failures.length > 0) {
@@ -382,9 +398,11 @@ async function main() {
   }
 
   console.log(
-    `Done. Successfully imported ${processed} of ${items.length} items using CONVEX_URL=${convexUrl}`,
+    `Done. Successfully imported ${processed} of ${items.length} items using CONVEX_URL=${convexUrl}`
   );
-  console.log(`Ensure GOOGLE_API_KEY (${apiKey.slice(0, 6)}***) remains valid for follow-up runs.`);
+  console.log(
+    `Ensure GOOGLE_API_KEY (${apiKey.slice(0, 6)}***) remains valid for follow-up runs.`
+  );
 }
 
 main().catch((error) => {

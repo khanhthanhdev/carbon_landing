@@ -1,2 +1,5 @@
-export { generateMetadata, generateStaticParams } from "./[locale]/layout";
-export { default } from "./[locale]/layout";
+export {
+  default,
+  generateMetadata,
+  generateStaticParams,
+} from "./[locale]/layout";

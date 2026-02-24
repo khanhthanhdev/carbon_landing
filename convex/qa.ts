@@ -1,14 +1,16 @@
-import { query } from "./_generated/server";
 import { v } from "convex/values";
+import { query } from "./_generated/server";
 
 // Helper to compare questions by section_number then question_number
 const compareQuestions = (a: any, b: any) => {
-  const sectionA = parseInt(a.section_number || "0", 10);
-  const sectionB = parseInt(b.section_number || "0", 10);
-  if (sectionA !== sectionB) return sectionA - sectionB;
-  
-  const qNumA = parseInt(a.question_number || "0", 10);
-  const qNumB = parseInt(b.question_number || "0", 10);
+  const sectionA = Number.parseInt(a.section_number || "0", 10);
+  const sectionB = Number.parseInt(b.section_number || "0", 10);
+  if (sectionA !== sectionB) {
+    return sectionA - sectionB;
+  }
+
+  const qNumA = Number.parseInt(a.question_number || "0", 10);
+  const qNumB = Number.parseInt(b.question_number || "0", 10);
   return qNumA - qNumB;
 };
 
@@ -48,12 +50,12 @@ export const getPaginated = query({
     const section = args.section?.trim() || undefined;
 
     let dbQuery;
-    
+
     // Use the combined section+lang index when both are provided
     if (section && lang) {
       dbQuery = ctx.db
         .query("qa")
-        .withIndex("by_section_lang", (q) => 
+        .withIndex("by_section_lang", (q) =>
           q.eq("section_number", section).eq("lang", lang)
         );
     } else if (section) {
@@ -99,11 +101,14 @@ export const getSections = query({
     }
 
     // Group by section to get section info
-    const sectionsMap = new Map<string, {
-      section_number: string;
-      section_title: string;
-      question_count: number;
-    }>();
+    const sectionsMap = new Map<
+      string,
+      {
+        section_number: string;
+        section_title: string;
+        question_count: number;
+      }
+    >();
 
     docs.forEach((doc) => {
       const sectionNumber = doc.section_number || "0";
@@ -119,7 +124,9 @@ export const getSections = query({
     });
 
     return Array.from(sectionsMap.values()).sort(
-      (a, b) => parseInt(a.section_number, 10) - parseInt(b.section_number, 10)
+      (a, b) =>
+        Number.parseInt(a.section_number, 10) -
+        Number.parseInt(b.section_number, 10)
     );
   },
 });
@@ -135,18 +142,22 @@ export const list = query({
     const searchTerm = args.search?.trim();
     const category = args.category?.trim();
     const limit = args.limit || 50;
-    const commonOnly = args.commonOnly || false;
+    const commonOnly = args.commonOnly;
 
     let queryBuilder = ctx.db.query("qa");
 
     // Apply filters
     if (category && category !== "All") {
-      queryBuilder = queryBuilder.filter((q) => q.eq(q.field("category"), category));
+      queryBuilder = queryBuilder.filter((q) =>
+        q.eq(q.field("category"), category)
+      );
     }
 
     if (commonOnly) {
       // Assuming is_common field exists, otherwise filter by some other criteria
-      queryBuilder = queryBuilder.filter((q) => q.eq(q.field("is_common"), true));
+      queryBuilder = queryBuilder.filter((q) =>
+        q.eq(q.field("is_common"), true)
+      );
     }
 
     if (searchTerm) {
@@ -248,8 +259,8 @@ export const getAllByLang = query({
 
     return {
       sections: Array.from(sectionsMap.values()).sort((a, b) => {
-        const aNum = parseInt(a.section_number || "0");
-        const bNum = parseInt(b.section_number || "0");
+        const aNum = Number.parseInt(a.section_number || "0");
+        const bNum = Number.parseInt(b.section_number || "0");
         return aNum - bNum;
       }),
     };

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { convexServerClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
+import { convexServerClient } from "@/lib/convex-server";
 
 const SearchSchema = z.object({
   query: z.string().trim().min(2, "Query must be at least 2 characters"),
@@ -19,27 +19,31 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { 
-          error: "Invalid search parameters", 
-          details: parsed.error.flatten() 
-        }, 
+        {
+          error: "Invalid search parameters",
+          details: parsed.error.flatten(),
+        },
         { status: 400 }
       );
     }
 
     const { query, searchType, category, lang, topK, alpha } = parsed.data;
 
-  // Helper: call Convex action with timeout + retries for transient failures.
-  //
-  // Rationale: In production we occasionally see network hiccups or Convex
-  // service timeouts (ETIMEDOUT / fetch failed). Rather than exposing a hard
-  // 500 to the user, we retry a few times with exponential backoff and a
-  // per-attempt timeout. If all attempts fail we return a 503 so the client
-  // can show a friendly fallback message (and avoid aggressive retries).
+    // Helper: call Convex action with timeout + retries for transient failures.
+    //
+    // Rationale: In production we occasionally see network hiccups or Convex
+    // service timeouts (ETIMEDOUT / fetch failed). Rather than exposing a hard
+    // 500 to the user, we retry a few times with exponential backoff and a
+    // per-attempt timeout. If all attempts fail we return a 503 so the client
+    // can show a friendly fallback message (and avoid aggressive retries).
     const callConvexActionWithRetry = async (
       action: any,
       params: Record<string, unknown>,
-      options: { attempts?: number; timeoutMs?: number; baseDelayMs?: number } = {},
+      options: {
+        attempts?: number;
+        timeoutMs?: number;
+        baseDelayMs?: number;
+      } = {}
     ) => {
       const attempts = options.attempts ?? 3;
       const timeoutMs = options.timeoutMs ?? 5000; // per-attempt timeout
@@ -75,7 +79,7 @@ export async function POST(request: Request) {
             message.includes("ETIMEDOUT") ||
             message.includes("ECONNRESET") ||
             message.includes("network") ||
-            (err instanceof AggregateError);
+            err instanceof AggregateError;
 
           // If last attempt or not transient, rethrow immediately
           if (attempt === attempts || !transient) {
@@ -97,14 +101,18 @@ export async function POST(request: Request) {
     let result;
     try {
       // Use `any` cast on `api` to avoid generated type mismatches while preserving runtime reference
-      result = await callConvexActionWithRetry((api as any).actions.hybridSearch, {
-        query,
-        searchType,
-        category,
-        lang,
-        topK,
-        alpha,
-      }, { attempts: 3, timeoutMs: 8000, baseDelayMs: 300 });
+      result = await callConvexActionWithRetry(
+        (api as any).actions.hybridSearch,
+        {
+          query,
+          searchType,
+          category,
+          lang,
+          topK,
+          alpha,
+        },
+        { attempts: 3, timeoutMs: 8000, baseDelayMs: 300 }
+      );
     } catch (err: unknown) {
       console.error("Convex action failed after retries:", err);
       // Return a friendly service-unavailable response so client can fallback
@@ -114,42 +122,47 @@ export async function POST(request: Request) {
           fallback: true,
           details: err instanceof Error ? err.message : String(err),
         },
-        { status: 503 },
+        { status: 503 }
       );
     }
 
     return NextResponse.json(result);
   } catch (error) {
     console.error("Search API error:", error);
-    
+
     // Return appropriate error response with more context
     if (error instanceof Error) {
       // Check if it's a Convex-related error
-      if (error.message.includes("Not found") || error.message.includes("404")) {
+      if (
+        error.message.includes("Not found") ||
+        error.message.includes("404")
+      ) {
         return NextResponse.json(
-          { 
+          {
             error: "Search service temporarily unavailable",
             fallback: true,
-            details: "Please try again later or use the question request form below"
+            details:
+              "Please try again later or use the question request form below",
           },
           { status: 503 } // Service Unavailable instead of 404
         );
       }
-      
+
       return NextResponse.json(
-        { 
+        {
           error: error.message,
-          fallback: true 
+          fallback: true,
         },
         { status: 500 }
       );
     }
-    
+
     return NextResponse.json(
-      { 
+      {
         error: "Search service temporarily unavailable",
         fallback: true,
-        details: "Please try again later or use the question request form below"
+        details:
+          "Please try again later or use the question request form below",
       },
       { status: 503 }
     );

@@ -1,50 +1,60 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Star } from "lucide-react"
+import { Star } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 interface ChatFeedbackProps {
-  messageId: string
-  onSubmit: (rating: number, comment: string) => void
-  onCancel: () => void
+  messageId: string;
+  onCancel: () => void;
+  onSubmit: (rating: number, comment: string) => void;
 }
 
-export function ChatFeedback({ messageId, onSubmit, onCancel }: ChatFeedbackProps) {
-  const [rating, setRating] = useState(0)
-  const [hoveredRating, setHoveredRating] = useState(0)
-  const [comment, setComment] = useState("")
+export function ChatFeedback({
+  messageId,
+  onSubmit,
+  onCancel,
+}: ChatFeedbackProps) {
+  const [rating, setRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const handleSubmit = () => {
-    if (rating === 0) return
-    onSubmit(rating, comment)
-  }
+    if (rating === 0) {
+      return;
+    }
+    onSubmit(rating, comment);
+  };
 
   return (
-    <Card className="mt-3 p-4 bg-background border-primary/30">
-      <h4 className="text-sm font-semibold text-foreground mb-3">Rate this response</h4>
+    <Card className="mt-3 border-primary/30 bg-background p-4">
+      <h4 className="mb-3 font-semibold text-foreground text-sm">
+        Rate this response
+      </h4>
 
       {/* Star Rating */}
-      <div className="flex items-center gap-1 mb-4">
+      <div className="mb-4 flex items-center gap-1">
         {[1, 2, 3, 4, 5].map((star) => (
           <button
+            className="transition-transform hover:scale-110"
             key={star}
-            type="button"
             onClick={() => setRating(star)}
             onMouseEnter={() => setHoveredRating(star)}
             onMouseLeave={() => setHoveredRating(0)}
-            className="transition-transform hover:scale-110"
+            type="button"
           >
             <Star
               className={`h-6 w-6 ${
-                star <= (hoveredRating || rating) ? "fill-yellow-500 text-yellow-500" : "text-muted-foreground"
+                star <= (hoveredRating || rating)
+                  ? "fill-yellow-500 text-yellow-500"
+                  : "text-muted-foreground"
               }`}
             />
           </button>
         ))}
         {rating > 0 && (
-          <span className="ml-2 text-sm text-muted-foreground">
+          <span className="ml-2 text-muted-foreground text-sm">
             {rating === 1 && "Poor"}
             {rating === 2 && "Fair"}
             {rating === 3 && "Good"}
@@ -56,27 +66,27 @@ export function ChatFeedback({ messageId, onSubmit, onCancel }: ChatFeedbackProp
 
       {/* Comment */}
       <textarea
-        value={comment}
+        className="w-full resize-none rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         onChange={(e) => setComment(e.target.value)}
         placeholder="Additional comments (optional)"
-        className="w-full px-3 py-2 rounded-lg border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm resize-none"
         rows={3}
+        value={comment}
       />
 
       {/* Actions */}
-      <div className="flex items-center gap-2 mt-3">
+      <div className="mt-3 flex items-center gap-2">
         <Button
-          size="sm"
-          onClick={handleSubmit}
-          disabled={rating === 0}
           className="bg-primary text-primary-foreground hover:bg-primary/90"
+          disabled={rating === 0}
+          onClick={handleSubmit}
+          size="sm"
         >
           Submit Feedback
         </Button>
-        <Button size="sm" variant="outline" onClick={onCancel}>
+        <Button onClick={onCancel} size="sm" variant="outline">
           Cancel
         </Button>
       </div>
     </Card>
-  )
+  );
 }

@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import { useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
+import Joyride, { type CallBackProps, STATUS, type Step } from "react-joyride";
 
 const TOUR_STORAGE_KEY = "carbonlearn-tour-completed";
 
 function isMobileDevice(): boolean {
-  if (typeof window === "undefined") return false;
+  if (typeof window === "undefined") {
+    return false;
+  }
   return window.innerWidth < 1024;
 }
 
@@ -92,7 +94,7 @@ export function TourGuide() {
       setRun(false);
       setShouldDisplay(false);
     }
-    
+
     // Scroll to center target element and modal on step change
     if (status === STATUS.RUNNING && typeof index === "number") {
       const step = steps[index];
@@ -105,7 +107,7 @@ export function TourGuide() {
             const elementCenter = rect.top + rect.height / 2;
             const windowCenter = window.innerHeight / 2;
             const scrollOffset = elementCenter - windowCenter;
-            
+
             window.scrollBy({
               top: scrollOffset,
               behavior: "smooth",
@@ -116,36 +118,36 @@ export function TourGuide() {
     }
   };
 
-  if (!hasMounted || !shouldDisplay || steps.length === 0) {
+  if (!(hasMounted && shouldDisplay) || steps.length === 0) {
     return null;
   }
 
   return (
     <Joyride
-      run={run}
-      steps={steps}
-      continuous
-      showProgress
-      showSkipButton
-      scrollToFirstStep
-      disableScrolling
       callback={handleJoyrideCallback}
-      styles={{
-        options: {
-          primaryColor: "#16a34a",
-          zIndex: 10000,
-          arrowColor: "#fff",
-        },
-        tooltip: {
-          animation: "joyride-slide-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
-        } as React.CSSProperties,
-      }}
+      continuous
+      disableScrolling
       locale={{
         back: t("actions.back"),
         close: t("actions.close"),
         last: t("actions.last"),
         next: t("actions.next"),
         skip: t("actions.skip"),
+      }}
+      run={run}
+      scrollToFirstStep
+      showProgress
+      showSkipButton
+      steps={steps}
+      styles={{
+        options: {
+          primaryColor: "#16a34a",
+          zIndex: 10_000,
+          arrowColor: "#fff",
+        },
+        tooltip: {
+          animation: "joyride-slide-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        } as React.CSSProperties,
       }}
     />
   );

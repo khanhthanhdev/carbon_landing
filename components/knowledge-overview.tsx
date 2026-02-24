@@ -1,13 +1,13 @@
 "use client";
 
-import { Link } from "@/lib/navigation";
-import { useLocale, useTranslations } from "next-intl";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Layers } from "lucide-react";
-import { useMemo, memo } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { memo, useMemo } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import qaData from "@/data/qa_new.json";
+import { Link } from "@/lib/navigation";
 
 type QASection = (typeof qaData.sections)[number];
 
@@ -20,7 +20,10 @@ export const KnowledgeOverview = memo(function KnowledgeOverview() {
   // Memoize data processing for performance
   const sections: QASection[] = qaData.sections ?? [];
   const { totalQuestions, featuredSections } = useMemo(() => {
-    const totalQuestions = sections.reduce((count, section) => count + section.questions.length, 0);
+    const totalQuestions = sections.reduce(
+      (count, section) => count + section.questions.length,
+      0
+    );
     const featuredSections = sections.slice(0, 6).map((section) => ({
       id: section.section_id,
       title: section.section_title,
@@ -32,56 +35,58 @@ export const KnowledgeOverview = memo(function KnowledgeOverview() {
   }, [sections]);
 
   return (
-    <section className="py-16 sm:py-20 lg:py-28 bg-gradient-to-br from-muted/30 via-background to-muted/20 relative overflow-hidden">
+    <section className="relative overflow-hidden bg-gradient-to-br from-muted/30 via-background to-muted/20 py-16 sm:py-20 lg:py-28">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-small-black/[0.02] -z-10" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -z-10" />
+      <div className="absolute inset-0 -z-10 bg-grid-small-black/[0.02]" />
+      <div className="absolute top-0 right-0 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+      <div className="absolute bottom-0 left-0 -z-10 h-96 w-96 rounded-full bg-secondary/5 blur-3xl" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6 shadow-sm">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 text-center sm:mb-16 lg:mb-20">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-primary shadow-sm">
             <Layers className="h-4 w-4" />
-            <span className="text-sm font-medium uppercase tracking-wide">{t("spotlight")}</span>
+            <span className="font-medium text-sm uppercase tracking-wide">
+              {t("spotlight")}
+            </span>
           </div>
           {/* <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 text-balance leading-tight">
             {t("title")}
           </h2> */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty leading-relaxed">
+          <p className="mx-auto max-w-3xl text-pretty text-lg text-muted-foreground leading-relaxed sm:text-xl">
             {t("subtitle")}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
-            <Badge variant="secondary" className="text-sm px-4 py-2 shadow-sm">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <Badge className="px-4 py-2 text-sm shadow-sm" variant="secondary">
               {t("totalSections", { count: sections.length })}
             </Badge>
-            <Badge variant="outline" className="text-sm px-4 py-2">
+            <Badge className="px-4 py-2 text-sm" variant="outline">
               {t("totalQuestions", { count: totalQuestions })}
             </Badge>
           </div>
         </div>
 
-        <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12 sm:mb-16">
+        <div className="mb-12 grid grid-cols-1 gap-6 sm:mb-16 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
           {featuredSections.map((section, index) => (
             <Card
+              className="group relative h-full overflow-hidden border-0 bg-card/80 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8"
               key={section.id}
-              className="group h-full p-6 sm:p-8 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card/80 backdrop-blur-sm relative overflow-hidden"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Card gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <h3 className="text-lg sm:text-xl font-bold text-foreground leading-tight flex-1">
+              <div className="relative z-10 flex h-full flex-col">
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <h3 className="flex-1 font-bold text-foreground text-lg leading-tight sm:text-xl">
                     {section.title}
                   </h3>
-                  <span className="text-sm text-muted-foreground bg-muted/80 px-3 py-1.5 rounded-full font-medium whitespace-nowrap">
+                  <span className="whitespace-nowrap rounded-full bg-muted/80 px-3 py-1.5 font-medium text-muted-foreground text-sm">
                     {section.questionCount} Q&A
                   </span>
                 </div>
 
                 {section.highlight && (
-                  <p className="text-base text-muted-foreground mb-6 line-clamp-3 leading-relaxed">
+                  <p className="mb-6 line-clamp-3 text-base text-muted-foreground leading-relaxed">
                     {section.highlight}
                   </p>
                 )}
@@ -89,12 +94,12 @@ export const KnowledgeOverview = memo(function KnowledgeOverview() {
                 <div className="mt-auto">
                   <Button
                     asChild
+                    className="w-full justify-between py-3 text-base transition-colors group-hover:border-primary/50"
                     variant="outline"
-                    className="w-full justify-between text-base py-3 group-hover:border-primary/50 transition-colors"
                   >
                     <Link href={`/books#${section.id}`}>
                       {t("sectionCta")}
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </Button>
                 </div>
@@ -106,8 +111,8 @@ export const KnowledgeOverview = memo(function KnowledgeOverview() {
         <div className="text-center">
           <Button
             asChild
+            className="gap-3 bg-primary px-8 py-4 text-lg text-primary-foreground shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl"
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 gap-3 px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
           >
             <Link href="/books">
               {t("cta")}
@@ -118,4 +123,4 @@ export const KnowledgeOverview = memo(function KnowledgeOverview() {
       </div>
     </section>
   );
-})
+});

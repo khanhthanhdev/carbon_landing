@@ -1,25 +1,25 @@
 "use client";
 
-import * as React from "react";
-import { ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
-import type { SearchResult } from "@/hooks/use-search";
+import * as React from "react";
 import { RichTextRenderer } from "@/components/rich-text-renderer";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import type { SearchResult } from "@/hooks/use-search";
+import { cn } from "@/lib/utils";
 
 interface ResultCardProps {
-  result: SearchResult;
+  className?: string;
   expanded?: boolean;
   onToggle?: () => void;
-  className?: string;
+  result: SearchResult;
 }
 
 /**
  * ResultCard component displays individual search result with expand/collapse functionality
- * 
+ *
  * Features:
  * - Show question as heading with category badge
  * - Display answer preview (3 lines) with expand/collapse
@@ -27,7 +27,7 @@ interface ResultCardProps {
  * - Add expand button to show full answer
  * - Show relevance score as percentage
  * - Display search type indicators (semantic/keyword)
- * 
+ *
  * Requirements addressed:
  * - 3.2: Display results in card format with question, answer preview, category, and sources
  * - 3.5: Expand to show full answer when user clicks
@@ -44,25 +44,26 @@ export function ResultCard({
   const t = useTranslations("search");
   const [internalExpanded, setInternalExpanded] = React.useState(false);
   const cardRef = React.useRef<HTMLDivElement>(null);
-  
+
   // Use controlled expansion if provided, otherwise use internal state
-  const isExpanded = controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
-  
+  const isExpanded =
+    controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
+
   const handleToggle = () => {
     if (onToggle) {
       onToggle();
     } else {
       setInternalExpanded(!internalExpanded);
     }
-    
+
     // When collapsing, scroll the card into view to prevent page jump
     if (isExpanded && cardRef.current) {
       // Use a small delay to allow the collapse animation to start
       setTimeout(() => {
-        cardRef.current?.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'nearest',
-          inline: 'nearest'
+        cardRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "nearest",
         });
       }, 50);
     }
@@ -71,43 +72,53 @@ export function ResultCard({
   // Calculate if answer needs truncation (approximately 3 lines = ~200 characters)
   const PREVIEW_LENGTH = 200;
   const needsExpansion = result.answer.length > PREVIEW_LENGTH;
-  
+
   // Show preview or full answer based on expansion state
-  const displayAnswer = isExpanded || !needsExpansion
-    ? result.answer
-    : `${result.answer.substring(0, PREVIEW_LENGTH)}...`;
+  const displayAnswer =
+    isExpanded || !needsExpansion
+      ? result.answer
+      : `${result.answer.substring(0, PREVIEW_LENGTH)}...`;
 
   return (
-    <Card ref={cardRef} className={cn("p-4 sm:p-6 hover:shadow-md transition-shadow", className)}>
+    <Card
+      className={cn("p-4 transition-shadow hover:shadow-md sm:p-6", className)}
+      ref={cardRef}
+    >
       <div className="space-y-3 sm:space-y-4">
         {/* Question Header with Category Badge */}
         <div className="space-y-2 sm:space-y-3">
-          <h3 className="text-base sm:text-lg font-semibold text-foreground leading-tight">
+          <h3 className="font-semibold text-base text-foreground leading-tight sm:text-lg">
             {result.question}
           </h3>
-          
+
           {/* Badges Row */}
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             {/* Category Badge */}
-            <Badge variant="secondary" className="font-medium text-xs sm:text-sm max-w-[150px] sm:max-w-none truncate">
+            <Badge
+              className="max-w-[150px] truncate font-medium text-xs sm:max-w-none sm:text-sm"
+              variant="secondary"
+            >
               {result.category}
             </Badge>
-            
+
             {/* Relevance Score Badge */}
-            <Badge variant="outline" className="text-[10px] sm:text-xs flex-shrink-0">
-              {t("relevanceScore", { 
-                score: (result.score * 100).toFixed(0) 
+            <Badge
+              className="flex-shrink-0 text-[10px] sm:text-xs"
+              variant="outline"
+            >
+              {t("relevanceScore", {
+                score: (result.score * 100).toFixed(0),
               })}
             </Badge>
-            
+
             {/* Search Type Indicators */}
             {result.reasons && result.reasons.length > 0 && (
               <div className="flex gap-1">
                 {result.reasons.map((reason) => (
-                  <Badge 
-                    key={reason} 
-                    variant="outline" 
-                    className="text-[10px] sm:text-xs bg-primary/5 text-primary border-primary/20"
+                  <Badge
+                    className="border-primary/20 bg-primary/5 text-[10px] text-primary sm:text-xs"
+                    key={reason}
+                    variant="outline"
                   >
                     {reason === "vector" ? t("semantic") : t("keyword")}
                   </Badge>
@@ -122,27 +133,27 @@ export function ResultCard({
           {!isExpanded && needsExpansion ? (
             // Preview mode - show truncated plain text
             <div className="prose prose-sm max-w-none">
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed line-clamp-3">
+              <p className="line-clamp-3 text-muted-foreground text-sm leading-relaxed sm:text-base">
                 {displayAnswer}
               </p>
             </div>
           ) : (
             // Expanded mode - show rich text
             <div className="prose prose-sm max-w-none">
-              <RichTextRenderer 
+              <RichTextRenderer
+                className="text-muted-foreground text-sm leading-relaxed sm:text-base"
                 content={result.answer}
-                className="text-sm sm:text-base text-muted-foreground leading-relaxed"
               />
             </div>
           )}
-          
+
           {/* Expand/Collapse Button */}
           {needsExpansion && (
             <Button
-              variant="ghost"
-              size="sm"
+              className="h-auto p-0 font-medium text-primary text-sm hover:text-primary/80 sm:text-base"
               onClick={handleToggle}
-              className="h-auto p-0 text-sm sm:text-base text-primary hover:text-primary/80 font-medium"
+              size="sm"
+              variant="ghost"
             >
               <span className="flex items-center gap-1">
                 {isExpanded ? (
@@ -163,33 +174,34 @@ export function ResultCard({
 
         {/* Sources Section */}
         {result.sources && result.sources.length > 0 && (
-          <div className="pt-3 sm:pt-4 border-t border-border/50">
+          <div className="border-border/50 border-t pt-3 sm:pt-4">
             <div className="space-y-2 sm:space-y-3">
-              <h4 className="text-xs sm:text-sm font-medium text-foreground">
+              <h4 className="font-medium text-foreground text-xs sm:text-sm">
                 {t("sources", { count: result.sources.length })}
               </h4>
-              
+
               <div className="space-y-1.5 sm:space-y-2">
                 {result.sources.slice(0, 2).map((source, sourceIndex) => (
                   <a
-                    key={sourceIndex}
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className={cn(
-                      "flex items-center gap-2 text-xs sm:text-sm text-primary hover:text-primary/80",
-                      "hover:underline transition-colors group"
+                      "flex items-center gap-2 text-primary text-xs hover:text-primary/80 sm:text-sm",
+                      "group transition-colors hover:underline"
                     )}
+                    href={source.url}
+                    key={sourceIndex}
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    <span className="flex-1 line-clamp-1 break-all sm:break-normal">
+                    <span className="line-clamp-1 flex-1 break-all sm:break-normal">
                       {source.title}
                     </span>
-                    <ExternalLink className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ExternalLink className="h-3 w-3 flex-shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:h-3.5 sm:w-3.5" />
                   </a>
                 ))}
                 {result.sources.length > 2 && (
-                  <p className="text-[10px] sm:text-xs text-muted-foreground pl-1">
-                    +{result.sources.length - 2} more {result.sources.length - 2 === 1 ? 'source' : 'sources'}
+                  <p className="pl-1 text-[10px] text-muted-foreground sm:text-xs">
+                    +{result.sources.length - 2} more{" "}
+                    {result.sources.length - 2 === 1 ? "source" : "sources"}
                   </p>
                 )}
               </div>

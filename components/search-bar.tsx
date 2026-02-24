@@ -1,25 +1,23 @@
 "use client";
 
-import * as React from "react";
-import { useState, useEffect, useCallback } from "react";
 import { Search, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import type * as React from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/use-debounce";
 import { cn } from "@/lib/utils";
 
 interface SearchBarProps {
+  className?: string;
   initialQuery?: string;
   onSearch: (query: string) => void;
-  autoFocus?: boolean;
   placeholder?: string;
-  className?: string;
 }
 
 export function SearchBar({
   initialQuery = "",
   onSearch,
-  autoFocus = false,
   placeholder = "Search for carbon market information...",
   className,
 }: SearchBarProps) {
@@ -33,53 +31,56 @@ export function SearchBar({
     }
   }, [debouncedQuery, onSearch, initialQuery]);
 
-  // Update local state when initialQuery changes
-  useEffect(() => {
-    setQuery(initialQuery);
-  }, [initialQuery]);
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.target.value);
+    },
+    []
+  );
 
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
-  }, []);
-
-  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      onSearch(query.trim());
-    }
-  }, [query, onSearch]);
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        onSearch(query.trim());
+      }
+    },
+    [query, onSearch]
+  );
 
   const handleClear = useCallback(() => {
     setQuery("");
     onSearch("");
   }, [onSearch]);
 
-  const handleSubmit = useCallback((event: React.FormEvent) => {
-    event.preventDefault();
-    onSearch(query.trim());
-  }, [query, onSearch]);
+  const handleSubmit = useCallback(
+    (event: React.FormEvent) => {
+      event.preventDefault();
+      onSearch(query.trim());
+    },
+    [query, onSearch]
+  );
 
   return (
-    <form onSubmit={handleSubmit} className={cn("relative", className)}>
+    <form className={cn("relative", className)} onSubmit={handleSubmit}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          type="text"
-          placeholder={placeholder}
-          value={query}
+          className="h-12 pr-10 pl-10 text-base"
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          autoFocus={autoFocus}
-          className="pl-10 pr-10 h-12 text-base"
+          placeholder={placeholder}
+          type="text"
+          value={query}
         />
         {query && (
           <Button
+            aria-label="Clear search"
+            className="absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            onClick={handleClear}
+            size="icon-sm"
             type="button"
             variant="ghost"
-            size="icon-sm"
-            onClick={handleClear}
-            className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 text-muted-foreground hover:text-foreground"
-            aria-label="Clear search"
           >
             <X className="h-4 w-4" />
           </Button>

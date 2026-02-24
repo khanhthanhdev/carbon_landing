@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { convexServerClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
+import { convexServerClient } from "@/lib/convex-server";
 
 const FeedbackSchema = z.object({
   name: z.string().trim().min(1),
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Invalid payload", details: parsed.error.flatten() },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -36,6 +36,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Failed to submit feedback", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

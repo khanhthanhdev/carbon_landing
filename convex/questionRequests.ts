@@ -1,6 +1,6 @@
-import { mutation, query, action } from "./_generated/server";
-import { api } from "./_generated/api";
 import { v } from "convex/values";
+import { api } from "./_generated/api";
+import { action, mutation, query } from "./_generated/server";
 
 export const create = mutation({
   args: {
@@ -44,13 +44,21 @@ export const createAction = action({
 
 export const list = query({
   args: {
-    status: v.optional(v.union(v.literal("pending"), v.literal("triaged"), v.literal("completed"))),
+    status: v.optional(
+      v.union(
+        v.literal("pending"),
+        v.literal("triaged"),
+        v.literal("completed")
+      )
+    ),
   },
   handler: async (ctx, args) => {
     let queryBuilder = ctx.db.query("questionRequests");
 
     if (args.status) {
-      queryBuilder = queryBuilder.filter((q) => q.eq(q.field("status"), args.status!));
+      queryBuilder = queryBuilder.filter((q) =>
+        q.eq(q.field("status"), args.status!)
+      );
     }
 
     const requests = await queryBuilder.collect();
@@ -65,7 +73,11 @@ export const list = query({
 export const updateStatus = mutation({
   args: {
     id: v.id("questionRequests"),
-    status: v.union(v.literal("pending"), v.literal("triaged"), v.literal("completed")),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("triaged"),
+      v.literal("completed")
+    ),
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.id, { status: args.status });

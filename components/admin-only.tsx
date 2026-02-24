@@ -1,10 +1,16 @@
 "use client";
 
 import { useQuery } from "convex/react";
+import type { ReactNode } from "react";
 import { api } from "@/convex/_generated/api";
-import { ReactNode } from "react";
 
-export function AdminOnly({ children, fallback = null }: { children: ReactNode, fallback?: ReactNode }) {
+export function AdminOnly({
+  children,
+  fallback = null,
+}: {
+  children: ReactNode;
+  fallback?: ReactNode;
+}) {
   const isAdmin = useQuery(api.users.isAdmin);
 
   if (isAdmin === undefined) {

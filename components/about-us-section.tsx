@@ -3,26 +3,26 @@ import { useTranslations } from "next-intl";
 import { MemberCarousel } from "@/components/member-carousel";
 
 interface CoChair {
-  name: string;
   credentials: string;
-  institute?: string;
   image?: string;
+  institute?: string;
   link?: string;
+  name: string;
   quote?: string;
 }
 
 interface Participant {
-  name: string;
   credentials: string;
-  institute?: string;
   image?: string;
+  institute?: string;
   link?: string;
+  name: string;
 }
 
 interface Organization {
-  name: string;
   description: string;
   image?: string;
+  name: string;
 }
 
 interface AboutUsSectionProps {
@@ -40,85 +40,97 @@ export function AboutUsSection({ locale }: AboutUsSectionProps) {
     { icon: "①", title: t.raw("values.innovation") || "Innovation & Impact" },
     { icon: "②", title: t.raw("values.research") || "Innovation & Research" },
     { icon: "③", title: t.raw("values.empowerment") || "Empowerment for SMEs" },
-    { icon: "④", title: t.raw("values.collaboration") || "Global Collaboration" },
+    {
+      icon: "④",
+      title: t.raw("values.collaboration") || "Global Collaboration",
+    },
   ];
 
   return (
-    <section className="bg-background" aria-labelledby="about-heading">
+    <section aria-labelledby="about-heading" className="bg-background">
       {/* Hero Section with Background */}
-      <header className="relative min-h-[400px] md:min-h-[500px] lg:min-h-[600px] bg-gradient-to-b from-emerald-900 to-emerald-700 overflow-hidden">
+      <header className="relative min-h-[400px] overflow-hidden bg-gradient-to-b from-emerald-900 to-emerald-700 md:min-h-[500px] lg:min-h-[600px]">
         {/* Background Image Overlay */}
-        <div 
-          className="absolute inset-0 bg-[url('/forest-bg.jpg')] bg-cover bg-center opacity-40" 
-          aria-hidden="true" 
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[url('/forest-bg.jpg')] bg-center bg-cover opacity-40"
         />
-        
+
         {/* Network Lines Overlay (decorative) */}
-        <div className="absolute inset-0 opacity-20" aria-hidden="true">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <div aria-hidden="true" className="absolute inset-0 opacity-20">
+          <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                <circle cx="25" cy="25" r="2" fill="white" opacity="0.5" />
+              <pattern
+                height="50"
+                id="grid"
+                patternUnits="userSpaceOnUse"
+                width="50"
+              >
+                <circle cx="25" cy="25" fill="white" opacity="0.5" r="2" />
               </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
+            <rect fill="url(#grid)" height="100%" width="100%" />
           </svg>
         </div>
 
         {/* Content */}
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-24">
-          <div className="text-center text-white mb-12 md:mb-16 lg:mb-20">
-            <h1 
+        <div className="container relative mx-auto px-4 py-12 sm:px-6 md:py-16 lg:px-8 lg:py-24">
+          <div className="mb-12 text-center text-white md:mb-16 lg:mb-20">
+            <h1
+              className="mb-4 font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
               id="about-heading"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
             >
               {t.raw("heroTitle") || "Empowering a Sustainable Future"}
             </h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto">
-              {t.raw("heroSubtitle") || "Meet the expert team behind CarbonLearn"}
+            <p className="mx-auto max-w-3xl text-lg text-white/90 md:text-xl">
+              {t.raw("heroSubtitle") ||
+                "Meet the expert team behind CarbonLearn"}
             </p>
           </div>
 
           {/* Co-Chairs Grid */}
-          <div 
-            className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-20 max-w-7xl mx-auto"
-            role="list"
+          <div
             aria-label="Co-Chairs and Editors"
+            className="mx-auto flex max-w-7xl flex-wrap justify-center gap-8 md:gap-12 lg:gap-20"
+            role="list"
           >
             {coChairs.slice(0, 3).map((member, index) => (
-              <article 
-                key={member.name} 
-                className="flex flex-col items-center text-center text-white w-full sm:w-[280px] md:w-[320px] lg:w-[340px]"
+              <article
+                className="flex w-full flex-col items-center text-center text-white sm:w-[280px] md:w-[320px] lg:w-[340px]"
+                key={member.name}
                 role="listitem"
               >
-                <a 
-                  href={member.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="relative w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 mb-4 md:mb-6 rounded-full overflow-hidden border-4 md:border-8 border-white shadow-2xl hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-white/50"
+                <a
                   aria-label={`View profile of ${member.name}`}
+                  className="relative mb-4 h-36 w-36 overflow-hidden rounded-full border-4 border-white shadow-2xl transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/50 md:mb-6 md:h-48 md:w-48 md:border-8 lg:h-56 lg:w-56"
+                  href={member.link}
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   {member.image ? (
                     <Image
-                      fill
-                      src={member.image}
                       alt={member.name}
                       className="object-cover"
-                      sizes="(max-width: 640px) 144px, (max-width: 768px) 192px, 224px"
+                      fill
                       priority={index < 2}
+                      sizes="(max-width: 640px) 144px, (max-width: 768px) 192px, 224px"
+                      src={member.image}
                     />
                   ) : (
-                    <div className="w-full h-full bg-white/20" aria-hidden="true" />
+                    <div
+                      aria-hidden="true"
+                      className="h-full w-full bg-white/20"
+                    />
                   )}
                 </a>
-                <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-1 md:mb-2 break-words">
+                <h2 className="mb-1 break-words font-bold text-lg md:mb-2 md:text-xl lg:text-2xl">
                   {member.name}
                 </h2>
-                <p className="text-xs md:text-sm lg:text-base opacity-90 mb-1 break-words">
+                <p className="mb-1 break-words text-xs opacity-90 md:text-sm lg:text-base">
                   {member.credentials}
                 </p>
                 {member.institute && (
-                  <p className="text-xs md:text-sm opacity-75">
+                  <p className="text-xs opacity-75 md:text-sm">
                     {member.institute}
                   </p>
                 )}
@@ -129,69 +141,78 @@ export function AboutUsSection({ locale }: AboutUsSectionProps) {
       </header>
 
       {/* Our Members Section */}
-      <section className="bg-gray-50 py-12 md:py-16 lg:py-20" aria-labelledby="members-heading">
+      <section
+        aria-labelledby="members-heading"
+        className="bg-gray-50 py-12 md:py-16 lg:py-20"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 
+          <div className="mb-8 text-center md:mb-12">
+            <h2
+              className="mb-2 font-bold text-2xl text-gray-900 md:mb-4 md:text-3xl lg:text-4xl"
               id="members-heading"
-              className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 md:mb-4"
             >
               {t.raw("participants.title") || "Our Members"}
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              {t.raw("participants.description") || "Meet our dedicated team of contributors"}
+            <p className="mx-auto max-w-2xl text-gray-600">
+              {t.raw("participants.description") ||
+                "Meet our dedicated team of contributors"}
             </p>
           </div>
 
-          <div className="max-w-6xl mx-auto">
+          <div className="mx-auto max-w-6xl">
             <MemberCarousel members={participants} />
           </div>
         </div>
       </section>
 
       {/* Global Partners Section */}
-      <section className="bg-white py-12 md:py-16 lg:py-20" aria-labelledby="partners-heading">
+      <section
+        aria-labelledby="partners-heading"
+        className="bg-white py-12 md:py-16 lg:py-20"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 
+          <div className="mb-8 text-center md:mb-12">
+            <h2
+              className="mb-4 font-bold text-2xl text-gray-900 md:mb-8 md:text-3xl lg:text-4xl"
               id="partners-heading"
-              className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-8"
             >
               {t.raw("organizations.title") || "Our Global Partners"}
             </h2>
           </div>
 
-          <div className="max-w-5xl mx-auto">
+          <div className="mx-auto max-w-5xl">
             {/* Partners Logo Grid */}
-            <div 
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 mb-8 md:mb-12"
-              role="list"
+            <div
               aria-label="Partner organizations"
+              className="mb-8 grid grid-cols-1 gap-8 md:mb-12 md:grid-cols-2 md:gap-12 lg:gap-16"
+              role="list"
             >
               {organizations.map((org) => (
-                <article 
-                  key={org.name} 
+                <article
                   className="flex flex-col items-center text-center"
+                  key={org.name}
                   role="listitem"
                 >
-                  <div className="relative w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 mb-4 md:mb-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 p-4 md:p-6 flex items-center justify-center">
+                  <div className="relative mb-4 flex h-40 w-40 items-center justify-center overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-md transition-shadow duration-300 hover:shadow-xl md:mb-6 md:h-48 md:w-48 md:p-6 lg:h-56 lg:w-56">
                     {org.image ? (
                       <Image
-                        fill
-                        src={org.image}
                         alt={`${org.name} logo`}
                         className="object-contain p-4 md:p-6"
-                        sizes="(max-width: 768px) 160px, (max-width: 1024px) 192px, 224px"
+                        fill
                         loading="lazy"
+                        sizes="(max-width: 768px) 160px, (max-width: 1024px) 192px, 224px"
+                        src={org.image}
                       />
                     ) : (
-                      <span className="text-gray-400 font-bold text-xl">{org.name}</span>
+                      <span className="font-bold text-gray-400 text-xl">
+                        {org.name}
+                      </span>
                     )}
                   </div>
-                  <h3 className="text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-2">
+                  <h3 className="mb-2 font-bold text-base text-gray-900 md:text-lg lg:text-xl">
                     {org.name}
                   </h3>
-                  <p className="text-sm lg:text-base text-gray-600">
+                  <p className="text-gray-600 text-sm lg:text-base">
                     {org.description}
                   </p>
                 </article>
@@ -199,25 +220,29 @@ export function AboutUsSection({ locale }: AboutUsSectionProps) {
             </div>
 
             {/* Values Section */}
-            <div 
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-8 md:mt-12"
-              role="list"
+            <div
               aria-label="Our core values"
+              className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-12 md:gap-6 lg:grid-cols-4"
+              role="list"
             >
-              {values.map((value, index) => (
-                <div 
-                  key={index} 
-                  className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 hover:bg-emerald-50 transition-colors duration-300"
+              {values.map((value) => (
+                <div
+                  className="flex items-start gap-3 rounded-lg bg-gray-50 p-4 transition-colors duration-300 hover:bg-emerald-50"
+                  key={value.title}
                   role="listitem"
                 >
-                  <div 
-                    className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center"
+                  <div
                     aria-hidden="true"
+                    className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100"
                   >
-                    <span className="text-emerald-600 text-lg">{value.icon}</span>
+                    <span className="text-emerald-600 text-lg">
+                      {value.icon}
+                    </span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">{value.title}</h4>
+                    <h4 className="font-semibold text-gray-900">
+                      {value.title}
+                    </h4>
                   </div>
                 </div>
               ))}

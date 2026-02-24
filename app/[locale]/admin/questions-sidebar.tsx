@@ -1,18 +1,19 @@
 "use client";
 
+import { format } from "date-fns";
 import { Loader2, RefreshCcw, Trash2 } from "lucide-react";
-import { Doc, Id } from "@/convex/_generated/dataModel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import type { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
 
 type QADoc = Doc<"qa">;
 
 function formatDate(value?: number) {
-  if (!value) return "—";
+  if (!value) {
+    return "—";
+  }
   try {
     return format(value, "PPp");
   } catch {
@@ -21,21 +22,21 @@ function formatDate(value?: number) {
 }
 
 interface QuestionsSidebarProps {
-  qa?: QADoc[];
-  isLoadingList: boolean;
-  search: string;
-  onSearchChange: (value: string) => void;
-  langFilter: string;
-  onLangFilterChange: (value: string) => void;
-  selectedId: Id<"qa"> | null;
-  onSelect: (id: Id<"qa">) => void;
-  onDelete: (id: Id<"qa">) => void;
-  deletingId: Id<"qa"> | null;
-  onReset: () => void;
   canLoadMore: boolean;
+  deletingId: Id<"qa"> | null;
+  isLoadingList: boolean;
   isLoadingMore: boolean;
-  onLoadMore: () => void;
   isSidebarOpen: boolean;
+  langFilter: string;
+  onDelete: (id: Id<"qa">) => void;
+  onLangFilterChange: (value: string) => void;
+  onLoadMore: () => void;
+  onReset: () => void;
+  onSearchChange: (value: string) => void;
+  onSelect: (id: Id<"qa">) => void;
+  qa?: QADoc[];
+  search: string;
+  selectedId: Id<"qa"> | null;
   setIsSidebarOpen: (value: boolean) => void;
 }
 
@@ -60,46 +61,46 @@ export function QuestionsSidebar({
   return (
     <aside
       className={cn(
-        "fixed lg:relative w-80 h-full bg-sidebar border-r border-sidebar-border flex flex-col",
+        "fixed flex h-full w-80 flex-col border-sidebar-border border-r bg-sidebar lg:relative",
         "z-30 transition-transform duration-300 ease-in-out",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}
     >
-      <div className="p-4 border-b border-sidebar-border bg-sidebar/50 backdrop-blur-sm">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-sidebar-foreground/70">
+      <div className="border-sidebar-border border-b bg-sidebar/50 p-4 backdrop-blur-sm">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-semibold text-sidebar-foreground/70 text-sm uppercase tracking-wider">
             Questions
           </h2>
           <Button
-            variant="ghost"
-            size="icon"
             className="h-6 w-6 text-sidebar-foreground/50 hover:text-sidebar-foreground"
             onClick={onReset}
+            size="icon"
             title="New Question"
+            variant="ghost"
           >
             <RefreshCcw className="h-3.5 w-3.5" />
           </Button>
         </div>
         <div className="space-y-2">
           <Input
+            className="h-8 border-sidebar-border bg-sidebar-accent/50 text-sm"
+            onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search..."
             value={search}
-            onChange={(event) => onSearchChange(event.target.value)}
-            className="h-8 text-sm bg-sidebar-accent/50 border-sidebar-border"
           />
           <Input
+            className="h-8 border-sidebar-border bg-sidebar-accent/50 text-sm"
+            onChange={(event) => onLangFilterChange(event.target.value)}
             placeholder="Lang (e.g. vi, en)"
             value={langFilter}
-            onChange={(event) => onLangFilterChange(event.target.value)}
-            className="h-8 text-sm bg-sidebar-accent/50 border-sidebar-border"
           />
         </div>
       </div>
 
-    <div className="flex-1 overflow-y-auto bg-sidebar/30">
-        <div className="p-3 space-y-2">
+      <div className="flex-1 overflow-y-auto bg-sidebar/30">
+        <div className="space-y-2 p-3">
           {isLoadingList ? (
-            <div className="flex flex-col items-center justify-center py-8 text-xs text-muted-foreground gap-2">
+            <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground text-xs">
               <Loader2 className="h-4 w-4 animate-spin" />
               <span>Loading questions...</span>
             </div>
@@ -108,34 +109,34 @@ export function QuestionsSidebar({
               <div className="space-y-1">
                 {qa.map((item) => (
                   <button
+                    className={cn(
+                      "group relative w-full rounded-md border px-3 py-2.5 text-left text-sm transition-all",
+                      selectedId === item._id
+                        ? "border-sidebar-primary bg-sidebar-primary font-medium text-sidebar-primary-foreground shadow-sm"
+                        : "border-transparent text-sidebar-foreground/70 hover:border-sidebar-border/50 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                    )}
                     key={item._id}
                     onClick={() => onSelect(item._id)}
-                    className={cn(
-                      "w-full text-left px-3 py-2.5 rounded-md transition-all group relative border text-sm",
-                      selectedId === item._id
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground border-sidebar-primary shadow-sm font-medium"
-                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground border-transparent hover:border-sidebar-border/50"
-                    )}
                   >
                     <div className="flex items-start gap-2">
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <p className="truncate leading-tight">
                           {item.question ?? "Untitled"}
                         </p>
-                        <div className="flex items-center gap-2 mt-1.5">
+                        <div className="mt-1.5 flex items-center gap-2">
                           <Badge
-                            variant="secondary"
                             className={cn(
-                              "h-4 px-1 text-[10px] font-normal border-0",
+                              "h-4 border-0 px-1 font-normal text-[10px]",
                               selectedId === item._id
                                 ? "bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground"
                                 : "bg-sidebar-accent-foreground/10 text-sidebar-foreground/60"
                             )}
+                            variant="secondary"
                           >
                             {item.category || "No Category"}
                           </Badge>
                           {item.lang && (
-                            <span className="text-[10px] opacity-60 uppercase tracking-wide">
+                            <span className="text-[10px] uppercase tracking-wide opacity-60">
                               {item.lang}
                             </span>
                           )}
@@ -145,26 +146,26 @@ export function QuestionsSidebar({
 
                     <div
                       className={cn(
-                        "absolute right-2 top-2 opacity-0 transition-opacity",
+                        "absolute top-2 right-2 opacity-0 transition-opacity",
                         "group-hover:opacity-100",
                         selectedId === item._id &&
                           "text-sidebar-primary-foreground"
                       )}
                     >
                       <Button
-                        variant="ghost"
-                        size="icon"
                         className={cn(
                           "h-6 w-6",
                           selectedId === item._id
                             ? "hover:bg-sidebar-primary-foreground/20 hover:text-sidebar-primary-foreground"
                             : "hover:bg-destructive/10 hover:text-destructive"
                         )}
+                        disabled={deletingId === item._id}
                         onClick={(event) => {
                           event.stopPropagation();
                           onDelete(item._id as Id<"qa">);
                         }}
-                        disabled={deletingId === item._id}
+                        size="icon"
+                        variant="ghost"
                       >
                         {deletingId === item._id ? (
                           <Loader2 className="h-3 w-3 animate-spin" />
@@ -179,13 +180,13 @@ export function QuestionsSidebar({
 
               {canLoadMore && (
                 <Button
-                  onClick={() => onLoadMore()}
+                  className="mt-2 h-8 w-full text-muted-foreground text-xs hover:text-foreground"
                   disabled={isLoadingMore}
+                  onClick={() => onLoadMore()}
                   variant="ghost"
-                  className="w-full mt-2 text-xs h-8 text-muted-foreground hover:text-foreground"
                 >
                   {isLoadingMore ? (
-                    <Loader2 className="h-3 w-3 animate-spin mr-2" />
+                    <Loader2 className="mr-2 h-3 w-3 animate-spin" />
                   ) : (
                     "Load more questions"
                   )}
@@ -193,11 +194,11 @@ export function QuestionsSidebar({
               )}
             </>
           ) : (
-            <div className="py-12 text-center px-4">
-              <p className="text-sm text-muted-foreground mb-2">
+            <div className="px-4 py-12 text-center">
+              <p className="mb-2 text-muted-foreground text-sm">
                 No questions found.
               </p>
-              <Button variant="outline" size="sm" onClick={onReset}>
+              <Button onClick={onReset} size="sm" variant="outline">
                 Create First Question
               </Button>
             </div>

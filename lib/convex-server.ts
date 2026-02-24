@@ -1,6 +1,10 @@
 import { ConvexHttpClient } from "convex/browser";
+import type {
+  FunctionArgs,
+  FunctionReference,
+  FunctionReturnType,
+} from "convex/server";
 import { api } from "@/convex/_generated/api";
-import type { FunctionReference, FunctionArgs, FunctionReturnType } from "convex/server";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
 
@@ -13,14 +17,14 @@ export const convexServerClient = new ConvexHttpClient(convexUrl);
 /**
  * Type-safe server-side query function for Convex
  * Use this in Server Components to fetch data for SSR/SEO
- * 
+ *
  * @example
  * ```tsx
  * // In a Server Component
  * const categories = await fetchQuery(api.queries.search.getCategories, {});
- * const qaItems = await fetchQuery(api.queries.qa.listPaginated, { 
+ * const qaItems = await fetchQuery(api.queries.qa.listPaginated, {
  *   paginationOpts: { numItems: 10, cursor: null },
- *   lang: "vi" 
+ *   lang: "vi"
  * });
  * ```
  */
@@ -45,7 +49,7 @@ export async function prefetchCategories() {
 /**
  * Fetch recommended book for SSR - used in home/books pages
  */
-export async function prefetchRecommendedBook(locale: string = "vi") {
+export async function prefetchRecommendedBook(locale = "vi") {
   return fetchQuery(api.landingContent.getRecommendedBook, { locale });
 }
 
@@ -90,7 +94,13 @@ export async function prefetchSearchResults(options: {
 // Types for client hydration
 // ============================================================================
 
-export type PrefetchedCategories = Awaited<ReturnType<typeof prefetchCategories>>;
-export type PrefetchedBook = Awaited<ReturnType<typeof prefetchRecommendedBook>>;
+export type PrefetchedCategories = Awaited<
+  ReturnType<typeof prefetchCategories>
+>;
+export type PrefetchedBook = Awaited<
+  ReturnType<typeof prefetchRecommendedBook>
+>;
 export type PrefetchedQAItems = Awaited<ReturnType<typeof prefetchQAItems>>;
-export type PrefetchedSearchResults = Awaited<ReturnType<typeof prefetchSearchResults>>;
+export type PrefetchedSearchResults = Awaited<
+  ReturnType<typeof prefetchSearchResults>
+>;

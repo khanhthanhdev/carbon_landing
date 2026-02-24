@@ -1,12 +1,10 @@
+import { clerkMiddleware } from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
 import { locales } from "./i18n/request";
-import { clerkMiddleware } from '@clerk/nextjs/server'
-
-
 
 const middleware = createMiddleware({
   locales,
-  defaultLocale: "vi"
+  defaultLocale: "vi",
 });
 
 export default clerkMiddleware(async (auth, req) => {
@@ -14,9 +12,5 @@ export default clerkMiddleware(async (auth, req) => {
 });
 
 export const config = {
-  matcher: [
-    "/",
-    "/(en|vi)/:path*",
-    "/((?!api|_next|_vercel|.*\\..*).*)"
-  ]
+  matcher: ["/", "/(en|vi)/:path*", "/((?!api|_next|_vercel|.*\\..*).*)"],
 };

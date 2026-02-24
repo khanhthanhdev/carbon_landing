@@ -1,34 +1,33 @@
-import type { Id, Doc } from "./_generated/dataModel";
-import { action, mutation, query } from "./_generated/server";
-import { api } from "./_generated/api";
 import { ConvexError, v } from "convex/values";
-import { logSearchError, SearchErrorContext } from "./shared";
+import { api } from "./_generated/api";
+import type { Doc, Id } from "./_generated/dataModel";
+import { action, mutation, query } from "./_generated/server";
+import { logSearchError, type SearchErrorContext } from "./shared";
 
 interface QA {
-  _id: Id<"qa">;
   _creationTime: number;
-  question: string;
+  _id: Id<"qa">;
   answer: string;
   category: string;
-  sources?: any[];
   keywords?: string[];
   lang?: string;
+  question: string;
+  sources?: any[];
 }
-
 
 const DEFAULT_SEARCH_CACHE_TTL_MS = 5 * 60 * 1000;
 
 /**
  * Cache Access Statistics Usage Pattern
- * 
+ *
  * When implementing hybrid search or any action that uses the search cache:
- * 
+ *
  * 1. Check cache:
  *    const cached = await ctx.runQuery(api.search.getCachedSearchResults, {
  *      queryHash,
  *      locale
  *    });
- * 
+ *
  * 2. If cache hit, update statistics:
  *    if (cached) {
  *      await ctx.runMutation(api.search.updateCacheAccessStats, {
@@ -36,7 +35,7 @@ const DEFAULT_SEARCH_CACHE_TTL_MS = 5 * 60 * 1000;
  *      });
  *      return cached.questionIds; // Use cached results
  *    }
- * 
+ *
  * 3. If cache miss, execute search and cache:
  *    const results = await executeSearch(...);
  *    await ctx.runMutation(api.search.cacheSearchResults, {
@@ -58,11 +57,11 @@ const sanitizeOptionalString = (value?: string | null) => {
 
 /**
  * Semantic search action (deprecated)
- * 
+ *
  * @deprecated This action is deprecated. Use api.search.vectorSearch for vector search
  * or api.search.hybridSearch for hybrid search instead. This action will be removed
  * in a future version.
- * 
+ *
  * For migration:
  * - Replace api.search.semantic with api.search.vectorSearch for direct vector search
  * - Use api.search.hybridSearch with searchType: "hybrid" for combined vector + full-text search
@@ -74,7 +73,9 @@ export const semantic = action({
     category: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    console.warn("api.search.semantic is deprecated. Use api.search.vectorSearch or api.search.hybridSearch instead.");
+    console.warn(
+      "api.search.semantic is deprecated. Use api.search.vectorSearch or api.search.hybridSearch instead."
+    );
 
     const limit = Math.min(Math.max(args.limit ?? 5, 1), 20);
 
@@ -83,8 +84,8 @@ export const semantic = action({
       limit: limit * 2, // Fetch more for re-ranking
       ...(args.category
         ? {
-          filter: (q) => q.eq("category", args.category!),
-        }
+            filter: (q) => q.eq("category", args.category!),
+          }
         : {}),
     })) as Array<{ _id: Id<"qa">; _score: number }>;
 
@@ -97,7 +98,9 @@ export const semantic = action({
     const results = vectorResults
       .map((r, i) => {
         const doc = vectorDocMap.get(r._id) as QA | undefined;
-        if (!doc) return null;
+        if (!doc) {
+          return null;
+        }
         return {
           _id: doc._id,
           question: doc.question,
@@ -145,7 +148,9 @@ export const getCachedSearchResults = query({
   handler: async (ctx, args) => {
     const record = await ctx.db
       .query("searchCache")
-      .withIndex("byQueryHash", (q) => q.eq("queryHash", args.queryHash).eq("locale", args.locale))
+      .withIndex("byQueryHash", (q) =>
+        q.eq("queryHash", args.queryHash).eq("locale", args.locale)
+      )
       .first();
 
     if (!record) {
@@ -217,11 +222,23 @@ export const cacheSearchResults = mutation({
       v.object({
         category: v.optional(v.string()),
         section: v.optional(v.string()),
-      }),
+      })
     ),
     ttlMs: v.optional(v.number()),
   },
-  handler: async (ctx, { queryHash, locale, questionIds, queryText, scores, embedding, filters, ttlMs }) => {
+  handler: async (
+    ctx,
+    {
+      queryHash,
+      locale,
+      questionIds,
+      queryText,
+      scores,
+      embedding,
+      filters,
+      ttlMs,
+    }
+  ) => {
     if (scores && scores.length > 0 && scores.length !== questionIds.length) {
       throw new ConvexError("scores length must match questionIds length.");
     }
@@ -236,15 +253,18 @@ export const cacheSearchResults = mutation({
 
     const existing = await ctx.db
       .query("searchCache")
-      .withIndex("byQueryHash", (q) => q.eq("queryHash", queryHash).eq("locale", locale))
+      .withIndex("byQueryHash", (q) =>
+        q.eq("queryHash", queryHash).eq("locale", locale)
+      )
       .first();
 
-    const embeddingValue = embedding && embedding.length > 0 ? embedding : undefined;
+    const embeddingValue =
+      embedding && embedding.length > 0 ? embedding : undefined;
     const sanitizedQueryText = sanitizeOptionalString(queryText);
 
     if (existing) {
       const patchPayload: Partial<Doc<"searchCache">> = {
-        questionIds: questionIds,
+        questionIds,
         scores: scores ?? existing.scores ?? [],
         expiresAt,
       };
@@ -266,16 +286,16 @@ export const cacheSearchResults = mutation({
     }
 
     const insertPayload: Omit<Doc<"searchCache">, "_id" | "_creationTime"> = {
-      queryHash: queryHash,
-      locale: locale,
-      questionIds: questionIds,
+      queryHash,
+      locale,
+      questionIds,
       scores: scores ?? [],
       createdAt: now,
       expiresAt,
       lastAccessedAt: now,
       accessCount: 0,
       ...(sanitizedQueryText ? { queryText: sanitizedQueryText } : {}),
-      ...(filters ? { filters: filters } : {}),
+      ...(filters ? { filters } : {}),
       ...(embeddingValue ? { embedding: embeddingValue } : {}),
     };
 
@@ -309,10 +329,16 @@ export const clearExpiredSearchCache = mutation({
 function combineWithRRF(
   vectorResults: Array<{ _id: Id<"qa">; _score: number }>,
   textResults: Array<{ _id: Id<"qa">; _score: number }>,
-  k: number = 60,
-  vectorWeight: number = 0.5,
-  textWeight: number = 0.5
-): Array<{ _id: Id<"qa">; vectorRank: number; textRank: number; rrfScore: number; normalizedScore: number }> {
+  k = 60,
+  vectorWeight = 0.5,
+  textWeight = 0.5
+): Array<{
+  _id: Id<"qa">;
+  vectorRank: number;
+  textRank: number;
+  rrfScore: number;
+  normalizedScore: number;
+}> {
   // Create maps for quick rank and score lookup
   const vectorRankMap = new Map<Id<"qa">, number>();
   const textRankMap = new Map<Id<"qa">, number>();
@@ -331,20 +357,21 @@ function combineWithRRF(
 
   // Collect all unique document IDs
   const allIds = new Set<Id<"qa">>([
-    ...vectorResults.map(r => r._id),
-    ...textResults.map(r => r._id)
+    ...vectorResults.map((r) => r._id),
+    ...textResults.map((r) => r._id),
   ]);
 
   // Calculate RRF score and weighted similarity score for each document
-  const combined = Array.from(allIds).map(_id => {
-    const vectorRank = vectorRankMap.get(_id) ?? Infinity;
-    const textRank = textRankMap.get(_id) ?? Infinity;
+  const combined = Array.from(allIds).map((_id) => {
+    const vectorRank = vectorRankMap.get(_id) ?? Number.POSITIVE_INFINITY;
+    const textRank = textRankMap.get(_id) ?? Number.POSITIVE_INFINITY;
     const vectorScore = vectorScoreMap.get(_id) ?? 0;
     const textScore = textScoreMap.get(_id) ?? 0;
 
     // RRF formula: sum of 1/(k + rank) for each ranking
-    const rrfScore = (vectorRank < Infinity ? 1 / (k + vectorRank) : 0) +
-      (textRank < Infinity ? 1 / (k + textRank) : 0);
+    const rrfScore =
+      (vectorRank < Number.POSITIVE_INFINITY ? 1 / (k + vectorRank) : 0) +
+      (textRank < Number.POSITIVE_INFINITY ? 1 / (k + textRank) : 0);
 
     // Weighted combination of similarity scores
     const normalizedVectorScore = Math.max(0, Math.min(1, vectorScore));
@@ -353,22 +380,23 @@ function combineWithRRF(
     let weightedScore = 0;
     let totalWeight = 0;
 
-    if (vectorRank < Infinity) {
+    if (vectorRank < Number.POSITIVE_INFINITY) {
       weightedScore += normalizedVectorScore * vectorWeight;
       totalWeight += vectorWeight;
     }
-    if (textRank < Infinity) {
+    if (textRank < Number.POSITIVE_INFINITY) {
       weightedScore += normalizedTextScore * textWeight;
       totalWeight += textWeight;
     }
 
     // Normalize by total weight if both are present
-    const finalWeightedScore = totalWeight > 0 ? weightedScore / totalWeight : 0;
+    const finalWeightedScore =
+      totalWeight > 0 ? weightedScore / totalWeight : 0;
 
     return {
       _id,
-      vectorRank: vectorRank < Infinity ? vectorRank : -1,
-      textRank: textRank < Infinity ? textRank : -1,
+      vectorRank: vectorRank < Number.POSITIVE_INFINITY ? vectorRank : -1,
+      textRank: textRank < Number.POSITIVE_INFINITY ? textRank : -1,
       rrfScore,
       normalizedScore: finalWeightedScore, // Use weighted similarity score as the main score
     };
@@ -390,11 +418,9 @@ export const hybridSearch = action({
     lang: v.optional(v.string()),
     topK: v.optional(v.number()),
     alpha: v.optional(v.number()),
-    searchType: v.optional(v.union(
-      v.literal("vector"),
-      v.literal("fulltext"),
-      v.literal("hybrid")
-    )),
+    searchType: v.optional(
+      v.union(v.literal("vector"), v.literal("fulltext"), v.literal("hybrid"))
+    ),
   },
   handler: async (ctx, args) => {
     const startTime = Date.now();
@@ -417,8 +443,12 @@ export const hybridSearch = action({
 
     // Build filters object for cache key generation
     const filters: Record<string, string> = {};
-    if (category) filters.category = category;
-    if (lang) filters.lang = lang;
+    if (category) {
+      filters.category = category;
+    }
+    if (lang) {
+      filters.lang = lang;
+    }
 
     // Generate query hash for caching
     const { generateQueryHash } = await import("./searchUtils");
@@ -462,21 +492,26 @@ export const hybridSearch = action({
 
       // Fetch full question data using batch query
       const questionIds = cacheRecord.questionIds.slice(0, topK);
-      const questions = await ctx.runQuery(api.queries.documents.getQAsByIds, {
+      const questions = (await ctx.runQuery(api.queries.documents.getQAsByIds, {
         ids: questionIds,
-      }) as QA[];
+      })) as QA[];
 
       // Create a map for quick lookup
-      const questionMap = new Map(questions.map(q => [q._id, q]));
+      const questionMap = new Map(questions.map((q) => [q._id, q]));
 
       // Build results from cached data
       const results = questionIds
         .map((id, index) => {
           const q = questionMap.get(id);
-          if (!q) return null;
+          if (!q) {
+            return null;
+          }
 
           const cachedScore = cacheRecord.scores?.[index] ?? 0;
-          const score = typeof cachedScore === 'number' && !isNaN(cachedScore) ? cachedScore : Math.max(0.1, 1 - index * 0.1);
+          const score =
+            typeof cachedScore === "number" && !isNaN(cachedScore)
+              ? cachedScore
+              : Math.max(0.1, 1 - index * 0.1);
           return {
             _id: q._id,
             question: q.question,
@@ -508,7 +543,7 @@ export const hybridSearch = action({
     let usedVector = false;
     let usedFullText = false;
     let embedding: number[] | undefined;
-    let searchErrors: string[] = [];
+    const searchErrors: string[] = [];
 
     // Final formatted results
     let finalResults: Array<{
@@ -527,7 +562,10 @@ export const hybridSearch = action({
     }> = [];
 
     // Helper function to perform vector search directly
-    const performVectorSearch = async (embeddingVector: number[], limit: number) => {
+    const performVectorSearch = async (
+      embeddingVector: number[],
+      limit: number
+    ) => {
       // Build filter based on category and lang
       let filterFn: ((q: any) => any) | undefined;
       if (category && lang) {
@@ -539,16 +577,18 @@ export const hybridSearch = action({
       }
 
       // Perform vector search directly (no action-to-action call)
-      const results = (filterFn
-        ? await ctx.vectorSearch("qa", "by_embedding_doc", {
-          vector: embeddingVector,
-          limit,
-          filter: filterFn,
-        })
-        : await ctx.vectorSearch("qa", "by_embedding_doc", {
-          vector: embeddingVector,
-          limit,
-        })) as Array<{ _id: Id<"qa">; _score: number }>;
+      const results = (
+        filterFn
+          ? await ctx.vectorSearch("qa", "by_embedding_doc", {
+              vector: embeddingVector,
+              limit,
+              filter: filterFn,
+            })
+          : await ctx.vectorSearch("qa", "by_embedding_doc", {
+              vector: embeddingVector,
+              limit,
+            })
+      ) as Array<{ _id: Id<"qa">; _score: number }>;
 
       return results;
     };
@@ -568,48 +608,56 @@ export const hybridSearch = action({
 
         if (vectorResults.length > 0) {
           // Fetch full documents using batch query
-          const documentIds = vectorResults.map(result => result._id);
-          const documents = await ctx.runQuery(api.queries.documents.getQAsByIds, {
-            ids: documentIds,
-          }) as QA[];
+          const documentIds = vectorResults.map((result) => result._id);
+          const documents = (await ctx.runQuery(
+            api.queries.documents.getQAsByIds,
+            {
+              ids: documentIds,
+            }
+          )) as QA[];
 
           // Create a map for quick lookup
-          const docMap = new Map(documents.map(doc => [doc._id, doc]));
+          const docMap = new Map(documents.map((doc) => [doc._id, doc]));
 
           // Format results
-          finalResults = vectorResults.map((result, index) => {
-            const doc = docMap.get(result._id);
-            if (!doc) {
-              console.warn(`Document not found for ID: ${result._id}`);
-              return null;
-            }
+          finalResults = vectorResults
+            .map((result, index) => {
+              const doc = docMap.get(result._id);
+              if (!doc) {
+                console.warn(`Document not found for ID: ${result._id}`);
+                return null;
+              }
 
-            const score = typeof result._score === 'number' && !isNaN(result._score)
-              ? result._score
-              : Math.max(0.1, 1 - index * 0.1);
+              const score =
+                typeof result._score === "number" && !isNaN(result._score)
+                  ? result._score
+                  : Math.max(0.1, 1 - index * 0.1);
 
-            return {
-              _id: doc._id,
-              question: doc.question,
-              answer: doc.answer,
-              category: doc.category,
-              sources: doc.sources,
-              score,
-              vectorScore: result._score,
-              reasons: ["vector"] as string[],
-            };
-          }).filter((r): r is NonNullable<typeof r> => r !== null);
+              return {
+                _id: doc._id,
+                question: doc.question,
+                answer: doc.answer,
+                category: doc.category,
+                sources: doc.sources,
+                score,
+                vectorScore: result._score,
+                reasons: ["vector"] as string[],
+              };
+            })
+            .filter((r): r is NonNullable<typeof r> => r !== null);
         }
-
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
 
-        let errorType: SearchErrorContext['errorType'] = 'unknown';
+        let errorType: SearchErrorContext["errorType"] = "unknown";
 
-        if (errorMsg.includes('Embedding generation failed') || errorMsg.includes('Gemini')) {
-          errorType = 'embedding_generation';
+        if (
+          errorMsg.includes("Embedding generation failed") ||
+          errorMsg.includes("Gemini")
+        ) {
+          errorType = "embedding_generation";
         } else {
-          errorType = 'vector_search';
+          errorType = "vector_search";
         }
 
         console.error("Vector search error:", errorMsg);
@@ -627,30 +675,33 @@ export const hybridSearch = action({
           queryHash,
           error: errorMsg,
           errorType,
-          fallbackUsed: "Returning empty results"
+          fallbackUsed: "Returning empty results",
         });
 
         searchErrors.push(`Vector search error: ${errorMsg}`);
       }
-
     } else if (searchType === "fulltext") {
       // Full-text search only
       try {
         usedFullText = true;
-        const textResults = await ctx.runQuery(api.queries.search.fullTextSearch, {
-          query,
-          category,
-          lang,
-          limit: topK,
-        });
+        const textResults = await ctx.runQuery(
+          api.queries.search.fullTextSearch,
+          {
+            query,
+            category,
+            lang,
+            limit: topK,
+          }
+        );
 
         console.log(`Full-text search returned ${textResults.length} results`);
 
         if (textResults.length > 0) {
           finalResults = textResults.map((result, index) => {
-            const score = typeof result.textScore === 'number' && !isNaN(result.textScore)
-              ? result.textScore
-              : Math.max(0.1, 1 - index * 0.1);
+            const score =
+              typeof result.textScore === "number" && !isNaN(result.textScore)
+                ? result.textScore
+                : Math.max(0.1, 1 - index * 0.1);
 
             return {
               _id: result._id as Id<"qa">,
@@ -664,7 +715,6 @@ export const hybridSearch = action({
             };
           });
         }
-
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
 
@@ -682,13 +732,12 @@ export const hybridSearch = action({
           usedCache: false,
           queryHash,
           error: errorMsg,
-          errorType: 'fulltext_search',
-          fallbackUsed: "Returning empty results"
+          errorType: "fulltext_search",
+          fallbackUsed: "Returning empty results",
         });
 
         searchErrors.push(`Full-text search error: ${errorMsg}`);
       }
-
     } else {
       // Hybrid search
       try {
@@ -698,56 +747,86 @@ export const hybridSearch = action({
         const [vectorSearchResults, textSearchResults] = await Promise.all([
           performVectorSearch(embedding, topK * 2).catch((err) => {
             console.warn("Vector search in hybrid mode failed:", err);
-            searchErrors.push(`Vector search: ${err instanceof Error ? err.message : String(err)}`);
+            searchErrors.push(
+              `Vector search: ${err instanceof Error ? err.message : String(err)}`
+            );
             return [] as Array<{ _id: Id<"qa">; _score: number }>;
           }),
-          ctx.runQuery(api.queries.search.fullTextSearch, {
-            query,
-            category,
-            lang,
-            limit: topK * 2,
-          }).then(res => res as Array<Doc<"qa"> & { textScore: number }>).catch((err) => {
-            console.warn("Full-text search in hybrid mode failed:", err);
-            searchErrors.push(`Full-text search: ${err instanceof Error ? err.message : String(err)}`);
-            return [] as Array<{ _id: Id<"qa">; textScore: number }>;
-          }),
+          ctx
+            .runQuery(api.queries.search.fullTextSearch, {
+              query,
+              category,
+              lang,
+              limit: topK * 2,
+            })
+            .then((res) => res as Array<Doc<"qa"> & { textScore: number }>)
+            .catch((err) => {
+              console.warn("Full-text search in hybrid mode failed:", err);
+              searchErrors.push(
+                `Full-text search: ${err instanceof Error ? err.message : String(err)}`
+              );
+              return [] as Array<{ _id: Id<"qa">; textScore: number }>;
+            }),
         ]);
 
         usedVector = vectorSearchResults.length > 0;
         usedFullText = textSearchResults.length > 0;
 
-        console.log(`Hybrid search: vector=${vectorSearchResults.length} results, fulltext=${textSearchResults.length} results`);
+        console.log(
+          `Hybrid search: vector=${vectorSearchResults.length} results, fulltext=${textSearchResults.length} results`
+        );
 
         if (vectorSearchResults.length > 0 || textSearchResults.length > 0) {
-          const textResultsForRRF = textSearchResults.map(r => ({
+          const textResultsForRRF = textSearchResults.map((r) => ({
             _id: r._id,
             _score: r.textScore ?? 0,
           }));
 
-          const combined = combineWithRRF(vectorSearchResults, textResultsForRRF, 60);
+          const combined = combineWithRRF(
+            vectorSearchResults,
+            textResultsForRRF,
+            60
+          );
 
-          const allDocumentIds = Array.from(new Set([
-            ...vectorSearchResults.map(r => r._id),
-            ...textSearchResults.map(r => r._id)
-          ]));
+          const allDocumentIds = Array.from(
+            new Set([
+              ...vectorSearchResults.map((r) => r._id),
+              ...textSearchResults.map((r) => r._id),
+            ])
+          );
 
-          const allDocs = await ctx.runQuery(api.queries.documents.getQAsByIds, {
-            ids: allDocumentIds,
-          }) as QA[];
+          const allDocs = (await ctx.runQuery(
+            api.queries.documents.getQAsByIds,
+            {
+              ids: allDocumentIds,
+            }
+          )) as QA[];
 
-          const docMap = new Map(allDocs.map(doc => [doc._id, doc]));
+          const docMap = new Map(allDocs.map((doc) => [doc._id, doc]));
 
-          const vectorScoreMap = new Map<Id<"qa">, { rank: number; score: number }>();
-          vectorSearchResults.forEach((r, i) => vectorScoreMap.set(r._id, { rank: i + 1, score: r._score }));
+          const vectorScoreMap = new Map<
+            Id<"qa">,
+            { rank: number; score: number }
+          >();
+          vectorSearchResults.forEach((r, i) =>
+            vectorScoreMap.set(r._id, { rank: i + 1, score: r._score })
+          );
 
-          const textScoreMap = new Map<Id<"qa">, { rank: number; score: number }>();
-          textSearchResults.forEach((r, i) => textScoreMap.set(r._id, { rank: i + 1, score: r.textScore }));
+          const textScoreMap = new Map<
+            Id<"qa">,
+            { rank: number; score: number }
+          >();
+          textSearchResults.forEach((r, i) =>
+            textScoreMap.set(r._id, { rank: i + 1, score: r.textScore })
+          );
 
           finalResults = combined
             .slice(0, topK)
-            .map(item => {
+            .map((item) => {
               const doc = docMap.get(item._id) as QA | undefined;
-              if (!doc) return null;
+              if (!doc) {
+                return null;
+              }
 
               const vectorInfo = vectorScoreMap.get(item._id);
               const textInfo = textScoreMap.get(item._id);
@@ -769,7 +848,6 @@ export const hybridSearch = action({
             })
             .filter((r): r is NonNullable<typeof r> => r !== null);
         }
-
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
 
@@ -787,8 +865,9 @@ export const hybridSearch = action({
           usedCache: false,
           queryHash,
           error: errorMsg,
-          errorType: usedVector || usedFullText ? 'unknown' : 'both_searches_failed',
-          fallbackUsed: "Returning empty results"
+          errorType:
+            usedVector || usedFullText ? "unknown" : "both_searches_failed",
+          fallbackUsed: "Returning empty results",
         });
 
         searchErrors.push(`Hybrid search error: ${errorMsg}`);
@@ -803,20 +882,24 @@ export const hybridSearch = action({
       await ctx.runMutation(api.search.cacheSearchResults, {
         queryHash,
         locale: lang ?? "vi",
-        questionIds: results.map(r => r._id as Id<"qa">),
+        questionIds: results.map((r) => r._id as Id<"qa">),
         queryText: query,
-        scores: results.map(r => r.score),
+        scores: results.map((r) => r.score),
         embedding,
-        filters: Object.keys(filters).length > 0 ? {
-          category,
-          locale: lang,
-        } : undefined,
+        filters:
+          Object.keys(filters).length > 0
+            ? {
+                category,
+                locale: lang,
+              }
+            : undefined,
         ttlMs: DEFAULT_SEARCH_CACHE_TTL_MS,
       });
       cacheWriteSuccess = true;
       console.log("Successfully cached search results");
     } catch (cacheError) {
-      const errorMsg = cacheError instanceof Error ? cacheError.message : String(cacheError);
+      const errorMsg =
+        cacheError instanceof Error ? cacheError.message : String(cacheError);
 
       logSearchError({
         query,
@@ -831,15 +914,17 @@ export const hybridSearch = action({
         usedCache: false,
         queryHash,
         error: errorMsg,
-        errorType: 'cache_operation',
-        fallbackUsed: 'Continuing without cache'
+        errorType: "cache_operation",
+        fallbackUsed: "Continuing without cache",
       });
       console.warn("Failed to cache search results:", errorMsg);
     }
 
     const latencyMs = Date.now() - startTime;
 
-    console.log(`Search completed: ${results.length} results in ${latencyMs}ms`);
+    console.log(
+      `Search completed: ${results.length} results in ${latencyMs}ms`
+    );
 
     return {
       results,
@@ -871,7 +956,9 @@ export const vectorSearch = action({
     const take = Math.min(Math.max(limit ?? 20, 1), 50);
 
     if (embedding.length !== 768) {
-      throw new Error(`Invalid embedding dimensions: expected 768, got ${embedding.length}`);
+      throw new Error(
+        `Invalid embedding dimensions: expected 768, got ${embedding.length}`
+      );
     }
 
     let filterFn;
@@ -897,32 +984,36 @@ export const vectorSearch = action({
       });
     }
 
-    const documentIds = results.map(result => result._id);
-    const documents = await ctx.runQuery(api.queries.documents.getQAsByIds, {
+    const documentIds = results.map((result) => result._id);
+    const documents = (await ctx.runQuery(api.queries.documents.getQAsByIds, {
       ids: documentIds,
-    }) as QA[];
+    })) as QA[];
 
-    const docMap = new Map(documents.map(doc => [doc._id, doc]));
+    const docMap = new Map(documents.map((doc) => [doc._id, doc]));
 
-    return results.map((result) => {
-      const doc = docMap.get(result._id) as any;
-      if (!doc) {
-        console.warn(`Document not found for ID: ${result._id}`);
-        return null;
-      }
+    return results
+      .map((result) => {
+        const doc = docMap.get(result._id) as any;
+        if (!doc) {
+          console.warn(`Document not found for ID: ${result._id}`);
+          return null;
+        }
 
-      return {
-        _id: result._id,
-        question: doc.question as string,
-        answer: doc.answer as string,
-        category: doc.category as string,
-        sources: (doc.sources as any[]) || [],
-        question_number: doc.question_number as string | undefined,
-        section_number: doc.section_number as string | undefined,
-        section_title: doc.section_title as string | undefined,
-        lang: doc.lang as string | undefined,
-        vectorScore: result._score,
-      };
-    }).filter((result): result is NonNullable<typeof result> => result !== null);
+        return {
+          _id: result._id,
+          question: doc.question as string,
+          answer: doc.answer as string,
+          category: doc.category as string,
+          sources: (doc.sources as any[]) || [],
+          question_number: doc.question_number as string | undefined,
+          section_number: doc.section_number as string | undefined,
+          section_title: doc.section_title as string | undefined,
+          lang: doc.lang as string | undefined,
+          vectorScore: result._score,
+        };
+      })
+      .filter(
+        (result): result is NonNullable<typeof result> => result !== null
+      );
   },
 });

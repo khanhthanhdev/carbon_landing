@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { executeSemanticSearch } from "@/lib/server/semantic-search";
 import { generateText } from "@/lib/ai/gemini";
+import { executeSemanticSearch } from "@/lib/server/semantic-search";
 
 const AnswerSchema = z.object({
   question: z.string().trim().min(5),
@@ -14,12 +14,18 @@ Highlight key terms, suggest concrete actions, and mention relevant regulations 
 If information is unavailable in the context, say so and recommend next steps.`;
 
 function stripHtml(value: string) {
-  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  return value
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function buildContext(matches: Array<{ question: string; answer: string }>) {
   return matches
-    .map((match, index) => `Context ${index + 1}:\nQuestion: ${match.question}\nAnswer: ${stripHtml(match.answer)}`)
+    .map(
+      (match, index) =>
+        `Context ${index + 1}:\nQuestion: ${match.question}\nAnswer: ${stripHtml(match.answer)}`
+    )
     .join("\n\n");
 }
 
@@ -29,12 +35,18 @@ export async function POST(request: Request) {
     const parsed = AnswerSchema.safeParse(body);
 
     if (!parsed.success) {
-      return NextResponse.json({ error: "Invalid payload", details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid payload", details: parsed.error.flatten() },
+        { status: 400 }
+      );
     }
 
     const { question, locale } = parsed.data;
 
-    const { matches } = await executeSemanticSearch({ query: question, limit: 5 });
+    const { matches } = await executeSemanticSearch({
+      query: question,
+      limit: 5,
+    });
     const topMatches = matches.slice(0, 4).map((match) => ({
       question: match.question,
       answer: match.answer,
@@ -44,7 +56,7 @@ export async function POST(request: Request) {
 
     const answer = await generateText(
       `${ANSWER_PROMPT_TEMPLATE}\n\nUser Question: ${question}\n\nContextual Information:\n${context}`,
-      { locale },
+      { locale }
     );
 
     return NextResponse.json({
@@ -58,6 +70,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("AI answer failed", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

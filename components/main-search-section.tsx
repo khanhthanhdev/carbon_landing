@@ -1,15 +1,14 @@
 "use client";
 
-import type React from "react";
-
-import { useState, memo } from "react";
+import { MessageSquare, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, MessageSquare } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import type React from "react";
+import { memo, useState } from "react";
 import { AIChatDialog } from "@/components/ai-chat-dialog";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export const MainSearchSection = memo(function MainSearchSection() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -29,48 +28,48 @@ export const MainSearchSection = memo(function MainSearchSection() {
   };
 
   return (
-    <section className="pt-16 sm:pt-0 py-8 sm:py-12 lg:py-16 xl:py-20 bg-gradient-to-b from-background to-muted/30">
+    <section className="bg-gradient-to-b from-background to-muted/30 py-8 pt-16 sm:py-12 sm:pt-0 lg:py-16 xl:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="p-4 sm:p-6 lg:p-8 xl:p-10 border-2 shadow-lg">
-            <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-              <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-foreground mb-2 sm:mb-3 lg:mb-4 text-balance">
+        <div className="mx-auto max-w-4xl">
+          <Card className="border-2 p-4 shadow-lg sm:p-6 lg:p-8 xl:p-10">
+            <div className="mb-4 text-center sm:mb-6 lg:mb-8">
+              <h2 className="mb-2 text-balance font-bold text-foreground text-xl sm:mb-3 sm:text-2xl lg:mb-4 lg:text-3xl xl:text-4xl">
                 {t("title")}
               </h2>
-              <p className="text-sm sm:text-base lg:text-lg text-muted-foreground text-pretty">
+              <p className="text-pretty text-muted-foreground text-sm sm:text-base lg:text-lg">
                 {t("subtitle")}
               </p>
             </div>
 
-            <form onSubmit={handleSearch} className="space-y-3 sm:space-y-4">
+            <form className="space-y-3 sm:space-y-4" onSubmit={handleSearch}>
               <div className="relative">
-                <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground sm:left-4 sm:h-5 sm:w-5" />
                 <Input
-                  type="text"
-                  placeholder={t("placeholder")}
-                  value={searchQuery}
+                  className="h-10 pl-10 text-sm sm:h-12 sm:pl-12 sm:text-base lg:h-14"
                   onChange={(event) => setSearchQuery(event.target.value)}
-                  className="pl-10 sm:pl-12 h-10 sm:h-12 lg:h-14 text-sm sm:text-base"
+                  placeholder={t("placeholder")}
+                  type="text"
+                  value={searchQuery}
                 />
               </div>
 
               <div className="flex flex-col gap-2 sm:gap-3">
                 <Button
-                  type="submit"
+                  className="h-10 w-full text-sm sm:h-11 sm:text-base lg:h-12"
                   size="lg"
-                  className="w-full h-10 sm:h-11 lg:h-12 text-sm sm:text-base"
+                  type="submit"
                 >
-                  <Search className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                  <Search className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                   {t("searchButton")}
                 </Button>
                 <Button
+                  className="h-10 w-full bg-transparent text-sm sm:h-11 sm:text-base lg:h-12"
+                  onClick={() => setIsAIDialogOpen(true)}
+                  size="lg"
                   type="button"
                   variant="outline"
-                  size="lg"
-                  className="w-full h-10 sm:h-11 lg:h-12 text-sm sm:text-base bg-transparent"
-                  onClick={() => setIsAIDialogOpen(true)}
                 >
-                  <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                  <MessageSquare className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                   {t("askAI")}
                 </Button>
               </div>
@@ -80,10 +79,10 @@ export const MainSearchSection = memo(function MainSearchSection() {
       </div>
 
       <AIChatDialog
+        initialContext={searchQuery || undefined}
         isOpen={isAIDialogOpen}
         onClose={() => setIsAIDialogOpen(false)}
-        initialContext={searchQuery || undefined}
       />
     </section>
   );
-})
+});

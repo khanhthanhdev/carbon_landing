@@ -1,10 +1,10 @@
 "use client";
 
+import { BookOpen, FileQuestion, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { BookOpen, FileQuestion, MessageSquare } from "lucide-react";
 
 export function AdminSidebarNav() {
   const pathname = usePathname();
@@ -14,23 +14,31 @@ export function AdminSidebarNav() {
   };
 
   return (
-    <nav className="w-64 bg-slate-50 border-r min-h-screen p-4 flex flex-col gap-2">
-      <div className="font-bold text-lg px-4 py-2 text-slate-700 mb-4">Admin</div>
-      
+    <nav className="flex min-h-screen w-64 flex-col gap-2 border-r bg-slate-50 p-4">
+      <div className="mb-4 px-4 py-2 font-bold text-lg text-slate-700">
+        Admin
+      </div>
+
       <Link href="/admin/sections">
         <Button
+          className={cn(
+            "w-full justify-start gap-2",
+            isActive("/admin/sections") && "bg-slate-200"
+          )}
           variant={isActive("/admin/sections") ? "secondary" : "ghost"}
-          className={cn("w-full justify-start gap-2", isActive("/admin/sections") && "bg-slate-200")}
         >
           <BookOpen className="h-4 w-4" />
           Sections
         </Button>
       </Link>
-      
+
       <Link href="/admin/questions">
         <Button
+          className={cn(
+            "w-full justify-start gap-2",
+            isActive("/admin/questions") && "bg-slate-200"
+          )}
           variant={isActive("/admin/questions") ? "secondary" : "ghost"}
-          className={cn("w-full justify-start gap-2", isActive("/admin/questions") && "bg-slate-200")}
         >
           <FileQuestion className="h-4 w-4" />
           Questions
@@ -39,8 +47,11 @@ export function AdminSidebarNav() {
 
       <Link href="/admin/feedback">
         <Button
+          className={cn(
+            "w-full justify-start gap-2",
+            isActive("/admin/feedback") && "bg-slate-200"
+          )}
           variant={isActive("/admin/feedback") ? "secondary" : "ghost"}
-          className={cn("w-full justify-start gap-2", isActive("/admin/feedback") && "bg-slate-200")}
         >
           <MessageSquare className="h-4 w-4" />
           Feedback

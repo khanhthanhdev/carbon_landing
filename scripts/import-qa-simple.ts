@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
 import { readFile } from "node:fs/promises";
 import { ConvexHttpClient } from "convex/browser";
+import dotenv from "dotenv";
 import { api } from "../convex/_generated/api";
 
 dotenv.config({ path: ".env.local" });
@@ -23,7 +23,7 @@ async function main() {
   const data = await readFile(jsonPath, "utf-8");
   const parsed = JSON.parse(data);
 
-  if (!parsed.sections || !Array.isArray(parsed.sections)) {
+  if (!(parsed.sections && Array.isArray(parsed.sections))) {
     throw new Error("Invalid JSON format: expected { sections: [...] }");
   }
 

@@ -1,4 +1,4 @@
-import createNextIntlPlugin from 'next-intl/plugin';
+import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -11,15 +11,15 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    formats: ['image/webp', 'image/avif'],
+    formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'carbonmarketvietnam.com',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "carbonmarketvietnam.com",
+        port: "",
+        pathname: "/**",
       },
     ],
     dangerouslyAllowSVG: true,
@@ -34,28 +34,28 @@ const nextConfig = {
   // PWA and SEO optimizations
   headers: async () => [
     {
-      source: '/(.*)',
+      source: "/(.*)",
       headers: [
         {
-          key: 'X-Frame-Options',
-          value: 'DENY',
+          key: "X-Frame-Options",
+          value: "DENY",
         },
         {
-          key: 'X-Content-Type-Options',
-          value: 'nosniff',
+          key: "X-Content-Type-Options",
+          value: "nosniff",
         },
         {
-          key: 'Referrer-Policy',
-          value: 'origin-when-cross-origin',
+          key: "Referrer-Policy",
+          value: "origin-when-cross-origin",
         },
         {
-          key: 'Permissions-Policy',
-          value: 'camera=(), microphone=(), geolocation=()',
+          key: "Permissions-Policy",
+          value: "camera=(), microphone=(), geolocation=()",
         },
       ],
     },
   ],
-   async rewrites() {
+  async rewrites() {
     return [
       {
         source: "/relay-Pa4n/static/:path*",
@@ -69,6 +69,6 @@ const nextConfig = {
   },
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
-}
+};
 
-export default withNextIntl(nextConfig)
+export default withNextIntl(nextConfig);

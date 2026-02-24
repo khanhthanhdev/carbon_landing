@@ -1,8 +1,8 @@
-import { mutation, query, action } from "./_generated/server";
-import { v } from "convex/values";
 import { GoogleGenAI } from "@google/genai";
+import { v } from "convex/values";
 import { GeminiHelper } from "../lib/ai/gemini";
 import { api } from "./_generated/api";
+import { action, mutation, query } from "./_generated/server";
 import { getEmbeddingCacheKey, sleep } from "./shared";
 
 const MODEL = process.env.GEMINI_EMBEDDING_MODEL || "gemini-embedding-001";
@@ -17,7 +17,7 @@ const TASKS = [
   "FACT_VERIFICATION",
 ] as const;
 
-type TaskType = typeof TASKS[number];
+type TaskType = (typeof TASKS)[number];
 
 let cachedClient: GoogleGenAI | null = null;
 
@@ -27,7 +27,9 @@ function composeDocText(question: string, answer: string) {
 
 function ensureDim(vec: number[]) {
   if (!Array.isArray(vec) || vec.length !== DIM) {
-    throw new Error(`Embedding dimension mismatch. Expected ${DIM}, got ${vec?.length || 0}`);
+    throw new Error(
+      `Embedding dimension mismatch. Expected ${DIM}, got ${vec?.length || 0}`
+    );
   }
 }
 
@@ -90,7 +92,9 @@ export const embedForTask = action({
   },
   handler: async (ctx, { text, task }) => {
     const apiKey = process.env.GOOGLE_API_KEY;
-    if (!apiKey) throw new Error("Missing GOOGLE_API_KEY");
+    if (!apiKey) {
+      throw new Error("Missing GOOGLE_API_KEY");
+    }
     return embedText({ apiKey, text, task });
   },
 });
@@ -106,8 +110,14 @@ export const embedQADocumentAll = action({
   handler: async (ctx, { question, answer }) => {
     const docText = composeDocText(question, answer);
     const apiKey = process.env.GOOGLE_API_KEY;
-    if (!apiKey) throw new Error("Missing GOOGLE_API_KEY");
-    const tasks: TaskType[] = ["RETRIEVAL_DOCUMENT", "QUESTION_ANSWERING", "FACT_VERIFICATION"];
+    if (!apiKey) {
+      throw new Error("Missing GOOGLE_API_KEY");
+    }
+    const tasks: TaskType[] = [
+      "RETRIEVAL_DOCUMENT",
+      "QUESTION_ANSWERING",
+      "FACT_VERIFICATION",
+    ];
 
     const entries = await Promise.all(
       tasks.map(async (task) => {
@@ -119,13 +129,12 @@ export const embedQADocumentAll = action({
           title: task === "RETRIEVAL_DOCUMENT" ? question : undefined,
         });
         return [task, values] as const;
-      }),
+      })
     );
 
-    const results: Record<TaskType, number[]> = Object.fromEntries(entries) as Record<
-      TaskType,
-      number[]
-    >;
+    const results: Record<TaskType, number[]> = Object.fromEntries(
+      entries
+    ) as Record<TaskType, number[]>;
 
     return {
       embedding_doc: results["RETRIEVAL_DOCUMENT"],
@@ -152,9 +161,13 @@ export const embedQADocumentsBatch = action({
   },
   handler: async (ctx, { documents }) => {
     const apiKey = process.env.GOOGLE_API_KEY;
-    if (!apiKey) throw new Error("Missing GOOGLE_API_KEY");
+    if (!apiKey) {
+      throw new Error("Missing GOOGLE_API_KEY");
+    }
 
-    const docTexts = documents.map(({ question, answer }) => composeDocText(question, answer));
+    const docTexts = documents.map(({ question, answer }) =>
+      composeDocText(question, answer)
+    );
     const answerTexts = documents.map(({ answer }) => answer);
 
     const requestsDoc = docTexts.map((text, i) => ({
@@ -202,7 +215,9 @@ export const embedQuery = action({
   },
   handler: async (ctx, { query, task }) => {
     const apiKey = process.env.GOOGLE_API_KEY;
-    if (!apiKey) throw new Error("Missing GOOGLE_API_KEY");
+    if (!apiKey) {
+      throw new Error("Missing GOOGLE_API_KEY");
+    }
     return embedText({ apiKey, text: query, task });
   },
 });
@@ -339,32 +354,35 @@ export const getCacheStats = query({
 
     // Calculate statistics
     const totalEntries = allEntries.length;
-    const expiredEntries = allEntries.filter(entry =>
-      entry.expiresAt && entry.expiresAt < now
+    const expiredEntries = allEntries.filter(
+      (entry) => entry.expiresAt && entry.expiresAt < now
     ).length;
 
     const activeEntries = totalEntries - expiredEntries;
 
     // Calculate total access count
-    const totalAccesses = allEntries.reduce((sum, entry) =>
-      sum + (entry.accessCount || 0), 0
+    const totalAccesses = allEntries.reduce(
+      (sum, entry) => sum + (entry.accessCount || 0),
+      0
     );
 
     // Calculate average access count for active entries
-    const avgAccessCount = activeEntries > 0
-      ? totalAccesses / activeEntries
-      : 0;
+    const avgAccessCount =
+      activeEntries > 0 ? totalAccesses / activeEntries : 0;
 
     // Group by provider and model
-    const providerStats = allEntries.reduce((stats, entry) => {
-      const key = `${entry.provider}:${entry.model}`;
-      if (!stats[key]) {
-        stats[key] = { count: 0, totalAccesses: 0 };
-      }
-      stats[key].count++;
-      stats[key].totalAccesses += entry.accessCount || 0;
-      return stats;
-    }, {} as Record<string, { count: number; totalAccesses: number }>);
+    const providerStats = allEntries.reduce(
+      (stats, entry) => {
+        const key = `${entry.provider}:${entry.model}`;
+        if (!stats[key]) {
+          stats[key] = { count: 0, totalAccesses: 0 };
+        }
+        stats[key].count++;
+        stats[key].totalAccesses += entry.accessCount || 0;
+        return stats;
+      },
+      {} as Record<string, { count: number; totalAccesses: number }>
+    );
 
     return {
       totalEntries,
@@ -441,7 +459,9 @@ export const cleanupLRUCache = mutation({
       .sort((a, b) => {
         // First sort by access count (ascending)
         const accessDiff = (a.accessCount || 0) - (b.accessCount || 0);
-        if (accessDiff !== 0) return accessDiff;
+        if (accessDiff !== 0) {
+          return accessDiff;
+        }
 
         // Then by last accessed time (ascending)
         return (a.lastAccessedAt || 0) - (b.lastAccessedAt || 0);
@@ -481,7 +501,7 @@ export const optimizeCache = mutation({
     const allEntries = await ctx.db.query("embeddingCache").collect();
 
     const entriesToRemove = allEntries
-      .filter(entry => {
+      .filter((entry) => {
         const age = now - entry.createdAt;
         const accessCount = entry.accessCount || 0;
 
@@ -520,7 +540,11 @@ export const reembedQA = action({
     const docs = await ctx.runQuery(api.queries.qa.listAll, {});
 
     const filtered = docs.filter((doc) => {
-      if (categories && categories.length > 0 && !categories.includes(doc.category)) {
+      if (
+        categories &&
+        categories.length > 0 &&
+        !categories.includes(doc.category)
+      ) {
         return false;
       }
       if (lang && doc.lang && doc.lang !== lang) {
@@ -529,16 +553,20 @@ export const reembedQA = action({
       return true;
     });
 
-    const slice = typeof limit === "number" ? filtered.slice(0, limit) : filtered;
+    const slice =
+      typeof limit === "number" ? filtered.slice(0, limit) : filtered;
     let processed = 0;
     const failures: Array<{ id: string; error: string }> = [];
 
     for (const doc of slice) {
       try {
-        const embedded = await ctx.runAction(api.embeddings.embedQADocumentAll, {
-          question: doc.question,
-          answer: doc.answer,
-        });
+        const embedded = await ctx.runAction(
+          api.embeddings.embedQADocumentAll,
+          {
+            question: doc.question,
+            answer: doc.answer,
+          }
+        );
 
         // Add delay to prevent rate limiting
         await sleep(5000);
@@ -594,11 +622,9 @@ export const autoEmbedQA = action({
   args: {
     qaId: v.id("qa"),
     embeddingTtlMs: v.optional(v.number()),
-    embeddingTypes: v.optional(v.array(v.union(
-      v.literal("doc"),
-      v.literal("qa"),
-      v.literal("fact")
-    ))),
+    embeddingTypes: v.optional(
+      v.array(v.union(v.literal("doc"), v.literal("qa"), v.literal("fact")))
+    ),
   },
   handler: async (ctx, args) => {
     const ttlMs = args.embeddingTtlMs ?? DEFAULT_EMBEDDING_TTL_MS; // 7 days default
@@ -613,18 +639,36 @@ export const autoEmbedQA = action({
     }
 
     // Validate question field is non-empty
-    if (!qaDoc.question || typeof qaDoc.question !== "string" || qaDoc.question.trim().length === 0) {
-      throw new Error(`QA document ${args.qaId} has invalid or empty question field`);
+    if (
+      !qaDoc.question ||
+      typeof qaDoc.question !== "string" ||
+      qaDoc.question.trim().length === 0
+    ) {
+      throw new Error(
+        `QA document ${args.qaId} has invalid or empty question field`
+      );
     }
 
     // Validate answer field is non-empty
-    if (!qaDoc.answer || typeof qaDoc.answer !== "string" || qaDoc.answer.trim().length === 0) {
-      throw new Error(`QA document ${args.qaId} has invalid or empty answer field`);
+    if (
+      !qaDoc.answer ||
+      typeof qaDoc.answer !== "string" ||
+      qaDoc.answer.trim().length === 0
+    ) {
+      throw new Error(
+        `QA document ${args.qaId} has invalid or empty answer field`
+      );
     }
 
     // Validate content field is non-empty
-    if (!qaDoc.content || typeof qaDoc.content !== "string" || qaDoc.content.trim().length === 0) {
-      throw new Error(`QA document ${args.qaId} has invalid or empty content field`);
+    if (
+      !qaDoc.content ||
+      typeof qaDoc.content !== "string" ||
+      qaDoc.content.trim().length === 0
+    ) {
+      throw new Error(
+        `QA document ${args.qaId} has invalid or empty content field`
+      );
     }
 
     // Log question_number being processed
@@ -649,7 +693,10 @@ export const autoEmbedQA = action({
         try {
           // Compose appropriate text based on embedding type
           let text: string;
-          let taskType: "RETRIEVAL_DOCUMENT" | "QUESTION_ANSWERING" | "FACT_VERIFICATION";
+          let taskType:
+            | "RETRIEVAL_DOCUMENT"
+            | "QUESTION_ANSWERING"
+            | "FACT_VERIFICATION";
           let title: string | undefined;
 
           if (embeddingType === "doc") {
@@ -668,15 +715,16 @@ export const autoEmbedQA = action({
           }
 
           // Generate cache key using getEmbeddingCacheKey helper
-          const cacheKey = getEmbeddingCacheKey(
-            qaDoc.question,
-            qaDoc.answer,
-            qaDoc.question_number
-          ) + `::${embeddingType}`;
+          const cacheKey =
+            getEmbeddingCacheKey(
+              qaDoc.question,
+              qaDoc.answer,
+              qaDoc.question_number
+            ) + `::${embeddingType}`;
 
           // Check embeddingCache using api.embeddings.getCachedEmbedding
           const cached = await ctx.runQuery(api.embeddings.getCachedEmbedding, {
-            hash: cacheKey
+            hash: cacheKey,
           });
 
           let embedding: number[];
@@ -685,11 +733,13 @@ export const autoEmbedQA = action({
             // Use cached embedding
             embedding = cached.embedding;
             cacheStatus[embeddingType] = true;
-            console.log(`Cache hit for ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`);
+            console.log(
+              `Cache hit for ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`
+            );
 
             // Update access tracking
             await ctx.runMutation(api.embeddings.updateAccessTracking, {
-              hash: cacheKey
+              hash: cacheKey,
             });
           } else {
             // Generate new embedding using api.embeddings.embedForTask
@@ -699,7 +749,9 @@ export const autoEmbedQA = action({
             });
 
             cacheStatus[embeddingType] = false;
-            console.log(`Generated new ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`);
+            console.log(
+              `Generated new ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`
+            );
 
             // Add delay to prevent rate limiting
             await sleep(5000);

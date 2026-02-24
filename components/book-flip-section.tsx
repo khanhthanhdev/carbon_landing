@@ -1,10 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { TrendingDown, Recycle, Globe, Award, ExternalLink, MessageSquare, Leaf } from "lucide-react";
+import {
+  Award,
+  ExternalLink,
+  Globe,
+  Leaf,
+  MessageSquare,
+  Recycle,
+  TrendingDown,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 const bookPages = [
   {
@@ -13,12 +21,18 @@ const bookPages = [
     bgColor: "bg-primary/10",
     key: "carbonTrading",
     sources: [
-      { title: "UNFCCC Carbon Trading Guide", url: "https://unfccc.int/process/the-kyoto-protocol/mechanisms" },
+      {
+        title: "UNFCCC Carbon Trading Guide",
+        url: "https://unfccc.int/process/the-kyoto-protocol/mechanisms",
+      },
       {
         title: "EU Emissions Trading System",
         url: "https://climate.ec.europa.eu/eu-action/eu-emissions-trading-system-eu-ets_en",
       },
-      { title: "World Bank Carbon Pricing", url: "https://www.worldbank.org/en/programs/pricing-carbon" },
+      {
+        title: "World Bank Carbon Pricing",
+        url: "https://www.worldbank.org/en/programs/pricing-carbon",
+      },
       { title: "Carbon Market Watch", url: "https://carbonmarketwatch.org/" },
     ],
   },
@@ -29,8 +43,14 @@ const bookPages = [
     key: "whySMEs",
     sources: [
       { title: "SME Climate Hub", url: "https://smeclimatehub.org/" },
-      { title: "Business Carbon Calculator", url: "https://www.carbontrust.com/our-services/footprinting" },
-      { title: "Green Business Guide", url: "https://www.greenbusinessbureau.com/" },
+      {
+        title: "Business Carbon Calculator",
+        url: "https://www.carbontrust.com/our-services/footprinting",
+      },
+      {
+        title: "Green Business Guide",
+        url: "https://www.greenbusinessbureau.com/",
+      },
     ],
   },
   {
@@ -40,9 +60,15 @@ const bookPages = [
     key: "businessImpact",
     sources: [
       { title: "Carbon Credit Markets", url: "https://www.goldstandard.org/" },
-      { title: "Business Impact Assessment", url: "https://sciencebasedtargets.org/" },
+      {
+        title: "Business Impact Assessment",
+        url: "https://sciencebasedtargets.org/",
+      },
       { title: "Sustainability ROI Calculator", url: "https://www.cdp.net/" },
-      { title: "Green Finance Institute", url: "https://www.greenfinanceinstitute.co.uk/" },
+      {
+        title: "Green Finance Institute",
+        url: "https://www.greenfinanceinstitute.co.uk/",
+      },
     ],
   },
   {
@@ -53,7 +79,10 @@ const bookPages = [
     sources: [
       { title: "GHG Protocol Standards", url: "https://ghgprotocol.org/" },
       { title: "Carbon Literacy Training", url: "https://carbonliteracy.com/" },
-      { title: "ISO 14064 Guidelines", url: "https://www.iso.org/standard/66453.html" },
+      {
+        title: "ISO 14064 Guidelines",
+        url: "https://www.iso.org/standard/66453.html",
+      },
     ],
   },
   {
@@ -62,7 +91,10 @@ const bookPages = [
     bgColor: "bg-secondary/10",
     key: "callToAction",
     sources: [
-      { title: "Net Zero Business Guide", url: "https://www.un.org/en/climatechange/net-zero-coalition" },
+      {
+        title: "Net Zero Business Guide",
+        url: "https://www.un.org/en/climatechange/net-zero-coalition",
+      },
       { title: "Sustainable Business Network", url: "https://www.wbcsd.org/" },
       { title: "Climate Action Resources", url: "https://www.wri.org/" },
       { title: "Green Growth Platform", url: "https://www.gggi.org/" },
@@ -80,8 +112,13 @@ export function BookFlipSection() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const index = Number.parseInt(entry.target.getAttribute("data-index") || "0", 10);
-            setVisiblePages((prev) => (prev.includes(index) ? prev : [...prev, index]));
+            const index = Number.parseInt(
+              entry.target.getAttribute("data-index") || "0",
+              10
+            );
+            setVisiblePages((prev) =>
+              prev.includes(index) ? prev : [...prev, index]
+            );
           }
         });
       },
@@ -95,47 +132,67 @@ export function BookFlipSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-32 bg-muted/30" id="about">
+    <section className="bg-muted/30 py-20 lg:py-32" id="about" ref={sectionRef}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 text-balance">{t("title")}</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">{t("description")}</p>
+        <div className="mb-16 text-center">
+          <h2 className="mb-4 text-balance font-bold text-3xl text-foreground sm:text-4xl lg:text-5xl">
+            {t("title")}
+          </h2>
+          <p className="mx-auto max-w-2xl text-pretty text-lg text-muted-foreground">
+            {t("description")}
+          </p>
         </div>
 
-        <div className="max-w-6xl mx-auto space-y-32">
+        <div className="mx-auto max-w-6xl space-y-32">
           {bookPages.map((page, index) => {
             const Icon = page.icon;
             const isVisible = visiblePages.includes(index);
             const isEven = index % 2 === 0;
 
             return (
-              <div key={page.key} data-index={index} className="book-page relative">
-                <div className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-start ${isEven ? "" : "lg:grid-flow-dense"}`}>
+              <div
+                className="book-page relative"
+                data-index={index}
+                key={page.key}
+              >
+                <div
+                  className={`grid items-start gap-8 lg:grid-cols-2 lg:gap-16 ${isEven ? "" : "lg:grid-flow-dense"}`}
+                >
                   <div
                     className={`${isEven ? "" : "lg:col-start-2"} ${isVisible ? "animate-fade-in-up" : "opacity-0"} relative`}
                     style={{ animationDelay: "0.2s" }}
                   >
                     <div className="space-y-4">
-                      <h4 className="text-sm font-semibold text-muted-foreground mb-4 flex items-center gap-2">
+                      <h4 className="mb-4 flex items-center gap-2 font-semibold text-muted-foreground text-sm">
                         <ExternalLink className="h-4 w-4" />
                         {t("resourcesTitle")}
                       </h4>
                       {page.sources.map((source) => (
-                        <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" className="block group">
-                          <Card className="p-4 hover:shadow-md transition-all hover:border-primary/50 hover:-translate-y-1 relative overflow-hidden">
+                        <a
+                          className="group block"
+                          href={source.url}
+                          key={source.url}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          <Card className="relative overflow-hidden p-4 transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-md">
                             <div
-                              className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${
-                                isEven ? "from-primary/50 to-primary" : "from-secondary/50 to-secondary"
-                              } opacity-0 group-hover:opacity-100 transition-opacity`}
+                              className={`absolute top-0 bottom-0 left-0 w-1 bg-gradient-to-b ${
+                                isEven
+                                  ? "from-primary/50 to-primary"
+                                  : "from-secondary/50 to-secondary"
+                              } opacity-0 transition-opacity group-hover:opacity-100`}
                             />
                             <div className="flex items-start justify-between gap-3 pl-2">
                               <div className="flex-1">
-                                <p className="font-medium text-foreground group-hover:text-primary transition-colors text-sm leading-relaxed">
+                                <p className="font-medium text-foreground text-sm leading-relaxed transition-colors group-hover:text-primary">
                                   {source.title}
                                 </p>
-                                <p className="text-xs text-muted-foreground mt-1 truncate">{new URL(source.url).hostname}</p>
+                                <p className="mt-1 truncate text-muted-foreground text-xs">
+                                  {new URL(source.url).hostname}
+                                </p>
                               </div>
-                              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-0.5" />
+                              <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
                             </div>
                           </Card>
                         </a>
@@ -147,27 +204,39 @@ export function BookFlipSection() {
                     className={`${isEven ? "" : "lg:col-start-1 lg:row-start-1"} ${isVisible ? "animate-fade-in-up" : "opacity-0"}`}
                     style={{ animationDelay: "0.4s" }}
                   >
-                    <Card className="p-8 shadow-lg hover:shadow-xl transition-shadow border-2 relative">
+                    <Card className="relative border-2 p-8 shadow-lg transition-shadow hover:shadow-xl">
                       <div
-                        className={`absolute ${isEven ? "right-0 top-1/2" : "left-0 top-1/2"} w-8 h-0.5 bg-gradient-to-r ${
-                          isEven ? "from-primary/30 to-transparent" : "from-transparent to-primary/30"
-                        } -translate-y-1/2 hidden lg:block`}
+                        className={`absolute ${isEven ? "top-1/2 right-0" : "top-1/2 left-0"} h-0.5 w-8 bg-gradient-to-r ${
+                          isEven
+                            ? "from-primary/30 to-transparent"
+                            : "from-transparent to-primary/30"
+                        } hidden -translate-y-1/2 lg:block`}
                       />
 
-                      <div className="flex items-center gap-3 mb-4">
+                      <div className="mb-4 flex items-center gap-3">
                         <div className={`${page.bgColor} rounded-lg p-2`}>
                           <Icon className={`h-6 w-6 ${page.color}`} />
                         </div>
-                        <span className="text-sm font-semibold text-muted-foreground">
-                          {t("progress", { index: index + 1, total: bookPages.length })}
+                        <span className="font-semibold text-muted-foreground text-sm">
+                          {t("progress", {
+                            index: index + 1,
+                            total: bookPages.length,
+                          })}
                         </span>
                       </div>
-                      <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-4 text-balance">
+                      <h3 className="mb-4 text-balance font-bold text-2xl text-foreground sm:text-3xl">
                         {t(`pages.${page.key}.question`)}
                       </h3>
-                      <p className="text-muted-foreground leading-relaxed text-pretty mb-6">{t(`pages.${page.key}.answer`)}</p>
+                      <p className="mb-6 text-pretty text-muted-foreground leading-relaxed">
+                        {t(`pages.${page.key}.answer`)}
+                      </p>
 
-                      <Button className="w-full sm:w-auto gap-2" onClick={() => window.open("https://chatgpt.com", "_blank")}>
+                      <Button
+                        className="w-full gap-2 sm:w-auto"
+                        onClick={() =>
+                          window.open("https://chatgpt.com", "_blank")
+                        }
+                      >
                         <MessageSquare className="h-4 w-4" />
                         {t("askAI")}
                       </Button>

@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState, memo } from "react";
-import { Link } from "@/lib/navigation";
-import { Button } from "@/components/ui/button";
-import { Leaf, Menu, X } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { LocaleSwitcher } from "@/components/locale-switcher";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { memo, useEffect, useState } from "react";
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import { Link } from "@/lib/navigation";
 
 export const Navigation = memo(function Navigation() {
   const t = useTranslations("navigation");
@@ -37,46 +36,75 @@ export const Navigation = memo(function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || isMobileMenuOpen ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-transparent"
+      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
+        isScrolled || isMobileMenuOpen
+          ? "bg-background/95 shadow-md backdrop-blur-md"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative w-10 h-10 group-hover:scale-110 transition-transform">
+        <div className="flex h-16 items-center justify-between lg:h-20">
+          <Link className="group flex items-center gap-2" href="/">
+            <div className="relative h-10 w-10 transition-transform group-hover:scale-110">
               <Image
-              src="/logo_carbon.jpg"
-              alt="CarbonLearn Logo"
-              fill
-              className="object-contain rounded-lg"
-              sizes="(max-width: 768px) 2.5rem, 2.5rem"
-              priority
+                alt="CarbonLearn Logo"
+                className="rounded-lg object-contain"
+                fill
+                priority
+                sizes="(max-width: 768px) 2.5rem, 2.5rem"
+                src="/logo_carbon.jpg"
               />
             </div>
-            <span className="text-xl font-bold text-foreground">{t("brand")}</span>
+            <span className="font-bold text-foreground text-xl">
+              {t("brand")}
+            </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            <Link href="/#book" className="text-foreground hover:text-primary transition-colors">
+          <div className="hidden items-center gap-6 md:flex lg:gap-8">
+            <Link
+              className="text-foreground transition-colors hover:text-primary"
+              href="/#book"
+            >
               {t("recommendedBook")}
             </Link>
-            <Link href="/books" className="text-foreground hover:text-primary transition-colors" data-tour="nav-books">
+            <Link
+              className="text-foreground transition-colors hover:text-primary"
+              data-tour="nav-books"
+              href="/books"
+            >
               {t("books")}
             </Link>
-            <Link href="/search" className="text-foreground hover:text-primary transition-colors" data-tour="nav-search">
+            <Link
+              className="text-foreground transition-colors hover:text-primary"
+              data-tour="nav-search"
+              href="/search"
+            >
               {t("search")}
             </Link>
-            <Link href="/ask-ai" className="text-foreground hover:text-primary transition-colors" data-tour="nav-ask-ai">
+            <Link
+              className="text-foreground transition-colors hover:text-primary"
+              data-tour="nav-ask-ai"
+              href="/ask-ai"
+            >
               {t("askAI")}
             </Link>
-            <Link href="/about-us" className="text-foreground hover:text-primary transition-colors" data-tour="nav-about">
+            <Link
+              className="text-foreground transition-colors hover:text-primary"
+              data-tour="nav-about"
+              href="/about-us"
+            >
               {t("about")}
             </Link>
-            <Link href="/#common" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              className="text-foreground transition-colors hover:text-primary"
+              href="/#common"
+            >
               {t("commonQuestions")}
             </Link>
-            <Link href="/#contact" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              className="text-foreground transition-colors hover:text-primary"
+              href="/#contact"
+            >
               {t("contact")}
             </Link>
             <LocaleSwitcher />
@@ -87,38 +115,74 @@ export const Navigation = memo(function Navigation() {
               <LocaleSwitcher />
             </div>
             <button
-              className="md:hidden text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
-              onClick={() => setIsMobileMenuOpen((open) => !open)}
-              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isMobileMenuOpen}
+              aria-label={
+                isMobileMenuOpen
+                  ? "Close navigation menu"
+                  : "Open navigation menu"
+              }
+              className="rounded text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 md:hidden"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="border-border border-t py-4 md:hidden">
             <div className="flex flex-col gap-4">
-              <Link href="/#book" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+              <Link
+                className="text-foreground transition-colors hover:text-primary"
+                href="/#book"
+                onClick={closeMobileMenu}
+              >
                 {t("recommendedBook")}
               </Link>
-              <Link href="/books" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+              <Link
+                className="text-foreground transition-colors hover:text-primary"
+                href="/books"
+                onClick={closeMobileMenu}
+              >
                 {t("books")}
               </Link>
-              <Link href="/search" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+              <Link
+                className="text-foreground transition-colors hover:text-primary"
+                href="/search"
+                onClick={closeMobileMenu}
+              >
                 {t("search")}
               </Link>
-              <Link href="/ask-ai" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+              <Link
+                className="text-foreground transition-colors hover:text-primary"
+                href="/ask-ai"
+                onClick={closeMobileMenu}
+              >
                 {t("askAI")}
               </Link>
-              <Link href="/about-us" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+              <Link
+                className="text-foreground transition-colors hover:text-primary"
+                href="/about-us"
+                onClick={closeMobileMenu}
+              >
                 {t("about")}
               </Link>
-              <Link href="/#common" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+              <Link
+                className="text-foreground transition-colors hover:text-primary"
+                href="/#common"
+                onClick={closeMobileMenu}
+              >
                 {t("commonQuestions")}
               </Link>
-              <Link href="/#contact" className="text-foreground hover:text-primary transition-colors" onClick={closeMobileMenu}>
+              <Link
+                className="text-foreground transition-colors hover:text-primary"
+                href="/#contact"
+                onClick={closeMobileMenu}
+              >
                 {t("contact")}
               </Link>
             </div>
@@ -127,4 +191,4 @@ export const Navigation = memo(function Navigation() {
       </div>
     </nav>
   );
-})
+});

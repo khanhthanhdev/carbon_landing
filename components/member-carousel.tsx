@@ -1,43 +1,63 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
 
 interface Member {
-  name: string;
   credentials: string;
-  institute?: string;
   image?: string;
+  institute?: string;
   link?: string;
+  name: string;
 }
 
 interface MemberCarouselProps {
+  autoPlayInterval?: number;
   members: Member[];
   slidesToShow?: number;
-  autoPlayInterval?: number;
 }
 
-export function MemberCarousel({ 
-  members, 
-  slidesToShow = 4, 
-  autoPlayInterval = 3000 
+export function MemberCarousel({
+  members,
+  slidesToShow = 4,
+  autoPlayInterval = 3000,
 }: MemberCarouselProps) {
   const slidesCount = members.length;
   const canLoop = slidesCount > slidesToShow;
-  
-  const startClones = canLoop ? members.slice(-slidesToShow) : [];
-  const endClones = canLoop ? members.slice(0, slidesToShow) : [];
-  const extendedMembers = canLoop ? [...startClones, ...members, ...endClones] : members;
 
-  const [currentSlide, setCurrentSlide] = useState(() => (canLoop ? slidesToShow : 0));
+  const baseMembers = members.map((member) => ({
+    key: `member-${member.name}-${member.link ?? member.credentials}`,
+    member,
+  }));
+  const startClones = canLoop
+    ? members.slice(-slidesToShow).map((member) => ({
+        key: `clone-start-${member.name}-${member.link ?? member.credentials}`,
+        member,
+      }))
+    : [];
+  const endClones = canLoop
+    ? members.slice(0, slidesToShow).map((member) => ({
+        key: `clone-end-${member.name}-${member.link ?? member.credentials}`,
+        member,
+      }))
+    : [];
+  const extendedMembers = canLoop
+    ? [...startClones, ...baseMembers, ...endClones]
+    : baseMembers;
+
+  const [currentSlide, setCurrentSlide] = useState(() =>
+    canLoop ? slidesToShow : 0
+  );
   const [isAnimating, setIsAnimating] = useState(true);
   const [paused, setPaused] = useState(false);
 
   const goNext = useCallback(() => {
     setIsAnimating(true);
     if (!canLoop) {
-      setCurrentSlide((prev) => Math.min(prev + 1, Math.max(0, slidesCount - slidesToShow)));
+      setCurrentSlide((prev) =>
+        Math.min(prev + 1, Math.max(0, slidesCount - slidesToShow))
+      );
       return;
     }
     setCurrentSlide((prev) => prev + 1);
@@ -53,13 +73,17 @@ export function MemberCarousel({
   }, [canLoop]);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused) {
+      return;
+    }
     const id = setInterval(goNext, autoPlayInterval);
     return () => clearInterval(id);
   }, [paused, goNext, autoPlayInterval]);
 
   const handleTransitionEnd = useCallback(() => {
-    if (!canLoop) return;
+    if (!canLoop) {
+      return;
+    }
     if (currentSlide >= slidesCount + slidesToShow) {
       setIsAnimating(false);
       setTimeout(() => setCurrentSlide(slidesToShow), 20);
@@ -76,52 +100,51 @@ export function MemberCarousel({
     }
   }, [isAnimating]);
 
-  const activeIndex = canLoop 
-    ? ((currentSlide - slidesToShow + slidesCount) % slidesCount) 
+  const activeIndex = canLoop
+    ? (currentSlide - slidesToShow + slidesCount) % slidesCount
     : currentSlide;
 
   return (
-    <div className="relative" role="region" aria-label="Team members carousel">
-      <div 
-        className="overflow-hidden px-12" 
-        onMouseEnter={() => setPaused(true)} 
+    <div aria-label="Team members carousel" className="relative" role="region">
+      <div
+        className="overflow-hidden px-12"
+        onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-        <div 
+        <div
           className={`flex gap-4 md:gap-8 ${isAnimating ? "transition-transform duration-500 ease-out" : ""}`}
-          style={{ transform: `translateX(-${currentSlide * (100 / slidesToShow)}%)` }}
           onTransitionEnd={handleTransitionEnd}
+          style={{
+            transform: `translateX(-${currentSlide * (100 / slidesToShow)}%)`,
+          }}
         >
-          {extendedMembers.map((member, index) => (
-            <article 
-              key={`${index}-${member.name}`} 
-              className="flex-shrink-0 w-1/2 md:w-1/4"
-            >
+          {extendedMembers.map(({ member, key }) => (
+            <article className="w-1/2 flex-shrink-0 md:w-1/4" key={key}>
               <a
+                className="group flex h-full flex-col items-center"
                 href={member.link}
-                target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center group h-full"
+                target="_blank"
               >
-                <div className="relative w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300 bg-gradient-to-br from-emerald-300 to-emerald-500 mb-4 flex-shrink-0">
+                <div className="relative mb-4 h-20 w-20 flex-shrink-0 overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-emerald-300 to-emerald-500 shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl md:h-24 md:w-24 lg:h-28 lg:w-28">
                   {member.image ? (
                     <Image
-                      fill
-                      src={member.image}
                       alt={member.name}
                       className="object-cover"
-                      sizes="(max-width: 768px) 80px, (max-width: 1024px) 96px, 112px"
+                      fill
                       loading="lazy"
+                      sizes="(max-width: 768px) 80px, (max-width: 1024px) 96px, 112px"
+                      src={member.image}
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-emerald-400 to-emerald-600" />
+                    <div className="h-full w-full bg-gradient-to-br from-emerald-400 to-emerald-600" />
                   )}
                 </div>
-                <h4 className="text-center text-sm lg:text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors duration-300 line-clamp-2">
+                <h4 className="line-clamp-2 text-center font-semibold text-gray-900 text-sm transition-colors duration-300 group-hover:text-emerald-600 lg:text-base">
                   {member.name}
                 </h4>
                 {member.credentials && (
-                  <p className="text-center text-xs lg:text-sm text-gray-600 mt-1 line-clamp-2">
+                  <p className="mt-1 line-clamp-2 text-center text-gray-600 text-xs lg:text-sm">
                     {member.credentials}
                   </p>
                 )}
@@ -132,32 +155,46 @@ export function MemberCarousel({
       </div>
 
       <button
-        onClick={goPrev}
-        disabled={!canLoop && currentSlide === 0}
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 text-white p-2 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
         aria-label="Previous members"
+        className="absolute top-1/2 left-0 -translate-y-1/2 rounded-full bg-emerald-600 p-2 text-white transition-colors duration-300 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:bg-gray-300"
+        disabled={!canLoop && currentSlide === 0}
+        onClick={goPrev}
       >
-        <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+        <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
       </button>
       <button
-        onClick={goNext}
-        disabled={!canLoop && currentSlide >= slidesCount - slidesToShow}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 text-white p-2 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
         aria-label="Next members"
+        className="absolute top-1/2 right-0 -translate-y-1/2 rounded-full bg-emerald-600 p-2 text-white transition-colors duration-300 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:bg-gray-300"
+        disabled={!canLoop && currentSlide >= slidesCount - slidesToShow}
+        onClick={goNext}
       >
-        <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+        <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
       </button>
 
-      <div className="flex justify-center gap-2 mt-8" role="tablist" aria-label="Carousel navigation">
-        {Array.from({ length: slidesCount }).map((_, index) => (
+      <div
+        aria-label="Carousel navigation"
+        className="mt-8 flex justify-center gap-2"
+        role="tablist"
+      >
+        {Array.from(
+          { length: slidesCount },
+          (_, slideNumber) => slideNumber
+        ).map((slideNumber) => (
           <button
-            key={index}
-            onClick={() => { setIsAnimating(true); setCurrentSlide(canLoop ? index + slidesToShow : index); }}
+            aria-label={`Go to slide ${slideNumber + 1}`}
+            aria-selected={slideNumber === activeIndex}
             className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
-              index === activeIndex ? "bg-emerald-600 w-8" : "bg-gray-300 hover:bg-gray-400 w-2"
+              slideNumber === activeIndex
+                ? "w-8 bg-emerald-600"
+                : "w-2 bg-gray-300 hover:bg-gray-400"
             }`}
-            aria-label={`Go to slide ${index + 1}`}
-            aria-selected={index === activeIndex}
+            key={`slide-dot-${slideNumber + 1}`}
+            onClick={() => {
+              setIsAnimating(true);
+              setCurrentSlide(
+                canLoop ? slideNumber + slidesToShow : slideNumber
+              );
+            }}
             role="tab"
           />
         ))}

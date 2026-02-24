@@ -1,7 +1,7 @@
+import { JsonLd } from "@/components/json-ld";
+import { locales } from "@/i18n/request";
 import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
 import AskAiPageClient from "./ask-ai-page-client";
-import { locales } from "@/i18n/request";
-import { JsonLd } from "@/components/json-ld";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -31,4 +31,3 @@ export default async function AskAiPage({
     </>
   );
 }
-

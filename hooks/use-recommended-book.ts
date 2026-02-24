@@ -1,8 +1,8 @@
 "use client";
 
-import { useLocale } from "next-intl";
-import { useQuery } from "@tanstack/react-query";
 import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 import { api } from "@/convex/_generated/api";
 
 export function useRecommendedBook() {

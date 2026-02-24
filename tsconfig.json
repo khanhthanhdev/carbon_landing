@@ -25,7 +25,8 @@
       "convex/server": ["./node_modules/convex/dist/cjs-types/server/index"],
       "convex/react": ["./node_modules/convex/dist/cjs-types/react/index"],
       "convex/browser": ["./node_modules/convex/dist/cjs-types/browser/index"]
-    }
+    },
+    "strictNullChecks": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

@@ -1,6 +1,6 @@
-import { action } from "./_generated/server";
 import { v } from "convex/values";
 import { api } from "./_generated/api";
+import { action } from "./_generated/server";
 
 const normalizeText = (value: string) => value.trim();
 const toSearchable = (value: string) => normalizeText(value).toLowerCase();
@@ -26,17 +26,25 @@ export const saveQAWithEmbeddings = action({
       throw new Error("Unauthorized: admin access required");
     }
 
-    const existing = args.id ? await ctx.runQuery(api.queries.qa.get, { id: args.id as any }) : null;
+    const existing = args.id
+      ? await ctx.runQuery(api.queries.qa.get, { id: args.id as any })
+      : null;
 
     const question = normalizeText(args.question as string);
     const answer = normalizeText(args.answer as string);
     const category = normalizeText(args.category as string);
     const lang = args.lang ? normalizeText(args.lang as string) : undefined;
-    const keywords = ((args.keywords ?? []) as string[]).map((value) => normalizeText(value)).filter(Boolean);
-    const keywords_searchable = keywords.map((value) => value.toLowerCase()).join(" ");
+    const keywords = ((args.keywords ?? []) as string[])
+      .map((value) => normalizeText(value))
+      .filter(Boolean);
+    const keywords_searchable = keywords
+      .map((value) => value.toLowerCase())
+      .join(" ");
     const category_searchable = category.toLowerCase();
     const question_lower = question.toLowerCase();
-    const content = args.content ? normalizeText(args.content as string) : `${question}\n\n${answer}`.trim();
+    const content = args.content
+      ? normalizeText(args.content as string)
+      : `${question}\n\n${answer}`.trim();
     const searchableText = `${question}\n\n${answer}`.trim();
     const timestampIso = new Date().toISOString();
 
@@ -66,7 +74,7 @@ export const saveQAWithEmbeddings = action({
       question_number: args.question_number,
       keywords,
       sources: args.sources ?? [],
-      content: content,
+      content,
       searchable_text: searchableText,
       question_lower,
       keywords_searchable,
@@ -75,7 +83,9 @@ export const saveQAWithEmbeddings = action({
       answer_length: answer.length,
       metadata_created_at:
         existing?.metadata_created_at ??
-        (existing?.createdAt ? new Date(existing.createdAt).toISOString() : timestampIso),
+        (existing?.createdAt
+          ? new Date(existing.createdAt).toISOString()
+          : timestampIso),
       metadata_updated_at: timestampIso,
       embedding_doc: embeddings.embedding_doc,
       embedding_qa: embeddings.embedding_qa,
@@ -86,7 +96,10 @@ export const saveQAWithEmbeddings = action({
       mutationPayload.id = args.id;
     }
 
-    const id = await ctx.runMutation(api.mutations.qa.upsertQA, mutationPayload);
+    const id = await ctx.runMutation(
+      api.mutations.qa.upsertQA,
+      mutationPayload
+    );
 
     return {
       id,

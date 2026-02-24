@@ -478,11 +478,7 @@
             "section_number": "1",
             "section_title": "PHẦN 1: CÁC KHÁI NIỆM VÀ VĂN BẢN PHÁP LUẬT LIÊN QUAN ĐẾN TÍN CHỈ CARBON",
             "category": "CÁC KHÁI NIỆM VÀ VĂN BẢN PHÁP LUẬT LIÊN QUAN ĐẾN TÍN CHỈ CARBON",
-            "keywords": [
-              "tín chỉ",
-              "carbon",
-              "Các"
-            ],
+            "keywords": ["tín chỉ", "carbon", "Các"],
             "has_sources": true,
             "answer_length": 0,
             "created_at": "2025-10-13T01:32:30.582735Z"
@@ -1626,9 +1622,7 @@
             "section_number": "2",
             "section_title": "PHẦN 2: TỪ TÍNH TOÁN KHÍ THẢI ĐẾN TRIỂN KHAI DỰ ÁN GIẢM PHÁT THẢI",
             "category": "TỪ TÍNH TOÁN KHÍ THẢI ĐẾN TRIỂN KHAI DỰ ÁN GIẢM PHÁT THẢI",
-            "keywords": [
-              "Giống"
-            ],
+            "keywords": ["Giống"],
             "has_sources": false,
             "answer_length": 13,
             "created_at": "2025-10-13T01:32:30.585215Z"

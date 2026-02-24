@@ -6,13 +6,21 @@ import { api } from "@/convex/_generated/api";
 
 export function UserSync() {
   const { isAuthenticated } = useConvexAuth();
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  return <AuthenticatedUserSync />;
+}
+
+function AuthenticatedUserSync() {
   const storeUser = useMutation(api.users.store);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      storeUser();
-    }
-  }, [isAuthenticated, storeUser]);
+    storeUser().catch((error) => {
+      console.error("Failed to sync user:", error);
+    });
+  }, [storeUser]);
 
   return null;
 }

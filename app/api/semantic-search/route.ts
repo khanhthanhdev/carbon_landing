@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { executeSemanticSearch } from "@/lib/server/semantic-search";
 import { generateText } from "@/lib/ai/gemini";
+import { executeSemanticSearch } from "@/lib/server/semantic-search";
 
 const SemanticSearchSchema = z.object({
   query: z.string().trim().min(3),
@@ -15,7 +15,10 @@ Summarize the key insights relevant to the user's question using the provided co
 Be concise (120 words max) and include actionable next steps when possible.`;
 
 function stripHtml(value: string) {
-  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  return value
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export async function POST(request: Request) {
@@ -24,7 +27,10 @@ export async function POST(request: Request) {
     const parsed = SemanticSearchSchema.safeParse(payload);
 
     if (!parsed.success) {
-      return NextResponse.json({ error: "Invalid payload", details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid payload", details: parsed.error.flatten() },
+        { status: 400 }
+      );
     }
 
     const { query, category, limit = 5, locale } = parsed.data;
@@ -40,13 +46,16 @@ export async function POST(request: Request) {
 
       summary = await generateText(
         `${SUMMARY_PROMPT_TEMPLATE}\n\nContext:\n${context}\n\nUser question: ${query}`,
-        { locale },
+        { locale }
       );
     }
 
     return NextResponse.json({ matches, summary });
   } catch (error) {
     console.error("Semantic search failed", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

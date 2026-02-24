@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { convexServerClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
+import { convexServerClient } from "@/lib/convex-server";
 
 const AskAISchema = z.object({
   question: z.string().trim().min(1, "Question cannot be empty"),
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: "Invalid AI request parameters",
-          details: parsed.error.flatten()
+          details: parsed.error.flatten(),
         },
         { status: 400 }
       );
@@ -41,10 +41,7 @@ export async function POST(request: Request) {
 
     // Return appropriate error response
     if (error instanceof Error) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json(

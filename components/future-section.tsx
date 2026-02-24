@@ -1,10 +1,10 @@
 "use client";
 
+import { ArrowRight, Bot, RefreshCw, Search, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Link } from "@/lib/navigation";
-import { RefreshCw, Search, Bot, Sparkles, ArrowRight } from "lucide-react";
 
 export function FutureSection() {
   const t = useTranslations("futureSection");
@@ -40,32 +40,34 @@ export function FutureSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 lg:py-28 bg-gradient-to-br from-primary/5 via-background to-secondary/5 relative overflow-hidden">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-16 sm:py-20 lg:py-28">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-small-black/[0.02] -z-10" />
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl -z-10" />
+      <div className="absolute inset-0 -z-10 bg-grid-small-black/[0.02]" />
+      <div className="absolute top-1/2 left-1/2 -z-10 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 blur-3xl" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full mb-6 shadow-sm">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 text-center sm:mb-16 lg:mb-20">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-primary shadow-sm">
             <Sparkles className="h-4 w-4" />
-            <span className="text-sm font-medium uppercase tracking-wide">{t("badge")}</span>
+            <span className="font-medium text-sm uppercase tracking-wide">
+              {t("badge")}
+            </span>
           </div>
           {/* <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 text-balance leading-tight">
             {t("title")}
           </h2> */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto text-pretty leading-relaxed">
+          <p className="mx-auto max-w-3xl text-pretty text-lg text-muted-foreground leading-relaxed sm:text-xl">
             {t("subtitle")}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-          {features.map((feature, index) => {
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+          {features.map((feature) => {
             const Icon = feature.icon;
             return (
               <Card
-                key={index}
-                className="p-6 sm:p-8 lg:p-10 border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group flex flex-col h-full"
+                className="group flex h-full flex-col border-2 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 lg:p-10"
+                key={feature.href}
               >
                 <div className="flex-1 space-y-6">
                   {/* <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl ${feature.bgColor} group-hover:scale-110 transition-transform duration-300`}>
@@ -73,19 +75,19 @@ export function FutureSection() {
                   </div> */}
 
                   <div className="space-y-3">
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="font-bold text-foreground text-xl transition-colors group-hover:text-primary sm:text-2xl lg:text-3xl">
                       {feature.title}
                     </h3>
-                    <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                    <p className="text-base text-muted-foreground leading-relaxed sm:text-lg">
                       {feature.description}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-6">
-                  <Link href={feature.href} className="block">
+                  <Link className="block" href={feature.href}>
                     <Button
-                      className="w-full group-hover:bg-primary/90 transition-colors"
+                      className="w-full transition-colors group-hover:bg-primary/90"
                       size="lg"
                     >
                       {feature.buttonText}

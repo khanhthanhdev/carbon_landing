@@ -1,4 +1,4 @@
 import { askAI } from "./rag";
-import { vectorSearch, hybridSearch } from "./search";
+import { hybridSearch, vectorSearch } from "./search";
 
 export { askAI, vectorSearch, hybridSearch };

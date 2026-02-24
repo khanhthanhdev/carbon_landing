@@ -1,17 +1,21 @@
-import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
-import { Navigation } from "@/components/navigation";
-import { Hero } from "@/components/hero";
-import { MainSearchSection } from "@/components/main-search-section";
 import { BookRecommendation } from "@/components/book-recommendation";
 import { CommonQuestionsSection } from "@/components/common-questions-section";
-import { KnowledgeOverview } from "@/components/knowledge-overview";
+import { DisclaimerSection } from "@/components/disclaimer-section";
 import { Footer } from "@/components/footer";
-import { SurveySection } from "@/components/survey-section";
 import { FutureSection } from "@/components/future-section";
-import { FeedbackSectionLazy, SponsorsSectionLazy } from "@/components/lazy-home-sections";
-import { locales } from "@/i18n/request";
-import { TourGuide } from "@/components/tour-guide";
+import { Hero } from "@/components/hero";
 import { JsonLd } from "@/components/json-ld";
+import { KnowledgeOverview } from "@/components/knowledge-overview";
+import {
+  FeedbackSectionLazy,
+  SponsorsSectionLazy,
+} from "@/components/lazy-home-sections";
+import { MainSearchSection } from "@/components/main-search-section";
+import { Navigation } from "@/components/navigation";
+import { SurveySection } from "@/components/survey-section";
+import { TourGuide } from "@/components/tour-guide";
+import { locales } from "@/i18n/request";
+import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -52,8 +56,8 @@ export default async function HomePage({
         <FeedbackSectionLazy />
         <SurveySection />
         <SponsorsSectionLazy />
-        
       </main>
+      <DisclaimerSection />
       <Footer />
     </>
   );

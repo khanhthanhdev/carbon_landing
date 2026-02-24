@@ -1,29 +1,38 @@
 "use client";
 
-import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { api } from "@/convex/_generated/api";
 import type { PublicQuestion } from "@/convex/qa";
 
 export type QuestionRecord = PublicQuestion;
 
 interface UseQuestionsOptions {
-  search?: string;
   category?: string;
-  limit?: number;
   commonOnly?: boolean;
+  limit?: number;
+  search?: string;
 }
 
 export function useQuestions(options: UseQuestionsOptions) {
   const queryArgs = useMemo(() => {
-    const args: { search?: string; category?: string; limit?: number; commonOnly?: boolean } = {};
+    const args: {
+      search?: string;
+      category?: string;
+      limit?: number;
+      commonOnly?: boolean;
+    } = {};
 
     if (options.search && options.search.trim().length > 0) {
       args.search = options.search.trim();
     }
 
-    if (options.category && options.category.trim().length > 0 && options.category !== "All") {
+    if (
+      options.category &&
+      options.category.trim().length > 0 &&
+      options.category !== "All"
+    ) {
       args.category = options.category.trim();
     }
 

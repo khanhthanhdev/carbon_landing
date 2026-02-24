@@ -1,26 +1,25 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog"
-import { Check } from "lucide-react"
-import { useTranslations } from "next-intl"
+} from "@/components/ui/dialog";
 
 interface UserGuideDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  onOpenChange: (open: boolean) => void;
+  open: boolean;
 }
 
 export function UserGuideDialog({ open, onOpenChange }: UserGuideDialogProps) {
-  const t = useTranslations("userGuide")
+  const t = useTranslations("userGuide");
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
@@ -30,37 +29,38 @@ export function UserGuideDialog({ open, onOpenChange }: UserGuideDialogProps) {
           <ul className="space-y-2">
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4 text-green-500" />
-              <a href="/book-soft-copy" className="text-primary hover:underline">
+              <a
+                className="text-primary hover:underline"
+                href="/book-soft-copy"
+              >
                 {t("items.softCopy")}
               </a>
             </li>
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4 text-green-500" />
-              <a href="/questions" className="text-primary hover:underline">
+              <a className="text-primary hover:underline" href="/questions">
                 {t("items.questionList")}
               </a>
             </li>
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4 text-green-500" />
-              <a href="/ask-ai" className="text-primary hover:underline">
+              <a className="text-primary hover:underline" href="/ask-ai">
                 {t("items.askAI")}
               </a>
             </li>
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4 text-green-500" />
-              <span className="text-primary">
-                {t("items.aiAssistant")}
-              </span>
+              <span className="text-primary">{t("items.aiAssistant")}</span>
             </li>
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4 text-green-500" />
-              <a href="/about-us" className="text-primary hover:underline">
+              <a className="text-primary hover:underline" href="/about-us">
                 {t("items.aboutAuthors")}
               </a>
             </li>
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4 text-green-500" />
-              <a href="/survey" className="text-primary hover:underline">
+              <a className="text-primary hover:underline" href="/survey">
                 {t("items.surveyForm")}
               </a>
             </li>
@@ -68,5 +68,5 @@ export function UserGuideDialog({ open, onOpenChange }: UserGuideDialogProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
