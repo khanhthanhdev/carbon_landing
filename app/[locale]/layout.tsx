@@ -68,7 +68,7 @@ export default async function RootLayout({
           <link
             href={link.href}
             hrefLang={link.hrefLang}
-            key={link.href}
+            key={link.hrefLang}
             rel="alternate"
           />
         ))}

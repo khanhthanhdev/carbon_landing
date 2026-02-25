@@ -8,7 +8,6 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/footer";
 import { Navigation } from "@/components/navigation";
 import { QuestionRequestForm } from "@/components/question-request-form";
-import { SearchFilters } from "@/components/search-filters";
 import { SearchResults } from "@/components/search-results";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,7 +16,6 @@ import { useDebounce } from "@/hooks/use-debounce";
 import {
   type SearchMetadata,
   type SearchResult,
-  type SearchType,
   useSearch,
 } from "@/hooks/use-search";
 import type { PrefetchedCategories } from "@/lib/convex-server";
@@ -43,11 +41,9 @@ interface SearchPageHeaderProps {
   backToHomeLabel: string;
   onBack: () => void;
   onQueryChange: (query: string) => void;
-  onSearchTypeChange: (type: SearchType) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   placeholder: string;
   query: string;
-  searchType: SearchType;
   subtitle: string;
   title: string;
 }
@@ -56,11 +52,9 @@ function SearchPageHeader({
   backToHomeLabel,
   onBack,
   onQueryChange,
-  onSearchTypeChange,
   onSubmit,
   placeholder,
   query,
-  searchType,
   subtitle,
   title,
 }: SearchPageHeaderProps) {
@@ -96,13 +90,6 @@ function SearchPageHeader({
             />
           </div>
         </form>
-
-        <div className="mb-3 sm:mb-4">
-          <SearchFilters
-            onSearchTypeChange={onSearchTypeChange}
-            searchType={searchType}
-          />
-        </div>
       </div>
     </>
   );
@@ -145,7 +132,6 @@ interface SearchResultsContentProps {
 
 interface SearchState {
   query: string;
-  type: SearchType;
 }
 
 function normalizeText(value: string) {
@@ -189,7 +175,6 @@ function SearchResultsContent({
 
   const [searchState, setSearchState] = useState<SearchState>({
     query: "",
-    type: "fulltext",
   });
 
   const debouncedSearch = useDebounce(searchState.query, 400);
@@ -203,7 +188,6 @@ function SearchResultsContent({
     refetch,
   } = useSearch({
     query: debouncedSearch,
-    searchType: searchState.type,
     filters: {
       lang: locale,
     },
@@ -294,8 +278,18 @@ function SearchResultsContent({
   const remoteResults = searchData?.results ?? [];
   const remoteMetadata = searchData?.metadata;
   const hasRemoteResults = remoteResults.length > 0;
-  const combinedResults = hasRemoteResults ? remoteResults : localResults;
-  const combinedMetadata = hasRemoteResults ? remoteMetadata : localMetadata;
+  // Only fall back to local results when remote search has completed (not loading)
+  // This prevents the visual flash where local results appear then get replaced
+  const combinedResults = hasRemoteResults
+    ? remoteResults
+    : isSearching
+      ? []
+      : localResults;
+  const combinedMetadata = hasRemoteResults
+    ? remoteMetadata
+    : isSearching
+      ? undefined
+      : localMetadata;
   const hasResults = combinedResults.length > 0;
 
   const hasLowRelevanceScores = useMemo(() => {
@@ -319,8 +313,7 @@ function SearchResultsContent({
         : null,
     [searchError]
   );
-  const isLoadingResults =
-    isSearching && !hasRemoteResults && localResults.length === 0;
+  const isLoadingResults = isSearching && !hasRemoteResults;
   const showQuestionRequestForm =
     !isLoadingResults &&
     trimmedQuery.length >= 2 &&
@@ -355,45 +348,28 @@ function SearchResultsContent({
     };
 
     const nextQuery = resolveQueryFromParams();
-    const typeParam = searchParams.get("type");
-    const nextType: SearchType | undefined =
-      typeParam === "vector" || typeParam === "fulltext"
-        ? typeParam
-        : typeParam === "hybrid" || !typeParam
-          ? "fulltext"
-          : undefined;
-
     setSearchState((prev) => {
       const resolvedQuery = typeof nextQuery === "string" ? nextQuery : "";
-      const resolvedType = nextType ?? prev.type;
 
-      if (prev.query === resolvedQuery && prev.type === resolvedType) {
+      if (prev.query === resolvedQuery) {
         return prev;
       }
 
       return {
         query: resolvedQuery,
-        type: resolvedType,
       };
     });
   }, [searchParams]);
 
-  const updateURL = (params: { query?: string; type?: SearchType }) => {
+  const updateURL = (params: { query?: string }) => {
     const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete("type");
 
     if (params.query !== undefined) {
       if (params.query.trim()) {
         newSearchParams.set("q", params.query.trim());
       } else {
         newSearchParams.delete("q");
-      }
-    }
-
-    if (params.type !== undefined) {
-      if (params.type !== "fulltext") {
-        newSearchParams.set("type", params.type);
-      } else {
-        newSearchParams.delete("type");
       }
     }
 
@@ -404,11 +380,6 @@ function SearchResultsContent({
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     updateURL({ query: searchState.query });
-  };
-
-  const handleSearchTypeChange = (type: SearchType) => {
-    setSearchState((prev) => (prev.type === type ? prev : { ...prev, type }));
-    updateURL({ type });
   };
 
   const handleBack = () => {
@@ -436,11 +407,9 @@ function SearchResultsContent({
                   prev.query === query ? prev : { ...prev, query }
                 )
               }
-              onSearchTypeChange={handleSearchTypeChange}
               onSubmit={handleSearch}
               placeholder={t("placeholder")}
               query={searchState.query}
-              searchType={searchState.type}
               subtitle={t("subtitle")}
               title={t("title")}
             />

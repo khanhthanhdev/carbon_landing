@@ -4,8 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useAction, useQuery as useConvexQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
-export type SearchType = "vector" | "fulltext";
-
 export interface SearchFilters {
   category?: string;
   lang?: string;
@@ -47,7 +45,6 @@ interface UseSearchOptions {
   enabled?: boolean;
   filters?: SearchFilters;
   query: string;
-  searchType?: SearchType;
   topK?: number;
 }
 
@@ -61,7 +58,6 @@ interface UseSearchOptions {
  *
  * @param options - Search configuration options
  * @param options.query - Search query string (must be >= 2 characters)
- * @param options.searchType - Type of search: "vector" or "fulltext" (default: "fulltext")
  * @param options.filters - Optional filters for category and language
  * @param options.topK - Maximum number of results to return (default: 10)
  * @param options.alpha - Not used (kept for backward compatibility)
@@ -72,20 +68,18 @@ interface UseSearchOptions {
  * Requirements addressed:
  * - 3.1: Enable only when query length >= 2
  * - 6.6: Configure stale time (5 min) and cache time (30 min)
- * - 6.7: Use TanStack Query with key based on query, type, and filters
+ * - 6.7: Use TanStack Query with key based on query and filters
  *
  * @example
  * ```tsx
  * const { data, isLoading, error } = useSearch({
  *   query: "carbon trading",
- *   searchType: "fulltext",
  *   filters: { category: "Carbon Markets" }
  * });
  * ```
  */
 export function useSearch({
   query,
-  searchType = "fulltext",
   filters = {},
   topK = 10,
   alpha = 0.6,
@@ -98,7 +92,6 @@ export function useSearch({
   return useQuery<SearchResponse>({
     queryKey: [
       "search",
-      searchType,
       trimmedQuery,
       filters.category,
       filters.lang,
@@ -110,7 +103,7 @@ export function useSearch({
         // Call Convex action directly
         const result = await hybridSearchAction({
           query: trimmedQuery,
-          searchType,
+          searchType: "hybrid",
           category: filters.category,
           lang: filters.lang,
           topK,

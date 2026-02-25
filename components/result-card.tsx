@@ -4,7 +4,6 @@ import { ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { RichTextRenderer } from "@/components/rich-text-renderer";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { SearchResult } from "@/hooks/use-search";
@@ -85,67 +84,19 @@ export function ResultCard({
       ref={cardRef}
     >
       <div className="space-y-3 sm:space-y-4">
-        {/* Question Header with Category Badge */}
-        <div className="space-y-2 sm:space-y-3">
-          <h3 className="font-semibold text-base text-foreground leading-tight sm:text-lg">
-            {result.question}
-          </h3>
-
-          {/* Badges Row */}
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-            {/* Category Badge */}
-            <Badge
-              className="max-w-[150px] truncate font-medium text-xs sm:max-w-none sm:text-sm"
-              variant="secondary"
-            >
-              {result.category}
-            </Badge>
-
-            {/* Relevance Score Badge */}
-            <Badge
-              className="flex-shrink-0 text-[10px] sm:text-xs"
-              variant="outline"
-            >
-              {t("relevanceScore", {
-                score: (result.score * 100).toFixed(0),
-              })}
-            </Badge>
-
-            {/* Search Type Indicators */}
-            {result.reasons && result.reasons.length > 0 && (
-              <div className="flex gap-1">
-                {result.reasons.map((reason) => (
-                  <Badge
-                    className="border-primary/20 bg-primary/5 text-[10px] text-primary sm:text-xs"
-                    key={reason}
-                    variant="outline"
-                  >
-                    {reason === "vector" ? t("semantic") : t("keyword")}
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        {/* Question Header */}
+        <h3 className="font-semibold text-base text-foreground leading-tight sm:text-lg">
+          {result.question}
+        </h3>
 
         {/* Answer Content */}
         <div className="space-y-2 sm:space-y-3">
-          {!isExpanded && needsExpansion ? (
-            // Preview mode - show truncated plain text
-            <div className="prose prose-sm max-w-none">
-              <p className="line-clamp-3 text-muted-foreground text-sm leading-relaxed sm:text-base">
-                {displayAnswer}
-              </p>
-            </div>
-          ) : (
-            // Expanded mode - show rich text
-            <div className="prose prose-sm max-w-none">
-              <RichTextRenderer
-                className="text-muted-foreground text-sm leading-relaxed sm:text-base"
-                content={result.answer}
-              />
-            </div>
-          )}
+          <div className={cn("prose prose-sm max-w-none", !isExpanded && needsExpansion && "line-clamp-3")}>
+            <RichTextRenderer
+              className="text-muted-foreground text-sm leading-relaxed sm:text-base"
+              content={isExpanded || !needsExpansion ? result.answer : displayAnswer}
+            />
+          </div>
 
           {/* Expand/Collapse Button */}
           {needsExpansion && (

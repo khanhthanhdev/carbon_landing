@@ -5,7 +5,6 @@ import { convexServerClient } from "@/lib/convex-server";
 
 const SearchSchema = z.object({
   query: z.string().trim().min(2, "Query must be at least 2 characters"),
-  searchType: z.enum(["vector", "fulltext"]).optional().default("fulltext"),
   category: z.string().trim().optional(),
   lang: z.string().trim().optional(),
   topK: z.number().int().min(1).max(50).optional().default(10),
@@ -27,7 +26,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { query, searchType, category, lang, topK, alpha } = parsed.data;
+    const { query, category, lang, topK, alpha } = parsed.data;
 
     // Helper: call Convex action with timeout + retries for transient failures.
     //
@@ -105,7 +104,7 @@ export async function POST(request: Request) {
         (api as any).actions.hybridSearch,
         {
           query,
-          searchType,
+          searchType: "hybrid",
           category,
           lang,
           topK,

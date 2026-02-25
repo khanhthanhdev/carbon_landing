@@ -21,7 +21,7 @@ const DECODER =
   typeof window !== "undefined" ? document.createElement("textarea") : null;
 
 const decodeCodePoint = (value: number, fallback: string) => {
-  if (!Number.isInteger(value) || value < 0 || value > 0x10ffff) {
+  if (!Number.isInteger(value) || value < 0 || value > 0x10_ff_ff) {
     return fallback;
   }
 
@@ -314,7 +314,10 @@ const markdownToHtml = (markdown: string) => {
     }
 
     // Strip inline heading markers after punctuation labels, e.g. "Answer: ### Title".
-    normalizedLine = normalizedLine.replace(/([:?!.]\s+)#{1,6}\s+(?=\S)/g, "$1");
+    normalizedLine = normalizedLine.replace(
+      /([:?!.]\s+)#{1,6}\s+(?=\S)/g,
+      "$1"
+    );
 
     return normalizedLine;
   };

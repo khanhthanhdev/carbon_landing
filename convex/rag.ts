@@ -347,7 +347,9 @@ export const askAI = action({
         const isViRequest = locale === "vi";
 
         const matchingLang = allResults.filter((r) => {
-          if (r.lang === locale) return true;
+          if (r.lang === locale) {
+            return true;
+          }
           if (isViRequest) {
             const text = `${r.question} ${r.answer}`;
             return vietnamesePattern.test(text);

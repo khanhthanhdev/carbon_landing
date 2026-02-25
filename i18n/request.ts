@@ -11,18 +11,14 @@ const messages = {
   vi,
 };
 
-export default getRequestConfig(async ({ locale }) => {
-  // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as any)) {
-    // During build time, return default locale messages for invalid locales
-    return {
-      locale: "vi",
-      messages: messages.vi,
-    };
-  }
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale;
+  const locale = locales.includes(requested as Locale)
+    ? (requested as Locale)
+    : "vi";
 
   return {
-    locale: locale as Locale,
-    messages: messages[locale as Locale],
+    locale,
+    messages: messages[locale],
   };
 });
