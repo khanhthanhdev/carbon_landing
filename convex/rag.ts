@@ -321,12 +321,49 @@ export const askAI = action({
       // Step 2: Perform vector search to retrieve top relevant Q&As
       const searchStartTime = Date.now();
 
-      const searchResults = await ctx.runAction(api.search.vectorSearch, {
+      let searchResults = await ctx.runAction(api.search.vectorSearch, {
         embedding,
         category: undefined, // No category filter for RAG - we want broad context
         lang: locale, // Filter by language if specified
         limit: maxSources, // Get exactly the number of sources we need
       });
+
+      // Fallback: if no results found with language filter, retry without it
+      // and prefer documents matching the requested locale
+      if (searchResults.length === 0) {
+        console.warn(
+          `No results found for lang="${locale}", retrying without language filter`
+        );
+        const allResults = await ctx.runAction(api.search.vectorSearch, {
+          embedding,
+          category: undefined,
+          lang: undefined,
+          limit: maxSources * 3,
+        });
+
+        // Prefer results whose content matches the requested locale
+        const vietnamesePattern =
+          /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i;
+        const isViRequest = locale === "vi";
+
+        const matchingLang = allResults.filter((r) => {
+          if (r.lang === locale) return true;
+          if (isViRequest) {
+            const text = `${r.question} ${r.answer}`;
+            return vietnamesePattern.test(text);
+          }
+          return false;
+        });
+
+        searchResults =
+          matchingLang.length > 0
+            ? matchingLang.slice(0, maxSources)
+            : allResults.slice(0, maxSources);
+
+        console.log(
+          `Fallback search: ${allResults.length} total, ${matchingLang.length} matching locale "${locale}"`
+        );
+      }
 
       const searchTimeMs = Date.now() - searchStartTime;
       console.log(

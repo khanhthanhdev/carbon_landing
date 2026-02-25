@@ -361,6 +361,7 @@ export const replaceAll = mutation({
 export const patchQA = mutation({
   args: {
     id: v.id("qa"),
+    lang: v.optional(v.string()),
     embedding_doc: v.optional(v.array(v.float64())),
     embedding_qa: v.optional(v.array(v.float64())),
     embedding_fact: v.optional(v.array(v.float64())),
