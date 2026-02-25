@@ -8,13 +8,56 @@ const ENTITY_MAP: Record<string, string> = {
   "'": "&#39;",
 };
 
+const DECODE_ENTITY_MAP: Record<string, string> = {
+  amp: "&",
+  apos: "'",
+  gt: ">",
+  lt: "<",
+  nbsp: " ",
+  quot: '"',
+};
+
 const DECODER =
   typeof window !== "undefined" ? document.createElement("textarea") : null;
 
+const decodeCodePoint = (value: number, fallback: string) => {
+  if (!Number.isInteger(value) || value < 0 || value > 0x10ffff) {
+    return fallback;
+  }
+
+  try {
+    return String.fromCodePoint(value);
+  } catch {
+    return fallback;
+  }
+};
+
 const decodeEntities = (value: string) => {
-  if (!DECODER) {
+  if (!value.includes("&")) {
     return value;
   }
+
+  if (!DECODER) {
+    return value.replace(
+      /&(#(?:x[0-9a-f]+|\d+)|[a-z][a-z0-9]+);/gi,
+      (entity, token: string) => {
+        const normalizedToken = token.toLowerCase();
+
+        if (normalizedToken.startsWith("#x")) {
+          const codePoint = Number.parseInt(normalizedToken.slice(2), 16);
+          return decodeCodePoint(codePoint, entity);
+        }
+
+        if (normalizedToken.startsWith("#")) {
+          const codePoint = Number.parseInt(normalizedToken.slice(1), 10);
+          return decodeCodePoint(codePoint, entity);
+        }
+
+        return DECODE_ENTITY_MAP[normalizedToken] ?? entity;
+      }
+    );
+  }
+
   DECODER.innerHTML = value;
   return DECODER.value;
 };
@@ -52,14 +95,16 @@ const transformInline = (text: string) => {
   // Remove footnote references
   working = working.replace(/\[\[.*?\]\]\(#footnote-.*?\)/g, "");
 
+  working = decodeEntities(working);
   working = escapeHtml(working);
   working = applyInlineFormatting(working);
 
   working = working.replace(/__LINK_PLACEHOLDER_(\d+)__/g, (_match, index) => {
     const { label, url } = links[Number(index)];
-    const safeLabel = applyInlineFormatting(escapeHtml(label));
-    const safeUrl = escapeHtml(url.trim());
-    const isSafeProtocol = /^https?:\/\//i.test(url.trim());
+    const safeLabel = applyInlineFormatting(escapeHtml(decodeEntities(label)));
+    const normalizedUrl = decodeEntities(url.trim());
+    const safeUrl = escapeHtml(normalizedUrl);
+    const isSafeProtocol = /^https?:\/\//i.test(normalizedUrl);
     const href = isSafeProtocol ? safeUrl : "#";
 
     return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80">${safeLabel}</a>`;
@@ -73,13 +118,41 @@ const markdownToHtml = (markdown: string) => {
   let html = "";
   let currentList: "ul" | "ol" | null = null;
   let paragraphBuffer: string[] = [];
+  let previousTrimmedLine = "";
   const totalLines = lines.length;
 
+  const getTableParts = (line: string) => {
+    const firstPipeIndex = line.indexOf("|");
+    if (firstPipeIndex < 0) {
+      return null;
+    }
+
+    const prefix = line.slice(0, firstPipeIndex).trim();
+    if (prefix.length > 0 && !prefix.endsWith(":")) {
+      return null;
+    }
+
+    const table = line.slice(firstPipeIndex).trim();
+    return {
+      prefix,
+      table,
+    };
+  };
+
+  const expandCompactTableRows = (tableLine: string) =>
+    tableLine
+      .replace(/\|\s+\|/g, "|\n|")
+      .split("\n")
+      .map((row) => row.trim())
+      .filter((row) => row.length > 0);
+
   const isPotentialTableRow = (line: string) => {
-    if (!line.startsWith("|")) {
+    const tableParts = getTableParts(line);
+    if (!tableParts) {
       return false;
     }
-    const pipeCount = line.split("|").length - 1;
+
+    const pipeCount = tableParts.table.split("|").length - 1;
     return pipeCount >= 2;
   };
 
@@ -128,6 +201,7 @@ const markdownToHtml = (markdown: string) => {
 
   const renderTable = (startIndex: number) => {
     const tableLines: string[] = [];
+    let leadingLabel = "";
     let index = startIndex;
 
     while (index < totalLines) {
@@ -138,7 +212,17 @@ const markdownToHtml = (markdown: string) => {
         break;
       }
 
-      tableLines.push(trimmedLine);
+      const tableParts = getTableParts(trimmedLine);
+      if (!tableParts) {
+        break;
+      }
+
+      if (index === startIndex && tableParts.prefix.length > 0) {
+        leadingLabel = tableParts.prefix;
+      }
+
+      const expandedRows = expandCompactTableRows(tableParts.table);
+      tableLines.push(...expandedRows);
       index++;
     }
 
@@ -188,9 +272,13 @@ const markdownToHtml = (markdown: string) => {
           .join("")}</tbody>`
       : "";
 
+    const labelHtml = leadingLabel
+      ? `<p>${transformInline(leadingLabel)}</p>`
+      : "";
+
     return {
-      html: `<div class="overflow-x-auto"><table class="w-full border-collapse text-sm">${headerHtml}${bodyHtml}</table></div>`,
-      nextIndex: startIndex + tableLines.length,
+      html: `${labelHtml}<div class="overflow-x-auto"><table class="w-full border-collapse text-sm">${headerHtml}${bodyHtml}</table></div>`,
+      nextIndex: index,
     };
   };
 
@@ -211,6 +299,26 @@ const markdownToHtml = (markdown: string) => {
     }
   };
 
+  const normalizeParagraphLine = (inputLine: string) => {
+    const leadingWhitespaceMatch = inputLine.match(/^(\s*)/);
+    const leadingWhitespace = leadingWhitespaceMatch?.[1] ?? "";
+    const trimmedStart = inputLine.trimStart();
+    let normalizedLine = inputLine;
+
+    // Strip malformed heading markers such as "####: Text" or "###Text".
+    if (/^#{1,6}(?!\s)/.test(trimmedStart)) {
+      const strippedPrefix = trimmedStart.replace(/^#{1,6}\s*:?\s*/, "");
+      if (strippedPrefix.length > 0) {
+        normalizedLine = `${leadingWhitespace}${strippedPrefix}`;
+      }
+    }
+
+    // Strip inline heading markers after punctuation labels, e.g. "Answer: ### Title".
+    normalizedLine = normalizedLine.replace(/([:?!.]\s+)#{1,6}\s+(?=\S)/g, "$1");
+
+    return normalizedLine;
+  };
+
   for (let index = 0; index < totalLines; index++) {
     const rawLine = lines[index];
     const line = rawLine.replace(/\s+$/, "");
@@ -219,6 +327,7 @@ const markdownToHtml = (markdown: string) => {
     if (trimmed === "") {
       flushParagraph();
       closeList();
+      previousTrimmedLine = "";
       continue;
     }
 
@@ -229,17 +338,25 @@ const markdownToHtml = (markdown: string) => {
         closeList();
         html += tableResult.html;
         index = tableResult.nextIndex - 1;
+        previousTrimmedLine = "";
         continue;
       }
     }
 
     const headingMatch = trimmed.match(/^(#{1,6})\s+(.*)$/);
-    if (headingMatch) {
+    const previousLineEndsWithColon = previousTrimmedLine.endsWith(":");
+    if (headingMatch && !previousLineEndsWithColon) {
       flushParagraph();
       closeList();
       const level = headingMatch[1].length;
       const headingText = transformInline(headingMatch[2]);
       html += `<h${level}>${headingText}</h${level}>`;
+      previousTrimmedLine = trimmed;
+      continue;
+    }
+    if (headingMatch && previousLineEndsWithColon) {
+      paragraphBuffer.push(headingMatch[2]);
+      previousTrimmedLine = headingMatch[2].trim();
       continue;
     }
 
@@ -252,6 +369,7 @@ const markdownToHtml = (markdown: string) => {
         currentList = "ul";
       }
       html += `<li>${transformInline(unorderedMatch[1])}</li>`;
+      previousTrimmedLine = trimmed;
       continue;
     }
 
@@ -264,6 +382,7 @@ const markdownToHtml = (markdown: string) => {
         currentList = "ol";
       }
       html += `<li>${transformInline(orderedMatch[1])}</li>`;
+      previousTrimmedLine = trimmed;
       continue;
     }
 
@@ -272,10 +391,12 @@ const markdownToHtml = (markdown: string) => {
       flushParagraph();
       closeList();
       html += `<blockquote class="border-l-2 border-primary/40 pl-4 italic text-muted-foreground">${transformInline(blockquoteMatch[1])}</blockquote>`;
+      previousTrimmedLine = trimmed;
       continue;
     }
 
-    paragraphBuffer.push(rawLine);
+    paragraphBuffer.push(normalizeParagraphLine(rawLine));
+    previousTrimmedLine = trimmed;
   }
 
   flushParagraph();

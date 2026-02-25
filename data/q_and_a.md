@@ -332,7 +332,7 @@ Tài liệu tham khảo:
 
 * IEAGHG. (2024). *Measurement, reporting and verification for carbon dioxide removal*. IEAGHG. <https://ieaghg.org/publications/measurement-reporting-and-verification-and-accounting-for-carbon-dioxide-removal/>
 * Singh, N., Finnegan, J., & Levin, K. (2016). *MRV 101: Understanding Measurement, Reporting, and Verification of Climate Change Mitigation.* [*Www.wri.org*](https://www.wri.org). <https://www.wri.org/research/mrv-101-understanding-measurement-reporting-and-verification-climate-change-mitigation>
-* Nguyen, N. H., & Nguyen, T. D. (2023). Hoàn thiện pháp luật Việt Nam về quản lý tín chỉ các-bon và trao đổi hạn ngạch phát thải khí nhà kính Nguyễn Tiến Đạt. *Tạp Chí Khoa Học Xã Hội Việt Nam*, <https://vjol.info.vn/index.php/khxhvn/article/download/82590/70389/>
+* Nguyen, N. H., & Nguyen, T. D. (2025). Hoàn thiện pháp luật Việt Nam về quản lý tín chỉ các-bon và trao đổi hạn ngạch phát thải khí nhà kính Nguyễn Tiến Đạt. *Tạp Chí Khoa Học Xã Hội Việt Nam*, <https://vjol.info.vn/index.php/khxhvn/article/download/82590/70389/>
 
 ## Các văn bản pháp luật quốc tế quan trọng liên quan đến tín chỉ carbon?
 
@@ -372,7 +372,7 @@ Việt Nam đang trong quá trình xây dựng và hoàn thiện hệ thống ph
 | Quyết định 59/QĐ-BTNMT và Quyết định 2626/QĐ-BTNMT (2022) | Các văn bản này của Bộ Tài nguyên và Môi trường (nay là Bộ Nông nghiệp và Môi trường) cung cấp các hướng dẫn kỹ thuật và hệ số phát thải cho các lĩnh vực khác nhau, tạo nền tảng kỹ thuật thống nhất cho công tác kiểm kê và báo cáo. |
 | Quyết định số 896/QĐ-TTg (2022) | Phê duyệt Chiến lược quốc gia về biến đổi khí hậu giai đoạn đến năm 2050. |
 | Thông tư 17/2022/TT-BTNMT (2022) | Hướng dẫn kỹ thuật về đo đạc, báo cáo, thẩm định giảm nhẹ phát thải và kiểm kê KNK trong lĩnh vực quản lý chất thải. |
-| Quyết định số 1775/QĐ-TTg (2023) | Phê duyệt "Đề án Phát triển thị trường carbon tại Việt Nam".   * Giai đoạn đến hết năm 2027: Xây dựng quy định quản lý, vận hành sàn giao dịch tín chỉ carbon; triển khai thí điểm cơ chế trao đổi, bù trừ tín chỉ carbon. * Giai đoạn từ năm 2028: Vận hành chính thức sàn giao dịch tín chỉ carbon, kết nối với thị trường khu vực và thế giới. |
+| Quyết định số 232/QĐ-TTg (2025) | Phê duyệt "Đề án Phát triển thị trường carbon tại Việt Nam".   * Giai đoạn đến hết năm 2027: Xây dựng quy định quản lý, vận hành sàn giao dịch tín chỉ carbon; triển khai thí điểm cơ chế trao đổi, bù trừ tín chỉ carbon. * Giai đoạn từ năm 2028: Vận hành chính thức sàn giao dịch tín chỉ carbon, kết nối với thị trường khu vực và thế giới. |
 
 ### Các quy định chuyên sâu vào các lĩnh vực quan trọng
 
@@ -387,12 +387,12 @@ Tài liệu tham khảo:
 * Thuvienphapluat.Vn. (2025, August 15). Nghị định 06/2022/NĐ-CP quy định về giảm nhẹ phát thải khí nhà kính và bảo vệ tầng ô-dôn. *THƯ VIỆN PHÁP LUẬT*. <https://thuvienphapluat.vn/van-ban/Tai-nguyen-Moi-truong/Nghi-dinh-06-2022-ND-CP-giam-nhe-phat-thai-khi-nha-kinh-va-bao-ve-tang-o-don-500104.aspx>
 * Cổng Tông Tin Điện Tử Chính Phủ. (2025). *Dự thảo Nghị định quy định về dịch vụ hấp thụ và lưu giữ các-bon của rừng*. Cổng Thông Tin Điện Tử Chính Phủ - http://chinhphu.vn. <https://chinhphu.vn/du-thao-vbqppl/du-thao-nghi-dinh-quy-dinh-ve-dich-vu-hap-thu-va-luu-giu-cac-bon-cua-rung-7540>
 * Cổng Tông Tin Điện Tử Chính Phủ. (2017). *Luật số 16/2017/QH14 của Quốc hội: Luật Lâm nghiệp*. Cổng Thông Tin Điện Tử Chính Phủ - http://vanban.chinhphu.vn. <https://vanban.chinhphu.vn/?pageid=27160&docid=192329>
-* *Tạp chí Khoa học xã hội Việt Nam*. (2023). <http://tapchikhxh.vass.gov.vn/tapchi-ojs/hoan-thien-phap-luat-viet-nam-ve-quan-ly-tin-chi-cac-bon-va-trao-doi-han-ngach-phat-thai-khi-nha-kinh-138.html>
+* *Tạp chí Khoa học xã hội Việt Nam*. (2025). <http://tapchikhxh.vass.gov.vn/tapchi-ojs/hoan-thien-phap-luat-viet-nam-ve-quan-ly-tin-chi-cac-bon-va-trao-doi-han-ngach-phat-thai-khi-nha-kinh-138.html>
 * Cổng Tông Tin Điện Tử Chính Phủ. (2020). *Luật số 72/2020/QH14 của Quốc hội: Luật Bảo vệ môi trường*. Cổng Thông Tin Điện Tử Chính Phủ - http://vanban.chinhphu.vn. <https://vanban.chinhphu.vn/?pageid=27160&docid=202613>
 * Thủ tướng Chính phủ (2022). Quyết định số 01/2022/QĐ-TTg ngày 18/01/2022 ban hành danh mục lĩnh vực, cơ sở phát thải khí nhà kính phải thực hiện kiểm kê khí nhà kính. Truy cập tại: <https://vanban.chinhphu.vn/?pageid=27160&docid=205181&classid=1>
 * Cổng Tông Tin Điện Tử Chính Phủ. (2022). *Quyết định số 896/QĐ-TTg ngày 26/7/2022 phê duyệt Chiến lược quốc gia về biến đổi khí hậu giai đoạn đến năm 2050.* Cổng Thông Tin Điện Tử Chính Phủ. <https://vanban.chinhphu.vn/?pageid=27160&docid=206254>
-* Thuvienphapluat.Vn. (2020, November 20). Quyết định 1775/QĐ-TTg năm 2012 phê duyệt Đề án quản lý phát thải khí gây hiệu ứng nhà kính; quản lý hoạt động kinh doanh tín chỉ các-bon ra thị trường thế giới do Thủ tướng Chính phủ ban hành. *THƯ VIỆN PHÁP LUẬT*. <https://thuvienphapluat.vn/van-ban/Tai-nguyen-Moi-truong/Quyet-dinh-1775-QD-TTg-nam-2012-phe-duyet-De-an-quan-ly-phat-thai-khi-151765.aspx>
-* Thuvienphapluat.Vn. (2020, November 20). Quyết định 1775/QĐ-TTg năm 2012 phê duyệt Đề án quản lý phát thải khí gây hiệu ứng nhà kính; quản lý hoạt động kinh doanh tín chỉ các-bon ra thị trường thế giới do Thủ tướng Chính phủ ban hành. *THƯ VIỆN PHÁP LUẬT*. <https://thuvienphapluat.vn/van-ban/Tai-nguyen-Moi-truong/Quyet-dinh-1775-QD-TTg-nam-2012-phe-duyet-De-an-quan-ly-phat-thai-khi-151765.aspx>
+* Thuvienphapluat.Vn. (2020, November 20). Quyết định 232/QĐ-TTg năm 2025 phê duyệt Đề án quản lý phát thải khí gây hiệu ứng nhà kính; quản lý hoạt động kinh doanh tín chỉ các-bon ra thị trường thế giới do Thủ tướng Chính phủ ban hành. *THƯ VIỆN PHÁP LUẬT*. <https://thuvienphapluat.vn/van-ban/Tai-nguyen-Moi-truong/Quyet-dinh-232-QD-TTg-2025-phe-duyet-De-an-phat-trien-thi-truong-cac-bon-tai-Viet-Nam-641620.aspx>
+* Thuvienphapluat.Vn. (2020, November 20). Quyết định 232/QĐ-TTg năm 2025 phê duyệt Đề án quản lý phát thải khí gây hiệu ứng nhà kính; quản lý hoạt động kinh doanh tín chỉ các-bon ra thị trường thế giới do Thủ tướng Chính phủ ban hành. *THƯ VIỆN PHÁP LUẬT*. <https://thuvienphapluat.vn/van-ban/Tai-nguyen-Moi-truong/Quyet-dinh-232-QD-TTg-2025-phe-duyet-De-an-phat-trien-thi-truong-cac-bon-tai-Viet-Nam-641620.aspx>
 * Thuvienphapluat.Vn. (2023, June 8). Thông tư 17/2022/TT-BTNMT quy định kỹ thuật đo đạc, báo cáo, thẩm định giảm nhẹ phát thải khí nhà kính và kiểm kê khí nhà kính lĩnh vực quản lý chất thải do Bộ trưởng Bộ Tài nguyên và Môi trường ban hành. *THƯ VIỆN PHÁP LUẬT*. <https://thuvienphapluat.vn/van-ban/Tai-nguyen-Moi-truong/Thong-tu-17-2022-TT-BTNM-ky-thuat-do-dac-bao-cao-tham-dinh-giam-nhe-phat-thai-khi-nha-kinh-547764.aspx>
 * Thuvienphapluat.Vn. (2025, February 4). Thông tư 13/2024/TT-BXD về Quy trình, quy định kỹ thuật kiểm kê khí nhà kính và đo đạc, báo cáo, thẩm định giảm nhẹ phát thải khí nhà kính ngành Xây dựng do Bộ trưởng Bộ Xây dựng ban hành. *THƯ VIỆN PHÁP LUẬT*. <https://thuvienphapluat.vn/van-ban/Xay-dung-Do-thi/Thong-tu-13-2024-TT-BXD-quy-trinh-quy-dinh-ky-thuat-kiem-ke-khi-nha-kinh-nganh-Xay-dung-637890.aspx>
 
@@ -456,7 +456,7 @@ Thông qua quá trình kiểm kê phát thải khí nhà kính, Chính phủ s�
 
 Tài liệu tham khảo:
 
-* Nguyen, N. H., & Nguyen, T. D. (2023). Hoàn thiện pháp luật Việt Nam về quản lý tín chỉ các-bon và trao đổi hạn ngạch phát thải khí nhà kính Nguyễn Tiến Đạt. *Tạp Chí Khoa Học Xã Hội Việt Nam*, *2*. <http://tapchikhxh.vass.gov.vn/tapchi-ojs/hoan-thien-phap-luat-viet-nam-ve-quan-ly-tin-chi-cac-bon-va-trao-doi-han-ngach-phat-thai-khi-nha-kinh-138.html>
+* Nguyen, N. H., & Nguyen, T. D. (2025). Hoàn thiện pháp luật Việt Nam về quản lý tín chỉ các-bon và trao đổi hạn ngạch phát thải khí nhà kính Nguyễn Tiến Đạt. *Tạp Chí Khoa Học Xã Hội Việt Nam*, *2*. <http://tapchikhxh.vass.gov.vn/tapchi-ojs/hoan-thien-phap-luat-viet-nam-ve-quan-ly-tin-chi-cac-bon-va-trao-doi-han-ngach-phat-thai-khi-nha-kinh-138.html>
 
 ## Những tiêu chuẩn quốc tế nào đang được chấp nhận cho các dự án tại Việt Nam (ví dụ: Cơ chế phát triển sạch - CDM, Tiêu chuẩn Carbon Xác minh - VCS, Gold Standard)?
 
@@ -672,7 +672,7 @@ Tóm lại, SME hoàn toàn có thể bắt đầu hành trình giảm phát th�
 
 Tài liệu tham khảo:
 
-* Verra. (2023). *VCS program guide, v4.5.* Verra. [Verra Releases Version 4.5 of the VCS Standard - Verra](https://verra.org/verra-releases-version-4-5-of-the-vcs-standard/)
+* Verra. (2025). *VCS program guide, v4.5.* Verra. [Verra Releases Version 4.5 of the VCS Standard - Verra](https://verra.org/verra-releases-version-4-5-of-the-vcs-standard/)
 * Nguyễn, C. T. (2024). *Động lực thúc đẩy và nhu cầu của doanh nghiệp vừa và nhỏ trong quá trình chuyển đổi áp dụng mô hình kinh tế tuần hoàn ở Việt Nam.* Tạp chí Môi trường, 10, 67–72. [Động lực thúc đẩy và nhu cầu của doanh nghiệp vừa và nhỏ trong quá trình chuyển đổi áp dụng mô hình kinh tế tuần hoàn ở Việt Nam](https://tapchimoitruong.vn/lm/moi-truong-va-doanh-nghiep-59/dong-luc-thuc-day-va-nhu-cau-cua-doanh-nghiep-vua-va-nho-trong-qua-trinh-chuyen-doi-ap-dung-mo-hinh-kinh-te-tuan-hoan-o-viet-nam-31465)
 * Moss, J., Lambert, C. G., & Rennie, A. E. W. (2008). *SME application of LCA-based carbon footprints*. International Journal of Sustainable Engineering, 1(2), 132–141. <https://doi.org/10.1080/19397030802332930>
 
@@ -847,12 +847,12 @@ Tài liệu tham khảo:
 * Asian Development Bank. (2024). *ADB’s work in Viet Nam*.<https://www.adb.org/where-we-work/viet-nam/overview>
 * Green Climate Fund. (2018). *Scaling up energy efficiency for industrial enterprises via a guarantee instrument in Viet Nam*. Cities Climate Finance Leadership Alliance.<https://citiesclimatefinance.org/financial-instruments/cases/scaling-up_energy_efficiency_for_industrial_enterprises_via_a_guarantee_instrument_in_vietnam>
 * United Nations Development Programme. (2021). *MRV in practice: Monitoring, reporting and verification for climate action*. Climate Promise.<https://climatepromise.undp.org/research-and-reports/mrv-practice>
-* UNDP Vietnam. (2023). *Financing Vietnam’s response to climate change: Smart investment for a sustainable future*.<https://www.undp.org/sites/g/files/zskgke326/files/migration/vn/694e8c874b8eff252aa6e1ed22145bce42e1234360e061ee3aae724fa2869234.pdf>
+* UNDP Vietnam. (2025). *Financing Vietnam’s response to climate change: Smart investment for a sustainable future*.<https://www.undp.org/sites/g/files/zskgke326/files/migration/vn/694e8c874b8eff252aa6e1ed22145bce42e1234360e061ee3aae724fa2869234.pdf>
 * Verra. (2004, October). *Verra releases updated fee schedule*. [https://verra.org/verra-releases-updated-fee-schedule/#](https://verra.org/verra-releases-updated-fee-schedule/)
 
 ## Những rủi ro tài chính mà SMEs cần lưu ý là gì (ví dụ như biến động giá, chi phí xác minh tăng)?
 
-Các doanh nghiệp vừa và nhỏ (SMEs) khi tham gia thị trường tín chỉ carbon cần đặc biệt chú ý đến một loạt rủi ro tài chính có thể ảnh hưởng đến tính khả thi và hiệu quả đầu tư của dự án. Trước hết, rủi ro biến động giá tín chỉ carbon là một trong những thách thức lớn nhất. Trên thị trường tín chỉ carbon tự nguyện (VCM), giá có thể dao động mạnh tùy theo loại tín chỉ, tiêu chuẩn chứng nhận (như Verra, Gold Standard), và các yếu tố đi kèm như lợi ích bền vững. Theo báo cáo của Ecosystem Marketplace (2023), giá tín chỉ Verra từng dao động từ 3 đến 15 USD, thậm chí có thời điểm giảm dưới 2 USD. Để hạn chế rủi ro này, SMEs nên cân nhắc ký hợp đồng kì hạn (forward contracts) và lựa chọn các dự án có tiêu chuẩn cao, đi kèm với lợi ích xã hội - môi trường rõ rệt.
+Các doanh nghiệp vừa và nhỏ (SMEs) khi tham gia thị trường tín chỉ carbon cần đặc biệt chú ý đến một loạt rủi ro tài chính có thể ảnh hưởng đến tính khả thi và hiệu quả đầu tư của dự án. Trước hết, rủi ro biến động giá tín chỉ carbon là một trong những thách thức lớn nhất. Trên thị trường tín chỉ carbon tự nguyện (VCM), giá có thể dao động mạnh tùy theo loại tín chỉ, tiêu chuẩn chứng nhận (như Verra, Gold Standard), và các yếu tố đi kèm như lợi ích bền vững. Theo báo cáo của Ecosystem Marketplace (2025), giá tín chỉ Verra từng dao động từ 3 đến 15 USD, thậm chí có thời điểm giảm dưới 2 USD. Để hạn chế rủi ro này, SMEs nên cân nhắc ký hợp đồng kì hạn (forward contracts) và lựa chọn các dự án có tiêu chuẩn cao, đi kèm với lợi ích xã hội - môi trường rõ rệt.
 
 Thứ hai, chi phí cho quy trình đo lường, báo cáo và thẩm định (MRV – Measurement, Reporting, and Verification) thường cao hơn dự kiến. Các khoản như xây dựng đường cơ sở, lập tài liệu thiết kế dự án (PDD), giám sát định kỳ, và xác minh độc lập có thể khiến SMEs phát sinh chi phí lên tới 15.000–40.000 USD cho một chu kỳ 5 năm (Verra, 2023). Giải pháp là SMEs nên dự phòng ngân sách thêm 20–30% và tận dụng hình thức làm dự án nhóm để chia sẻ chi phí.
 
@@ -865,12 +865,12 @@ Cuối cùng, rủi ro về tính minh bạch và đạo đức cũng rất đá
 Tài liệu tham khảo:
 
 * Cổng Thông Tin Điện Tử Chính Phủ. (2022). *Nghị định số 06/2022/NĐ-CP của Chính phủ: Quy định giảm nhẹ phát thải khí nhà kính và bảo vệ tầng ô-dôn*. Cổng Thông Tin Điện Tử Chính Phủ - http://vanban.chinhphu.vn. https://vanban.chinhphu.vn/?pageid=27160&docid=205039
-* Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH. (2023). *Just transition in action – GIZ Viet Nam*.<https://www.giz.de/en/downloads_els/Just%20Transition%20in%20Action%20-%20GIZ%20Viet%20Nam.pdf>
+* Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH. (2025). *Just transition in action – GIZ Viet Nam*.<https://www.giz.de/en/downloads_els/Just%20Transition%20in%20Action%20-%20GIZ%20Viet%20Nam.pdf>
 * Cổng Thông Tin Điện Tử Chính Phủ. (2022). *Dự thảo Nghị định về sàn giao dịch các-bon trong nước*. Cổng Thông Tin Điện Tử Chính Phủ - http://chinhphu.vn. <https://chinhphu.vn/du-thao-vbqppl/du-thao-nghi-dinh-ve-san-giao-dich-cac-bon-trong-nuoc-7415>
-* Ecosystem Marketplace. (2023). *2023 State of the Voluntary Carbon Markets Report 2023*. Forest Trends Association.<https://www.ecosystemmarketplace.com/publications/state-of-the-voluntary-carbon-market-report-2023/>
+* Ecosystem Marketplace. (2025). *2023 State of the Voluntary Carbon Markets Report 2023*. Forest Trends Association.<https://www.ecosystemmarketplace.com/publications/state-of-the-voluntary-carbon-market-report-2023/>
 * Tạp chí Công Thương. (2023, September 13). *Nhận thức về tín chỉ carbon của các doanh nghiệp nhỏ và vừa trên địa bàn tỉnh Thái Nguyên*.<https://tapchicongthuong.vn/nhan-thuc-ve-tin-chi-carbon-cua-cac-doanh-nghiep-nho-va-vua-tren-dia-ban-tinh-thai-nguyen-122986.htm>
 * United Nations Development Programme (UNDP). (n.d.). *Climate Promise: Viet Nam*.<https://climatepromise.undp.org/what-we-do/where-we-work/viet-nam>
-* Verra. (2023). *Methodologies and tools*.<https://verra.org/methodologies-main/>
+* Verra. (2025). *Methodologies and tools*.<https://verra.org/methodologies-main/>
 * World Bank. (2024, March 21). *Viet Nam receives $51.5M World Bank payment for reducing emissions through forest preservation*.<https://www.worldbank.org/en/news/press-release/2024/03/21/viet-nam-receives-51-5m-world-bank-payment-for-reducing-emissions-through-forest-preservation>
 
 ## Doanh nghiệp có thể tiếp cận nguồn vốn tài chính hỗn hợp (blended finance) từ Tổ chức Tài chính Quốc tế - IFC, Ngân hàng Thế giới - WB, hoặc Ngân hàng Phát triển Châu Á - ADB không?
@@ -915,7 +915,7 @@ Tóm lại, việc định giá các lợi ích đồng thời trong dự án t�
 
 Tài liệu tham khảo:
 
-* Hamerkop. (2023). *Assessing carbon co-benefit standards: Unlocking the value of high-quality carbon projects*. Hamerkop. <https://www.hamerkop.co/blog/assessing-carbon-co-benefit-standards-unlocking-the-value-of-high-quality-carbon-projects>
+* Hamerkop. (2025). *Assessing carbon co-benefit standards: Unlocking the value of high-quality carbon projects*. Hamerkop. <https://www.hamerkop.co/blog/assessing-carbon-co-benefit-standards-unlocking-the-value-of-high-quality-carbon-projects>
 * Dendra Systems. (2022, November 17). *Carbon measuring and valuing biodiversity co-benefits (Part 1)*. Dendra. <https://www.dendra.io/articles/carbon-measuring-and-valuing-biodiversity-co-benefits-part-1>
 * Practical Action Consulting. (2009). *Making carbon markets work for the poor in Vietnam*. Green Economy Policy Platform. <https://www.greenpolicyplatform.org/sites/default/files/downloads/resource/Making_carbon_markets_work_for_the_poor_in_vietnam_Practical_Action_Consulting.pdf>
 * Lou, J., Hultman, N., Patwardhan, A., & Qiu, Y. L. (2022). Integrating sustainability into climate finance by quantifying the co-benefits and market impact of carbon projects. *Communications Earth & Environment*, *3*(1), 137.
@@ -1521,7 +1521,7 @@ Tài liệu tham khảo:
 
 * World Bank. (2022). *State and Trends of Carbon Pricing 2022*. Washington, D.C.: World Bank. <https://openknowledge.worldbank.org/entities/publication/a1abead2-de91-5992-bb7a-73d8aaaf767f>
 * Bộ Tài nguyên và Môi trường. (2022, 7 tháng 1). *Thông tư 01/2022/TT-BTNMT hướng dẫn Luật Bảo vệ môi trường về ứng phó với biến đổi khí hậu*. Thư Viện Pháp Luật.<https://thuvienphapluat.vn/van-ban/Tai-nguyen-Moi-truong/Thong-tu-01-2022-TT-BTNMT-huong-dan-Luat-Bao-ve-moi-truong-500962.aspx>
-* ICAP. (2023). *Emissions Trading Worldwide: Status Report*. International Carbon Action Partnership. <https://icapcarbonaction.com/en/publications/emissions-trading-worldwide-2023-icap-status-report>
+* ICAP. (2025). *Emissions Trading Worldwide: Status Report*. International Carbon Action Partnership. <https://icapcarbonaction.com/en/publications/emissions-trading-worldwide-2023-icap-status-report>
 
 ## Cơ chế nào đảm bảo tính minh bạch khi đăng ký và giao dịch tín chỉ carbon?
 

@@ -19,51 +19,7 @@ import { CitationPanel } from "@/components/citation-panel";
 import { RichTextRenderer } from "@/components/rich-text-renderer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-
-// Import markdown processing functions
-const HTML_DETECTION_REGEX = /<\/?[a-z][\s\S]*>/i;
-
-function markdownToHtml(markdown: string) {
-  // Simplified markdown processing - just handle basic formatting
-  let html = markdown;
-
-  // Handle bold
-  html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-  // Handle italic
-  html = html.replace(/(?<!\*)\*(?!\*)([^*]+)\*(?!\*)/g, "<em>$1</em>");
-
-  // Handle code
-  html = html.replace(
-    /`([^`]+)`/g,
-    '<code class="px-1 py-0.5 rounded bg-muted font-mono text-sm">$1</code>'
-  );
-
-  // Handle links
-  html = html.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80">$1</a>'
-  );
-
-  // Handle line breaks
-  html = html.replace(/\n/g, "<br>");
-
-  return html;
-}
-
-function normalizeContent(content: string) {
-  if (!content) {
-    return "";
-  }
-
-  const trimmed = content.trim();
-
-  if (HTML_DETECTION_REGEX.test(trimmed)) {
-    return trimmed;
-  }
-
-  return markdownToHtml(trimmed);
-}
+import { richTextToHtml } from "@/lib/rich-text";
 
 interface Citation {
   id: number;
@@ -132,7 +88,7 @@ export default function AIMessageWithCitations({
     }
 
     // Process markdown first
-    const htmlContent = normalizeContent(content);
+    const htmlContent = richTextToHtml(content);
 
     // Replace [Source X] with inline citation markers
     const processedContent = htmlContent.replace(

@@ -1,269 +1,268 @@
-**Q&A HANDBOOK FOR SMALL AND MEDIUM ENTERPRISES ON THE CARBON MARKET IN VIETNAM, TOWARDS 2030.**
+![](data:image/png;base64...)
 
+[**1. What is a Carbon Credit? 5**](#_heading=h.wm6piu3u8try)
 
-[**1. What is a Carbon Credit? 5**](#_47mrt0m1btzf)
+[**2. What are Compliance and Voluntary Carbon Markets? 5**](#_heading=h.y0bgp2a6wdhq)
 
-[**2. What are Compliance and Voluntary Carbon Markets? 5**](#_fza3k5oxabwl)
+[Compliance Carbon Market 5](#_heading=h.5q4smxfk3ivb)
 
-[Compliance Carbon Market 5](#_l49fvgqu83t3)
+[Voluntary Carbon Market 6](#_heading=h.hgy2d2zqgv3)
 
-[Voluntary Carbon Market 6](#_4pxwtdlh129r)
+[**3. What is MRV, and why is it important? 7**](#_heading=h.v8ywylm0acgj)
 
-[**3. What is MRV, and why is it important? 7**](#_qu66qbt11e0e)
+[What is MRV? 7](#_heading=h.gf4ca41rpjgt)
 
-[What is MRV? 7](#_qce6rmaeycmx)
+[Why is MRV important? 7](#_heading=h.m2isqi1illkw)
 
-[Why is MRV important? 7](#_flusulav35f8)
+[(1) A tool for business management and optimization 7](#_heading=h.z64x2vaw1yhk)
 
-[(1) A tool for business management and optimization 7](#_9c4vuhhjmkw)
+[(2) Gateway to the carbon market 7](#_heading=h.8ddeusdh6jez)
 
-[(2) Gateway to the carbon market 7](#_xevbv5wnq1eo)
+[(3) Enhancing credibility and preventing “greenwashing” 8](#_heading=h.pjj3rtdha4gr)
 
-[(3) Enhancing credibility and preventing “greenwashing” 8](#_b95hygv92zbi)
+[**4. Important international legal instruments related to carbon credits? 8**](#_heading=h.n6dn1i3rxpvs)
 
-[**4. Important international legal instruments related to carbon credits? 8**](#_ddvzl0miqv63)
+[The Kyoto Protocol 8](#_heading=h.jqmiyl8ukw1d)
 
-[The Kyoto Protocol 8](#_d50o8jpmxt7m)
+[The Paris Agreement: Article 6 8](#_heading=h.u80if88n91pl)
 
-[The Paris Agreement: Article 6 8](#_pi0gxulv6uk5)
+[Article 6.2 8](#_heading=h.9nush3a7y30b)
 
-[Article 6.2 8](#_53on5n8puk8g)
+[Article 6.4 8](#_heading=h.ujxe3tmd7jl7)
 
-[Article 6.4 8](#_pguescqkln6x)
+[Article 6.8 8](#_heading=h.psu6039whgwl)
 
-[Article 6.8 8](#_wfw2c957eniz)
+[**5. Vietnamese legal documents related to the carbon market 9**](#_heading=h.g3jgyfrbclzn)
 
-[**5. Vietnamese legal documents related to the carbon market 9**](#_l982d7w33xd8)
+[Foundational policies and Strategic orientations 9](#_heading=h.3062rewqg4bc)
 
-[Foundational policies and Strategic orientations 9](#_1y3z9mksseoo)
+[Detailed Regulations and Implementation Roadmap 10](#_heading=h.lcrfwslbs8td)
 
-[Detailed Regulations and Implementation Roadmap 10](#_pd8eb6s5lb0t)
+[Sector-specific Regulations 11](#_heading=h.qeq4ujqxarvy)
 
-[Sector-specific Regulations 11](#_p8ghbwycuh34)
+[**6. Common carbon credit standards/mechanisms currently applied 11**](#_heading=h.1celgdi882xs)
 
-[**6. Common carbon credit standards/mechanisms currently applied 11**](#_fwa4jwyndbdy)
+[The Clean Development Mechanism (CDM) 11](#_heading=h.2ugo34asrb49)
 
-[The Clean Development Mechanism (CDM) 11](#_dkcgu9l3pqgg)
+[The Verified Carbon Standard (VCS) Program 12](#_heading=h.2x47kgad7k5d)
 
-[The Verified Carbon Standard (VCS) Program 12](#_efwu77qa0byt)
+[The Gold Standard for the Global Goals 12](#_heading=h.kvr6mpb9ftfq)
 
-[The Gold Standard for the Global Goals 12](#_v7jezpoflhf7)
+[**7. How does the voluntary carbon market differ from the pilot Emission Trading System (ETS) in Vietnam? 12**](#_heading=h.7h4se1dtx9y4)
 
-[**7. How does the voluntary carbon market differ from the pilot Emission Trading System (ETS) in Vietnam? 12**](#_6n4vq79bwnqs)
+[**8. When will the ETS market officially operate in Vietnam? 13**](#_heading=h.pzjg38hbk1ay)
 
-[**8. When will the ETS market officially operate in Vietnam? 13**](#_bg5g9xwv08an)
+[Phase 1: Preparation and Piloting (Until the end of 2027) 14](#_heading=h.31hlia7woa1q)
 
-[Phase 1: Preparation and Piloting (Until the end of 2027) 14](#_qnjad8te1jsy)
+[Phase 2: Full Operation and Expansion (From 2028 onwards) 14](#_heading=h.bi980g6her5u)
 
-[Phase 2: Full Operation and Expansion (From 2028 onwards) 14](#_4r6jkohx7hnu)
+[**9. Which exchange will enterprises use to trade carbon credits? Can they trade through the Hanoi Stock Exchange (HNX) or via Over-the-Counter (OTC) agreements? 14**](#_heading=h.sfy163jageo)
 
-[**9. Which exchange will enterprises use to trade carbon credits? Can they trade through the Hanoi Stock Exchange (HNX) or via Over-the-Counter (OTC) agreements? 14**](#_4sj8mqnvech5)
+[**10. How do carbon credits and emission quotas differ? 14**](#_heading=h.46nc09rssho4)
 
-[**10. How do carbon credits and emission quotas differ? 14**](#_adg58hlkltw1)
+[**11. Can Vietnam connect carbon credits with the international market through mechanisms such as CDM, the Joint Crediting Mechanism with Japan (JCM), or Article 6 of the Paris Agreement? 16**](#_heading=h.gutop9utd67d)
 
-[**11. Can Vietnam connect carbon credits with the international market through mechanisms such as CDM, the Joint Crediting Mechanism with Japan (JCM), or Article 6 of the Paris Agreement? 16**](#_maoqf1w0h937)
+[Domestically-generated credits 16](#_heading=h.auhhnqhsjt3x)
 
-[Domestically-generated credits 16](#_pbuehig6k4a)
+[Credits from Cooperative Approaches under Article 6 16](#_heading=h.le8yfdyz72x)
 
-[Credits from Cooperative Approaches under Article 6 16](#_ynr5i0cfym9m)
+[Credits from Other International Mechanisms 16](#_heading=h.dp8rhapebjm6)
 
-[Credits from Other International Mechanisms 16](#_gdr5jve0pbn8)
+[**12. If an enterprise exceeds the permitted emission level in the ETS, how will it be handled? 16**](#_heading=h.nyp03rokdtng)
 
-[**12. If an enterprise exceeds the permitted emission level in the ETS, how will it be handled? 16**](#_707mt5nvlonn)
+[**1. How does an SME calculate its total greenhouse gas emissions (carbon footprint)? 17**](#_heading=h.66ebsv1fz3ag)
 
-[**1. How does an SME calculate its total greenhouse gas emissions (carbon footprint)? 17**](#_pqlbsr9fm45u)
+[Step 1: Define operational boundaries and classify emission sources 18](#_heading=h.rag5glg67w27)
 
-[Step 1: Define operational boundaries and classify emission sources 18](#_n93w2k1qy53t)
+[Scope 1: Direct emissions 18](#_heading=h.5e8y1vx4mlyb)
 
-[Scope 1: Direct emissions 18](#_rs9zgy4dvfjv)
+[Scope 2: Indirect emissions 18](#_heading=h.5bayr7p0wk7b)
 
-[Scope 2: Indirect emissions 18](#_lhyq23ng6r5r)
+[Scope 3: Other indirect emissions 18](#_heading=h.w67n8v4pk6st)
 
-[Scope 3: Other indirect emissions 18](#_kjs8zn8jhvg7)
+[Step 2: Select and collect activity data for the facility-level GHG inventory 20](#_heading=h.oh19n8yn73rz)
 
-[Step 2: Select and collect activity data for the facility-level GHG inventory 20](#_rclefmq0rdyp)
+[Step 3: Select appropriate emission factors 20](#_heading=h.a6o8v2xbn1nm)
 
-[Step 3: Select appropriate emission factors 20](#_bwvfiz49ltvb)
+[Step 4: Calculate facility-level greenhouse gas emissions 20](#_heading=h.11kfzq3c6fms)
 
-[Step 4: Calculate facility-level greenhouse gas emissions 20](#_bmtirt3sov3k)
+[**2. Which emission factors should SME enterprises use that are suitable for conditions in Vietnam? 21**](#_heading=h.b0n6njcofokr)
 
-[**2. Which emission factors should SME enterprises use that are suitable for conditions in Vietnam? 21**](#_kpl2ak6akb16)
+[Priority use of emission factors issued by Vietnam 21](#_heading=h.z2gjqdr2vgrt)
 
-[Priority use of emission factors issued by Vietnam 21](#_2fy8z5o4afll)
+[When official national factors are unavailable 22](#_heading=h.u5n9i8am6165)
 
-[When official national factors are unavailable 22](#_cua6o8qurier)
+[**3. Is indirect emissions in the supply chain (Scope 3) mandatory to calculate? Should SMEs calculate it? 22**](#_heading=h.xew516cwiopq)
 
-[**3. Is indirect emissions in the supply chain (Scope 3) mandatory to calculate? Should SMEs calculate it? 22**](#_9sgct9vcelbt)
+[From a legal perspective 22](#_heading=h.jptngr62bomi)
 
-[From a legal perspective 22](#_xfwc16lo1i67)
+[From a strategic perspective 22](#_heading=h.dkzkalfekuo6)
 
-[From a strategic perspective 22](#_1r9fs24wcc9k)
+[Challenges and solutions for SMEs 23](#_heading=h.9ccrr4ebw96l)
 
-[Challenges and solutions for SMEs 23](#_9926ixht0df9)
+[**4. Can enterprises in different sectors use sector-specific emission factors? 23**](#_heading=h.dj3sonwl46kp)
 
-[**4. Can enterprises in different sectors use sector-specific emission factors? 23**](#_sxdqqu77pggq)
+[Clear legal basis 23](#_heading=h.bro1272htlig)
 
-[Clear legal basis 23](#_1rdkgh6cjekc)
+[Illustrative examples 24](#_heading=h.yh9amtssgjfw)
 
-[Illustrative examples 24](#_jo0iq2ory8k0)
+[Key considerations for application 24](#_heading=h.v9ifyo1q5t0p)
 
-[Key considerations for application 24](#_24t8r4dc7obv)
+[**5. Methodological Database of Verified Carbon Standard (VCS) and Gold Standard 24**](#_heading=h.wpw193mhatz5)
 
-[**5. Methodological Database of Verified Carbon Standard (VCS) and Gold Standard 24**](#_8frh04h2o4my)
+[VCS - Verified Carbon Standard (managed by Verra) 24](#_heading=h.amfk4fcjpdm5)
 
-[VCS - Verified Carbon Standard (managed by Verra) 24](#_jb5ht251dkmc)
+[Gold Standard (co-founded by WWF) 25](#_heading=h.n15ommjes2sm)
 
-[Gold Standard (co-founded by WWF) 25](#_r8t9vxmwc9ih)
+[Significance for Businesses in Vietnam 25](#_heading=h.ezw4614jfsv3)
 
-[Significance for Businesses in Vietnam 25](#_y0b51jg4kbbj)
+[**6. What low-cost emission reduction solutions are suitable for SMEs in Vietnam? 25**](#_heading=h.p8dr60g60msj)
 
-[**6. What low-cost emission reduction solutions are suitable for SMEs in Vietnam? 25**](#_pny0eodep147)
+[**7. What documents and certifications are necessary to prove a project is eligible for carbon credits? 26**](#_heading=h.buxykfl3qc3q)
 
-[**7. What documents and certifications are necessary to prove a project is eligible for carbon credits? 26**](#_aibybdw6f307)
+[**8. Can SMEs jointly implement a common project to share the costs of Measurement, Reporting and Verification (MRV)? 27**](#_heading=h.kme8614k4g8l)
 
-[**8. Can SMEs jointly implement a common project to share the costs of Measurement, Reporting and Verification (MRV)? 27**](#_y3ocj5ojqgjl)
+[PoA mechanism 27](#_heading=h.lpft9kja5tcn)
 
-[PoA mechanism 27](#_utstczatgoha)
+[**9. How long does it usually take for a project to be registered, verified, and issued carbon credits? 28**](#_heading=h.gfyfleenfgjx)
 
-[**9. How long does it usually take for a project to be registered, verified, and issued carbon credits? 28**](#_qfqbt5szx32t)
+[**10. What is the specific MRV process according to the guidance of the Ministry of Agriculture and Environment? 29**](#_heading=h.njbducjjnqwm)
 
-[**10. What is the specific MRV process according to the guidance of the Ministry of Agriculture and Environment? 29**](#_xvaa77y6yg0t)
+[Stage 1: Measurement 29](#_heading=h.7o4zh2cbrdkc)
 
-[Stage 1: Measurement 29](#_jf41pxiwh9vb)
+[Stage 2: Reporting 30](#_heading=h.m8rlkk7bzsik)
 
-[Stage 2: Reporting 30](#_jafrcsgflm0h)
+[Stage 3: Verification 30](#_heading=h.4h50zzx3ns9x)
 
-[Stage 3: Verification 30](#_uk5mqek8juev)
+[**1. What price (USD/credit) can SME enterprises expect for selling carbon credits? 30**](#_heading=h.7ba6jpsna2ht)
 
-[**1. What price (USD/credit) can SME enterprises expect for selling carbon credits? 30**](#_6ppfouo13eu3)
+[**2. What green credit options are being offered by domestic banks such as BIDV and VietinBank? 32**](#_heading=h.jix49rf3vbzr)
 
-[**2. What green credit options are being offered by domestic banks such as BIDV and VietinBank? 32**](#_n8ie0limuuhk)
+[**3. Can enterprises receive tax exemptions/reductions if they implement emission reduction projects? 33**](#_heading=h.b9eud57mvt7m)
 
-[**3. Can enterprises receive tax exemptions/reductions if they implement emission reduction projects? 33**](#_sys2151t3ybo)
+[**4. Can carbon credits be used as collateral (mortgage) for loans? 34**](#_heading=h.qkdcfwnkykt3)
 
-[**4. Can carbon credits be used as collateral (mortgage) for loans? 34**](#_mdfhcv4lqge0)
+[**5. How should SMEs plan costs for MRV activities? 34**](#_heading=h.6qzu2d461zpq)
 
-[**5. How should SMEs plan costs for MRV activities? 34**](#_hzjnoqj7ha55)
+[**6. What are the financial risks that SMEs need to be aware of (e.g., price volatility, increased verification costs)? 35**](#_heading=h.t2csgp22hy3w)
 
-[**6. What are the financial risks that SMEs need to be aware of (e.g., price volatility, increased verification costs)? 35**](#_d26ughajwfy)
+[**7. Can businesses access blended finance from the International Finance Corporation (IFC), the World Bank (WB), or the Asian Development Bank (ADB)? 37**](#_heading=h.82bmpnpo91j1)
 
-[**7. Can businesses access blended finance from the International Finance Corporation (IFC), the World Bank (WB), or the Asian Development Bank (ADB)? 37**](#_veb9ec90fql6)
+[**8. How to value co-benefits such as contributions to Sustainable Development Goals (SDGs) or biodiversity conservation? 38**](#_heading=h.uwdrretc8x3j)
 
-[**8. How to value co-benefits such as contributions to Sustainable Development Goals (SDGs) or biodiversity conservation? 38**](#_t1no3svf857p)
+[**9. Can carbon credits help SMEs cope with the European Union's Carbon Border Adjustment Mechanism (CBAM)? 39**](#_heading=h.aloza78boy2f)
 
-[**9. Can carbon credits help SMEs cope with the European Union's Carbon Border Adjustment Mechanism (CBAM)? 39**](#_z2qqa9m2izst)
+[**1. Where can businesses find guidance documents and forms (Ministry of Agriculture and Environment, CT Group, GIZ...)? 40**](#_heading=h.wmwx6cy0h3gv)
 
-[**1. Where can businesses find guidance documents and forms (Ministry of Agriculture and Environment, CT Group, GIZ...)? 40**](#_h6ynun91c7be)
+[Government agencies (Official legal and policy resources) 40](#_heading=h.u42wc3sxv24a)
 
-[Government agencies (Official legal and policy resources) 40](#_fesm99vn4gso)
+[The Ministry of Agriculture and Environment 41](#_heading=h.7d3m3yit82b)
 
-[The Ministry of Agriculture and Environment 41](#_3t6iwyb1bm86)
+[Line Ministries 41](#_heading=h.1m74h8n0a1gl)
 
-[Line Ministries 41](#_57lyw66vty6u)
+[The Vietnam Chamber of Commerce and Industry (VCCI) 41](#_heading=h.og2su0qz4grg)
 
-[The Vietnam Chamber of Commerce and Industry (VCCI) 41](#_hpo6gsh0ywku)
+[International and Non-Governmental Organizations (NGOs) 41](#_heading=h.sf0yj4zcljsl)
 
-[International and Non-Governmental Organizations (NGOs) 41](#_xrvenihosgpm)
+[Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) 41](#_heading=h.wr0jhkafqduz)
 
-[Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) 41](#_ye376u546tx8)
+[United Nations Development Programme (UNDP) 41](#_heading=h.xcsvn6afzh10)
 
-[United Nations Development Programme (UNDP) 41](#_gr0zy5x6ot9i)
+[Other key organizations 42](#_heading=h.nmr6dc4g7981)
 
-[Other key organizations 42](#_oq7l1giubs1m)
+[The private sector and business associations: 42](#_heading=h.h589noybhkrl)
 
-[The private sector and business associations: 42](#_8li63md81ukv)
+[Major consulting firms: 42](#_heading=h.fe0rv4i4bxky)
 
-[Major consulting firms: 42](#_w24gnm4xzvdf)
+[Specialized technical and advisory companies 42](#_heading=h.t27sj8325gao)
 
-[Specialized technical and advisory companies 42](#_xve5trne8v8r)
+[**2. Does Vietnam have any verification organizations recognized according to international standards yet? 42**](#_heading=h.hus061awyv2i)
 
-[**2. Does Vietnam have any verification organizations recognized according to international standards yet? 42**](#_tecbndj9fmnl)
+[**3. What software can support SME businesses in tracking and reporting emissions? 43**](#_heading=h.wwvintacyf6c)
 
-[**3. What software can support SME businesses in tracking and reporting emissions? 43**](#_tioahaiska8e)
+[Basic and free tools 43](#_heading=h.w7qesq9s9llw)
 
-[Basic and free tools 43](#_sev9tvzi332z)
+[Microsoft Excel 43](#_heading=h.f77cnl65ngxu)
 
-[Microsoft Excel 43](#_k3bzmk4skydr)
+[International specialized software: 44](#_heading=h.xgfy122n5gn9)
 
-[International specialized software: 44](#_zdm0428i3e1q)
+[Domestic software solutions 44](#_heading=h.uk355gl5h6in)
 
-[Domestic software solutions 44](#_mv39zmffrjng)
+[**4. How to train internal staff on emissions tracking and carbon data management? 45**](#_heading=h.i9lorwesazl)
 
-[**4. How to train internal staff on emissions tracking and carbon data management? 45**](#_jquc74mtj0f)
+[Foundational knowledge 45](#_heading=h.5zm0fvykdczo)
 
-[Foundational knowledge 45](#_1ohhd2brbut9)
+[Technical skills 45](#_heading=h.6az5iko0x2t9)
 
-[Technical skills 45](#_3dvtr5yvk6hl)
+[Quality management 46](#_heading=h.jnu7mxpeqen1)
 
-[Quality management 46](#_a32yfpvnog48)
+[**5. Can businesses apply blockchain technology or QR codes to enhance the transparency of the MRV process? 46**](#_heading=h.a1rkseijra8b)
 
-[**5. Can businesses apply blockchain technology or QR codes to enhance the transparency of the MRV process? 46**](#_rxkh8un0qfi9)
+[Blockchain for data integrity and automation 46](#_heading=h.xr7fp0yy3fn9)
 
-[Blockchain for data integrity and automation 46](#_ccvy4w7cohmt)
+[QR Codes for consumer-facing transparency 47](#_heading=h.jhre0hpqrryb)
 
-[QR Codes for consumer-facing transparency 47](#_47psvhxew8qg)
+[**6. What platforms or networks support SME cooperation and experience sharing (e.g., Carbon Market Forum, Bamboo Eco)? 48**](#_heading=h.o5nzkeoyvnm4)
 
-[**6. What platforms or networks support SME cooperation and experience sharing (e.g., Carbon Market Forum, Bamboo Eco)? 48**](#_i2dwjynn8p3l)
+[International platforms and initiatives 48](#_heading=h.nbajx5kcefmg)
 
-[International platforms and initiatives 48](#_upy83o8ddxrn)
+[Domestic forums and government-led initiatives 48](#_heading=h.wibkymnhu8n9)
 
-[Domestic forums and government-led initiatives 48](#_ikvg3wkkk15h)
+[Business associations & councils 49](#_heading=h.3ss7nif48twm)
 
-[Business associations & councils 49](#_izcadvt9scsy)
+[**7. Which universities and non-governmental organizations (NGOs) can support SMEs in designing or verifying carbon projects? 50**](#_heading=h.g88ly9scjcw)
 
-[**7. Which universities and non-governmental organizations (NGOs) can support SMEs in designing or verifying carbon projects? 50**](#_yqa40m4wmija)
+[International university programs 50](#_heading=h.gtjo5jlxexix)
 
-[International university programs 50](#_3hqk5puect23)
+[NGOs and International organizations in Vietnam 51](#_heading=h.bjwhsb6zd65s)
 
-[NGOs and International organizations in Vietnam 51](#_ljuil058ngcr)
+[**8. How can businesses regularly update new policies regarding the carbon market in Vietnam? 52**](#_heading=h.fu3c307udomc)
 
-[**8. How can businesses regularly update new policies regarding the carbon market in Vietnam? 52**](#_qsurx7y34af0)
+[**9. What existing Public-Private Partnership (PPP) models help SMEs implement carbon projects? 52**](#_heading=h.ueifrktx0jt3)
 
-[**9. What existing Public-Private Partnership (PPP) models help SMEs implement carbon projects? 52**](#_lt21wu79yhv8)
+[Supply chain Finance model (Results-based finance) 53](#_heading=h.ozd3yyjbwr9u)
 
-[Supply chain Finance model (Results-based finance) 53](#_c7b59weh01u)
+[National and bilateral climate programs 53](#_heading=h.c08sv0p6wa7o)
 
-[National and bilateral climate programs 53](#_5otjg9pqxqgx)
+[Results-based Climate finance and Technical assistance 53](#_heading=h.7gmfg87rg6et)
 
-[Results-based Climate finance and Technical assistance 53](#_5p3apto00sa)
+[**1. How to avoid "greenwashing" and ensure project credibility? 54**](#_heading=h.w959tic1ed5v)
 
-[**1. How to avoid "greenwashing" and ensure project credibility? 54**](#_29xxq9vihsmv)
+[Adhering to a robust MRV process 54](#_heading=h.muwp16sep0qy)
 
-[Adhering to a robust MRV process 54](#_pxg225px2qn4)
+[Engaging independent, third-party verification 55](#_heading=h.mq1jggxzx79u)
 
-[Engaging independent, third-party verification 55](#_3gtl9uxnoge5)
+[Applying technology for traceability 55](#_heading=h.md0l2k4b53t4)
 
-[Applying technology for traceability 55](#_x6w8b5hiq9ub)
+[**2. What is the criterion for assessing "additionality" in a project? 56**](#_heading=h.s3emltnusca)
 
-[**2. What is the criterion for assessing "additionality" in a project? 56**](#_hnkrxi6q139l)
+[Barrier analysis 56](#_heading=h.di77qhbva292)
 
-[Barrier analysis 56](#_m0vh9d7jsxha)
+[Comparison with a Baseline Scenario (Investment or Common Practice Analysis) 56](#_heading=h.pnwcqhqpd67l)
 
-[Comparison with a Baseline Scenario (Investment or Common Practice Analysis) 56](#_54rbuwmmc3f)
+[Application of Formal Additionality Tools 57](#_heading=h.qbyuq8kvrjvh)
 
-[Application of Formal Additionality Tools 57](#_yaq1vvtayal0)
+[**3. What happens if a project fails to achieve the committed emission reduction targets? 57**](#_heading=h.kiaineja5b1y)
 
-[**3. What happens if a project fails to achieve the committed emission reduction targets? 57**](#_vc4qupd67bra)
+[Context and importance of complying with emission reduction targets 57](#_heading=h.bxtkzzax6wo5)
 
-[Context and importance of complying with emission reduction targets 57](#_brnnhu8wqh08)
-
-[Consequences of failing to meet targets 57](#_dljojs3rvlf0)
+[Consequences of failing to meet targets 57](#_heading=h.hfjodggp386h)
 
 Non-issuance of credits for the shortfall 57
 
-[Loss of credibility with the market and investors 57](#_qbo0vdib398a)
+[Loss of credibility with the market and investors 57](#_heading=h.8tiizi3q1goj)
 
 Mandatory corrective action and reporting 58
 
-[Illustrative example 58](#_dihdxeze66d6)
+[Illustrative example 58](#_heading=h.2upf2x1q7e7e)
 
-[Recommendations for SMEs 58](#_18ukrarx4uo6)
+[Recommendations for SMEs 58](#_heading=h.2auserd06bkv)
 
-[**4. How to control the risk of leakage and ensure permanence? 58**](#_l6rrs8tug9nq)
+[**4. How to control the risk of leakage and ensure permanence? 58**](#_heading=h.melc9bu1dvuo)
 
-[Explanation of concepts 58](#_inxap3nn08v7)
+[Explanation of concepts 58](#_heading=h.evr69bk2qzte)
 
-[Measures to control leakage and enhance permanence 59](#_nkgbm2fa1xw7)
+[Measures to control leakage and enhance permanence 59](#_heading=h.jssr7v9o1z6m)
 
 Leakage risk assessment in project design 59
 
@@ -271,41 +270,41 @@ Establishing a “buffer pool” for non-permanence risk 59
 
 Long-term Monitoring, Reporting, and Verification (MRV) 59
 
-[Illustrative example 59](#_of3m76datnu9)
+[Illustrative example 59](#_heading=h.h8m00kofzvfh)
 
-[**5. What is Vietnam doing to prevent double counting? 60**](#_swzsj4jzucnx)
+[**5. What is Vietnam doing to prevent double counting? 60**](#_heading=h.a75vkwbau0k1)
 
-[The concept of “double counting” 60](#_fs7em8knx8ip)
+[The concept of “double counting” 60](#_heading=h.9bhas5y0y3m7)
 
-[Establishing a National Carbon Credit Database System (MRV Registry) 60](#_pypyeji2oyb4)
+[Establishing a National Carbon Credit Database System (MRV Registry) 60](#_heading=h.lzsjgts7d3c8)
 
-[Clearly stipulating responsibility for claiming credit ownership 60](#_bxxxoikvt1x8)
+[Clearly stipulating responsibility for claiming credit ownership 60](#_heading=h.bch8htdnxgyj)
 
-[Connecting with international mechanisms under Article 6.2 of the Paris Agreement 60](#_8439m2wisuaa)
+[Connecting with international mechanisms under Article 6.2 of the Paris Agreement 60](#_heading=h.o2jkycp63c44)
 
-[Illustrative example 60](#_jquyuqra6ave)
+[Illustrative example 60](#_heading=h.x98jwtwwtprq)
 
-[Significance for SME Businesses 61](#_u2yy4vln9j2k)
+[Significance for SME Businesses 61](#_heading=h.o8rzta5hp8x1)
 
-[**6. How should SME businesses react if ETS regulations change suddenly? 61**](#_ok0v3amjv90h)
+[**6. How should SME businesses react if ETS regulations change suddenly? 61**](#_heading=h.adtqkpxy27x3)
 
-[Context and Policy Risks within the ETS System 61](#_wxij14ltu7ji)
+[Context and Policy Risks within the ETS System 61](#_heading=h.37kgzhwroymm)
 
-[Recommended Solutions for SME Businesses 61](#_uv5kzvywbx12)
+[Recommended Solutions for SME Businesses 61](#_heading=h.9vx9gpotmme2)
 
-[Establishing a Department or Hiring Policy Monitoring Consultants 61](#_baehiql05wbs)
+[Establishing a Department or Hiring Policy Monitoring Consultants 61](#_heading=h.xzxkg0zf26lg)
 
-[Scenario Planning 62](#_x7icrgee1119)
+[Scenario Planning 62](#_heading=h.g0s9zjpic8hn)
 
-[Developing a flexible strategy combining the ETS market and the voluntary market (VCM) 62](#_i2w6rj1d2g7k)
+[Developing a flexible strategy combining the ETS market and the voluntary market (VCM) 62](#_heading=h.7pnhz21k0mqq)
 
-[Illustrative Example 62](#_ek5ub08q4vay)
+[Illustrative Example 62](#_heading=h.m82eo5elofao)
 
-[**7. What mechanisms ensure transparency when registering and trading carbon credits? 62**](#_uap22rut3t6)
+[**7. What mechanisms ensure transparency when registering and trading carbon credits? 62**](#_heading=h.x5lp2dm2v373)
 
-[The Importance of Transparency in the Carbon Market 62](#_jwg6wlodgenz)
+[The Importance of Transparency in the Carbon Market 62](#_heading=h.lr0ykn26f1tl)
 
-[Mechanisms Ensuring Transparency According to Current Regulations in Vietnam 63](#_93cjkxmkl3ne)
+[Mechanisms Ensuring Transparency According to Current Regulations in Vietnam 63](#_heading=h.h7sidt6q6nfl)
 
 State-Managed Carbon Credit Exchange 63
 
@@ -313,65 +312,65 @@ National Carbon Market Database System 63
 
 Transparent Project Design and Disclosure 63
 
-[Illustrative Example 63](#_qb7r8agura2g)
+[Illustrative Example 63](#_heading=h.mt56gl7jftn1)
 
-[Recommendations for SMEs 64](#_yrvlfy2gctwl)
+[Recommendations for SMEs 64](#_heading=h.3j0bngyy6rs3)
 
-[**8. How to demonstrate co-benefits (social, ecosystem) to attract investors? 64**](#_o5n7uprsl1k2)
+[**8. How to demonstrate co-benefits (social, ecosystem) to attract investors? 64**](#_heading=h.9vw89gghot30)
 
-[Concept and role of “co-benefits” 64](#_tavpi84vaztj)
+[Concept and role of “co-benefits” 64](#_heading=h.vfpxiiae3u73)
 
-[Solutions for Demonstrating Co-Benefits in Project Design and Communication 64](#_5equ06mntsfy)
+[Solutions for Demonstrating Co-Benefits in Project Design and Communication 64](#_heading=h.q0ldck2m9kp)
 
-[Integrating Sustainable Development Goals (SDGs) into the Project Design Document (PDD) 64](#_mxhjrfbmrq73)
+[Integrating Sustainable Development Goals (SDGs) into the Project Design Document (PDD) 64](#_heading=h.q2a950eear7d)
 
-[Applying internationally recognized co-benefits measurement frameworks 64](#_eetfvodh31p8)
+[Applying internationally recognized co-benefits measurement frameworks 64](#_heading=h.8pie2nhrax25)
 
-[Communicating Using Specific, Transparent, and Understandable Indicators 65](#_ciyzpjiub35b)
+[Communicating Using Specific, Transparent, and Understandable Indicators 65](#_heading=h.uewqnpwag4wi)
 
-[Illustrative Example 65](#_r9sw944d05v6)
+[Illustrative Example 65](#_heading=h.l4sply2qcrpx)
 
-[Recommendations for SMEs 65](#_sgw5h91dqz4g)
+[Recommendations for SMEs 65](#_heading=h.kxvfg68nkm45)
 
-[**9. What governance principles should SMEs follow to ensure transparency throughout the entire cycle? 65**](#_xaa1rasxbuti)
+[**9. What governance principles should SMEs follow to ensure transparency throughout the entire cycle? 65**](#_heading=h.me0apznz99wu)
 
-[Recommended Governance Principles for SMEs 65](#_zet97sly5h0u)
+[Recommended Governance Principles for SMEs 65](#_heading=h.vao93de49gh0)
 
-[Applying the ESG principles (Environmental, Social, Governance) 66](#_nbj7ldtxk6ut)
+[Applying the ESG principles (Environmental, Social, Governance) 66](#_heading=h.9y23j14en7bg)
 
-[Establishing an independent internal audit system 66](#_o6xzvpj11ep1)
+[Establishing an independent internal audit system 66](#_heading=h.p2zxwnku7jqs)
 
-[Transparent record keeping and disclosure throughout the cycle 66](#_aezrsn340c6w)
+[Transparent record keeping and disclosure throughout the cycle 66](#_heading=h.j038yl28l91a)
 
-[Participating in learning and cross-monitoring networks such as the Carbon Market Forum 66](#_ksdtkxr1bfmp)
+[Participating in learning and cross-monitoring networks such as the Carbon Market Forum 66](#_heading=h.6cjzgie2b6wg)
 
-[Illustrative Example 67](#_d2a35t1pweyn)
+[Illustrative Example 67](#_heading=h.ou12mjgaj9zg)
 
-[**10. Transparency Governance Checklist for SMEs Participating in the Carbon Market 67**](#_4qqiyxc056ki)
+[**10. Transparency Governance Checklist for SMEs Participating in the Carbon Market 67**](#_heading=h.irztn4c6c3qp)
 
-[I. Environmental 67](#_hyionlnh7e41)
+[I. Environmental 67](#_heading=h.ukeo5ndeslk5)
 
-[II. Social 68](#_woteifreuwuj)
+[II. Social 68](#_heading=h.mga99znnbt9l)
 
-[III. Governance 68](#_8p6idw4u1g88)
+[III. Governance 68](#_heading=h.m747ztby78s4)
 
-[IV. Overall Assessment 69](#_kmzjwclb71ae)
+[IV. Overall Assessment 69](#_heading=h.k1rctwdauj4a)
 
-[Suggested Use 69](#_9mjqn6w8hsac)
+[Suggested Use 69](#_heading=h.fh26szy1jlai)
 
-[**1. Globally, what models or strategies have small and medium manufacturing enterprises in the steel and cement industries adopted to reduce emissions and participate in the carbon credit market? 69**](#_wdt7xe15zyl5)
+[**1. Globally, what models or strategies have small and medium manufacturing enterprises in the steel and cement industries adopted to reduce emissions and participate in the carbon credit market? 69**](#_heading=h.jovmp8h0uk8m)
 
-[**2. Globally, what models and strategies have businesses in the logistics, distribution, and warehousing sectors implemented to reduce emissions and participate in the carbon credit market? 71**](#_xs5bv8x1y59u)
+[**2. Globally, what models and strategies have businesses in the logistics, distribution, and warehousing sectors implemented to reduce emissions and participate in the carbon credit market? 71**](#_heading=h.e2wfgzik5198)
 
-[**3. Internationally, what solutions have small and medium-sized commercial buildings and real estate businesses adopted to reduce emissions and generate carbon credits? 71**](#_ybewadi7fuz)
+[**3. Internationally, what solutions have small and medium-sized commercial buildings and real estate businesses adopted to reduce emissions and generate carbon credits? 71**](#_heading=h.i4x9ozfx10)
 
-[**4. What cultivation or forest management models have helped international agriculture and forestry enterprises successfully generate carbon credits? 72**](#_rrymckehaimc)
+[**4. What cultivation or forest management models have helped international agriculture and forestry enterprises successfully generate carbon credits? 72**](#_heading=h.90tazar3ybgk)
 
-[**5. At the international level, what are the business models of companies providing ESG consulting services and carbon market services, and can these companies achieve financial efficiency or sustainable profitability? 74**](#_x3zdj08kqacn)
+[**5. At the international level, what are the business models of companies providing ESG consulting services and carbon market services, and can these companies achieve financial efficiency or sustainable profitability? 74**](#_heading=h.evs4d5ukipxf)
 
-[**6. Have any countries successfully organized and implemented a collective carbon project model involving multiple SMEs? 75**](#_hxm79hk5505q)
+[**6. Have any countries successfully organized and implemented a collective carbon project model involving multiple SMEs? 75**](#_heading=h.4ek60asby02w)
 
-[**7. How do international businesses overcome the barrier of lacking internal technical capacity for emissions measurement and reporting? 76**](#_sixg41ngvef1)
+[**7. How do international businesses overcome the barrier of lacking internal technical capacity for emissions measurement and reporting? 76**](#_heading=h.side779d0l1o)
 
 ***Table 1:*** *Comparison Table between the Voluntary Carbon Market and the Compliance Carbon Market*
 
@@ -490,7 +489,7 @@ Building on the foundation of the 2020 Law on Environmental Protection, the gove
 | Decree 06/2022/NĐ-CP[[9]](#footnote-8) | This is the cornerstone regulation that provides detailed guidance on GHG mitigation. It established the official roadmap for the carbon market, scheduling a pilot phase from 2025 and full operation from 2028. The decree outlines the responsibilities for facilities required to conduct GHG inventories, sets the principles for allocating emissions allowances, and establishes the rules for using carbon credits to offset excess emissions (capped at 10% of a facility's total allowance). |
 | --- | --- |
 | Decision No. 01/2022/QĐ-TTg[[10]](#footnote-9) | This decision identified the entities that are legally obligated to participate in the GHG inventory and reporting system, listing 1,912 facilities across the energy, transportation, construction, industrial processes, and agriculture sectors. |
-| Decision No. 232/QĐ-TTg (2025)[[11]](#footnote-10) | This decision approved the official "Scheme for the Development of a Carbon Market in Vietnam," reaffirming the national roadmap. It directs ministries to build the necessary management regulations and infrastructure for the carbon exchange, with the pilot mechanism for credit trading to be implemented by the end of 2027, leading to the official launch of the trading floor in 2028. |
+| Decision No. 232/QĐ-TTg (January 24, 2025)[[11]](#footnote-10) | This decision approved the official "Scheme for the Development of a Carbon Market in Vietnam," reaffirming the national roadmap. It directs ministries to build the necessary management regulations and infrastructure for the carbon exchange, with the pilot mechanism for credit trading to be implemented by the end of 2027, leading to the official launch of the trading floor in 2028. |
 | Technical Guidance Documents | A series of circulars and decisions, such as Circular 01/2022/TT-BTNMT[[12]](#footnote-11) and Circular 17/2022/TT-BTNMT[[13]](#footnote-12), provides the specific technical guidelines, reporting forms, and emissions factors necessary for entities to conduct their GHG inventories and report on mitigation actions consistently. |
 
 ## Sector-specific Regulations
