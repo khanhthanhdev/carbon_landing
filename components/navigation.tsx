@@ -38,7 +38,7 @@ export const Navigation = memo(function Navigation() {
     <nav
       className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
         isScrolled || isMobileMenuOpen
-          ? "bg-background/95 shadow-md backdrop-blur-md"
+          ? "border-primary/15 border-b bg-background/95 shadow-sm backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
@@ -55,54 +55,59 @@ export const Navigation = memo(function Navigation() {
                 src="/logo_carbon.jpg"
               />
             </div>
-            <span className="font-bold text-foreground text-xl">
-              {t("brand")}
-            </span>
+            <div className="flex flex-col">
+              <span className="font-bold text-foreground text-xl leading-tight">
+                {t("brand")}
+              </span>
+              <span className="hidden text-muted-foreground text-xs tracking-wide lg:block">
+                Carbon Markets Platform
+              </span>
+            </div>
           </Link>
 
           <div className="hidden items-center gap-6 md:flex lg:gap-8">
             <Link
-              className="text-foreground transition-colors hover:text-primary"
+              className="font-medium text-foreground/70 text-xs uppercase tracking-wider transition-colors hover:text-primary"
               href="/#book"
             >
               {t("recommendedBook")}
             </Link>
             <Link
-              className="text-foreground transition-colors hover:text-primary"
+              className="font-medium text-foreground/70 text-xs uppercase tracking-wider transition-colors hover:text-primary"
               data-tour="nav-books"
               href="/books"
             >
               {t("books")}
             </Link>
             <Link
-              className="text-foreground transition-colors hover:text-primary"
+              className="font-medium text-foreground/70 text-xs uppercase tracking-wider transition-colors hover:text-primary"
               data-tour="nav-search"
               href="/search"
             >
               {t("search")}
             </Link>
             <Link
-              className="text-foreground transition-colors hover:text-primary"
+              className="font-medium text-foreground/70 text-xs uppercase tracking-wider transition-colors hover:text-primary"
               data-tour="nav-ask-ai"
               href="/ask-ai"
             >
               {t("askAI")}
             </Link>
             <Link
-              className="text-foreground transition-colors hover:text-primary"
+              className="font-medium text-foreground/70 text-xs uppercase tracking-wider transition-colors hover:text-primary"
               data-tour="nav-about"
               href="/about-us"
             >
               {t("about")}
             </Link>
             <Link
-              className="text-foreground transition-colors hover:text-primary"
+              className="font-medium text-foreground/70 text-xs uppercase tracking-wider transition-colors hover:text-primary"
               href="/#common"
             >
               {t("commonQuestions")}
             </Link>
             <Link
-              className="text-foreground transition-colors hover:text-primary"
+              className="font-medium text-foreground/70 text-xs uppercase tracking-wider transition-colors hover:text-primary"
               href="/#contact"
             >
               {t("contact")}

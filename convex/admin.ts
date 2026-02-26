@@ -3,7 +3,7 @@ import { api } from "./_generated/api";
 import { action } from "./_generated/server";
 
 const normalizeText = (value: string) => value.trim();
-const toSearchable = (value: string) => normalizeText(value).toLowerCase();
+const _toSearchable = (value: string) => normalizeText(value).toLowerCase();
 
 export const saveQAWithEmbeddings = action({
   args: {

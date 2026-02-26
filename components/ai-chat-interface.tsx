@@ -41,9 +41,7 @@ export const AIChatInterface = memo(function AIChatInterface({
 
   // Extract follow-up questions from the last message if available
   const followUpQuestions =
-    messages.length > 0
-      ? messages[messages.length - 1].followUpQuestions || []
-      : [];
+    messages.length > 0 ? messages.at(-1).followUpQuestions || [] : [];
 
   // Memoize rendered messages for performance
   const renderedMessages = useMemo(() => {
@@ -93,7 +91,7 @@ export const AIChatInterface = memo(function AIChatInterface({
         </div>
       );
     });
-  }, [messages, onFeedback, t, selectedTopic]);
+  }, [messages, onFeedback, t, handleFollowUpQuestion]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -101,7 +99,7 @@ export const AIChatInterface = memo(function AIChatInterface({
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [scrollToBottom]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const element = e.currentTarget;
@@ -120,7 +118,7 @@ export const AIChatInterface = memo(function AIChatInterface({
 
     try {
       await onSendMessage(messageContent);
-    } catch (error) {
+    } catch (_error) {
       // Restore input value on error
       setInputValue(messageContent);
     }

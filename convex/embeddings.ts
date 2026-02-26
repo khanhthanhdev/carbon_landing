@@ -90,7 +90,7 @@ export const embedForTask = action({
       v.literal("FACT_VERIFICATION")
     ),
   },
-  handler: async (ctx, { text, task }) => {
+  handler: async (_ctx, { text, task }) => {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) {
       throw new Error("Missing GOOGLE_API_KEY");
@@ -107,7 +107,7 @@ export const embedQADocumentAll = action({
     question: v.string(),
     answer: v.string(),
   },
-  handler: async (ctx, { question, answer }) => {
+  handler: async (_ctx, { question, answer }) => {
     const docText = composeDocText(question, answer);
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) {
@@ -137,9 +137,9 @@ export const embedQADocumentAll = action({
     ) as Record<TaskType, number[]>;
 
     return {
-      embedding_doc: results["RETRIEVAL_DOCUMENT"],
-      embedding_qa: results["QUESTION_ANSWERING"],
-      embedding_fact: results["FACT_VERIFICATION"],
+      embedding_doc: results.RETRIEVAL_DOCUMENT,
+      embedding_qa: results.QUESTION_ANSWERING,
+      embedding_fact: results.FACT_VERIFICATION,
       composed: docText,
       dim: DIM,
       model: MODEL,
@@ -159,7 +159,7 @@ export const embedQADocumentsBatch = action({
       })
     ),
   },
-  handler: async (ctx, { documents }) => {
+  handler: async (_ctx, { documents }) => {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) {
       throw new Error("Missing GOOGLE_API_KEY");
@@ -190,7 +190,7 @@ export const embedQADocumentsBatch = action({
       new GeminiHelper(apiKey).batchEmbedContents(requestsFact),
     ]);
 
-    return documents.map((doc, i) => ({
+    return documents.map((_doc, i) => ({
       embedding_doc: embeddingsDoc[i],
       embedding_qa: embeddingsQA[i],
       embedding_fact: embeddingsFact[i],
@@ -213,7 +213,7 @@ export const embedQuery = action({
       v.literal("FACT_VERIFICATION")
     ),
   },
-  handler: async (ctx, { query, task }) => {
+  handler: async (_ctx, { query, task }) => {
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) {
       throw new Error("Missing GOOGLE_API_KEY");
@@ -671,9 +671,6 @@ export const autoEmbedQA = action({
       );
     }
 
-    // Log question_number being processed
-    console.log(`Processing QA document ${qaDoc.question_number || args.qaId}`);
-
     // Wrap entire process in try-catch to handle errors gracefully
     try {
       // Generate embeddings for each type with cache support
@@ -697,13 +694,13 @@ export const autoEmbedQA = action({
             | "RETRIEVAL_DOCUMENT"
             | "QUESTION_ANSWERING"
             | "FACT_VERIFICATION";
-          let title: string | undefined;
+          let _title: string | undefined;
 
           if (embeddingType === "doc") {
             // Document-level embedding: full content
             text = qaDoc.content;
             taskType = "RETRIEVAL_DOCUMENT";
-            title = qaDoc.question; // Use question as title for document embeddings
+            _title = qaDoc.question; // Use question as title for document embeddings
           } else if (embeddingType === "qa") {
             // Question-answer pair embedding: question + answer
             text = `${qaDoc.question}\n\n${qaDoc.answer}`;
@@ -715,12 +712,11 @@ export const autoEmbedQA = action({
           }
 
           // Generate cache key using getEmbeddingCacheKey helper
-          const cacheKey =
-            getEmbeddingCacheKey(
-              qaDoc.question,
-              qaDoc.answer,
-              qaDoc.question_number
-            ) + `::${embeddingType}`;
+          const cacheKey = `${getEmbeddingCacheKey(
+            qaDoc.question,
+            qaDoc.answer,
+            qaDoc.question_number
+          )}::${embeddingType}`;
 
           // Check embeddingCache using api.embeddings.getCachedEmbedding
           const cached = await ctx.runQuery(api.embeddings.getCachedEmbedding, {
@@ -733,9 +729,6 @@ export const autoEmbedQA = action({
             // Use cached embedding
             embedding = cached.embedding;
             cacheStatus[embeddingType] = true;
-            console.log(
-              `Cache hit for ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`
-            );
 
             // Update access tracking
             await ctx.runMutation(api.embeddings.updateAccessTracking, {
@@ -749,9 +742,6 @@ export const autoEmbedQA = action({
             });
 
             cacheStatus[embeddingType] = false;
-            console.log(
-              `Generated new ${embeddingType} embedding (${qaDoc.question_number || args.qaId})`
-            );
 
             // Add delay to prevent rate limiting
             await sleep(5000);
@@ -815,9 +805,6 @@ export const autoEmbedQA = action({
           id: args.qaId,
           ...updatePayload,
         });
-        console.log(
-          `Updated QA document ${qaDoc.question_number || args.qaId} with ${Object.keys(updatePayload).length} embedding(s)`
-        );
       }
 
       return {

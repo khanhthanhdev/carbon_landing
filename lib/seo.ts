@@ -651,7 +651,7 @@ export function buildPageMetadata(
   const localePrefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
   const canonicalPath = `${localePrefix}${pathname}` || "/";
 
-  const structuredData = buildStructuredData(page, locale, canonicalPath);
+  const _structuredData = buildStructuredData(page, locale, canonicalPath);
 
   return {
     metadataBase: new URL(siteUrl),

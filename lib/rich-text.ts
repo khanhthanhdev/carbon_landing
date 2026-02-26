@@ -243,7 +243,10 @@ const markdownToHtml = (markdown: string) => {
       .filter((row) => row.some((cell) => cell.trim().length > 0))
       .map((row) => {
         if (row.length < headerCells.length) {
-          return [...row, ...Array(headerCells.length - row.length).fill("")];
+          return [
+            ...row,
+            ...new Array(headerCells.length - row.length).fill(""),
+          ];
         }
         if (row.length > headerCells.length) {
           return row.slice(0, headerCells.length);
@@ -463,7 +466,7 @@ export const htmlToMarkdown = (html: string) => {
       return "";
     }
 
-    const header = rows[0]!.map((value) => value || " ");
+    const header = rows[0]?.map((value) => value || " ");
     const separator = header.map(() => "---");
     const body = rows.slice(1).map((r) => r.map((value) => value || " "));
 
@@ -492,9 +495,10 @@ export const htmlToMarkdown = (html: string) => {
     const style = node.style;
     const fontWeight = style.fontWeight;
     const fontStyle = style.fontStyle;
-    const textDecoration = style.textDecoration;
+    const _textDecoration = style.textDecoration;
 
-    const isBold = fontWeight === "bold" || Number.parseInt(fontWeight) >= 600;
+    const isBold =
+      fontWeight === "bold" || Number.parseInt(fontWeight, 10) >= 600;
     const isItalic = fontStyle === "italic";
 
     // Helper to apply styles to text

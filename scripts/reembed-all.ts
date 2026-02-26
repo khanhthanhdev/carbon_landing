@@ -5,11 +5,11 @@ import { api } from "../convex/_generated/api";
 
 const CONCURRENCY = Number(process.env.EMBED_CONCURRENCY || "3");
 
-type CliArgs = {
+interface CliArgs {
   categories?: string[];
   lang?: string;
   limit?: number;
-};
+}
 
 function requireEnv(name: string) {
   const value = process.env[name];

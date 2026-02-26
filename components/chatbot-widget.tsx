@@ -18,11 +18,11 @@ const createMessageId = () =>
     ? crypto.randomUUID()
     : `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-type ChatbotMessage = {
+interface ChatbotMessage {
+  content: string;
   id: string;
   role: "assistant" | "user";
-  content: string;
-};
+}
 
 const createMessage = (
   role: ChatbotMessage["role"],

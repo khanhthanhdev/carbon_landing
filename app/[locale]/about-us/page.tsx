@@ -2,7 +2,6 @@ import { AboutUsSection } from "@/components/about-us-section";
 import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
 import { Navigation } from "@/components/navigation";
-import { SurveySection } from "@/components/survey-section";
 import { locales } from "@/i18n/request";
 import { buildPageMetadata, getPageStructuredData } from "@/lib/seo";
 
@@ -33,7 +32,6 @@ export default async function AboutUsPage({
       <Navigation />
       <main className="bg-background">
         <AboutUsSection locale={locale} />
-        <SurveySection />
       </main>
       <Footer />
     </>

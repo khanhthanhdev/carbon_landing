@@ -263,7 +263,7 @@ export function SectionsView() {
                 <Input
                   id="order"
                   onChange={(e) =>
-                    setOrder(Number.parseInt(e.target.value) || 0)
+                    setOrder(Number.parseInt(e.target.value, 10) || 0)
                   }
                   type="number"
                   value={order}

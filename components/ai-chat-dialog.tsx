@@ -279,7 +279,7 @@ function OpenAIChatDialog({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, []);
 
   const handleSend = async (overrideMessage?: string) => {
     const messageContent = (overrideMessage ?? inputValue).trim();
@@ -319,7 +319,7 @@ function OpenAIChatDialog({
     rating: number,
     comment: string
   ) => {
-    console.log("Feedback:", { messageId, rating, comment });
+    // TODO: Implement feedback submission to backend
   };
 
   const contextualQuestions: SuggestedQuestion[] = [

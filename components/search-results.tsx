@@ -56,10 +56,10 @@ export function SearchResults({
   className,
 }: SearchResultsProps) {
   const t = useTranslations("search");
-  const tQuestions = useTranslations("questions");
+  const _tQuestions = useTranslations("questions");
 
   const hasResults = results && results.length > 0;
-  const showNoResults =
+  const _showNoResults =
     !isLoading && query.trim().length >= 2 && !hasResults && !error;
   const showInitialState = query.trim().length < 2 && !error;
 

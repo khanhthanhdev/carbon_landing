@@ -6,15 +6,15 @@ import { api } from "@/convex/_generated/api";
 
 const ITEMS_PER_PAGE = 10;
 
-type SectionState = {
+interface SectionState {
+  hasMore: boolean;
+  question_count: number;
+  questions: any[];
   section_id: string;
   section_number: string;
   section_title: string;
-  questions: Array<any>;
-  question_count: number;
   totalCount: number; // Total questions in this section from getSections
-  hasMore: boolean;
-};
+}
 
 export function usePaginatedQuestions(lang?: string, initialSection?: string) {
   const initialSectionNumber = useMemo(() => {
@@ -51,7 +51,7 @@ export function usePaginatedQuestions(lang?: string, initialSection?: string) {
     setCursor(null);
     setIsLoadingMore(false);
     setIsLoadingSection(false);
-  }, [lang, normalizedInitialSection]);
+  }, [normalizedInitialSection]);
 
   // Fetch available sections info (for knowing total counts and section order)
   const sectionsInfo = useQuery(api.qa.getSections, { lang });

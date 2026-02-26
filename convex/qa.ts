@@ -259,8 +259,8 @@ export const getAllByLang = query({
 
     return {
       sections: Array.from(sectionsMap.values()).sort((a, b) => {
-        const aNum = Number.parseInt(a.section_number || "0");
-        const bNum = Number.parseInt(b.section_number || "0");
+        const aNum = Number.parseInt(a.section_number || "0", 10);
+        const bNum = Number.parseInt(b.section_number || "0", 10);
         return aNum - bNum;
       }),
     };

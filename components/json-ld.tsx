@@ -1,6 +1,6 @@
-type JsonLdProps = {
+interface JsonLdProps {
   data: object | object[];
-};
+}
 
 export function JsonLd({ data }: JsonLdProps) {
   const jsonLdArray = Array.isArray(data) ? data : [data];

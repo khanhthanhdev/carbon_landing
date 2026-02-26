@@ -3,40 +3,40 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Environmental color scheme for carbon training platform */
-  --background: oklch(0.98 0.01 140);
-  --foreground: oklch(0.25 0.02 160);
+  /* Institutional green finance color scheme */
+  --background: oklch(0.985 0.004 145);
+  --foreground: oklch(0.15 0.04 155);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.02 160);
+  --card-foreground: oklch(0.15 0.04 155);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.02 160);
-  --primary: oklch(0.45 0.15 155);
-  --primary-foreground: oklch(0.98 0.01 140);
-  --secondary: oklch(0.55 0.12 85);
-  --secondary-foreground: oklch(0.98 0.01 140);
-  --muted: oklch(0.94 0.01 140);
-  --muted-foreground: oklch(0.5 0.02 160);
-  --accent: oklch(0.4 0.1 180);
-  --accent-foreground: oklch(0.98 0.01 140);
+  --popover-foreground: oklch(0.15 0.04 155);
+  --primary: oklch(0.3 0.12 155);
+  --primary-foreground: oklch(0.98 0.005 145);
+  --secondary: oklch(0.65 0.2 148);
+  --secondary-foreground: oklch(0.1 0.04 155);
+  --muted: oklch(0.95 0.008 145);
+  --muted-foreground: oklch(0.45 0.03 155);
+  --accent: oklch(0.65 0.2 148);
+  --accent-foreground: oklch(0.1 0.04 155);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.98 0.01 140);
-  --border: oklch(0.88 0.01 140);
-  --input: oklch(0.88 0.01 140);
-  --ring: oklch(0.45 0.15 155);
-  --chart-1: oklch(0.45 0.15 155);
-  --chart-2: oklch(0.55 0.12 85);
+  --destructive-foreground: oklch(0.98 0.005 145);
+  --border: oklch(0.9 0.012 145);
+  --input: oklch(0.9 0.012 145);
+  --ring: oklch(0.3 0.12 155);
+  --chart-1: oklch(0.3 0.12 155);
+  --chart-2: oklch(0.65 0.2 148);
   --chart-3: oklch(0.4 0.1 180);
   --chart-4: oklch(0.6 0.1 120);
   --chart-5: oklch(0.5 0.08 200);
-  --radius: 0.75rem;
-  --sidebar: oklch(0.98 0.01 140);
-  --sidebar-foreground: oklch(0.25 0.02 160);
-  --sidebar-primary: oklch(0.45 0.15 155);
-  --sidebar-primary-foreground: oklch(0.98 0.01 140);
-  --sidebar-accent: oklch(0.94 0.01 140);
-  --sidebar-accent-foreground: oklch(0.25 0.02 160);
-  --sidebar-border: oklch(0.88 0.01 140);
-  --sidebar-ring: oklch(0.45 0.15 155);
+  --radius: 0.375rem;
+  --sidebar: oklch(0.985 0.004 145);
+  --sidebar-foreground: oklch(0.15 0.04 155);
+  --sidebar-primary: oklch(0.3 0.12 155);
+  --sidebar-primary-foreground: oklch(0.98 0.005 145);
+  --sidebar-accent: oklch(0.95 0.008 145);
+  --sidebar-accent-foreground: oklch(0.15 0.04 155);
+  --sidebar-border: oklch(0.9 0.012 145);
+  --sidebar-ring: oklch(0.3 0.12 155);
 }
 
 .dark {
@@ -46,9 +46,9 @@
   --card-foreground: oklch(0.95 0.01 140);
   --popover: oklch(0.2 0.02 160);
   --popover-foreground: oklch(0.95 0.01 140);
-  --primary: oklch(0.55 0.15 155);
-  --primary-foreground: oklch(0.15 0.02 160);
-  --secondary: oklch(0.65 0.12 85);
+  --primary: oklch(0.55 0.18 155);
+  --primary-foreground: oklch(0.98 0.005 145);
+  --secondary: oklch(0.7 0.22 148);
   --secondary-foreground: oklch(0.15 0.02 160);
   --muted: oklch(0.25 0.02 160);
   --muted-foreground: oklch(0.7 0.01 140);
@@ -121,6 +121,18 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Green accent divider line */
+  .section-divider {
+    @apply h-1 w-16 bg-primary rounded-full;
+  }
+
+  /* Badge style for section labels — institutional left-border style */
+  .section-label {
+    @apply inline-flex items-center gap-2 rounded-none border-l-4 border-primary pl-3 font-semibold text-sm uppercase tracking-widest text-primary;
   }
 }
 

@@ -91,10 +91,17 @@ export function ResultCard({
 
         {/* Answer Content */}
         <div className="space-y-2 sm:space-y-3">
-          <div className={cn("prose prose-sm max-w-none", !isExpanded && needsExpansion && "line-clamp-3")}>
+          <div
+            className={cn(
+              "prose prose-sm max-w-none",
+              !isExpanded && needsExpansion && "line-clamp-3"
+            )}
+          >
             <RichTextRenderer
               className="text-muted-foreground text-sm leading-relaxed sm:text-base"
-              content={isExpanded || !needsExpansion ? result.answer : displayAnswer}
+              content={
+                isExpanded || !needsExpansion ? result.answer : displayAnswer
+              }
             />
           </div>
 

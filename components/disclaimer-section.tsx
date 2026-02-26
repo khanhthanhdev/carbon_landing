@@ -1,48 +1,45 @@
 "use client";
 
-import { ShieldAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function DisclaimerSection() {
   const t = useTranslations("disclaimer");
-
-  const paragraphs: string[] = t.raw("paragraphs") as string[];
+  const paragraphs = (t.raw("paragraphs") as string[] | undefined) ?? [];
+  const [introParagraph, ...detailParagraphs] = paragraphs;
+  const _label = t("label");
+  const lead = t("lead");
+  const _tagLabel = t("tag");
 
   return (
     <section
       aria-labelledby="disclaimer-heading"
-      className="border-amber-200 border-t bg-amber-50 py-12 sm:py-16"
+      className="border-emerald-200 border-t py-12 sm:py-16"
     >
-      <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-amber-300 bg-amber-100">
-            <ShieldAlert
-              aria-hidden="true"
-              className="h-5 w-5 text-amber-700"
-            />
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-emerald-200/60 p-6">
+          <div className="flex items-start gap-4">
+            <div>
+              <h2
+                className="mt-2 font-semibold text-3xl text-slate-900 leading-tight sm:text-4xl"
+                id="disclaimer-heading"
+              >
+                {t("title")}
+              </h2>
+            </div>
           </div>
-          <h2
-            className="font-bold text-amber-900 text-xl sm:text-2xl"
-            id="disclaimer-heading"
-          >
-            {t("title")}
-          </h2>
-        </div>
-
-        {/* Divider */}
-        <div className="mb-6 border-amber-200 border-t" />
-
-        {/* Body paragraphs */}
-        <div className="space-y-4">
-          {paragraphs.map((paragraph, index) => (
-            <p
-              className="text-amber-800 text-sm leading-relaxed sm:text-base"
-              key={index}
-            >
-              {paragraph}
-            </p>
-          ))}
+          <p className="mt-6 text-base text-slate-700 leading-relaxed sm:text-lg">
+            {lead}
+          </p>
+          {[introParagraph, ...detailParagraphs].map((paragraph, index) =>
+            paragraph ? (
+              <p
+                className="mt-4 text-slate-800 text-sm leading-relaxed"
+                key={`${index}-${paragraph.slice(0, 32)}`}
+              >
+                {paragraph}
+              </p>
+            ) : null
+          )}
         </div>
       </div>
     </section>

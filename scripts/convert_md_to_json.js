@@ -1,7 +1,7 @@
-import fs from "fs";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import natural from "natural";
-import path from "path";
-import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -98,7 +98,7 @@ function parseMarkdownToJSON(mdContent) {
 
     // Accumulate answer
     if (currentQuestion && line.trim() !== "") {
-      currentQuestion.answer += line + "\n";
+      currentQuestion.answer += `${line}\n`;
     }
   }
 

@@ -8,7 +8,8 @@
     "commonQuestions": "Common Questions",
     "contact": "Contact",
     "askAI": "Ask AI",
-    "about": "About Us"
+    "about": "About Us",
+    "cta": "Explore Platform"
   },
   "aboutUs": {
     "title": "About the Team",
@@ -32,7 +33,7 @@
           "link": "https://vinuni.edu.vn/vi/people/ts-le-duy-anh/"
         },
         {
-          "name": "Assoc. Prof. Dr. Vũ Anh Dũng",
+          "name": "Assoc Prof. Vũ Anh Dũng",
           "credentials": "Founding Dean, College of Arts and Sciences, VinUniversity",
           "institute": "VinUniversity",
           "image": "/vu_anh_dung.jpg",
@@ -97,6 +98,8 @@
     },
     "organizations": {
       "title": "Organizing Institutions",
+      "subtitle": "Trusted partners investing in carbon-market training",
+      "emptyState": "More partner logos incoming.",
       "members": [
         {
           "name": "VinUniversity",
@@ -155,6 +158,13 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "cookies": "Cookie Policy"
+    },
+    "links": {
+      "title": "Quick Links",
+      "books": "Books",
+      "search": "Search",
+      "askAI": "Ask AI",
+      "about": "About Us"
     }
   },
   "search": {
@@ -694,6 +704,9 @@
   },
   "disclaimer": {
     "title": "Disclaimer",
+    "label": "Important notice",
+    "lead": "This section explains the scope and limits of our training content so you can weigh it alongside official guidance.",
+    "tag": "Key point",
     "paragraphs": [
       "The information provided on this platform is for general informational and capacity-building purposes only. It does not constitute legal, financial, investment, tax, or professional advice.",
       "The legal obligations of enterprises relating to greenhouse gas (GHG) management, emissions reporting, and participation in the carbon market are governed exclusively by officially promulgated laws, decrees, decisions, and circulars issued by competent authorities of the Socialist Republic of Viet Nam.",

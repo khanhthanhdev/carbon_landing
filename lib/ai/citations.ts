@@ -34,7 +34,7 @@ export function extractCitations(answer: string): Citation[] {
       regex: /\[Source (\d+)\]/g,
       parse: (match: RegExpExecArray) => ({
         marker: match[0],
-        sourceIndex: Number.parseInt(match[1]) - 1, // Convert to 0-based index
+        sourceIndex: Number.parseInt(match[1], 10) - 1, // Convert to 0-based index
         questionNumber: undefined,
         position: {
           start: match.index!,
@@ -62,7 +62,7 @@ export function extractCitations(answer: string): Citation[] {
       regex: /\[Source (\d+),\s*Q([\d.]+)\]/g,
       parse: (match: RegExpExecArray) => ({
         marker: match[0],
-        sourceIndex: Number.parseInt(match[1]) - 1, // Convert to 0-based index
+        sourceIndex: Number.parseInt(match[1], 10) - 1, // Convert to 0-based index
         questionNumber: match[2],
         position: {
           start: match.index!,
@@ -370,13 +370,13 @@ function calculateWordOverlapSimilarity(text1: string, text2: string): number {
 
   // Also calculate a weighted similarity that considers word frequency
   let weightedScore = 0;
-  let totalWeight = 0;
+  let _totalWeight = 0;
 
   for (const word of intersection) {
     // Give higher weight to longer, more meaningful words
     const weight = Math.max(1, word.length - 2); // Minimum weight of 1
     weightedScore += weight;
-    totalWeight += weight;
+    _totalWeight += weight;
   }
 
   // Normalize weighted score

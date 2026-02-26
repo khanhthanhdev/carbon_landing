@@ -52,7 +52,7 @@ export default function AIMessageWithCitations({
   onFeedback,
   onReference,
 }: AIMessageWithCitationsProps) {
-  const [showCitations, setShowCitations] = useState(false);
+  const [_showCitations, _setShowCitations] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [tooltipCitation, setTooltipCitation] = useState<Citation | null>(null);
@@ -94,7 +94,7 @@ export default function AIMessageWithCitations({
     const processedContent = htmlContent.replace(
       /\[Source (\d+)\]/g,
       (match, citationId) => {
-        const id = Number.parseInt(citationId);
+        const id = Number.parseInt(citationId, 10);
         const citation = message.citations?.find((c) => c.id === id);
         if (citation) {
           return `<span class="citation-marker inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary/20 text-primary text-xs font-semibold mx-0.5 cursor-pointer hover:bg-primary/30 transition-colors" data-citation-id="${id}">${id}</span>`;
@@ -117,9 +117,10 @@ export default function AIMessageWithCitations({
             const target = (e.target as HTMLElement).closest(
               ".citation-marker"
             ) as HTMLElement | null;
-            if (target && target.getAttribute) {
+            if (target?.getAttribute) {
               const citationId = Number.parseInt(
-                target.getAttribute("data-citation-id") || "0"
+                target.getAttribute("data-citation-id") || "0",
+                10
               );
               const citation = message.citations?.find(
                 (c) => c.id === citationId
@@ -323,7 +324,7 @@ export default function AIMessageWithCitations({
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
                   className={`text-sm ${
-                    star <= message.feedback!.rating
+                    star <= message.feedback?.rating
                       ? "text-yellow-500"
                       : "text-muted-foreground"
                   }`}

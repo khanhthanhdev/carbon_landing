@@ -73,10 +73,6 @@ export const semantic = action({
     category: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    console.warn(
-      "api.search.semantic is deprecated. Use api.search.vectorSearch or api.search.hybridSearch instead."
-    );
-
     const limit = Math.min(Math.max(args.limit ?? 5, 1), 20);
 
     const vectorResults = (await ctx.vectorSearch("qa", "by_embedding_doc", {
@@ -434,17 +430,9 @@ export const hybridSearch = action({
     const topK = Math.min(Math.max(args.topK ?? 10, 1), 50);
     const alpha = Math.min(Math.max(args.alpha ?? 0.6, 0), 1);
     const searchType = "hybrid";
-    if (args.searchType && args.searchType !== "hybrid") {
-      console.warn(
-        `Deprecated searchType "${args.searchType}" requested. Falling back to hybrid search.`
-      );
-    }
     const category = args.category?.trim() || undefined;
     // Normalize lang
     const lang = args.lang?.trim() || undefined;
-    if (lang && lang !== "vi" && lang !== "en") {
-      console.warn(`Invalid lang value: ${lang}, expected "vi" or "en"`);
-    }
 
     // Build filters object for cache key generation
     const filters: Record<string, string> = {};
@@ -514,7 +502,7 @@ export const hybridSearch = action({
 
           const cachedScore = cacheRecord.scores?.[index] ?? 0;
           const score =
-            typeof cachedScore === "number" && !isNaN(cachedScore)
+            typeof cachedScore === "number" && !Number.isNaN(cachedScore)
               ? cachedScore
               : Math.max(0.1, 1 - index * 0.1);
           return {
@@ -605,7 +593,6 @@ export const hybridSearch = action({
 
       const [vectorSearchResults, textSearchResults] = await Promise.all([
         performVectorSearch(embedding, topK * 2).catch((err) => {
-          console.warn("Vector search in hybrid mode failed:", err);
           searchErrors.push(
             `Vector search: ${err instanceof Error ? err.message : String(err)}`
           );
@@ -620,7 +607,6 @@ export const hybridSearch = action({
           })
           .then((res) => res as Array<Doc<"qa"> & { textScore: number }>)
           .catch((err) => {
-            console.warn("Full-text search in hybrid mode failed:", err);
             searchErrors.push(
               `Full-text search: ${err instanceof Error ? err.message : String(err)}`
             );
@@ -630,10 +616,6 @@ export const hybridSearch = action({
 
       usedVector = vectorSearchResults.length > 0;
       usedFullText = textSearchResults.length > 0;
-
-      console.log(
-        `Hybrid search: vector=${vectorSearchResults.length} results, fulltext=${textSearchResults.length} results`
-      );
 
       if (vectorSearchResults.length > 0 || textSearchResults.length > 0) {
         const textResultsForRRF = textSearchResults.map((r) => ({
@@ -751,7 +733,6 @@ export const hybridSearch = action({
         ttlMs: DEFAULT_SEARCH_CACHE_TTL_MS,
       });
       cacheWriteSuccess = true;
-      console.log("Successfully cached search results");
     } catch (cacheError) {
       const errorMsg =
         cacheError instanceof Error ? cacheError.message : String(cacheError);
@@ -772,14 +753,9 @@ export const hybridSearch = action({
         errorType: "cache_operation",
         fallbackUsed: "Continuing without cache",
       });
-      console.warn("Failed to cache search results:", errorMsg);
     }
 
     const latencyMs = Date.now() - startTime;
-
-    console.log(
-      `Search completed: ${results.length} results in ${latencyMs}ms`
-    );
 
     return {
       results,
@@ -850,7 +826,6 @@ export const vectorSearch = action({
       .map((result) => {
         const doc = docMap.get(result._id) as any;
         if (!doc) {
-          console.warn(`Document not found for ID: ${result._id}`);
           return null;
         }
 

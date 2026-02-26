@@ -46,13 +46,13 @@ function CitationBadge({
 /**
  * Parse citation markers from text and return array of text segments and citations
  */
-type ParsedSegment = {
-  type: "text" | "citation";
+interface ParsedSegment {
   content: string;
-  sourceIndex?: number;
-  questionNumber?: string;
   key: string;
-};
+  questionNumber?: string;
+  sourceIndex?: number;
+  type: "text" | "citation";
+}
 
 function parseCitations(text: string): ParsedSegment[] {
   const segments: ParsedSegment[] = [];
@@ -105,11 +105,11 @@ function parseCitations(text: string): ParsedSegment[] {
 
     if (pattern.source.includes("Source (\\d+),")) {
       // Combined format: [Source 1, Q1.2.3]
-      sourceIndex = match[1] ? Number.parseInt(match[1]) - 1 : undefined;
+      sourceIndex = match[1] ? Number.parseInt(match[1], 10) - 1 : undefined;
       questionNumber = match[2] || undefined;
     } else if (pattern.source.includes("Source")) {
       // Source format: [Source 1]
-      sourceIndex = match[1] ? Number.parseInt(match[1]) - 1 : undefined;
+      sourceIndex = match[1] ? Number.parseInt(match[1], 10) - 1 : undefined;
     } else {
       // Question format: [Q1.2.3]
       questionNumber = match[1] || undefined;
@@ -258,7 +258,7 @@ export function MessageBubble({ message, isLatest }: MessageBubbleProps) {
 
   const handleCitationClick = (
     sourceIndex?: number,
-    questionNumber?: string
+    _questionNumber?: string
   ) => {
     if (sourceIndex !== undefined) {
       // Highlight the corresponding source

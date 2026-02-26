@@ -39,9 +39,6 @@ export const store = mutation({
     const adminEmail = process.env.ADMIN_EMAIL;
     const adminUsername = process.env.ADMIN_USERNAME;
 
-    console.log("Identity:", JSON.stringify(identity, null, 2));
-    console.log("Admin Config:", { adminEmail, adminUsername });
-
     let isAdmin = false;
     if (adminEmail && identity.email === adminEmail) {
       isAdmin = true;
@@ -54,7 +51,6 @@ export const store = mutation({
     }
 
     const role = isAdmin ? "admin" : "user";
-    console.log("Calculated Role:", role);
 
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
-  const siteUrl =
+  const _siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://www.carbonmarketvietnam.com";
 
   return {

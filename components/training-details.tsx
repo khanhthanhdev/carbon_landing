@@ -11,19 +11,19 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-type TrainingModule = {
-  title: string;
+interface TrainingModule {
   duration: string;
+  title: string;
   topics: string[];
-};
+}
 
 type BenefitList = string[];
 
-type StatItem = {
+interface StatItem {
+  description: string;
   icon: "users" | "book" | "award";
   value: string;
-  description: string;
-};
+}
 
 const statIconMap: Record<StatItem["icon"], typeof Users> = {
   users: Users,

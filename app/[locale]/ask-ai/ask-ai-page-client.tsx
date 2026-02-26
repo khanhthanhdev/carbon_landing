@@ -24,15 +24,15 @@ export default function AskAiPageClient() {
   const handleSendMessage = async (content: string) => {
     try {
       await sendMessage(content);
-    } catch (error) {
+    } catch (_error) {
       // Error handled silently
     }
   };
 
   const handleFeedback = (
-    messageId: string,
-    rating: number,
-    comment: string
+    _messageId: string,
+    _rating: number,
+    _comment: string
   ) => {
     // TODO: Implement feedback mutation
   };

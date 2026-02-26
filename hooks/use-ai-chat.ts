@@ -134,7 +134,7 @@ export function useAIChat({
   enabled = true,
   focusTopic = "general",
 }: UseAIChatOptions) {
-  const queryClient = useQueryClient();
+  const _queryClient = useQueryClient();
   const convex = useConvex();
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -173,7 +173,7 @@ export function useAIChat({
       setIsSending(true);
       setError(null);
     },
-    onSuccess: async (data) => {
+    onSuccess: async (_data) => {
       // With native Convex useQuery, the conversation will automatically update
       // We don't need to manually refetch - Convex handles reactivity
     },
@@ -225,8 +225,7 @@ export function useAIChat({
   const hasMessages = messages.length > 0;
 
   // Helper function to get the last message
-  const lastMessage =
-    messages.length > 0 ? messages[messages.length - 1] : null;
+  const lastMessage = messages.length > 0 ? messages.at(-1) : null;
 
   // Helper function to get follow-up questions from the last message
   const lastFollowUpQuestions =

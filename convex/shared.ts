@@ -101,25 +101,25 @@ export const sleep = (ms: number) =>
 /**
  * Question type for filtering (matches listWithEmbeddings return type)
  */
-export type QuestionWithEmbeddingStatus = {
-  id: any;
-  question: string;
+export interface QuestionWithEmbeddingStatus {
   answer: string;
+  category: string;
+  created_at: string;
+  hasEmbedding: boolean;
+  id: any;
+  keywords: string[];
+  question: string;
   question_number: string;
   section_number: string;
   section_title: string;
-  category: string;
-  keywords: string[];
   sources: Array<{
     type: string;
     title: string;
     url: string;
     location?: string;
   }>;
-  created_at: string;
   updated_at?: string;
-  hasEmbedding: boolean;
-};
+}
 
 /**
  * Filters an array of questions based on categories, sections, and embedding status.

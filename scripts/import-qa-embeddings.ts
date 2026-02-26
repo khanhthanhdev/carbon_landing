@@ -15,36 +15,36 @@ const RETRIES = Number(process.env.EMBED_RETRIES || "4");
 const RETRY_DELAY_MS = Number(process.env.EMBED_RETRY_DELAY_MS || "1500");
 const RETRY_BACKOFF_MULTIPLIER = Number(process.env.EMBED_RETRY_BACKOFF || "2");
 
-type QASource = {
-  type?: string;
-  title?: string;
-  url?: string;
+interface QASource {
   location?: string;
   note?: string;
-};
+  title?: string;
+  type?: string;
+  url?: string;
+}
 
-type NormalizedQAItem = {
-  question: string;
+interface NormalizedQAItem {
   answer: string;
+  answer_length?: number;
   category: string;
-  lang?: string;
-  sources?: QASource[];
+  category_searchable?: string;
   content: string;
+  has_sources?: boolean;
+  keywords?: string[];
+  keywords_searchable?: string;
+  lang?: string;
+  metadata_created_at?: string;
+  metadata_updated_at?: string;
+  question: string;
+  question_lower?: string;
+  question_number?: string;
   searchable_text?: string;
   section_id?: string;
   section_number?: string;
   section_title?: string;
-  question_number?: string;
   source_id?: string;
-  keywords?: string[];
-  question_lower?: string;
-  keywords_searchable?: string;
-  category_searchable?: string;
-  has_sources?: boolean;
-  answer_length?: number;
-  metadata_created_at?: string;
-  metadata_updated_at?: string;
-};
+  sources?: QASource[];
+}
 
 function requireEnv(name: string) {
   const value = process.env[name];
@@ -239,18 +239,18 @@ function normalizeQAData(
   return items;
 }
 
-function extractSections(data: unknown): Array<Record<string, unknown>> {
+function extractSections(data: unknown): Record<string, unknown>[] {
   if (!data || typeof data !== "object") {
     return [];
   }
 
   if (Array.isArray(data)) {
-    return data as Array<Record<string, unknown>>;
+    return data as Record<string, unknown>[];
   }
 
   const record = data as Record<string, unknown>;
   if (Array.isArray(record.sections)) {
-    return record.sections as Array<Record<string, unknown>>;
+    return record.sections as Record<string, unknown>[];
   }
 
   if (Array.isArray(record.questions)) {

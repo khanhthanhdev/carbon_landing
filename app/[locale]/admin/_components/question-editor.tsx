@@ -32,22 +32,22 @@ import {
   richTextToPlainText,
 } from "@/lib/rich-text";
 
-type SourceEntry = {
-  type: string;
-  title: string;
-  url: string;
+interface SourceEntry {
   location: string;
-};
+  title: string;
+  type: string;
+  url: string;
+}
 
-type FormState = {
-  question: string;
-  category: string;
-  sectionId: string;
-  lang: string;
-  keywords: string;
+interface FormState {
   answerRich: string;
+  category: string;
+  keywords: string;
+  lang: string;
+  question: string;
+  sectionId: string;
   sources: SourceEntry[];
-};
+}
 
 const initialFormState: FormState = {
   question: "",

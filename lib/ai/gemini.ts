@@ -51,12 +51,12 @@ interface RateLimiterState {
  * with rate limiting, retry logic, and proper error handling.
  */
 export class GeminiHelper {
-  private client: GoogleGenAI;
-  private embeddingModel: string;
-  private textModel: string;
-  private rateLimitConfig: RateLimitConfig;
-  private retryConfig: RetryConfig;
-  private rateLimiterState: RateLimiterState;
+  private readonly client: GoogleGenAI;
+  private readonly embeddingModel: string;
+  private readonly textModel: string;
+  private readonly rateLimitConfig: RateLimitConfig;
+  private readonly retryConfig: RetryConfig;
+  private readonly rateLimiterState: RateLimiterState;
 
   constructor(
     apiKey?: string,
@@ -443,10 +443,6 @@ export class GeminiHelper {
           this.retryConfig.backoffMultiplier ** attempt;
         const jitter = Math.random() * 0.1 * baseDelay; // 10% jitter
         const delay = Math.min(baseDelay + jitter, this.retryConfig.maxDelayMs);
-
-        console.warn(
-          `Gemini API request failed (attempt ${attempt + 1}/${this.retryConfig.maxRetries + 1}): ${error}. Retrying in ${Math.round(delay)}ms...`
-        );
 
         await this.sleep(delay);
       }

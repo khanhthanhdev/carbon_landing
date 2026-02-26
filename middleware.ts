@@ -7,7 +7,7 @@ const middleware = createMiddleware({
   defaultLocale: "vi",
 });
 
-export default clerkMiddleware(async (auth, req) => {
+export default clerkMiddleware(async (_auth, req) => {
   return middleware(req);
 });
 

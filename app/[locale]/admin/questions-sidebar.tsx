@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 type QADoc = Doc<"qa">;
 
-function formatDate(value?: number) {
+function _formatDate(value?: number) {
   if (!value) {
     return "—";
   }

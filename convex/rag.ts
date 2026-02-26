@@ -100,7 +100,7 @@ async function generateFollowUpQuestions(
   userQuestion: string,
   generatedAnswer: string,
   locale: string,
-  conversationHistory: Array<{ role: "user" | "assistant"; content: string }>
+  _conversationHistory: Array<{ role: "user" | "assistant"; content: string }>
 ): Promise<string[]> {
   const isVietnamese = locale === "vi";
 
@@ -154,7 +154,6 @@ Who can participate in carbon markets`;
 
     return questions;
   } catch (error) {
-    console.warn(`Failed to generate follow-up questions: ${error}`);
     return []; // Return empty array if generation fails
   }
 }
@@ -254,10 +253,7 @@ async function enrichSourcesWithCitations(
             }
           });
         } catch (error) {
-          console.warn(
-            `Failed to extract cited sentences for source ${index}:`,
-            error
-          );
+          // Error extracting cited sentences - continue with empty list
         }
       }
 
@@ -297,13 +293,6 @@ export const askAI = action({
     const maxSources = Math.min(Math.max(args.maxSources ?? 5, 1), 10);
     const focusTopic = args.focusTopic ?? "general";
 
-    console.log(
-      `RAG query: "${trimmedQuestion.substring(0, 100)}${trimmedQuestion.length > 100 ? "..." : ""}"`
-    );
-    console.log(
-      `Session: ${args.sessionId}, Locale: ${locale}, Max sources: ${maxSources}, Topic: ${focusTopic}`
-    );
-
     try {
       // Step 1: Generate query embedding for the user's question
       const embeddingStartTime = Date.now();
@@ -314,9 +303,6 @@ export const askAI = action({
       });
 
       const embeddingGenerationTimeMs = Date.now() - embeddingStartTime;
-      console.log(
-        `Generated embedding in ${embeddingGenerationTimeMs}ms (${embedding.length} dimensions)`
-      );
 
       // Step 2: Perform vector search to retrieve top relevant Q&As
       const searchStartTime = Date.now();
@@ -331,9 +317,6 @@ export const askAI = action({
       // Fallback: if no results found with language filter, retry without it
       // and prefer documents matching the requested locale
       if (searchResults.length === 0) {
-        console.warn(
-          `No results found for lang="${locale}", retrying without language filter`
-        );
         const allResults = await ctx.runAction(api.search.vectorSearch, {
           embedding,
           category: undefined,
@@ -361,16 +344,9 @@ export const askAI = action({
           matchingLang.length > 0
             ? matchingLang.slice(0, maxSources)
             : allResults.slice(0, maxSources);
-
-        console.log(
-          `Fallback search: ${allResults.length} total, ${matchingLang.length} matching locale "${locale}"`
-        );
       }
 
       const searchTimeMs = Date.now() - searchStartTime;
-      console.log(
-        `Vector search completed in ${searchTimeMs}ms, found ${searchResults.length} sources`
-      );
 
       // Step 3: Build context string with numbered source markers
       const sources = searchResults.map((result, index) => ({
@@ -398,10 +374,6 @@ export const askAI = action({
 
       const totalTimeMs = Date.now() - startTime;
 
-      console.log(`RAG context prepared in ${totalTimeMs}ms total`);
-      console.log(`Context length: ${contextString.length} characters`);
-      console.log(`Sources used: ${sources.length}`);
-
       // Step 4: Retrieve conversation history for context-aware responses
       const conversationHistory: Array<{
         role: "user" | "assistant";
@@ -424,15 +396,9 @@ export const askAI = action({
               content: msg.content,
             }))
           );
-          console.log(
-            `Retrieved ${conversationHistory.length} previous messages from conversation history`
-          );
         }
       } catch (historyError) {
         // Log but don't fail if history retrieval fails
-        console.warn(
-          `Failed to retrieve conversation history: ${historyError}`
-        );
       }
 
       // Step 5: Generate answer with Gemini using proper citation format and conversation history
@@ -446,10 +412,6 @@ export const askAI = action({
           : "IMPORTANT: Remember to cite sources using [Source N] for every piece of information you use from the CONTEXT.";
 
       const userPrompt = `CONTEXT:\n${contextString}\n\nUSER QUESTION:\n${trimmedQuestion}\n\n${citationReminder}\n\nProvide a comprehensive answer with proper citations:`;
-
-      console.log(
-        `Generating answer with Gemini (context: ${contextString.length} chars, history: ${conversationHistory.length} messages)`
-      );
 
       const geminiHelper = new GeminiHelper();
       const generatedAnswer =
@@ -472,13 +434,9 @@ export const askAI = action({
             );
 
       const answerGenerationTimeMs = Date.now() - answerGenerationStartTime;
-      console.log(
-        `Answer generated in ${answerGenerationTimeMs}ms (${generatedAnswer.length} chars)`
-      );
 
       // Step 5: Parse generated answer to extract citations
       const citations = extractCitations(generatedAnswer);
-      console.log(`Extracted ${citations.length} citations from answer`);
 
       // Step 6: Map citations back to source Q&As and extract cited sentences
       const enrichedSources = await enrichSourcesWithCitations(
@@ -496,26 +454,12 @@ export const askAI = action({
           locale,
           conversationHistory
         );
-        console.log(
-          `Generated ${followUpQuestions.length} follow-up questions`
-        );
-      } catch (followUpError) {
-        console.warn(
-          `Failed to generate follow-up questions: ${followUpError}`
-        );
-      }
+      } catch (followUpError) {}
 
       // Generate conversation ID (simple timestamp-based for now)
       const conversationId = `conv_${args.sessionId}_${Date.now()}`;
 
       const finalTotalTimeMs = Date.now() - startTime;
-
-      console.log(`RAG completed in ${finalTotalTimeMs}ms total`);
-      console.log(`Answer length: ${generatedAnswer.length} characters`);
-      console.log(`Citations found: ${citations.length}`);
-      console.log(
-        `Sources with citations: ${enrichedSources.filter((s) => s.citationMarkers.length > 0).length}`
-      );
 
       // Step 8: Save conversation with citations and follow-up questions
       try {
@@ -555,8 +499,6 @@ export const askAI = action({
             },
           }
         );
-
-        console.log(`Conversation saved for session: ${args.sessionId}`);
       } catch (saveError) {
         // Log error but don't fail the entire request
         console.error(`Failed to save conversation: ${saveError}`);

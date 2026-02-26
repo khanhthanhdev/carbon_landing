@@ -32,18 +32,18 @@ import {
 } from "@/lib/rich-text";
 import { cn } from "@/lib/utils";
 
-type RichTextEditorProps = {
-  value: string;
-  onChange: (payload: { raw: string; html: string; text: string }) => void;
-  placeholder?: string;
+interface RichTextEditorProps {
   className?: string;
   helperText?: string;
-};
+  onChange: (payload: { raw: string; html: string; text: string }) => void;
+  placeholder?: string;
+  value: string;
+}
 
-type SelectionRange = {
-  start: number;
+interface SelectionRange {
   end: number;
-};
+  start: number;
+}
 
 const ensureSelection = (textarea: HTMLTextAreaElement): SelectionRange => ({
   start: textarea.selectionStart ?? textarea.value.length,
@@ -204,7 +204,7 @@ export function RichTextEditor({
     let markdown: string | null = null;
 
     // Priority 1: HTML tables (preserve existing behavior)
-    if (html && html.includes("<table")) {
+    if (html?.includes("<table")) {
       markdown = htmlTableToMarkdown(html);
     }
 
@@ -218,7 +218,7 @@ export function RichTextEditor({
       const converted = htmlToMarkdown(html);
       // Only use converted markdown if it's different from plain text (has formatting)
       // This prevents converting plain text that happens to have HTML wrapper tags
-      if (converted && converted.trim() && converted !== text.trim()) {
+      if (converted?.trim() && converted !== text.trim()) {
         markdown = converted;
       }
     }

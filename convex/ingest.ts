@@ -6,7 +6,7 @@ import { sleep } from "./shared";
 /**
  * Transform raw Q&A data to question format
  */
-const transformQAToQuestion = (
+const _transformQAToQuestion = (
   qa: { question: string; answer: string; sources?: any[] },
   index: number,
   category = "General"
@@ -327,10 +327,6 @@ export const importQAWithEmbeddings = action({
         });
       } catch (error: any) {
         // If batch embedding fails, fall back to individual embedding
-        console.warn(
-          "Batch embedding failed, falling back to individual embedding:",
-          error.message
-        );
         embeddings = [];
         for (const doc of documentsToEmbed) {
           try {

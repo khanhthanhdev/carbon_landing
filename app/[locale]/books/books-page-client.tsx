@@ -20,15 +20,15 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { usePaginatedQuestions } from "@/hooks/use-paginated-questions";
 
-type QAData = {
+interface QAData {
   sections: Array<{
     section_id: string;
     section_number: string;
     section_title: string;
-    questions: Array<any>;
+    questions: any[];
     question_count: number;
   }>;
-};
+}
 
 type QASection = QAData["sections"][number];
 type QAQuestion = QASection["questions"][number];

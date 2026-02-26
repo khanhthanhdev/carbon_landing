@@ -31,7 +31,7 @@ export const createAction = action({
     sourceQuery: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const createdAt = Date.now();
+    const _createdAt = Date.now();
 
     return await ctx.runMutation(api.questionRequests.create, {
       name: args.name,

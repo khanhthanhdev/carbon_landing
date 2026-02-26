@@ -76,7 +76,7 @@ export async function generateQueryHash(
   const filterKeys = filters ? Object.keys(filters).sort() : [];
   const filterString = filterKeys
     .map((key) => {
-      const value = filters![key];
+      const value = filters?.[key];
       return value ? `${key}:${value}` : "";
     })
     .filter(Boolean)
@@ -165,11 +165,7 @@ export async function generateQueryEmbedding(
         hash: cacheKey,
       });
 
-      if (cached && cached.embedding && cached.embedding.length === 768) {
-        console.log(
-          `Cache hit for query: "${trimmedQuery.substring(0, 50)}..."`
-        );
-
+      if (cached?.embedding && cached.embedding.length === 768) {
         // Update access tracking
         await ctx.runMutation(api.embeddings.updateAccessTracking, {
           hash: cacheKey,
@@ -179,19 +175,11 @@ export async function generateQueryEmbedding(
       }
     } catch (cacheError) {
       // Log cache error but continue to generate embedding
-      console.warn(
-        `Cache check failed for query "${trimmedQuery.substring(0, 50)}...":`,
-        cacheError
-      );
     }
   }
 
   // Generate new embedding with RETRIEVAL_QUERY task type
   try {
-    console.log(
-      `Generating embedding for query: "${trimmedQuery.substring(0, 50)}..."`
-    );
-
     const embedding = await geminiGenerateEmbedding(trimmedQuery, {
       usage: "query", // Maps to RETRIEVAL_QUERY task type
       dimensions: 768, // Explicitly set to 768 dimensions
@@ -216,16 +204,8 @@ export async function generateQueryEmbedding(
         taskType: "RETRIEVAL_QUERY",
         text: trimmedQuery,
       });
-
-      console.log(
-        `Cached embedding for query: "${trimmedQuery.substring(0, 50)}..."`
-      );
     } catch (cacheError) {
       // Log cache storage error but don't fail the request
-      console.warn(
-        `Failed to cache embedding for query "${trimmedQuery.substring(0, 50)}...":`,
-        cacheError
-      );
     }
 
     return embedding;
