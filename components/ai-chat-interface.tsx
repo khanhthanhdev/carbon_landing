@@ -43,6 +43,55 @@ export const AIChatInterface = memo(function AIChatInterface({
   const followUpQuestions =
     messages.length > 0 ? messages.at(-1).followUpQuestions || [] : [];
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [scrollToBottom]);
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.currentTarget;
+    const isNearBottom =
+      element.scrollHeight - element.scrollTop - element.clientHeight < 100;
+    setShowScrollButton(!isNearBottom && messages.length > 0);
+  };
+
+  const handleSend = async () => {
+    if (!inputValue.trim() || isSending) {
+      return;
+    }
+
+    const messageContent = inputValue;
+    setInputValue("");
+
+    try {
+      await onSendMessage(messageContent);
+    } catch (_error) {
+      // Restore input value on error
+      setInputValue(messageContent);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  // Function to handle follow-up questions (set input and send)
+  const handleFollowUpQuestion = async (question: string) => {
+    setInputValue(question);
+    // Wait for the state update to complete before sending
+    setTimeout(() => {
+      handleSend();
+      // Focus on the input to provide visual feedback
+      inputRef.current?.focus();
+    }, 0);
+  };
+
   // Memoize rendered messages for performance
   const renderedMessages = useMemo(() => {
     return messages.map((message, index) => {
@@ -92,55 +141,6 @@ export const AIChatInterface = memo(function AIChatInterface({
       );
     });
   }, [messages, onFeedback, t, handleFollowUpQuestion]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [scrollToBottom]);
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const element = e.currentTarget;
-    const isNearBottom =
-      element.scrollHeight - element.scrollTop - element.clientHeight < 100;
-    setShowScrollButton(!isNearBottom && messages.length > 0);
-  };
-
-  const handleSend = async () => {
-    if (!inputValue.trim() || isSending) {
-      return;
-    }
-
-    const messageContent = inputValue;
-    setInputValue("");
-
-    try {
-      await onSendMessage(messageContent);
-    } catch (_error) {
-      // Restore input value on error
-      setInputValue(messageContent);
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  // Function to handle follow-up questions (set input and send)
-  const handleFollowUpQuestion = async (question: string) => {
-    setInputValue(question);
-    // Wait for the state update to complete before sending
-    setTimeout(() => {
-      handleSend();
-      // Focus on the input to provide visual feedback
-      inputRef.current?.focus();
-    }, 0);
-  };
 
   return (
     <main className="relative flex h-screen flex-1 flex-col overflow-hidden bg-background">
